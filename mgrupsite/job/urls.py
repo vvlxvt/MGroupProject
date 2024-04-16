@@ -1,9 +1,8 @@
 from django.urls import path
 from . import views
 
-app_name = 'job' # определяю пространство имен для приложения
+app_name = 'job'  # определяю пространство имен для приложения
 
 urlpatterns = [
     path('', views.post_list, name='post_list'),
-    path('<int:id>/', views.post_detail, name='post_detail'),
-]
+    path('<int:id>/', views.post_detail, name='post_detail')]
