@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 
 class PublichedManager(models.Manager):
@@ -29,7 +30,11 @@ class Post(models.Model):
         ordering = ['-publish']
         indexes = [models.Index(fields=['-publish']),]
 
-
     def __str__(self):
         return self.title
+
+
+    def get_absolute_url(self):
+        # возвращает канонический URL-адрес объекта
+        return reverse('job: post_detail', args=[self.id])
 
