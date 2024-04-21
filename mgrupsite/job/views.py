@@ -5,10 +5,16 @@ from django.core.mail import send_mail
 from .forms import EmailPostForm, CommentForm
 from django.views.decorators.http import require_POST
 from .models import Post
+from taggit.models import Tag
 
 
-def post_list(request):
+def post_list(request, tag_slug=None):
     post_list = Post.published.all()
+
+    if tag_slug:
+
+        post_list = post_list.filter(tag__in=[tag])
+
     paginator = Paginator(post_list, 3)
     page_number = request.GET.get('page', 1) # Если параметра page нет в GET-параметрах запроса, то мы используем 1
     try:
