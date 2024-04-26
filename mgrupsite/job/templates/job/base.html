@@ -1,4 +1,5 @@
 {% load static %}
+{% load job_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +15,8 @@
 
     <div id="sidebar">
         <h2>My jobs</h2>
-        <p>This is our jobs.</p>
+        <p>Это наши работы.</p>
+        <p>Было написано {% total_posts %} постов</p>
     </div>
 </body>
 </html>
