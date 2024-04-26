@@ -1,5 +1,11 @@
-from django import forms
+from taggit.forms import TagField
 from .models import Comment
+from django import forms
+from taggit_labels.widgets import LabelWidget
+
+
+class TagsForm(forms.ModelForm):
+    tags = TagField(required=False, widget=LabelWidget)
 
 
 class EmailPostForm(forms.Form):
