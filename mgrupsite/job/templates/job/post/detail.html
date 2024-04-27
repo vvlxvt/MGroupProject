@@ -1,4 +1,6 @@
 {% extends "job/base.html" %}
+{% load job_tags %}
+
 
 {% block title %}{{ post.title }}{% endblock %}
 
@@ -8,7 +10,7 @@
     <p class="date">
         Опубликовано {{ post.publish }} {{ post.author }}
     </p>
-    {{ post.body|linebreaks }}
+    {{ post.body|markdown }}
 
     <p>
         <a href="{% url 'job:post_share' post.id%}">

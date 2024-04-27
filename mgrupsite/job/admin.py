@@ -1,4 +1,4 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from .forms import TagsForm
 from .models import Post, Comment
 
@@ -6,14 +6,26 @@ from .models import Post, Comment
 @admin.register(Post)
 class JobAdmin(admin.ModelAdmin):
     form = TagsForm
-    fields = [("title", 'slug'),"author", "publish", 'tags']
+    fields = [("title", 'slug'),"author", "body", 'tags']
     list_display = ['title', 'author', 'publish', 'status']
+    prepopulated_fields = {'slug': ('title',)}
     list_filter = ['status', 'publish', 'author']
     search_fields = ['title', 'body']
-    # prepopulated_fields = {'slug': ('title',)}
     raw_id_fields = ['author']
     date_hierarchy = 'publish'
     ordering = ['status', 'publish']
+    actions = ['set_published', 'set_draft']
+
+    @admin.action(description='Опубликовать выбранные записи')
+    # добавляем действие к выбранным записям в админку
+    def set_published(self, request, queryset):
+        count = queryset.update(status = Post.Status.PUBLISHED)
+        self.message_user(request, f'Изменено {count} записей')    \
+
+    @admin.action(description='Снять с публикации выбранные записи')
+    def set_draft(self, request, queryset):
+        count = queryset.update(status = Post.Status.DRAFT)
+        self.message_user(request, f'{count} записей снято с публикации', messages.WARNING)
 
 
 @admin.register(Comment)
