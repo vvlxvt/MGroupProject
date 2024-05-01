@@ -4,6 +4,9 @@ from django import forms
 from taggit_labels.widgets import LabelWidget
 
 
+class SearchForm(forms.Form):
+    query = forms.CharField()
+
 class TagsForm(forms.ModelForm):
     tags = TagField(required=False, widget=LabelWidget)
 
