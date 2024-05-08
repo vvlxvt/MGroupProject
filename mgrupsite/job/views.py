@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
-from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank, TrigramSimilarity
 from django.core.mail import send_mail
 from .forms import EmailPostForm, CommentForm, SearchForm
 from django.views.decorators.http import require_POST
@@ -95,12 +95,16 @@ def post_search(request):
         form = SearchForm(request.GET)
         if form.is_valid():
             query = form.cleaned_data['query']
-            search_vector = SearchVector('title', 'body')
+            search_vector = (SearchVector('title', weight='A', config='russian')
+                             + SearchVector('body', weight='B',config='russian'))
             # выполняем поиск опубликованных постов сформированного с использованием полей title и body
             #  с помощью прикладного экземпляра SearchVector
-            search_query = SearchQuery(query) # класс SearchQuery транслирует термин в объект поискового запроса
-            results = (Post.published.annotate(search=search_vector,rank=SearchRank(search_vector,search_query))
-                       .filter(search=search_query).order_by('-rank'))
+            search_query = SearchQuery(query, config='russian') # класс SearchQuery транслирует термин в объект поискового запроса
+            # results = (Post.published.annotate(search=search_vector,rank=SearchRank(search_vector,search_query))
+            #            .filter(rank__gte=0.3).order_by('-rank'))
+            results = (Post.published.annotate(similarity=TrigramSimilarity('title', query),)
+                                       .filter(similarity__gt=0.1)
+                                       .order_by('-similarity'))
 
     return render(request, 'job/post/search.html', {
                   'form':form, 'query':query, 'results':results})
