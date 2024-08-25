@@ -10,7 +10,7 @@ from taggit.models import Tag
 from django.db.models import Count
 
 
-def post_list(request, tag_slug=None):
+def  post_list(request, tag_slug=None):
     post_list = Post.published.all()
     tag = None
     if tag_slug:

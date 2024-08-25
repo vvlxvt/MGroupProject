@@ -26,6 +26,7 @@ class Post(models.Model):
     tags = TaggableManager(through=RuTaggedItem)
     objects = models.Manager()
     published = PublichedManager()
+    photo = models.ImageField(upload_to='photos/%Y/%m/%d', default=None, blank=True, null=True, verbose_name='photo')
 
     class Meta:
         ordering = ['-publish']
@@ -58,4 +59,8 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'комментарий {self.name} на {self.post}'
+
+class UploadFiles(models.Model):
+    file = models.FileField(upload_to='uploads_model')
+
 

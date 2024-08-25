@@ -10,6 +10,11 @@
     <p class="date">
         Опубликовано {{ post.publish }} {{ post.author }}
     </p>
+
+    {% if post.photo %}
+        <p><img class="img-article-left" src="{{post.photo.url}}"></p>
+    {% endif %}
+
     {{ post.body|markdown }}
 
     <p>

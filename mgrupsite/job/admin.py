@@ -2,12 +2,11 @@ from django.contrib import admin, messages
 from .forms import TagsForm
 from .models import Post, Comment
 
-
 @admin.register(Post)
 class JobAdmin(admin.ModelAdmin):
     form = TagsForm
-    fields = [("title", 'slug'),"author", "body", 'tags']
-    list_display = ['title', 'author', 'publish', 'status']
+    fields = [("title", 'slug'),"author", "body", 'tags', "photo",]
+    list_display = ['title', 'author', 'publish', 'status',]
     prepopulated_fields = {'slug': ('title',)}
     list_filter = ['status', 'publish', 'author']
     search_fields = ['title', 'body']
@@ -20,7 +19,7 @@ class JobAdmin(admin.ModelAdmin):
     # добавляем действие к выбранным записям в админку
     def set_published(self, request, queryset):
         count = queryset.update(status = Post.Status.PUBLISHED)
-        self.message_user(request, f'Изменено {count} записей')    \
+        self.message_user(request, f'Изменено {count} записей')
 
     @admin.action(description='Снять с публикации выбранные записи')
     def set_draft(self, request, queryset):
@@ -33,6 +32,7 @@ class CommentAdmin(admin.ModelAdmin):
      list_display = ['name','email','post','created','active']
      list_filter = ['active','created','updated']
      search_fields = ['name', 'email', 'body']
+
 
 
 

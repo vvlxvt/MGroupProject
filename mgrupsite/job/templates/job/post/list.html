@@ -3,7 +3,7 @@
 
 {% block title %} Our jobs {% endblock %}
 
-{% block content %}
+
     <h1> My jobs </h1>
         {% if tag %}
             <h2> Posts tagged with "{{tag.name}}"</h2>
@@ -31,4 +31,42 @@
             {{ post.body|markdown|truncatewords_html:30 }}
         {% endfor %}
     {% include "pagination.html" with page=posts %}
+
+
+{% block content %}
+<!-- carusel -->
+
+<div id="articleCarousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        {% for i in range(articles|length // 3 + 1) %}
+        <div class="carousel-item {% if i == 0 %}active{% endif %}">
+            <div class="container">
+                <div class="row">
+                    {% for article in articles[i*3:i*3+3] %}
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <img src="{{ article.image_url }}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ article.title }}</h5>
+                                <p class="card-text">{{ article.summary }}</p>
+                                <a href="{{ article.url }}" class="btn btn-primary">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <a class="carousel-control-prev" href="#articleCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#articleCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
 {% endblock %}
+<!-- carusel -->
