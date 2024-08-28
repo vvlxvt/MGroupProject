@@ -22,7 +22,7 @@
             <p>Нет результатов запроса</p>
         {% endfor %}
 
-        <p><a href="{% url "job:post_search" %}">Искать снова</a></p>
+        <p><a href="{% url 'job:post_search' %}">Искать снова</a></p>
     {% else %}
         <h1> Поиск для постов </h1>
         <form method="get">
