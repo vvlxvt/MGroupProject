@@ -75,12 +75,13 @@ class Article (models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='job_posts')
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-    status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT)
-    tags = TaggableManager(through=RuTaggedItem)
     objects = models.Manager()
-    published = PublichedManager()
     photo = models.ImageField(upload_to='photos/%Y/%m/%d', default=None, blank=True, null=True, verbose_name='photo')
 
+    class Meta:
+        ordering = ['-publish']
+        indexes = [models.Index(fields=['-publish']),]
+
+    def __str__(self):
+        return self.title
 
