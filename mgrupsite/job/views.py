@@ -5,13 +5,14 @@ from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.core.mail import send_mail
 from .forms import EmailPostForm, CommentForm, SearchForm
 from django.views.decorators.http import require_POST
-from .models import Post
+from .models import Post, Article
 from taggit.models import Tag
 from django.db.models import Count
 
 
-def  post_list(request, tag_slug=None):
+def post_list(request, tag_slug=None):
     post_list = Post.published.all()
+    articles = Article.objects.all()
     tag = None
     if tag_slug:
         tag = get_object_or_404(Tag, slug=tag_slug)
@@ -26,8 +27,9 @@ def  post_list(request, tag_slug=None):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
     return render(request, 'job/post/list.html',
-                  {'posts': posts, 'tag':tag})
+                  {'posts': posts, 'tag':tag, 'articles': articles})
 
+# class JobList(ListView):
 
 def post_detail(request, year, month, day, post):
     # извлекаем пост по id
@@ -106,3 +108,16 @@ def post_search(request):
 
     return render(request, 'job/post/search.html', {
                   'form':form, 'query':query, 'results':results})
+
+
+def article_list(request):
+    articles = Article.objects.all()
+    print(articles)
+    return render(request, 'article_list.html', {'articles': articles})
+
+
+def article_detail(request,article):
+    # извлекаем пост по id
+    article = get_object_or_404(Article, slug=article)
+    return render(request,'job/article/article_detail.html',
+                  {'article': article})

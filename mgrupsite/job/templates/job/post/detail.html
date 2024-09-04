@@ -1,51 +1,55 @@
-{% extends "job/base.html" %}
-{% load job_tags %}
-
-
-{% block title %}{{ post.title }}{% endblock %}
+{% extends "job/base.html" %}{% load job_tags %}
+{% load static %}
 
 {% block content %}
 
-    <h1> {{ post.title }}</h1>
-    <p class="date">
-        Опубликовано {{ post.publish }} {{ post.author }}
-    </p>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="card-header text-center">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                </div>
+                    {% if post.photo %}
+                        <img src="{{ post.photo.url }}" class="card-img-top" alt="Article Image">
+                    {% else %}
+                        <img src="{% static "job/images/default-image.jpg" %}" class="card-img-top"
+                             alt="Default Image">
+                    {% endif %}
 
-    {% if post.photo %}
-        <p><img class="img-article-left" src="{{post.photo.url}}"></p>
-    {% endif %}
+                <div class="card-body">
+                    <p class="card-text"> {{ post.body|markdown }}.</p>
+                    <hr>
+                    <p class="text-end"><small class="text-muted">Опубликовано: {{ post.publish }} {{ post.author }}</small></p>
+                    <div class="card-footer">
 
-    {{ post.body|markdown }}
+                        <p>
+                            <a href="{% url 'job:post_share' post.id%}"> Поделиться постом </a>
+                        </p>
 
-    <p>
-        <a href="{% url 'job:post_share' post.id%}">
-            Поделиться постом
-        </a>
-    </p>
+                        <h2>Похожие посты</h2>
+                        {% for post in similar_posts %}
+                        <p>
+                            <a href="{{post.get_absolute_url}}">{{post.title}}</a>
+                        </p>
+                        {% empty %} Здесь пока нет похожих постов {% endfor %}
 
-    <h2>Похожие посты</h2>
-    {% for post in similar_posts %}
-    <p>
-        <a href="{{post.get_absolute_url}}">{{post.title}}</a>
-    </p>
-    {% empty %}
-    Здесь пока нет похожих постов
-    {% endfor %}
+                        {% with comments.count as total_comments %}
+                        <h2> {{ total_comments}} {{ total_comments|pluralize}}</h2>
+                        {% endwith %}
 
-    {% with comments.count as total_comments %}
-    <h2> {{ total_comments}} {{ total_comments|pluralize}}</h2>
-    {% endwith %}
+                        {% for comment in comments %}
+                        <div class="comment">
+                            <p class="info">
+                                comment {{forloop.counter}} by {{comment.name}} {{comment.created}} </p>
+                            {{comment.body|linebreaks}}
+                        </div>
+                        {% empty %}
+                        <p>Здесь нет комментариев</p>
 
-    {% for comment in comments %}
-        <div class="comment">
-            <p class="info">
-                comment {{forloop.counter}} by {{comment.name}}
-                {{comment.created}}
-            </p>
-            {{comment.body|linebreaks}}
+                    </div>
+                </div>
+            </div>
         </div>
-        {% empty %}
-    <p>Здесь нет комментариев</p>
-    {%endfor%}
-    {% include "job/post/includes/comment_form.html" %}
-{% endblock  %}
+
+        {%endfor%} {% include "job/post/includes/comment_form.html" %} {% endblock %}

@@ -1,6 +1,6 @@
 from django.contrib import admin, messages
 from .forms import TagsForm
-from .models import Post, Comment
+from .models import Post, Comment, Article
 
 @admin.register(Post)
 class JobAdmin(admin.ModelAdmin):
@@ -34,6 +34,14 @@ class CommentAdmin(admin.ModelAdmin):
      search_fields = ['name', 'email', 'body']
 
 
+@admin.register(Article)
+class CommentAdmin(admin.ModelAdmin):
+     fields = [("title", 'slug'), "body", "photo",]
+     list_display = ['title', 'publish',]
+     prepopulated_fields = {'slug': ('title',)}
+     list_filter = ['publish']
+     search_fields = ['title', 'body']
+     ordering = ['publish']
 
 
 

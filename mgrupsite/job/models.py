@@ -72,7 +72,6 @@ class Article (models.Model):
 
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique_for_date='publish')
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='job_posts')
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
     objects = models.Manager()
@@ -84,4 +83,9 @@ class Article (models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        # возвращает канонический URL-адрес объекта
+        return reverse('job:article_detail',
+                       args=[self.slug])
 
