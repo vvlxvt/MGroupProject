@@ -1,4 +1,8 @@
 
+.nav-list {
+margin-bottom: 200px
+}
+
 .my-pagination .page-link {
     color: #035199;
     background-color: #fff; /* белый */

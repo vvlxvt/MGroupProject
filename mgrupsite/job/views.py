@@ -8,28 +8,37 @@ from django.views.decorators.http import require_POST
 from .models import Post, Article
 from taggit.models import Tag
 from django.db.models import Count
+from .utils import DataMixin
 
 
-def post_list(request, tag_slug=None):
-    post_list = Post.published.all()
-    articles = Article.objects.all()
-    tag = None
-    if tag_slug:
-        tag = get_object_or_404(Tag, slug=tag_slug)
-        post_list = post_list.filter(tags__in=[tag])
+# def post_list(request, tag_slug=None):
+#     post_list = Post.published.all()
+#     articles = Article.objects.all()
+#     tag = None
+#     if tag_slug:
+#         tag = get_object_or_404(Tag, slug=tag_slug)
+#         post_list = post_list.filter(tags__in=[tag])
+#
+#     paginator = Paginator(post_list, 3)
+#     page_number = request.GET.get('page', 1) # Если параметра page нет в GET-параметрах запроса, то мы используем 1
+#     try:
+#         posts = paginator.page(page_number) # page возвращает объект Page, который хранится в переменной posts
+#     except PageNotAnInteger:
+#         posts = paginator.page(1)
+#     except EmptyPage:
+#         posts = paginator.page(paginator.num_pages)
+#     return render(request, 'job/post/list.html',
+#                   {'posts': posts, 'tag':tag, 'articles': articles})
 
-    paginator = Paginator(post_list, 3)
-    page_number = request.GET.get('page', 1) # Если параметра page нет в GET-параметрах запроса, то мы используем 1
-    try:
-        posts = paginator.page(page_number) # page возвращает объект Page, который хранится в переменной posts
-    except PageNotAnInteger:
-        posts = paginator.page(1)
-    except EmptyPage:
-        posts = paginator.page(paginator.num_pages)
-    return render(request, 'job/post/list.html',
-                  {'posts': posts, 'tag':tag, 'articles': articles})
+class PostListView(DataMixin, ListView):
+    title_page = 'Главная страница'
+    context_object_name = 'posts'
+    paginate_by = 3
+    template_name = 'job/post/list.html'
 
-# class JobList(ListView):
+    def get_queryset(self):
+        return Post.published.all()
+
 
 def post_detail(request, year, month, day, post):
     # извлекаем пост по id
@@ -67,11 +76,7 @@ def post_share(request, post_id):
     return render(request, 'job/post/share.html',{'post':post, 'form':form, 'sent':sent})
 
 
-class PostListView(ListView):
-    queryset = Post.published.all()
-    context_object_name = 'posts'
-    paginate_by = 3
-    template_name = 'job/post/list.html'
+
 
 
 @require_POST
@@ -112,9 +117,16 @@ def post_search(request):
 
 def article_list(request):
     articles = Article.objects.all()
-    print(articles)
-    return render(request, 'article_list.html', {'articles': articles})
+    return render(request, 'job/article/article_list.html', {'articles': articles})
 
+class ArticleListView(DataMixin, ListView):
+    title_page = 'Статьи'
+    context_object_name = 'articles'
+    paginate_by = 3
+    template_name = 'job/article/article_list.html'
+
+    def get_queryset(self):
+        return Article.objects.all()
 
 def article_detail(request,article):
     # извлекаем пост по id
