@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#"><img src="/media/photos/Logo/favicon/m_logo_2new2__64.png" alt="МалярGroup" class="logo"></a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+            {% for key, m in menu.items %}
+                {% if m.submenus %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="{% url m.url_name %}" id="navbarDropdown"
+                               role="button" aria-haspopup="true"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ m.title }}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown{{ key }}">
+                                {% for sub in m.submenus %}
+                                {{ s }}
+                                    <li><a class="dropdown-item" href="{{ sub.url_name }}">{{ sub.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url m.url_name %}">{{ m.title }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+</nav>
