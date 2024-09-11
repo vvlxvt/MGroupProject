@@ -14,6 +14,9 @@ menu = {
     'projects': {'title': 'Проекты', 'url_name': f'{namespace}:article_list'},
 }
 
+services = {
+
+}
 
 class DataMixin:
     paginate_by = 3

@@ -77,8 +77,6 @@ def post_share(request, post_id):
 
 
 
-
-
 @require_POST
 def post_comment(request, post_id):
     post = get_object_or_404(Post,id=post_id, status=Post.Status.PUBLISHED)
@@ -133,3 +131,7 @@ def article_detail(request,article):
     article = get_object_or_404(Article, slug=article)
     return render(request,'job/article/article_detail.html',
                   {'article': article})
+
+
+def home(request):
+    return render(request, 'job/post/index.html')

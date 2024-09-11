@@ -5,7 +5,8 @@ from .feeds import LatestPostsFeed
 app_name = 'job'  # определяю пространство имен для приложения
 
 urlpatterns = [
-    path('',views.PostListView.as_view(), name = 'post_list'),
+    path('services',views.PostListView.as_view(), name = 'post_list'),
+    path('home/', views.home, name='home'),
     path('articles/',views.ArticleListView.as_view(), name = 'article_list'),
     # path('articles/', views.article_list, name='article_list'),
     path('<slug:article>/', views.article_detail, name='article_detail'),

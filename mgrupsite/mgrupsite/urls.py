@@ -10,7 +10,7 @@ sitemaps = {'post': PostSitemap}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('job/', include('job.urls', namespace='job')),
+    path('', include('job.urls', namespace='job')),
     path('__debug__/', include('debug_toolbar.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap')
 ]
