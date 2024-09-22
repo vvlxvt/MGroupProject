@@ -26,7 +26,9 @@ class Post(models.Model):
     tags = TaggableManager(through=RuTaggedItem)
     objects = models.Manager()
     published = PublichedManager()
-    photo = models.ImageField(upload_to='photos/%Y/%m/%d', default=None, blank=True, null=True, verbose_name='photo')
+    cat = models.ForeignKey('Category', on_delete=models.PROTECT, related_name='posts',
+    verbose_name="Категория") # чтобы добавить поле надо сделать сначала с null=True, потом без него
+    photo = models.ImageField(upload_to='photos/%Y/%m/%d', default=None, blank=True, null=True, verbose_name='Фото')
 
     class Meta:
         ordering = ['-publish']
@@ -43,6 +45,14 @@ class Post(models.Model):
                             self.publish.month,
                             self.publish.day,
                             self.slug])
+
+class Category(models.Model):
+    name = models.CharField(max_length=100, db_index=True)
+    slug = models.CharField(max_length=100, db_index=True, unique=True)
+
+    def __str__(self):
+        return self.name
+
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
@@ -65,11 +75,6 @@ class UploadFiles(models.Model):
 
 
 class Article (models.Model):
-
-    class Status(models.TextChoices):
-        DRAFT = 'DF','Draft'
-        PUBLISHED = 'PB', 'Published'
-
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique_for_date='publish')
     body = models.TextField()
@@ -88,4 +93,24 @@ class Article (models.Model):
         # возвращает канонический URL-адрес объекта
         return reverse('job:article_detail',
                        args=[self.slug])
+
+class Project(models.Model):
+    title = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=250, unique_for_date='publish')
+    body = models.TextField()
+    publish = models.DateTimeField(default=timezone.now)
+    objects = models.Manager()
+    photo = models.ImageField(upload_to='projects/%Y/%m/%d', default=None, blank=True, null=True,
+                              verbose_name='photo')
+
+    class Meta:
+        ordering = ['-publish']
+        indexes = [models.Index(fields=['-publish']), ]
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        # возвращает канонический URL-адрес объекта
+        return reverse('job:projects', args=[self.slug])
 

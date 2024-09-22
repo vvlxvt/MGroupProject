@@ -1,12 +1,13 @@
 from django.contrib import admin, messages
 from .forms import TagsForm
-from .models import Post, Comment, Article
+from .models import Post, Comment, Article, Project, Category
+
 
 @admin.register(Post)
 class JobAdmin(admin.ModelAdmin):
     form = TagsForm
-    fields = [("title", 'slug'),"author", "body", 'tags', "photo",]
-    list_display = ['title', 'author', 'publish', 'status',]
+    fields = [("title", 'slug'),"author", "body", 'tags',"cat", "photo"]
+    list_display = ['title', 'author', 'publish', 'status',"cat"]
     prepopulated_fields = {'slug': ('title',)}
     list_filter = ['status', 'publish', 'author']
     search_fields = ['title', 'body']
@@ -43,5 +44,18 @@ class CommentAdmin(admin.ModelAdmin):
      search_fields = ['title', 'body']
      ordering = ['publish']
 
+@admin.register(Project)
+class CommentAdmin(admin.ModelAdmin):
+     fields = [("title", 'slug'), "body", "photo",]
+     list_display = ['title', 'publish',]
+     prepopulated_fields = {'slug': ('title',)}
+     list_filter = ['publish']
+     search_fields = ['title', 'body']
+     ordering = ['publish']
 
-
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+     prepopulated_fields = {'slug': ('name',)}
+     list_display = ('id', 'name')
+     list_display_links = ('id', 'name')
+     ordering = ('name',)

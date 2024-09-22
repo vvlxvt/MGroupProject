@@ -1,22 +1,55 @@
 namespace = 'job'
 
 menu = {
-    'about': {'title': 'О нас', 'url_name': f'{namespace}:article_list'},
+    'about': {'title': 'О нас', 'url_name': f'{namespace}:about'},
     'services': {
         'title': 'Услуги',
         'url_name': f'{namespace}:post_list',
         'submenus': [
-            {'title': 'Покраска', 'url_name': f'{namespace}:article_list'},
-            {'title': 'Очистка', 'url_name': f'{namespace}:article_list'},
-            {'title': 'Обработка', 'url_name': f'{namespace}:article_list'},]
+            {'title': 'Промышленная покраска', 'url_name': f'{namespace}:article_list'},
+            {'title': 'Коммерческая покраска', 'url_name': f'{namespace}:article_list'},
+            {'title': 'Обработка поверхностей', 'url_name': f'{namespace}:article_list'},
+            {'title': 'Нанесение изоляции', 'url_name': f'{namespace}:article_list'},]
     },
     'articles': {'title': 'Статьи', 'url_name': f'{namespace}:article_list'},
-    'projects': {'title': 'Проекты', 'url_name': f'{namespace}:article_list'},
+    'projects': {'title': 'Проекты', 'url_name': f'{namespace}:projects'},
 }
 
 services = {
+    'industrial_painting': {'title': 'Промышленная покраска',
+                            'url_name': '#',
+                            'submenu': [
+                                        {'title': 'Покраска металлоконструкций', 'url_name': '#'},
+                                        {'title': 'Покраска помещений', 'url_name': '#'},
+                                        {'title': 'Покраска фасадов', 'url_name': '#'},
+                                        {'title': 'Покраска резервуаров', 'url_name': '#'}, ],
+                            },
+            'commercial_painting': {'title': 'Коммерческая покраска',
+                                    'url_name': '#',
+                                    'submenu': [
+                                                {'title': 'Покраска жилых помещенией', 'url_name':'#'},
+                                                {'title': 'Покраска общих помещений', 'url_name':'#'},
+                                                {'title': 'Покраска офисов', 'url_name': '#'},
+                                                {'title': 'Покраска квартир', 'url_name': '#'},
+                                                {'title': 'Покраска деревянных поверхностей', 'url_name': '#'},
+                                                {'title': 'Нанесение декоративных штукатурок', 'url_name': '#'}, ],
+                                    },
+            'surface_treatment': {'title': 'Обработка поверхностей',
+                                  'url_name': '#',
+                                  'submenu': [
+                                                {'title': 'пескоструйная очистка', 'url_name': '#'},
+                                                {'title': 'огнезащита', 'url_name': '#'},
+                                                {'title': 'антикорозийная обработка', 'url_name': '#'}, ],
+                                        },
+                'insulation_application': {'title': 'Нанесение изоляции',
+                                           'url_name': '#',
+                                           'submenu': [
+                                                {'title': 'нанесение термоизоляции', 'url_name': '#'},
+                                                {'title': 'что-то еще', 'url_name': '#'},]
+                                           },
+    }
 
-}
+
 
 class DataMixin:
     paginate_by = 3

@@ -21,71 +21,38 @@
 </head>
 
 <body>
+
+<header>
 <!-- Navbar -->
 {% include "job/post/includes/navbar.html" %}
-<!-- Navbar -->
 
 <!-- Header / Hero Section -->
-<header class="text-white text-center py-2" style="background-color: #035199;">
-    <div class="container">
-        <h4 class="display-4" style="border-bottom:0">Добро пожаловать к
-            <span style="font-weight: 400; color: #e4e4e4">МалярGroup</span>
-        </h4>
-        <p class="lead">подрядчик по промышленной и коммерческой обработке поверхностей</p>
+    <div class="text-white text-center horizontal-bar fs-4" style="background-color: #035199;">
+        {{ title }}
     </div>
+
 </header>
+
 
 <!-- landing section -->
 {% block landing %} {% endblock %}
 
 
 <!-- Services Section -->
-
 {% block content %} {% endblock %}
-<hr style="border-top: 2px solid #000; margin-right: 100px; margin-left: 100px;">
 
-
-<!-- About Us Section -->
-<section id="about" class="py-5">
-    <div class="container">
-        <h2 class="text-center" style="margin-bottom: 50px;">Преимущества компании «Маляр Групп»</h2>
-        <div class="row">
-            <div class="col-lg-6 col-md-6 mb-4">
-                <br>
-                <p><strong>Опыт и профессионализм</strong></p>
-                <p>С 2013 года на строительном рынке, компания «Маляр Групп» зарекомендовала себя как надежный и
-                    профессиональный партнер. В штате — квалифицированные специалисты: маляры, штукатуры, альпинисты и
-                    другие, готовые решать самые сложные задачи.</p>
-                <p><strong>Высокая производительность</strong></p>
-                <p>Наши бригады, состоящие из двух маляров, могут окрасить до 1500 м² за один 8-часовой рабочий день.
-                    Используем метод безвоздушного распыления, который снижает образование опыла, уменьшает расход
-                    материала и стоимость услуг.</p>
-            </div>
-
-            <div class="col-lg-6 col-md-6 mb-4">
-                <p><strong>Современные технологии</strong></p>
-                <p>Работаем на профессиональном оборудовании <a href="https://www.graco.com/us/en.html" target="_blank"
-                                                                rel="noopener noreferrer"> <img
-                        src="/media/photos/Logo/favicon/graco-min.png" class="logo" alt="Graco Inc"></a> — мирового
-                    лидера в разработке и внедрении новых технологий обработки поверхностей.</p>
-                <p><strong>Удобство и поддержка</strong></p>
-                <p>На нашем сайте вы можете изучить технологии, рассчитать количество материалов и получить бесплатную
-                    консультацию специалиста. Специалист поможет составить смету и договор, обеспечив быстрый и удобный
-                    процесс.</p>
-                <strong>Контакт и консультации</strong>
-                <p>Ознакомьтесь с нашим каталогом, отправьте запрос через сайт или свяжитесь с нами по телефону для
-                    консультации.</p>
-            </div>
-        </div>
-    </div>
-</section>
-<hr style="border-top: 2px solid #000; margin-right: 100px; margin-left: 100px;">
 
 <!-- Projects Section -->
+{% block projects %} {% endblock %}
 
 
-<!-- Articles Section -->{% block articles %} {% endblock %}
-<hr style="border-top: 2px solid #000; margin-right: 100px; margin-left: 100px;">
+<!-- Articles Section -->
+{% block articles %} {% endblock %}
+
+
+<!-- About Section -->
+{% block about %} {% endblock %}
+
 
 <!-- Contact Section -->
 <section id="contact" class="py-5">
@@ -194,6 +161,7 @@
             });
 </script>
 
+<script>
 document.addEventListener('DOMContentLoaded', function () {
     // Находим все элементы с классом .nav-link.dropdown-toggle
     var dropdownLinks = document.querySelectorAll('.nav-link.dropdown-toggle');
@@ -207,6 +175,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
-
+</script>
 </body>
 </html>

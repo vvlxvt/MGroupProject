@@ -1,14 +1,14 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank, TrigramSimilarity
 from django.core.mail import send_mail
 from .forms import EmailPostForm, CommentForm, SearchForm
 from django.views.decorators.http import require_POST
-from .models import Post, Article
+from .models import Post, Article, Project
 from taggit.models import Tag
 from django.db.models import Count
-from .utils import DataMixin
+from .utils import DataMixin, services
 
 
 # def post_list(request, tag_slug=None):
@@ -31,13 +31,23 @@ from .utils import DataMixin
 #                   {'posts': posts, 'tag':tag, 'articles': articles})
 
 class PostListView(DataMixin, ListView):
-    title_page = 'Главная страница'
+    title_page = 'Наши услуги'
     context_object_name = 'posts'
     paginate_by = 3
     template_name = 'job/post/list.html'
 
     def get_queryset(self):
         return Post.published.all()
+
+
+class AboutView(DataMixin,TemplateView):
+    template_name = "job/post/about.html"
+    title_page = 'О нас'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # context["latest_articles"] = Article.objects.all()[:5]
+        return context
 
 
 def post_detail(request, year, month, day, post):
@@ -126,6 +136,15 @@ class ArticleListView(DataMixin, ListView):
     def get_queryset(self):
         return Article.objects.all()
 
+class ProjectListView(DataMixin, ListView):
+    title_page = 'Выполненные проекты'
+    context_object_name = 'projects'
+    paginate_by = 3
+    template_name = 'job/post/projects.html'
+
+    def get_queryset(self):
+        return Project.objects.all()
+
 def article_detail(request,article):
     # извлекаем пост по id
     article = get_object_or_404(Article, slug=article)
@@ -134,4 +153,7 @@ def article_detail(request,article):
 
 
 def home(request):
-    return render(request, 'job/post/index.html')
+    posts = Post.published.all()
+    title = 'МалярГрупп ваш подрядчик по промышленной и коммерческой покраске'
+    return render(request, 'job/post/index.html',
+                  {'services': services, 'posts':posts, 'title':title}, )

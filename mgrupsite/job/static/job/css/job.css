@@ -1,4 +1,3 @@
-
 /* Открываем выпадающее меню при наведении */
 .nav-item.dropdown:hover .dropdown-menu {
     display: block;
@@ -41,6 +40,13 @@ margin-bottom: 200px
     color: #fff;
     border: 1px solid #035199;
 }
+
+/* landing */
+.list-obj ul {
+font-size: 1.25rem; /* Соответствует классу fs-5 */
+font-weight: 500;  /* Соответствует классу fw-medium */
+}
+/* landing */
 
 
 /* footer */
