@@ -6,10 +6,11 @@ menu = {
         'title': 'Услуги',
         'url_name': f'{namespace}:post_list',
         'submenus': [
-            {'title': 'Промышленная покраска', 'url_name': f'{namespace}:article_list'},
-            {'title': 'Коммерческая покраска', 'url_name': f'{namespace}:article_list'},
-            {'title': 'Обработка поверхностей', 'url_name': f'{namespace}:article_list'},
-            {'title': 'Нанесение изоляции', 'url_name': f'{namespace}:article_list'},]
+            {'title': 'Промышленная покраска', 'url_name': f'{namespace}:category', 'slug': 'promyshlennaya-pokraska'},
+            {'title': 'Коммерческая покраска', 'url_name': f'{namespace}:category', 'slug': 'kommercheskaya-pokraska'},
+            {'title': 'Обработка поверхностей', 'url_name': f'{namespace}:category', 'slug': 'obrabotka-poverhnostei'},
+            {'title': 'Нанесение изоляции', 'url_name': f'{namespace}:category', 'slug': 'nanesenie-izolyatsii'},
+        ]
     },
     'articles': {'title': 'Статьи', 'url_name': f'{namespace}:article_list'},
     'projects': {'title': 'Проекты', 'url_name': f'{namespace}:projects'},

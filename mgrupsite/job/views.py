@@ -5,30 +5,11 @@ from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.core.mail import send_mail
 from .forms import EmailPostForm, CommentForm, SearchForm
 from django.views.decorators.http import require_POST
-from .models import Post, Article, Project
+from .models import Post, Article, Project, Category
 from taggit.models import Tag
 from django.db.models import Count
 from .utils import DataMixin, services
 
-
-# def post_list(request, tag_slug=None):
-#     post_list = Post.published.all()
-#     articles = Article.objects.all()
-#     tag = None
-#     if tag_slug:
-#         tag = get_object_or_404(Tag, slug=tag_slug)
-#         post_list = post_list.filter(tags__in=[tag])
-#
-#     paginator = Paginator(post_list, 3)
-#     page_number = request.GET.get('page', 1) # Если параметра page нет в GET-параметрах запроса, то мы используем 1
-#     try:
-#         posts = paginator.page(page_number) # page возвращает объект Page, который хранится в переменной posts
-#     except PageNotAnInteger:
-#         posts = paginator.page(1)
-#     except EmptyPage:
-#         posts = paginator.page(paginator.num_pages)
-#     return render(request, 'job/post/list.html',
-#                   {'posts': posts, 'tag':tag, 'articles': articles})
 
 class PostListView(DataMixin, ListView):
     title_page = 'Наши услуги'
@@ -38,6 +19,14 @@ class PostListView(DataMixin, ListView):
 
     def get_queryset(self):
         return Post.published.all()
+
+class CategoryView(DataMixin, ListView):
+    title_page = 'Наши услуги'
+    context_object_name = 'posts'
+    template_name = 'job/post/category.html'
+
+    def get_queryset(self):
+        return Post.published.filter(cat__slug=self.kwargs['cat_slug']).select_related('cat')
 
 
 class AboutView(DataMixin,TemplateView):
@@ -122,10 +111,6 @@ def post_search(request):
     return render(request, 'job/post/search.html', {
                   'form':form, 'query':query, 'results':results})
 
-
-def article_list(request):
-    articles = Article.objects.all()
-    return render(request, 'job/article/article_list.html', {'articles': articles})
 
 class ArticleListView(DataMixin, ListView):
     title_page = 'Статьи'

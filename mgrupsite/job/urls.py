@@ -1,11 +1,13 @@
 from django.urls import path
 from . import views
 from .feeds import LatestPostsFeed
+from .views import CategoryView
 
 app_name = 'job'  # определяю пространство имен для приложения
 
 urlpatterns = [
     path('services',views.PostListView.as_view(), name = 'post_list'),
+    path('category/<slug:cat_slug>/', CategoryView.as_view(), name='category'),
     path('home/', views.home, name='home'),
     path('about/', views.AboutView.as_view(), name = 'about'),
     path('articles/',views.ArticleListView.as_view(), name = 'article_list'),

@@ -20,7 +20,7 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown{{ key }}">
                                 {% for sub in m.submenus %}
                                 {{ s }}
-                                    <li><a class="dropdown-item" href="{{ sub.url_name }}">{{ sub.title }}</a></li>
+                                    <li><a class="dropdown-item" href="{% url sub.url_name sub.slug %}">{{ sub.title }}</a></li>
                                 {% endfor %}
                             </ul>
                         </li>
