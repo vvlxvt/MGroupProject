@@ -5,14 +5,13 @@
 
 {% block articles %}
 <section id="articles" class="bg-light py-5">
-    <div class="container">
         <div class="container mt-5">
-            {{ articles|length }} articles found.
+            {{ articles|length }} статьи найдены.
             <div class="row">
-                {% for article in articles %}
+                {% for article in page_obj %}
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
-                        {% if post.photo %}
+                        {% if article.photo %}
                         <p><img class="d-block w-100" src="{{article.photo.url}}"></p>
                         {% endif %}
                         <div class="card-body">
@@ -26,6 +25,6 @@
                 {% endfor %}
             </div>
         </div>
-    </div>
+    {% include "pagination.html" with page=articles %}
 </section>
 {% endblock %}

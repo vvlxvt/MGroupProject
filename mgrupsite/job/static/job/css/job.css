@@ -41,6 +41,12 @@ margin-bottom: 200px
     border: 1px solid #035199;
 }
 
+/* about */
+.text-indent {
+        text-indent: 30px; /* Задаем отступ для красной строки */
+    }
+/* about */
+
 /* landing */
 .list-obj ul {
 font-size: 1.25rem; /* Соответствует классу fs-5 */

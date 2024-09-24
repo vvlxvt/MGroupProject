@@ -1,42 +1,10 @@
-
-<nav aria-label="Page navigation">
-    <ul class="pagination my-pagination justify-content-center">
-        <!-- Previous Button -->
-        <li class="page-item {% if not page.has_previous %}disabled{% endif %}">
-            <a class="page-link" href="{% if page.has_previous %}?page={{ page.previous_page_number }}{% else %}#{% endif %}">
-                Previous
-            </a>
-        </li>
-
-        <!-- Page Numbers -->
-        {% for num in page.paginator.page_range %}
-        <li class="page-item {% if page.number == num %}active{% endif %}">
-            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-        </li>
+<div class="pagination justify-content-center">
+    <ul class="pagination">
+        <!-- Номера страниц -->
+        {% for num in page_obj.paginator.page_range %}
+            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
         {% endfor %}
-
-        <!-- Next Button -->
-        <li class="page-item {% if not page.has_next %}disabled{% endif %}">
-            <a class="page-link" href="{% if page.has_next %}?page={{ page.next_page_number }}{% else %}#{% endif %}">
-                Next
-            </a>
-        </li>
     </ul>
-</nav>
-
-
-<!--<div class="pagination">-->
-<!--    <span class="step-links">-->
-<!--        {% if page.has_previous %}-->
-<!--        <a href="?page={{page.previous_page_number}}">Previous</a>-->
-<!--        {% endif %}-->
-
-<!--    <span class="current">-->
-<!--        Page {{page.number}} of {{page.paginator.num_pages}}-->
-<!--    </span>-->
-
-<!--        {% if page.has_next %}-->
-<!--        <a href="?page={{page.next_page_number}}">Next</a>-->
-<!--        {% endif %}-->
-<!--    </span>-->
-<!--</div>-->
+</div>

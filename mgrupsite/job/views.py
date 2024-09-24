@@ -13,6 +13,7 @@ from .utils import DataMixin, services
 
 class PostListView(DataMixin, ListView):
     title_page = 'Наши услуги'
+    model = Post
     context_object_name = 'posts'
     paginate_by = 3
     template_name = 'job/post/list.html'
@@ -20,13 +21,20 @@ class PostListView(DataMixin, ListView):
     def get_queryset(self):
         return Post.published.all()
 
+
 class CategoryView(DataMixin, ListView):
-    title_page = 'Наши услуги'
     context_object_name = 'posts'
     template_name = 'job/post/category.html'
 
     def get_queryset(self):
         return Post.published.filter(cat__slug=self.kwargs['cat_slug']).select_related('cat')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cat = context['posts'][0].cat
+        # Динамически обновляем title_page с выбранной категорией
+        context['title_page'] = f'Наши услуги - {cat.name}'
+        return self.get_mixin_context(context, title=f'Категория - {cat.name}', cat_selected=cat.pk)
 
 
 class AboutView(DataMixin,TemplateView):
@@ -113,9 +121,9 @@ def post_search(request):
 
 
 class ArticleListView(DataMixin, ListView):
+    model = Article
     title_page = 'Статьи'
     context_object_name = 'articles'
-    paginate_by = 3
     template_name = 'job/article/article_list.html'
 
     def get_queryset(self):
@@ -124,7 +132,6 @@ class ArticleListView(DataMixin, ListView):
 class ProjectListView(DataMixin, ListView):
     title_page = 'Выполненные проекты'
     context_object_name = 'projects'
-    paginate_by = 3
     template_name = 'job/post/projects.html'
 
     def get_queryset(self):
