@@ -8,8 +8,8 @@ menu = {
         'submenus': [
             {'title': 'Промышленная покраска', 'url_name': f'{namespace}:category', 'slug': 'promyshlennaya-pokraska'},
             {'title': 'Коммерческая покраска', 'url_name': f'{namespace}:category', 'slug': 'kommercheskaya-pokraska'},
-            {'title': 'Обработка поверхностей', 'url_name': f'{namespace}:category', 'slug': 'obrabotka-poverhnostei'},
-            {'title': 'Нанесение изоляции', 'url_name': f'{namespace}:category', 'slug': 'nanesenie-izolyatsii'},
+            {'title': 'Обработка поверхностей', 'url_name': f'{namespace}:category', 'slug': 'obrabotka-poverhnostej'},
+            {'title': 'Нанесение изоляции', 'url_name': f'{namespace}:category', 'slug': 'nanesenie-izolyaciit'},
         ]
     },
     'articles': {'title': 'Статьи', 'url_name': f'{namespace}:article_list'},
@@ -38,15 +38,15 @@ services = {
             'surface_treatment': {'title': 'Обработка поверхностей',
                                   'url_name': '#',
                                   'submenu': [
-                                                {'title': 'пескоструйная очистка', 'url_name': '#'},
-                                                {'title': 'огнезащита', 'url_name': '#'},
-                                                {'title': 'антикорозийная обработка', 'url_name': '#'}, ],
+                                                {'title': 'Пескоструйная очистка', 'url_name': '#'},
+                                                {'title': 'Огнезащита', 'url_name': '#'},
+                                                {'title': 'Антикорозийная обработка', 'url_name': '#'}, ],
                                         },
                 'insulation_application': {'title': 'Нанесение изоляции',
                                            'url_name': '#',
                                            'submenu': [
-                                                {'title': 'нанесение термоизоляции', 'url_name': '#'},
-                                                {'title': 'что-то еще', 'url_name': '#'},]
+                                                {'title': 'Нанесение термоизоляции', 'url_name': '#'},
+                                                {'title': 'Что-то еще', 'url_name': '#'},]
                                            },
     }
 

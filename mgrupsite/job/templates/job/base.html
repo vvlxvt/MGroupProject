@@ -27,12 +27,13 @@
 {% include "job/post/includes/navbar.html" %}
 
 <!-- Header / Hero Section -->
-    <div class="text-white text-center horizontal-bar fs-4" style="background-color: #035199;">
+    <div class="text-white text-center horizontal-bar fs-4 mb-5" style="background-color: #035199;">
         {{ title }}
     </div>
 
 </header>
 
+{% block http404 %} {% endblock %}
 
 <!-- landing section -->
 {% block landing %} {% endblock %}
@@ -130,34 +131,34 @@
 </footer>
 
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-<script>
+<!--<script>-->
 
-    <!--Сохраняем позицию скролла перед переходом-->
-            document.addEventListener('DOMContentLoaded', function() {
-                const links = document.querySelectorAll('.pagination a');
+<!--    &lt;!&ndash;Сохраняем позицию скролла перед переходом&ndash;&gt;-->
+<!--            document.addEventListener('DOMContentLoaded', function() {-->
+<!--                const links = document.querySelectorAll('.pagination a');-->
 
-                links.forEach(link => {
-                    link.addEventListener('click', function(event) {
-                        event.preventDefault(); // Предотвращаем стандартное поведение ссылки
+<!--                links.forEach(link => {-->
+<!--                    link.addEventListener('click', function(event) {-->
+<!--                        event.preventDefault(); // Предотвращаем стандартное поведение ссылки-->
 
-    <!--Сохраняем текущую позицию скролла в localStorage-->
-                        localStorage.setItem('scrollPosition', window.scrollY);
+<!--    &lt;!&ndash;Сохраняем текущую позицию скролла в localStorage&ndash;&gt;-->
+<!--                        localStorage.setItem('scrollPosition', window.scrollY);-->
 
-                        // Переходим по новому URL
-                        window.location.href = this.href;
-                    });
-                });
+<!--                        // Переходим по новому URL-->
+<!--                        window.location.href = this.href;-->
+<!--                    });-->
+<!--                });-->
 
-    <!--Восстанавливаем позицию скролла после загрузки страницы-->
-                window.addEventListener('load', function() {
-                    const scrollPosition = localStorage.getItem('scrollPosition');
-                    if (scrollPosition !== null) {
-                        window.scrollTo(0, parseInt(scrollPosition));
-                        localStorage.removeItem('scrollPosition'); // Удаляем сохраненную позицию после восстановления
-                    }
-                });
-            });
-</script>
+<!--    &lt;!&ndash;Восстанавливаем позицию скролла после загрузки страницы&ndash;&gt;-->
+<!--                window.addEventListener('load', function() {-->
+<!--                    const scrollPosition = localStorage.getItem('scrollPosition');-->
+<!--                    if (scrollPosition !== null) {-->
+<!--                        window.scrollTo(0, parseInt(scrollPosition));-->
+<!--                        localStorage.removeItem('scrollPosition'); // Удаляем сохраненную позицию после восстановления-->
+<!--                    }-->
+<!--                });-->
+<!--            });-->
+<!--</script>-->
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {

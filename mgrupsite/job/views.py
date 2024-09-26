@@ -1,4 +1,5 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, TemplateView
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank, TrigramSimilarity
@@ -13,10 +14,11 @@ from .utils import DataMixin, services
 
 class PostListView(DataMixin, ListView):
     title_page = 'Наши услуги'
-    model = Post
+
     context_object_name = 'posts'
     paginate_by = 3
     template_name = 'job/post/list.html'
+    allow_empty = False  # позволить пустой список категорий (отображается ошибка 404)
 
     def get_queryset(self):
         return Post.published.all()
@@ -24,10 +26,19 @@ class PostListView(DataMixin, ListView):
 
 class CategoryView(DataMixin, ListView):
     context_object_name = 'posts'
+    model = Post
+    allow_empty = False
     template_name = 'job/post/category.html'
 
     def get_queryset(self):
-        return Post.published.filter(cat__slug=self.kwargs['cat_slug']).select_related('cat')
+        # Получаем набор данных для указанной категории
+        queryset = Post.published.filter(cat__slug=self.kwargs['cat_slug']).select_related('cat')
+
+        # Если queryset пустой, выбрасываем ошибку 404
+        if not queryset.exists():
+            raise Http404("Нет опубликованных постов")
+
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -40,6 +51,7 @@ class CategoryView(DataMixin, ListView):
 class AboutView(DataMixin,TemplateView):
     template_name = "job/post/about.html"
     title_page = 'О нас'
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
