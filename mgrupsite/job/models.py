@@ -114,3 +114,14 @@ class Project(models.Model):
         # возвращает канонический URL-адрес объекта
         return reverse('job:projects', args=[self.slug])
 
+
+class Contact(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    message = models.TextField()
+    photo = models.ImageField(upload_to='photos/', blank=True, null=True)  # Добавляем поле для фотографий
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.name} ({self.email})'
+

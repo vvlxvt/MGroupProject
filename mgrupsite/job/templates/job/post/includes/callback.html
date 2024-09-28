@@ -1,0 +1,70 @@
+<form id="contactForm" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Your Name" required>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Your Email" required>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="message" class="form-label">Message</label>
+        <textarea class="form-control" id="message" name="message" rows="4" placeholder="Your Message" required></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="photo" class="form-label">Upload Image</label>
+        <input type="file" class="form-control" id="photo" name="photo">
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">Send Message</button>
+    </div>
+</form>
+
+<!-- Div для отображения сообщения об успехе или ошибке -->
+<div id="formResponse" style="display:none;"></div>
+
+
+<script>
+document.getElementById('contactForm').addEventListener('submit', function(event) {
+    event.preventDefault();  // Останавливаем стандартную отправку формы
+
+    let formData = new FormData(document.getElementById('contactForm'));// Создаем объект FormData для отправки файлов и других данных формы
+
+    fetch("{% url 'job:contact' %}", {
+        method: 'POST',
+        body: formData,  // Передаем данные формы
+        headers: {
+            'X-CSRFToken': formData.get('csrfmiddlewaretoken')  // Добавляем CSRF-токен
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            // Успешный ответ
+            document.getElementById('formResponse').innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+            document.getElementById('formResponse').style.display = 'block';
+            document.getElementById('contactForm').reset();  // Очищаем форму после успешной отправки
+        } else if (data.error) {
+            // Ошибка
+            let errors = JSON.parse(data.error);
+            let errorMessage = '';
+            for (let field in errors) {
+                errorMessage += `${errors[field][0].message}<br>`;
+            }
+            document.getElementById('formResponse').innerHTML = `<div class="alert alert-danger">${errorMessage}</div>`;
+            document.getElementById('formResponse').style.display = 'block';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('formResponse').innerHTML = `<div class="alert alert-danger">Ошибка отправки формы. Попробуйте снова.</div>`;
+        document.getElementById('formResponse').style.display = 'block';
+    });
+});
+</script>

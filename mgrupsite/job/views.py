@@ -1,15 +1,22 @@
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.http import Http404
+from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, TemplateView
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank, TrigramSimilarity
 from django.core.mail import send_mail
-from .forms import EmailPostForm, CommentForm, SearchForm
+from .forms import EmailPostForm, CommentForm, SearchForm, ContactForm
 from django.views.decorators.http import require_POST
-from .models import Post, Article, Project, Category
+from django.views.decorators.csrf import csrf_exempt
+from .models import Post, Article, Project, Category, Contact
 from taggit.models import Tag
 from django.db.models import Count
 from .utils import DataMixin, services
+import requests
+from django.conf import settings
+
+
+from django.http import JsonResponse
+
+import os
 
 
 class PostListView(DataMixin, ListView):
@@ -161,3 +168,63 @@ def home(request):
     title = 'МалярГрупп ваш подрядчик по промышленной и коммерческой покраске'
     return render(request, 'job/post/index.html',
                   {'services': services, 'posts':posts, 'title':title}, )
+
+
+
+@csrf_exempt
+def contact_view(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            # Получаем данные из формы
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+            photo = request.FILES.get('photo')
+
+            contact_message = Contact(name=name, email=email, message=message, photo=photo)
+            contact_message.save()
+
+            # Формируем сообщение для Telegram
+            telegram_message = f"<b>Новое сообщение с сайта:</b>\n\n"
+            telegram_message += f"Имя: {name}\n"
+            telegram_message += f"Email: {email}\n"
+            telegram_message += f"Сообщение: {message}"
+
+            # Отправляем сообщение и изображение в Telegram
+            if send_telegram_message(telegram_message, photo):
+                return JsonResponse({'message': 'Сообщение успешно отправлено!'})
+            else:
+                return JsonResponse({'error': 'Ошибка отправки сообщения в Telegram.'}, status=500)
+        else:
+            # Если форма невалидна, возвращаем ошибки
+            return JsonResponse({'error': form.errors.as_json()}, status=400)
+
+    return JsonResponse({'error': 'Неверный метод запроса'}, status=405)
+
+
+# Функция для отправки сообщения и фото в Telegram
+def send_telegram_message(telegram_message, photo=None):
+    bot_token = settings.TELEGRAM_BOT_TOKEN
+    chat_id = settings.TELEGRAM_CHAT_ID
+
+    # URL для отправки текстового сообщения
+    telegram_url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+
+    # URL для отправки файла
+    telegram_url_photo = f"https://api.telegram.org/bot{bot_token}/sendPhoto"
+
+    try:
+        # Отправляем текстовое сообщение
+        requests.post(telegram_url, data={'chat_id': chat_id, 'text': telegram_message, 'parse_mode': 'HTML'})
+
+        # Если есть фото, отправляем его
+        if photo:
+            files = {'photo': photo}
+            requests.post(telegram_url_photo, data={'chat_id': chat_id}, files=files)
+
+        return True
+    except Exception as e:
+        print(f"Ошибка при отправке в Telegram: {e}")
+        return False
