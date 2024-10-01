@@ -1,3 +1,4 @@
+from decouple import config
 """
 Django settings for mgrupsite project.
 
@@ -21,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#2%psyll_vms5gug1da#!fimz*7n_f5)m_06d%b0@uczii4x(='
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -91,14 +92,7 @@ WSGI_APPLICATION = 'mgrupsite.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'job',
-        'USER': 'job',
-        'PASSWORD': 'X161Y_O',
-    }
-}
+DATABASES = config('DATABASES')
 
 INTERNAL_IPS=['127.0.0.1',]
 
