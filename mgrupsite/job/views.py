@@ -183,9 +183,6 @@ def contact_view(request):
             message = form.cleaned_data['message']
             photo = request.FILES.get('photo')
 
-            contact_message = Contact(name=name, email=email, message=message, photo=photo)
-            contact_message.save()
-
             # Формируем сообщение для Telegram
             telegram_message = f"<b>Новое сообщение с сайта:</b>\n\n"
             telegram_message += f"Имя: {name}\n"
@@ -194,6 +191,8 @@ def contact_view(request):
 
             # Отправляем сообщение и изображение в Telegram
             if send_telegram_message(telegram_message, photo):
+                contact_message = Contact(name=name, email=email, message=message, photo=photo)
+                contact_message.save()
                 return JsonResponse({'message': 'Сообщение успешно отправлено!'})
             else:
                 return JsonResponse({'error': 'Ошибка отправки сообщения в Telegram.'}, status=500)
@@ -221,10 +220,13 @@ def send_telegram_message(telegram_message, photo=None):
 
         # Если есть фото, отправляем его
         if photo:
+            print(id(photo))
             files = {'photo': photo}
             requests.post(telegram_url_photo, data={'chat_id': chat_id}, files=files)
-
         return True
+
     except Exception as e:
         print(f"Ошибка при отправке в Telegram: {e}")
         return False
+
+# curl -X GET "https://api.telegram.org/bot8113120422:AAHj5M0W_noC4XItXVvPCRJFECXUbt5n_dE/getUpdates" | jq '.result[-1].message'

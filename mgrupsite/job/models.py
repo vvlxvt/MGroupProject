@@ -119,7 +119,7 @@ class Contact(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
     message = models.TextField()
-    photo = models.ImageField(upload_to='photos/', blank=True, null=True)  # Добавляем поле для фотографий
+    photo = models.ImageField(upload_to='user_photos/', blank=True, null=True)  # Добавляем поле для фотографий
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
