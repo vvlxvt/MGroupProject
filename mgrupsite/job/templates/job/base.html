@@ -27,7 +27,7 @@
 {% include "job/post/includes/navbar.html" %}
 
 <!-- Header / Hero Section -->
-    <div class="text-white text-center horizontal-bar fs-4 mb-5" style="background-color: #035199;">
+    <div class="text-white text-center horizontal-bar fs-4" style="background-color: #035199;">
         {{ title }}
     </div>
 
@@ -151,5 +151,38 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_h_1jeKRznTw-D4t4WUFR8nJBBAZ6Tsg&callback=initMap">
+</script>
+
+<script>
+   function initMap() {
+      // Центр карты (например, координаты Москвы)
+      var center = {lat: 55.7558, lng: 37.6173};
+
+      // Создаем карту
+      var map = new google.maps.Map(document.getElementById('map'), {
+         zoom: 10,
+         center: center
+      });
+
+      // Массив с координатами магазинов
+      var stores = [
+         {lat: 55.7558, lng: 37.6173},  // Магазин 1
+         {lat: 55.7512, lng: 37.6184},  // Магазин 2
+         // Добавьте больше магазинов
+      ];
+
+      // Добавляем маркеры на карту
+      stores.forEach(function(location) {
+         new google.maps.Marker({
+            position: location,
+            map: map
+         });
+      });
+   }
+</script>
+
 </body>
 </html>

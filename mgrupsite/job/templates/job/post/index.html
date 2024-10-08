@@ -2,20 +2,22 @@
 {% load static %}
 
 {% block landing %}
-<div class="container">
-    <div class="row g-5">
-        <div class="col-lg-6 col-sm-3 mb-5">
-
-            <div id="carouselExampleAutoplaying" class="carousel slide my-carousel" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    {% for post in posts %}
-                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                            <img src="{{ post.photo.url }}" class="d-block w-100" alt="{{ post.title }}">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>{{ post.title }}</h5>
+<section id="lending" class="bg-light py-3">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-6 col-sm-3 mb-5">
+                <p class="fs-4 text-center">Наши объекты:</p>
+                <div id="carouselExampleAutoplaying" class="carousel slide my-carousel" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for post in posts %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img src="{{ post.photo.url }}" class="d-block w-100" alt="{{ post.title }}">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>{{ post.title }}</h5>
+                                </div>
                             </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
                 </div>
 
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
@@ -28,22 +30,41 @@
                 </button>
             </div>
 
-            <p class="h3 text-center">Наши услуги</p>
-            <ol class="list-unstyled fs-6">
-                {% for key, service in services.items %}
-                    <li class="list-group-item fs-4">{{ forloop.counter }}. {{ service.title }}</li>
-                        {% if service.submenu %}
-                        <ul class="list-group mt-2 ms-4">
-                            {% for submenu_item in service.submenu %}
-                                <li>{{ submenu_item.title }}</li>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
-                {% endfor %}
-            </ol>
+            <div class="col-lg-6 col-sm-3 mb-5">
+                <p class="fs-4 text-center">Локации наших объектов:</p>
+                <iframe
+                  width="600"
+                  height="450"
+                  style="border:0"
+                  loading="lazy"
+                  allowfullscreen
+                  referrerpolicy="no-referrer-when-downgrade"
+                  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD_h_1jeKRznTw-D4t4WUFR8nJBBAZ6Tsg
+                    &q=55.9766456,92.6856609">
+                </iframe>
+            </div>
+        </div>
+    </div>
 
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-6 col-sm-3 mb-5">
+                <p class="h4 text-center">Наши услуги</p>
+                <ol class="list-unstyled fs-6">
+                    {% for key, service in services.items %}
+                        <li class="list-group-item fs-4">{{ forloop.counter }}. {{ service.title }}</li>
+                            {% if service.submenu %}
+                            <ul class="list-group mt-2 ms-4">
+                                {% for submenu_item in service.submenu %}
+                                    <li>{{ submenu_item.title }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                    {% endfor %}
+                </ol>
         </div>
     </div>
 </div>
 
+</section>
 {% endblock %}

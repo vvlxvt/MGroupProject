@@ -2,7 +2,7 @@
 {% load job_tags %}
 
 {% block content %}
-<section id="services" class="bg-light py-2">
+<section id="services" class="bg-light py-3">
         <div class="container">
             <div class="row">
                 {% for post in page_obj %}
@@ -14,8 +14,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ post.title }}</h5>
                                 <p class="card-text">{{ post.body|truncatewords:30 }}</p>
-                                <a href="{{ post.get_absolute_url }}" class="btn btn-primary"
-                                   style="background-color:#035199; border-color:#035199;">Узнать больше</a>
+                                <a href="{{ post.get_absolute_url }}" class="btn-custom">Узнать больше</a>
                             </div>
                         </div>
                     </div>

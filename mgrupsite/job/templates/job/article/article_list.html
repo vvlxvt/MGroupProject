@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block articles %}
-<section id="articles" class="bg-light py-5">
+<section id="articles" class="bg-light py-3">
         <div class="container">
             {{ articles|length }} статьи найдены.
             <div class="row">
@@ -17,8 +17,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ article.title }}</h5>
                             <p class="card-text">{{ article.body|truncatewords:30 }}</p>
-                            <a href="{{ article.get_absolute_url }}" class="btn btn-primary"
-                               style="background-color:#035199; border-color:#035199;">Узнать больше</a>
+                            <a href="{{ article.get_absolute_url }}" class="btn-custom">Узнать больше</a>
                         </div>
                     </div>
                 </div>

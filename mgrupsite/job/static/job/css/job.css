@@ -1,3 +1,41 @@
+/* стиль кнопки submit */
+.btn-custom {
+    text-decoration: none;
+    background-color: #035199; /* Зеленый цвет фона */
+    color: white; /* Цвет текста */
+    border: none; /* Убираем границу */
+    padding: 10px 20px; /* Отступы */
+    font-size: 16px; /* Размер шрифта */
+    border-radius: 5px; /* Закругленные углы */
+    transition: background-color 0.3s ease; /* Плавный переход цвета */
+}
+
+.btn-custom:hover {
+    background-color: #02417A; /* Цвет фона при наведении */
+}
+
+.btn-custom:active {
+    background-color: #023563; /* Цвет фона при нажатии */
+}
+
+.btn-custom:focus {
+    outline: none; /* Убираем обводку при фокусе */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Тень при фокусе */
+}
+/* стиль кнопки submit */
+
+/* стиль для секции обратной связи */
+
+#callback {
+    background-color: #f8f9fa; /* Светлый фон */
+}
+
+#callback .btn {
+    margin-top: 10px; /* Отступ сверху для кнопки */
+}
+/* стиль для секции обратной связи */
+
+
 /* Открываем выпадающее меню при наведении */
 .nav-item.dropdown:hover .dropdown-menu {
     display: block;
@@ -9,10 +47,9 @@
     transition: all 0.3s ease-in-out;
 }
 
-
 .navbar-nav .nav-item {
-        margin-left: 30px; /* Увеличьте значение по своему усмотрению */
-    }
+        margin-left: 30px;
+}
 
 .nav-list {
 margin-bottom: 200px

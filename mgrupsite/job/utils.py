@@ -9,11 +9,12 @@ menu = {
             {'title': 'Промышленная покраска', 'url_name': f'{namespace}:category', 'slug': 'promyshlennaya-pokraska'},
             {'title': 'Коммерческая покраска', 'url_name': f'{namespace}:category', 'slug': 'kommercheskaya-pokraska'},
             {'title': 'Обработка поверхностей', 'url_name': f'{namespace}:category', 'slug': 'obrabotka-poverhnostej'},
-            {'title': 'Нанесение изоляции', 'url_name': f'{namespace}:category', 'slug': 'nanesenie-izolyaciit'},
+            {'title': 'Нанесение изоляции', 'url_name': f'{namespace}:category', 'slug': 'nanesenie-izolyacii'},
         ]
     },
     'articles': {'title': 'Статьи', 'url_name': f'{namespace}:article_list'},
     'projects': {'title': 'Проекты', 'url_name': f'{namespace}:projects'},
+    'search': {'title': 'Поиск', 'url_name': f'{namespace}:post_search'},
 }
 
 services = {

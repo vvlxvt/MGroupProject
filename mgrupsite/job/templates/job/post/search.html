@@ -1,33 +1,42 @@
 {% extends "job/base.html" %}
 {% load job_tags %}
 
-{% block title %} Search {% endblock %}
-
 {% block content %}
-    {% if query %}
-        <h1>Посты содержат "{{ query }}"</h1>
-        <h3>
-            {% with results.count as total_results %}
-            Найдены {{ total_results }} результат(-а)
-            {% endwith %}
-        </h3>
-        {% for post in results %}
-            <h4>
-                <a href="{{post.get_absolute_url}}">
-                    {{ post.title }}
-                </a>
-            </h4>
-            {{ post.body|markdown|truncatewords_html:12 }}
-            {% empty %}
-            <p>Нет результатов запроса</p>
-        {% endfor %}
+<section id="search" class="bg-light py-3">
+    <div class="container">
+        {% if request.GET %}
+            {% if query %}
+                <p class="fs-5">Посты, которые содержат "{{ query }}"</p>
 
-        <p><a href="{% url 'job:post_search' %}">Искать снова</a></p>
-    {% else %}
-        <h1> Поиск для постов </h1>
-        <form method="get">
-            {{ form.as_p }}
-            <input type="submit" value="Search">
-        </form>
-    {% endif %}
+                {% with results.count as total_results %}
+                    <p class="fs-5">Найдено {{ total_results }} результат(-а)</p>
+                {% endwith %}
+
+                <div class="row">
+                    {% for post in results %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                {% if post.photo %}
+                                    <p><img class="d-block w-100" src="{{ post.photo.url }}" alt="{{ post.title }}"></p>
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ post.title }}</h5>
+                                    <p class="card-text">{{ post.body|markdown|truncatewords_html:12 }}</p>
+                                    <a href="{{ post.get_absolute_url }}" class="btn btn-primary"
+                                       style="background-color:#035199; border-color:#035199;">Узнать больше</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p>Нет результатов запроса</p>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>Пожалуйста, введите запрос для поиска.</p>
+            {% endif %}
+        {% else %}
+            <p>Поиск по статьям будет отображен здесь.</p>
+        {% endif %}
+    </div>
+</section>
 {% endblock %}

@@ -1,7 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="{% url 'job:home' %}"><img src="/media/photos/Logo/favicon/m_logo_2new2__64.png"
-                                                  alt="МалярGroup"
-                                          class="logo"></a>
+    <a class="navbar-brand" href="{% url 'job:home' %}">
+        <img src="/media/photos/Logo/favicon/m_logo_2new2__64.png"alt="МалярGroup"class="logo"></a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,25 +8,36 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
+        <ul class="navbar-nav">
             {% for key, m in menu.items %}
                 {% if m.submenus %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="{% url m.url_name %}" id="navbarDropdown"
-                               role="button" aria-haspopup="true" aria-expanded="false">
-                                {{ m.title }}
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown{{ key }}">
-                                {% for sub in m.submenus %}
-                                {{ s }}
-                                    <li><a class="dropdown-item" href="{% url sub.url_name sub.slug %}">{{ sub.title }}</a></li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url m.url_name %}">{{ m.title }}</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="{% url m.url_name %}" id="navbarDropdown"
+                           role="button" aria-haspopup="true" aria-expanded="false">
+                            {{ m.title }}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown{{ key }}">
+                            {% for sub in m.submenus %}
+                                <li><a class="dropdown-item" href="{% url sub.url_name sub.slug %}">{{ sub.title }}</a></li>
+                            {% endfor %}
+                        </ul>
                     </li>
+                {% else %}
+                    {% if key == 'search' %}
+                        <li class="nav-item">
+                            <form class="d-flex" method="GET" action="{% url m.url_name %}">
+                                <input class="form-control me-2" type="search" name="query"
+                                       placeholder="Поиск по статьям" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit">
+                                    <i class="fas fa-search"></i> <!-- Иконка лупы -->
+                                </button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url m.url_name %}">{{ m.title }}</a>
+                        </li>
+                    {% endif %}
                 {% endif %}
             {% endfor %}
         </ul>
