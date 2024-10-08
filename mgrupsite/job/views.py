@@ -174,8 +174,13 @@ def article_detail(request,article):
 def home(request):
     posts = Post.published.all()
     title = 'МалярГрупп ваш подрядчик по промышленной и коммерческой покраске'
-    return render(request, 'job/post/index.html',
-                  {'services': services, 'posts':posts, 'title':title}, )
+    context = {'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY,
+               'services': services,
+               'posts':posts,
+               'title':title
+               }
+
+    return render(request, 'job/post/index.html',context)
 
 
 
