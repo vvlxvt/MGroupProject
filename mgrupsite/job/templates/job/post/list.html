@@ -13,6 +13,13 @@
                             {% endif %}
                             <div class="card-body">
                                 <h5 class="card-title">{{ post.title }}</h5>
+                                     <h6 class="card-title">
+                                         Tags:
+                                        {% for tag in post.tags.all %}
+                                            <a href="{% url 'job:tag' tag.slug %}">{{ tag.name }}</a>
+                                         {% if not forloop.last %},{% endif %}
+                                        {% endfor %}
+                                    </h6>
                                 <p class="card-text">{{ post.body|truncatewords:30 }}</p>
                                 <a href="{{ post.get_absolute_url }}" class="btn-custom">Узнать больше</a>
                             </div>

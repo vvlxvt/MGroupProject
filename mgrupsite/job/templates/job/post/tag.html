@@ -1,8 +1,8 @@
 {% extends "job/base.html" %}{% load job_tags %}
 
 {% block content %}
-
-    <section id="category" class="bg-light py-3">
+<h1>Посты с тегом "{{ tag.name }}"</h1>
+    <section id="tag" class="bg-light py-3">
         <div class="container">
             <div class="container mt-5">
                 <div class="row">
@@ -10,7 +10,7 @@
                     <div class="col-md-4 mb-4">
                         <div class="card h-100">
                             {% if post.photo %}
-                            <p><img class="d-block w-100" src="{{ post.photo.url }}"></p>
+                            <p><img class="d-block w-100" src="{{post.photo.url}}"></p>
                             {% endif %}
                             <div class="card-body">
                                 <h5 class="card-title">{{ post.title }}</h5>
@@ -20,6 +20,8 @@
                             </div>
                         </div>
                     </div>
+                    {% empty %}
+                    <p>Нет постов с этим тегом.</p>
                     {% endfor %}
                 </div>
             </div>

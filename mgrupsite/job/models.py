@@ -10,7 +10,6 @@ class PublichedManager(models.Manager):
         return super().get_queryset().filter(status=Post.Status.PUBLISHED)
 
 class Post(models.Model):
-
     class Status(models.TextChoices):
         DRAFT = 'DF','Draft'
         PUBLISHED = 'PB', 'Published'
@@ -26,7 +25,7 @@ class Post(models.Model):
     tags = TaggableManager(through=RuTaggedItem)
     objects = models.Manager()
     published = PublichedManager()
-    cat = models.ForeignKey('Category', on_delete=models.PROTECT, related_name='posts',
+    cat = models.ForeignKey('Category', on_delete=models.DO_NOTHING, related_name='posts',
     verbose_name="Категория") # чтобы добавить поле надо сделать сначала с null=True, потом без него
     photo = models.ImageField(upload_to='photos/%Y/%m/%d', default=None, blank=True, null=True, verbose_name='Фото')
 

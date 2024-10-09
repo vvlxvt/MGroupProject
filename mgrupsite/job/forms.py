@@ -16,6 +16,7 @@ class ContactForm(forms.ModelForm):
 class SearchForm(forms.Form):
     query = forms.CharField()
 
+
 class TagsForm(forms.ModelForm):
     tags = TagField(required=False, widget=LabelWidget)
 

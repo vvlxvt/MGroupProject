@@ -22,7 +22,6 @@ import os
 
 class PostListView(DataMixin, ListView):
     title_page = 'Наши услуги'
-
     context_object_name = 'posts'
     paginate_by = 3
     template_name = 'job/post/list.html'
@@ -55,6 +54,30 @@ class CategoryView(DataMixin, ListView):
         context['title_page'] = f'Наши услуги - {cat.name}'
         return self.get_mixin_context(context, title=f'Категория - {cat.name}', cat_selected=cat.pk)
 
+
+class TagView(ListView):
+    context_object_name = 'posts'
+    model = Post
+    allow_empty = False
+    template_name = 'job/post/tag.html'
+
+    def get_queryset(self):
+        # Получаем набор данных для указанного тега
+        tag_slug = self.kwargs.get('tag_slug')
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        queryset = Post.published.filter(tags__slug=tag_slug)
+
+        # Если queryset пустой, выбрасываем ошибку 404
+        if not queryset.exists():
+            raise Http404("Нет опубликованных постов по этому тегу")
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        # Добавляем тег в контекст
+        context = super().get_context_data(**kwargs)
+        context['tag'] = get_object_or_404(Tag, slug=self.kwargs.get('tag_slug'))
+        return context
 
 class AboutView(DataMixin,TemplateView):
     template_name = "job/post/about.html"

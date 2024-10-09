@@ -7,7 +7,7 @@ from .models import Post, Comment, Article, Project, Category
 class JobAdmin(admin.ModelAdmin):
     form = TagsForm
     fields = [("title", 'slug'),"author", "body", 'tags',"cat", "photo"]
-    list_display = ['title', 'author', 'publish', 'status',"cat"]
+    list_display = ['title', 'author', 'publish', 'status',"cat",'tags',]
     prepopulated_fields = {'slug': ('title',)}
     list_filter = ['status', 'publish', 'author']
     search_fields = ['title', 'body']

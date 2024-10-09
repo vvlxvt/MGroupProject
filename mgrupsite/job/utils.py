@@ -6,10 +6,12 @@ menu = {
         'title': 'Услуги',
         'url_name': f'{namespace}:post_list',
         'submenus': [
-            {'title': 'Промышленная покраска', 'url_name': f'{namespace}:category', 'slug': 'promyshlennaya-pokraska'},
-            {'title': 'Коммерческая покраска', 'url_name': f'{namespace}:category', 'slug': 'kommercheskaya-pokraska'},
-            {'title': 'Обработка поверхностей', 'url_name': f'{namespace}:category', 'slug': 'obrabotka-poverhnostej'},
-            {'title': 'Нанесение изоляции', 'url_name': f'{namespace}:category', 'slug': 'nanesenie-izolyacii'},
+            {'title': 'Покраска и антикоррозийная обработка поверхностей', 'url_name': f'{namespace}:category', 'slug': 'pokraska-i-antikorrozijnaya-obrabotka-poverhnostej'},
+            {'title': 'Пескоструйная и гидроструйная обработка поверхности', 'url_name': f'{namespace}:category', 'slug': 'peskostrujnaya-i-gidrostrujnaya-obrabotka-poverhnosti'},
+            {'title': 'Огнезащитная обработка металла и древесины', 'url_name': f'{namespace}:category', 'slug': 'ognezashitnaya-obrabotka-metalla-i-drevesiny'},
+            {'title': 'Нанесение жидких теплоизоляционных материалов', 'url_name': f'{namespace}:category', 'slug': 'nanesenie-zhidkih-teploizolyacionnyh-materialov'},
+            {'title': 'Нанесение гидроизоляционных материалов', 'url_name': f'{namespace}:category', 'slug': 'nanesenie-gidroizolyacionnyh-materialov'},
+            {'title': 'Нанесение декоративной штукатурки', 'url_name': f'{namespace}:category', 'slug': 'nanesenie-dekorativnoj-shtukaturki'},
         ]
     },
     'articles': {'title': 'Статьи', 'url_name': f'{namespace}:article_list'},
