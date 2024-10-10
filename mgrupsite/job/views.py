@@ -13,71 +13,99 @@ from django.db.models import Count
 from .utils import DataMixin, services
 import requests
 from django.conf import settings
-
-
 from django.http import JsonResponse
-
 import os
 
-
-class PostListView(DataMixin, ListView):
+class DynamicPostListView(DataMixin,ListView):
     title_page = 'Наши услуги'
-    context_object_name = 'posts'
     paginate_by = 3
-    template_name = 'job/post/list.html'
-    allow_empty = False  # позволить пустой список категорий (отображается ошибка 404)
-
-    def get_queryset(self):
-        return Post.published.all()
-
-
-class CategoryView(DataMixin, ListView):
-    context_object_name = 'posts'
     model = Post
-    allow_empty = False
-    template_name = 'job/post/category.html'
+    context_object_name = 'posts'
+    template_name = 'job/post/list.html'  # Замените на ваш шаблон
+    allow_empty = True  # Позволяет показывать пустой список, если постов нет
 
     def get_queryset(self):
-        # Получаем набор данных для указанной категории
-        queryset = Post.published.filter(cat__slug=self.kwargs['cat_slug']).select_related('cat')
+        queryset = Post.published.all()  # Изначально показываем все посты
 
-        # Если queryset пустой, выбрасываем ошибку 404
-        if not queryset.exists():
-            raise Http404("Нет опубликованных постов")
+        # Фильтрация по категории, если передан параметр cat_slug
+        cat_slug = self.request.GET.get('category')
+        if cat_slug:
+            category = get_object_or_404(Category, slug=cat_slug)
+            queryset = queryset.filter(cat=category)
+
+        # Фильтрация по тегу, если передан параметр tag_slug
+        tag_slug = self.request.GET.get('tag')
+        if tag_slug:
+            tag = get_object_or_404(Tag, slug=tag_slug)
+            queryset = queryset.filter(tags__in=[tag])
 
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        cat = context['posts'][0].cat
-        # Динамически обновляем title_page с выбранной категорией
-        context['title_page'] = f'Наши услуги - {cat.name}'
-        return self.get_mixin_context(context, title=f'Категория - {cat.name}', cat_selected=cat.pk)
-
-
-class TagView(ListView):
-    context_object_name = 'posts'
-    model = Post
-    allow_empty = False
-    template_name = 'job/post/tag.html'
-
-    def get_queryset(self):
-        # Получаем набор данных для указанного тега
-        tag_slug = self.kwargs.get('tag_slug')
-        tag = get_object_or_404(Tag, slug=tag_slug)
-        queryset = Post.published.filter(tags__slug=tag_slug)
-
-        # Если queryset пустой, выбрасываем ошибку 404
-        if not queryset.exists():
-            raise Http404("Нет опубликованных постов по этому тегу")
-
-        return queryset
-
-    def get_context_data(self, **kwargs):
-        # Добавляем тег в контекст
-        context = super().get_context_data(**kwargs)
-        context['tag'] = get_object_or_404(Tag, slug=self.kwargs.get('tag_slug'))
+        # Добавляем категории и теги в контекст, если нужно для фильтров
+        context['categories'] = Category.objects.all()  # Для фильтрации по категориям
+        context['tags'] = Tag.objects.all()  # Для фильтрации по тегам
         return context
+
+# class PostListView(DataMixin, ListView):
+#     title_page = 'Наши услуги'
+#     context_object_name = 'posts'
+#     paginate_by = 3
+#     template_name = 'job/post/list.html'
+#     allow_empty = False  # позволить пустой список категорий (отображается ошибка 404)
+#
+#     def get_queryset(self):
+#         return Post.published.all()
+#
+#
+# class CategoryView(DataMixin, ListView):
+#     context_object_name = 'posts'
+#     model = Post
+#     allow_empty = False
+#     template_name = 'job/post/category.html'
+#
+#     def get_queryset(self):
+#         # Получаем набор данных для указанной категории
+#         queryset = Post.published.filter(cat__slug=self.kwargs['cat_slug']).select_related('cat')
+#
+#         # Если queryset пустой, выбрасываем ошибку 404
+#         if not queryset.exists():
+#             raise Http404("Нет опубликованных постов")
+#
+#         return queryset
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         cat = context['posts'][0].cat
+#         # Динамически обновляем title_page с выбранной категорией
+#         context['title_page'] = f'Наши услуги - {cat.name}'
+#         return self.get_mixin_context(context, title=f'Категория - {cat.name}', cat_selected=cat.pk)
+#
+#
+# class TagView(ListView):
+#     context_object_name = 'posts'
+#     model = Post
+#     allow_empty = False
+#     template_name = 'job/post/tag.html'
+#
+#     def get_queryset(self):
+#         # Получаем набор данных для указанного тега
+#         tag_slug = self.kwargs.get('tag_slug')
+#         tag = get_object_or_404(Tag, slug=tag_slug)
+#         queryset = Post.published.filter(tags__slug=tag_slug)
+#
+#         # Если queryset пустой, выбрасываем ошибку 404
+#         if not queryset.exists():
+#             raise Http404("Нет опубликованных постов по этому тегу")
+#
+#         return queryset
+#
+#     def get_context_data(self, **kwargs):
+#         # Добавляем тег в контекст
+#         context = super().get_context_data(**kwargs)
+#         context['tag'] = get_object_or_404(Tag, slug=self.kwargs.get('tag_slug'))
+#         return context
 
 class AboutView(DataMixin,TemplateView):
     template_name = "job/post/about.html"
@@ -200,7 +228,7 @@ def home(request):
     context = {'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY,
                'services': services,
                'posts':posts,
-               'title':title
+               'title':title,
                }
 
     return render(request, 'job/post/index.html',context)

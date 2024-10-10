@@ -6,12 +6,12 @@ menu = {
         'title': 'Услуги',
         'url_name': f'{namespace}:post_list',
         'submenus': [
-            {'title': 'Покраска и антикоррозийная обработка поверхностей', 'url_name': f'{namespace}:category', 'slug': 'pokraska-i-antikorrozijnaya-obrabotka-poverhnostej'},
-            {'title': 'Пескоструйная и гидроструйная обработка поверхности', 'url_name': f'{namespace}:category', 'slug': 'peskostrujnaya-i-gidrostrujnaya-obrabotka-poverhnosti'},
-            {'title': 'Огнезащитная обработка металла и древесины', 'url_name': f'{namespace}:category', 'slug': 'ognezashitnaya-obrabotka-metalla-i-drevesiny'},
-            {'title': 'Нанесение жидких теплоизоляционных материалов', 'url_name': f'{namespace}:category', 'slug': 'nanesenie-zhidkih-teploizolyacionnyh-materialov'},
-            {'title': 'Нанесение гидроизоляционных материалов', 'url_name': f'{namespace}:category', 'slug': 'nanesenie-gidroizolyacionnyh-materialov'},
-            {'title': 'Нанесение декоративной штукатурки', 'url_name': f'{namespace}:category', 'slug': 'nanesenie-dekorativnoj-shtukaturki'},
+            {'title': 'Покраска и антикоррозийная обработка поверхностей', 'url_name': f'{namespace}:post_list', 'slug': 'pokraska-i-antikorrozijnaya-obrabotka-poverhnostej'},
+            {'title': 'Пескоструйная и гидроструйная обработка поверхности', 'url_name': f'{namespace}:post_list', 'slug': 'peskostrujnaya-i-gidrostrujnaya-obrabotka-poverhnosti'},
+            {'title': 'Огнезащитная обработка металла и древесины', 'url_name': f'{namespace}:post_list', 'slug': 'ognezashitnaya-obrabotka-metalla-i-drevesiny'},
+            {'title': 'Нанесение жидких теплоизоляционных материалов', 'url_name': f'{namespace}:post_list', 'slug': 'nanesenie-zhidkih-teploizolyacionnyh-materialov'},
+            {'title': 'Нанесение гидроизоляционных материалов', 'url_name': f'{namespace}:post_list', 'slug': 'nanesenie-gidroizolyacionnyh-materialov'},
+            {'title': 'Нанесение декоративной штукатурки', 'url_name': f'{namespace}:post_list', 'slug': 'nanesenie-dekorativnoj-shtukaturki'},
         ]
     },
     'articles': {'title': 'Статьи', 'url_name': f'{namespace}:article_list'},
