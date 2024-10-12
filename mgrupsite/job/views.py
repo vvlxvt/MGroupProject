@@ -16,12 +16,13 @@ from django.conf import settings
 from django.http import JsonResponse
 import os
 
-class DynamicPostListView(DataMixin,ListView):
+
+class DynamicPostListView(DataMixin, ListView):
     title_page = 'Наши услуги'
     paginate_by = 3
     model = Post
     context_object_name = 'posts'
-    template_name = 'job/post/list.html'  # Замените на ваш шаблон
+    template_name = 'job/post/list.html'
     allow_empty = True  # Позволяет показывать пустой список, если постов нет
 
     def get_queryset(self):
@@ -39,73 +40,41 @@ class DynamicPostListView(DataMixin,ListView):
             tag = get_object_or_404(Tag, slug=tag_slug)
             queryset = queryset.filter(tags__in=[tag])
 
+        # Поиск по запросу, если передан параметр query
+        query = self.request.GET.get('query')
+        if query:
+            search_vector = (SearchVector('title', weight='A', config='russian')
+                             + SearchVector('body', weight='B',config='russian'))
+            search_query = SearchQuery(query, config='russian')
+
+            # Используем TrigramSimilarity для поиска по схожести с заголовком
+            queryset = (
+                queryset.annotate(similarity=TrigramSimilarity('title', query)).filter(similarity__gt=0.1).order_by(
+                    '-similarity'))
+
+            print(f"Поисковый запрос: {query}")
+            print(connection.queries)  # Для отладки, отображает выполненные запросы
+
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Добавляем категории и теги в контекст, если нужно для фильтров
-        context['categories'] = Category.objects.all()  # Для фильтрации по категориям
-        context['tags'] = Tag.objects.all()  # Для фильтрации по тегам
+
+        # Добавляем категории и теги в контекст для отображения фильтров
+        context['categories'] = Category.objects.all()
+        context['tags'] = Tag.objects.all()
+
+        # Добавляем форму поиска в контекст
+        context['search_form'] = SearchForm(self.request.GET or None)  # Передаем форму с GET-параметрами
+
+        # Передаем поисковый запрос и результаты в контекст, если они есть
+        query = self.request.GET.get('query')
+        if query:
+            context['query'] = query
+            context['title'] = "Результаты поиска"
+
         return context
 
-# class PostListView(DataMixin, ListView):
-#     title_page = 'Наши услуги'
-#     context_object_name = 'posts'
-#     paginate_by = 3
-#     template_name = 'job/post/list.html'
-#     allow_empty = False  # позволить пустой список категорий (отображается ошибка 404)
-#
-#     def get_queryset(self):
-#         return Post.published.all()
-#
-#
-# class CategoryView(DataMixin, ListView):
-#     context_object_name = 'posts'
-#     model = Post
-#     allow_empty = False
-#     template_name = 'job/post/category.html'
-#
-#     def get_queryset(self):
-#         # Получаем набор данных для указанной категории
-#         queryset = Post.published.filter(cat__slug=self.kwargs['cat_slug']).select_related('cat')
-#
-#         # Если queryset пустой, выбрасываем ошибку 404
-#         if not queryset.exists():
-#             raise Http404("Нет опубликованных постов")
-#
-#         return queryset
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         cat = context['posts'][0].cat
-#         # Динамически обновляем title_page с выбранной категорией
-#         context['title_page'] = f'Наши услуги - {cat.name}'
-#         return self.get_mixin_context(context, title=f'Категория - {cat.name}', cat_selected=cat.pk)
-#
-#
-# class TagView(ListView):
-#     context_object_name = 'posts'
-#     model = Post
-#     allow_empty = False
-#     template_name = 'job/post/tag.html'
-#
-#     def get_queryset(self):
-#         # Получаем набор данных для указанного тега
-#         tag_slug = self.kwargs.get('tag_slug')
-#         tag = get_object_or_404(Tag, slug=tag_slug)
-#         queryset = Post.published.filter(tags__slug=tag_slug)
-#
-#         # Если queryset пустой, выбрасываем ошибку 404
-#         if not queryset.exists():
-#             raise Http404("Нет опубликованных постов по этому тегу")
-#
-#         return queryset
-#
-#     def get_context_data(self, **kwargs):
-#         # Добавляем тег в контекст
-#         context = super().get_context_data(**kwargs)
-#         context['tag'] = get_object_or_404(Tag, slug=self.kwargs.get('tag_slug'))
-#         return context
 
 class AboutView(DataMixin,TemplateView):
     template_name = "job/post/about.html"
@@ -167,35 +136,35 @@ def post_comment(request, post_id):
     return render(request,'job/post/comment.html',{'post':post, 'form':form, 'comment':comment})
 
 
-def post_search(request):
-    form = SearchForm()
-    query = None
-    results = []
-
-    if 'query' in request.GET: # использую GET чтобы результат отображался в строке адреса и им можно было делиться
-        form = SearchForm(request.GET)
-        if form.is_valid():
-            query = form.cleaned_data['query']
-            print(f"Поисковый запрос: {query}")
-            search_vector = (SearchVector('title', weight='A', config='russian')
-                             + SearchVector('body', weight='B',config='russian'))
-            # выполняем поиск опубликованных постов сформированного с использованием полей title и body
-            #  с помощью прикладного экземпляра SearchVector
-            search_query = SearchQuery(query, config='russian') # класс SearchQuery транслирует термин в объект поискового запроса
-            # print(search_query)
-            # results = (Post.published
-            #            .annotate(search=search_vector,rank=SearchRank(search_vector,search_query))
-            #            .filter(rank__gte=0.3)
-            #            .order_by('-rank'))
-            results = (Post.published.annotate(similarity=TrigramSimilarity('title', query),)
-                                       .filter(similarity__gt=0.1)
-                                       .order_by('-similarity'))
-            print(connection.queries)
-
-        return render(request, 'job/post/search.html', {
-                      'form':form, 'query':query, 'results':results, 'title': "Результаты поиска" })
-    else:
-        return render(request, 'job/post/search.html')
+# def post_search(request):
+#     form = SearchForm()
+#     query = None
+#     results = []
+#
+#     if 'query' in request.GET: # использую GET чтобы результат отображался в строке адреса и им можно было делиться
+#         form = SearchForm(request.GET)
+#         if form.is_valid():
+#             query = form.cleaned_data['query']
+#             print(f"Поисковый запрос: {query}")
+#             search_vector = (SearchVector('title', weight='A', config='russian')
+#                              + SearchVector('body', weight='B',config='russian'))
+#             # выполняем поиск опубликованных постов сформированного с использованием полей title и body
+#             #  с помощью прикладного экземпляра SearchVector
+#             search_query = SearchQuery(query, config='russian') # класс SearchQuery транслирует термин в объект поискового запроса
+#             # print(search_query)
+#             # results = (Post.published
+#             #            .annotate(search=search_vector,rank=SearchRank(search_vector,search_query))
+#             #            .filter(rank__gte=0.3)
+#             #            .order_by('-rank'))
+#             results = (Post.published.annotate(similarity=TrigramSimilarity('title', query),)
+#                                        .filter(similarity__gt=0.1)
+#                                        .order_by('-similarity'))
+#             print(connection.queries)
+#
+#         return render(request, 'job/post/search.html', {
+#                       'form':form, 'query':query, 'results':results, 'title': "Результаты поиска" })
+#     else:
+#         return render(request, 'job/post/search.html')
 
 
 class ArticleListView(DataMixin, ListView):

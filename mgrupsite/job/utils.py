@@ -16,7 +16,7 @@ menu = {
     },
     'articles': {'title': 'Статьи', 'url_name': f'{namespace}:article_list'},
     'projects': {'title': 'Проекты', 'url_name': f'{namespace}:projects'},
-    'search': {'title': 'Поиск', 'url_name': f'{namespace}:post_search'},
+    'search': {'title': 'Поиск', 'url_name': f'{namespace}:post_list'},
 }
 
 services = {

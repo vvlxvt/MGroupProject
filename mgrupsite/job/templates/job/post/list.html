@@ -35,26 +35,3 @@
 </section>
 {% endblock %}
 
-<!-- Фильтр по категориям -->
-<ul>
-    <li><a href="{% url 'job:post_list' %}">Все посты</a></li>
-    {% for category in categories %}
-        <li><a href="{% url 'job:post_list' %}?category={{ category.slug }}">{{ category.name }}</a></li>
-    {% endfor %}
-</ul>
-
-<!-- Фильтр по тегам -->
-<ul>
-    {% for tag in tags %}
-        <li><a href="{% url 'job:post_list' %}?tag={{ tag.slug }}">{{ tag.name }}</a></li>
-    {% endfor %}
-</ul>
-
-<!-- Отображение постов -->
-<ul>
-    {% for post in posts %}
-        <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
-    {% empty %}
-        <p>Нет постов для отображения.</p>
-    {% endfor %}
-</ul>
