@@ -1,6 +1,6 @@
 from django.contrib import admin, messages
 from .forms import TagsForm
-from .models import Post, Comment, Article, Project, Category
+from .models import Post, Comment, Article, Project, Category, Photo
 
 
 @admin.register(Post)
@@ -44,14 +44,20 @@ class CommentAdmin(admin.ModelAdmin):
      search_fields = ['title', 'body']
      ordering = ['publish']
 
+
+class PhotoInline(admin.TabularInline):
+    model = Photo
+    extra = 1  # Количество пустых полей для добавления фотографий
+
 @admin.register(Project)
 class CommentAdmin(admin.ModelAdmin):
-     fields = [("title", 'slug'), "body", "photo",]
+     fields = [("title", 'slug'), "body"]
      list_display = ['title', 'publish',]
      prepopulated_fields = {'slug': ('title',)}
      list_filter = ['publish']
      search_fields = ['title', 'body']
      ordering = ['publish']
+     inlines = [PhotoInline]
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -59,3 +65,4 @@ class CategoryAdmin(admin.ModelAdmin):
      list_display = ('id', 'name')
      list_display_links = ('id', 'name')
      ordering = ('name',)
+

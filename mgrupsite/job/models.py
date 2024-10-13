@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.utils import timezone
 from taggit.managers import TaggableManager
 from .ru_taggit import RuTaggedItem
+from ckeditor.fields import RichTextField
 
 class PublichedManager(models.Manager):
     def get_queryset(self):
@@ -17,7 +18,7 @@ class Post(models.Model):
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique_for_date='publish')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='job_posts')
-    body = models.TextField()
+    body = RichTextField()
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -76,7 +77,7 @@ class UploadFiles(models.Model):
 class Article (models.Model):
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique_for_date='publish')
-    body = models.TextField()
+    body = RichTextField()
     publish = models.DateTimeField(default=timezone.now)
     objects = models.Manager()
     photo = models.ImageField(upload_to='photos/%Y/%m/%d', default=None, blank=True, null=True, verbose_name='photo')
@@ -99,8 +100,7 @@ class Project(models.Model):
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
     objects = models.Manager()
-    photo = models.ImageField(upload_to='projects/%Y/%m/%d', default=None, blank=True, null=True,
-                              verbose_name='photo')
+    # photo = models.ImageField(upload_to='projects/%Y/%m/%d', default=None, blank=True, null=True,verbose_name='photo')
 
     class Meta:
         ordering = ['-publish']
@@ -113,6 +113,12 @@ class Project(models.Model):
         # возвращает канонический URL-адрес объекта
         return reverse('job:projects', args=[self.slug])
 
+class Photo(models.Model):
+    article = models.ForeignKey(Project, related_name='photos', on_delete=models.CASCADE)  # Связь с моделью Project
+    image = models.ImageField(upload_to='projects/')  # Хранение изображений
+
+    def __str__(self):
+        return f"Фото для {self.article.title}"
 
 class Contact(models.Model):
     name = models.CharField(max_length=100)

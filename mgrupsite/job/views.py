@@ -59,6 +59,13 @@ class DynamicPostListView(DataMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        queryset = self.get_queryset()
+
+        # Убираем пагинацию, если количество постов меньше 3
+        if queryset.count() <= 3:
+            self.paginate_by = None
+        else:
+            self.paginate_by = 2
 
         # Добавляем категории и теги в контекст для отображения фильтров
         context['categories'] = Category.objects.all()
@@ -71,7 +78,7 @@ class DynamicPostListView(DataMixin, ListView):
         query = self.request.GET.get('query')
         if query:
             context['query'] = query
-            context['title'] = "Результаты поиска"
+            context['title'] = f"Результаты поиска: '{query}'"
 
         return context
 
@@ -179,7 +186,7 @@ class ArticleListView(DataMixin, ListView):
 class ProjectListView(DataMixin, ListView):
     title_page = 'Выполненные проекты'
     context_object_name = 'projects'
-    template_name = 'job/post/projects.html'
+    template_name = 'job/project/project_list.html'
 
     def get_queryset(self):
         return Project.objects.all()

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'debug_toolbar',
+    'ckeditor',
     'taggit',
     'taggit_labels',
     'job.apps.JobConfig',
