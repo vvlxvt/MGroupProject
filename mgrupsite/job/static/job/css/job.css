@@ -86,13 +86,13 @@ margin-bottom: 200px
 
 
 /* landing */
-.carousel-item {
+.my-carousel .carousel-item {
     height: 400px; /* Фиксированная высота для каждого элемента карусели */
     overflow: hidden; /* Обрезаем содержимое, выходящее за границы */
     box-sizing: border-box; /* Учитываем отступы и границы в размере */
 }
 
-.carousel-item img {
+.my-carousel .carousel-item img {
     width: 100%; /* Заполняем всю ширину контейнера */
     height: 100%; /* Заполняем всю высоту контейнера */
     object-fit: cover; /* Обрезаем изображение, сохраняя пропорции */
@@ -100,7 +100,7 @@ margin-bottom: 200px
 }
 
 /* Убедитесь, что у карусели нет лишних отступов */
-.carousel {
+.my-carousel .carousel {
     margin-top: 150; /* Убираем лишние отступы */
     padding: 0; /* Убираем лишние отступы */
     width: 100%; /* Ширина карусели */
@@ -163,4 +163,109 @@ margin-bottom: 200px
     color: 	#24A1DE; /* telegram blue */
     }
 /* footer */
+
+/* project carusel */
+/* Стили карусели */
+.my-project-carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+}
+
+.my-project-carousel .carousel-item {
+  min-width: 100px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.my-project-carousel .carousel-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Кнопки управления каруселью */
+.my-project-carousel .carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.my-project-carousel .carousel-control.left {
+  left: 10px;
+}
+
+.my-project-carousel .carousel-control.right {
+  right: 10px;
+}
+
+/* Стили модального окна */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal img {
+  max-width: 90%;
+  max-height: 80%;
+}
+
+.close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.modal-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.modal-control.left {
+  left: 20px;
+}
+
+.modal-control.right {
+  right: 20px;
+}
+
+/* project carusel */
+
+
+
+
+
 

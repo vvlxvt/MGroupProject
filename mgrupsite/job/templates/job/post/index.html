@@ -49,16 +49,13 @@
         <div class="row g-5">
             <div class="col-lg-6 col-sm-3 mb-5">
                 <p class="h4 text-center">Наши услуги</p>
-                <ol class="list-unstyled fs-6">
-                    {% for key, service in services.items %}
-                        <li class="list-group-item fs-4">{{ forloop.counter }}. {{ service.title }}</li>
-                            {% if service.submenu %}
-                            <ul class="list-group mt-2 ms-4">
-                                {% for submenu_item in service.submenu %}
-                                    <li>{{ submenu_item.title }}</li>
-                                {% endfor %}
-                            </ul>
-                            {% endif %}
+                <ol class="list-unstyled fs-1">
+                    {% for key in facemenu %}
+                        <li class="list-group-item fs-5">
+                            <a href="{% url key.url_name %}?category={{ key.slug }}" class="text-decoration-none">
+                            {{ forloop.counter }}. {{ key.title }}
+                            </a>
+                        </li>
                     {% endfor %}
                 </ol>
         </div>

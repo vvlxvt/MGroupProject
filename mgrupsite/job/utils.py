@@ -22,8 +22,8 @@ menu = {
 services = {
     'industrial_painting': {'title': 'Промышленная покраска',
                             'url_name': '#',
-                            'submenu': [
-                                        {'title': 'Покраска металлоконструкций', 'url_name': '#'},
+                            'submenus': [
+                                        {'title': 'Покраска металлоконструкций', 'url_name': 'pokraska-metallokonstrukcij'},
                                         {'title': 'Покраска помещений', 'url_name': '#'},
                                         {'title': 'Покраска фасадов', 'url_name': '#'},
                                         {'title': 'Покраска резервуаров', 'url_name': '#'}, ],
