@@ -79,11 +79,12 @@
 /* Applying the font to the body */
 body {
     font-family: 'Cuprum', 'NeoSansPro', sans-serif;
+    background-color: #FFF;
 }
 /* Шрифты */
 
 header {
-    background-image: url('../images/mgroup24_corner2.png');
+    background-image: url('../images/mgroup24_corner.png');
     background-position: top left;
     background-repeat: no-repeat;
     background-size: auto; /* Размер по умолчанию, можно использовать cover или contain */
