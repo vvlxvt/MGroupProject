@@ -1,0 +1,11 @@
+{% extends "job/base.html" %}
+
+{% with "Ошибка 404 - Страница не найдена" as title %}
+{% endwith %}
+
+{% block http404 %}
+
+<h1>Ошибка 404</h1>
+    <p>К сожалению, страница не найдена.</p>
+
+{% endblock %}

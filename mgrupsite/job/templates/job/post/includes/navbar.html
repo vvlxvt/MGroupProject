@@ -1,6 +1,12 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand ms-5" href="{% url 'job:home' %}">
-        <img src="/media/photos/Logo/favicon/m_logo_2new2__64.png"alt="МалярGroup"class="logo"></a>
+<nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand ms-3 pt-0" href="{% url 'job:home' %}">
+        <svg width="0" height="0">
+            <filter id="highlight">
+                <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="black"/>
+            </filter>
+        </svg>
+        <img src="/media/photos/Logo/favicon/logo_mg_less.png"alt="МалярGroup"class="logo"
+             style="background:transparent;filter: url(#highlight);"></a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

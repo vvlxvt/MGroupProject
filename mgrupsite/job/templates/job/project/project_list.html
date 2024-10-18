@@ -6,111 +6,51 @@
 {% endblock %}
 
 {% block projects %}
+
 <section id="projects" class="bg-light mb-3">
     <div class="container">{{ projects|length }} статьи найдены.
-           <div class="row">
-                {% for project in projects %}
-                   <div class="col-md-8 mb-3 mx-auto">
-
-                        {% if project.photos.exists %}
-                                <div class="my-project-carousel">
-
-                                      <div class="carousel-track">
-                                        {% for photo in project.photos.all %}
-                                            <div class="carousel-item">
-                                                <img src="{{ photo.image.url }}" alt="Фото {{ forloop.counter0 }}"
-                                                     onclick="openModal({{ forloop.counter0 }})">
-                                            </div>
-                                        {% endfor %}
-                                      </div>
-
-                                    <button class="carousel-control left" onclick="moveCarousel(-1)">&#9664;</button>
-                                    <button class="carousel-control right" onclick="moveCarousel(1)">&#9654;</button>
-
-                                </div>
-                        {% else %}
-                            <div class="photo">
-                                <img src="{% static 'job/images/default-image.jpg' %}" alt="Фото по умолчанию">
+        <div class="row">
+            {% for project in projects %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    {% if project.photos.exists %}
+                    <div id="carouselArticle{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            {% for photo in project.photos.all %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img src="{{ photo.image.url }}" class="d-block w-100" alt="...">
                             </div>
-                        {% endif %}
-
-                        <div class="card-body">
-                            <h5 class="card-title">{{ project.title }}</h5>
-                            <p class="card-text">{{ project.body|truncatewords:30|safe }}</p>
-                            <a href="#" class="btn-custom">Узнать больше</a>
+                            {% endfor %}
                         </div>
 
-                   </div>
+                        <button class="carousel-control-prev" type="button"
+                                data-bs-target="#carouselArticle{{ forloop.counter }}" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+                                class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                                data-bs-target="#carouselArticle{{ forloop.counter }}" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span> <span
+                                class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                    {% else %}
+                    <div class="photo">
+                        <img src="{% static 'job/images/default-image.jpg' %}" alt="Фото по умолчанию">
+                    </div>
+                    {% endif %}
+
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="#">
+                            {{ project.title }}</a></h5>
+                        <p class="card-text">{{ project.body|truncatewords:30 }}</p>
+                    </div>
+                </div>
+            </div>
             {% endfor %}
         </div>
     </div>
-
-    <div id="modal" class="modal">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <div class="modal-content">
-            <img id="modal-image" src="" alt="Просмотр фото">
-            <button class="modal-control left" onclick="changeModalImage(-1)">&#9664;</button>
-            <button class="modal-control right" onclick="changeModalImage(1)">&#9654;</button>
-        </div>
-    </div>
-
 </section>
 
-<script>
-     let currentSlideIndex = 0;
-let modalIndex = 0;
-const images = document.querySelectorAll('.carousel-item img');
-
-function moveCarousel(direction) {
-  const track = document.querySelector('.carousel-track');
-  const items = document.querySelectorAll('.carousel-item');
-  const itemWidth = items[0].offsetWidth + 10; // 10px - отступ между фото
-  currentSlideIndex += direction;
-
-  if (currentSlideIndex < 0) {
-    currentSlideIndex = items.length - 1;
-  } else if (currentSlideIndex >= items.length) {
-    currentSlideIndex = 0;
-  }
-
-  track.style.transform = `translateX(${-currentSlideIndex * itemWidth}px)`;
-}
-
-function openModal(index) {
-  const modal = document.getElementById('modal');
-  modal.style.display = 'flex';
-  modalIndex = index;
-  updateModalImage();
-}
-
-function closeModal() {
-  const modal = document.getElementById('modal');
-  modal.style.display = 'none';
-}
-
-function updateModalImage() {
-  const modalImage = document.getElementById('modal-image');
-  modalImage.src = images[modalIndex].src;
-}
-
-function changeModalImage(direction) {
-  modalIndex += direction;
-
-  if (modalIndex < 0) {
-    modalIndex = images.length - 1;
-  } else if (modalIndex >= images.length) {
-    modalIndex = 0;
-  }
-
-  updateModalImage();
-}
-
-window.onclick = function(event) {
-  const modal = document.getElementById('modal');
-  if (event.target === modal) {
-    closeModal();
-  }
-}
-</script>
 
 {% endblock %}

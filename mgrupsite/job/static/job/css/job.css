@@ -1,3 +1,106 @@
+/* Шрифты */
+@font-face {
+  font-family: 'Cuprum';
+  src: url('../fonts/Cuprum-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cuprum';
+  src: url('../fonts/Cuprum-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cuprum';
+  src: url('../fonts/Cuprum-Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Cuprum';
+  src: url('../fonts/Cuprum-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'LegendeC';
+  src: url('../fonts/LegendeC Plain.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NeoSansPro';
+  src: url('../fonts/NeoSansPro-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NeoSansPro';
+  src: url('../fonts/NeoSansPro-Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NeoSansPro';
+  src: url('../fonts/NeoSansPro-BoldItalic.otf') format('opentype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'NeoSansPro';
+  src: url('../fonts/NeoSansPro-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NeoSansPro';
+  src: url('../fonts/NeoSansPro-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NeoSansPro';
+  src: url('../fonts/NeoSansPro-Ultra.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+/* Applying the font to the body */
+body {
+    font-family: 'Cuprum', 'NeoSansPro', sans-serif;
+}
+/* Шрифты */
+
+header {
+    background-image: url('../images/mgroup24_corner2.png');
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-size: auto; /* Размер по умолчанию, можно использовать cover или contain */
+}
+
+/* Навигация */
+#navbarNav *  {
+    font-family: 'NeoSansPro';
+    }
+/* Навигация */
+
+
+
+
+
+
+
 /* стиль кнопки submit */
 .btn-custom {
     text-decoration: none;
@@ -164,102 +267,17 @@ margin-bottom: 200px
     }
 /* footer */
 
+
 /* project carusel */
-/* Стили карусели */
-.my-project-carousel {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
+#projects .card img {
+  height: 400px;
+  object-fit: cover; /* Чтобы изображение красиво вписывалось в карточку */
 }
 
-.carousel-track {
+#projects .card-body {
   display: flex;
-  transition: transform 0.3s ease-in-out;
-}
-
-.my-project-carousel .carousel-item {
-  min-width: 100px;
-  margin-right: 10px;
-  cursor: pointer;
-}
-
-.my-project-carousel .carousel-item img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* Кнопки управления каруселью */
-.my-project-carousel .carousel-control {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-}
-
-.my-project-carousel .carousel-control.left {
-  left: 10px;
-}
-
-.my-project-carousel .carousel-control.right {
-  right: 10px;
-}
-
-/* Стили модального окна */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal img {
-  max-width: 90%;
-  max-height: 80%;
-}
-
-.close {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  color: white;
-  font-size: 30px;
-  cursor: pointer;
-}
-
-.modal-control {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-}
-
-.modal-control.left {
-  left: 20px;
-}
-
-.modal-control.right {
-  right: 20px;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /* project carusel */
