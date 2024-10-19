@@ -1,7 +1,7 @@
     <div class="text-white text-center horizontal-bar fs-5" style="background-color: #035199;">
         Напишите нам Ваши вопросы и мы постараемся помочь
     </div>
-<div id="callback" class="container-fluid pt-3 pl-6">
+<div id="callback" class="container-fluid pt-3 pl-6 bg-white">
     <form id="contactForm" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">

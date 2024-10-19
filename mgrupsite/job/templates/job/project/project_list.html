@@ -7,18 +7,19 @@
 
 {% block projects %}
 
-<section id="projects" class="bg-light mb-3">
-    <div class="container">{{ projects|length }} статьи найдены.
-        <div class="row">
+<section id="projects" class="bg-white mb-3">
+    <div class="container">
+        {{ page_obj|length }} статьи найдены.
+        <div class="row justify-content-center">
             {% for project in projects %}
-            <div class="col-md-6 mb-4">
+            <div class="col-md-4 mb-4 mx-auto">
                 <div class="card h-100">
                     {% if project.photos.exists %}
                     <div id="carouselArticle{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             {% for photo in project.photos.all %}
                             <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                <img src="{{ photo.image.url }}" class="d-block w-100" alt="...">
+                                <img src="{{ photo.image.url }}" class="d-block w-100 img-fluid fixed-height" alt="...">
                             </div>
                             {% endfor %}
                         </div>
@@ -50,6 +51,9 @@
             {% endfor %}
         </div>
     </div>
+    {% if posts.has_other_pages %}
+        {% include "pagination.html" with page=posts %}
+    {% endif %}
 </section>
 
 

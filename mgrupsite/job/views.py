@@ -19,7 +19,6 @@ import os
 
 class DynamicPostListView(DataMixin, ListView):
     title_page = 'Наши услуги'
-    paginate_by = 3
     model = Post
     context_object_name = 'posts'
     template_name = 'job/post/list.html'
@@ -61,24 +60,21 @@ class DynamicPostListView(DataMixin, ListView):
         context = super().get_context_data(**kwargs)
         queryset = self.get_queryset()
 
-        # Убираем пагинацию, если количество постов меньше 3
-        if queryset.count() <= 3:
-            self.paginate_by = None
-        else:
-            self.paginate_by = 2
-
-        # Добавляем категории и теги в контекст для отображения фильтров
+        # Добавляем категории,теги,поиск в контекст для отображения фильтров
         context['categories'] = Category.objects.all()
         context['tags'] = Tag.objects.all()
-
-        # Добавляем форму поиска в контекст
         context['search_form'] = SearchForm(self.request.GET or None)  # Передаем форму с GET-параметрами
-
         # Передаем поисковый запрос и результаты в контекст, если они есть
         query = self.request.GET.get('query')
         if query:
             context['query'] = query
             context['title'] = f"Результаты поиска: '{query}'"
+
+        cat_slug = self.request.GET.get('category')
+        if cat_slug:
+            category = get_object_or_404(Category, slug=cat_slug)
+            # Передаем название категории в контекст
+            context['title_page'] = f"Категория: {category.name}"
 
         return context
 

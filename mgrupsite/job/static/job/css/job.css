@@ -96,9 +96,35 @@ header {
     }
 /* Навигация */
 
+.alpha { color: $purple; }
+.beta {
+  color: $yellow-300;
+  background-color: $indigo-900;
+}
 
+/* Стиль для всех постов с текстом и фото */
+.fixed-height {
+    height: 250px; /* Задайте нужную вам высоту */
+    object-fit: cover; /* Масштабирование с сохранением пропорций */
+}
+/* Стиль для всех постов с текстом и фото */
 
+/* Стиль для тегов */
+.my-tags {
+    text-decoration: none;
+    font-weight: 500;
+    font-color:beta;
+}
+/* Стиль для тегов */
 
+/* центрование постов при навигации в остатке 2 */
+@media (min-width: 768px) {
+    .row .col-md-4:nth-child(2n):nth-last-child(2) {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+/* центрование постов при навигации в остатке 2 */
 
 
 

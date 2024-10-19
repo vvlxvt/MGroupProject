@@ -6,25 +6,23 @@
         <div class="container ">
             <div class="row justify-content-center">
                 {% for post in posts %}
-                    <div class="col-md-4 mb-4 mx-auto">
+                    <div class="col-md-4 mb-4 d-flex align-items-stretch">
                         <div class="card h-100">
                             {% if post.photo %}
-                            <p><img class="d-block w-100" src="{{post.photo.url}}"></p>
+                                <p><img class="d-block w-100 img-fluid fixed-height" src="{{post.photo.url}}"></p>
                             {% endif %}
                             <div class="card-body">
-                                <h5 class="card-title">
+                                <h5 class="card-title text-reset">
                                     <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
                                 </h5>
                                     <h6>
                                         {% for tag in post.tags.all %}
                                             <a href="{% url 'job:post_list' %}?tag={{ tag.slug }}"
-                                               class="badge rounded-pill text-bg-primary"
-                                               style="text-decoration: none; font-weight: 500;">
+                                               class="badge rounded-pill text-bg-dark my-tags">
                                                 {{ tag.name }}</a>
                                         {% endfor %}
                                     </h6>
-                                <p class="card-text">{{ post.body|truncatewords:30|safe }}</p>
-                                <a href="{{ post.get_absolute_url }}" class="btn-custom">Узнать больше</a>
+                                <p class="card-text">{{ post.summary|safe }}</p>
                             </div>
                         </div>
                     </div>
@@ -33,7 +31,10 @@
                 {% endfor %}
             </div>
         </div>
-        {% include "pagination.html" with page=posts %}
+    {% if page_obj.has_other_pages %}
+    {% include "pagination.html" with page=posts %}
+    {% endif %}
 </section>
 {% endblock %}
+
 

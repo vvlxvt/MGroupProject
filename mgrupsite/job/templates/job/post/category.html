@@ -1,29 +1,31 @@
-{% extends "job/base.html" %}{% load job_tags %}
+{% extends "job/base.html" %}
+{% load job_tags %}
 
 {% block content %}
-
-    <section id="category" class="bg-light py-3">
-        <div class="container">
-            <div class="container mt-5">
-                <div class="row">
-                    {% for post in posts %}
-                    <div class="col-md-4 mx-auto mb-4">
+    <section id="category" class="bg-white py-3">
+        <div class="container ">
+            <div class="row justify-content-center">
+                {% for post in page_obj %}
+                    <div class="col-md-4 mb-4 d-flex align-items-stretch">
                         <div class="card h-100">
                             {% if post.photo %}
-                            <p><img class="d-block w-100" src="{{ post.photo.url }}"></p>
+                                <p><img class="d-block w-100 img-fluid fixed-height"
+                                        src="{{ post.photo.url }}"></p>
                             {% endif %}
                             <div class="card-body">
-                                <h5 class="card-title">{{ post.title }}</h5>
+                                <h5 class="card-title text-reset">
+                                    <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                                </h5>
                                 <p class="card-text">{{ post.body|truncatewords:30 }}</p>
-                                <a href="{{ post.get_absolute_url }}" class="btn btn-primary"
-                                   style="background-color:#035199; border-color:#035199;">Узнать больше</a>
                             </div>
                         </div>
                     </div>
                     {% endfor %}
-                </div>
             </div>
         </div>
+        {% if page_obj.has_other_pages %}
+            {% include "pagination.html" with page=posts %}
+        {% endif %}
     </section>
 
 {% endblock %}

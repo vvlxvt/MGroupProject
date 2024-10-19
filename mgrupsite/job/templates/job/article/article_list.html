@@ -6,26 +6,30 @@
 {% endblock %}
 
 {% block articles %}
-<section id="articles" class="bg-light py-3">
+<section id="articles" class="bg-white py-3">
         <div class="container">
-            {{ articles|length }} статьи найдены.
-            <div class="row">
+                {{ page_obj|length }} статьи найдены.
+            <div class="row justify-content-center">
                 {% for article in page_obj %}
-                <div class="col-md-6 mb-4">
-                    <div class="card h-100">
+                    <div class="col-md-4 mb-4 d-flex align-items-stretch">
+                        <div class="card h-100">
                         {% if article.photo %}
                         <p><img class="d-block w-100" src="{{article.photo.url}}"></p>
                         {% endif %}
                         <div class="card-body">
-                            <h5 class="card-title">{{ article.title }}</h5>
+                            <h5 class="card-title">
+                                <a href="{{ article.get_absolute_url }}">
+                                    {{ article.title }}
+                                </a></h5>
                             <p class="card-text">{{ article.body|truncatewords:30|safe }}</p>
-                            <a href="{{ article.get_absolute_url }}" class="btn-custom">Узнать больше</a>
                         </div>
                     </div>
                 </div>
                 {% endfor %}
             </div>
         </div>
-    {% include "pagination.html" with page=articles %}
+    {% if page_obj.has_other_pages %}
+        {% include "pagination.html" with page=posts %}
+    {% endif %}
 </section>
 {% endblock %}
