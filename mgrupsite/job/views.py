@@ -205,6 +205,11 @@ def home(request):
 
     return render(request, 'job/post/index.html',context)
 
+def text_us(request):
+    title = 'Напишите нам Ваши вопросы и мы постараемся помочь'
+    context = {'title': title}
+    return render(request, 'job/post/text_us.html',context)
+
 
 
 @csrf_exempt

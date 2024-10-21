@@ -34,22 +34,17 @@
 <!-- landing section -->
 {% block landing %} {% endblock %}
 
-
 <!-- Services Section -->
 {% block content %} {% endblock %}
-
 
 <!-- Projects Section -->
 {% block projects %} {% endblock %}
 
-
 <!-- Articles Section -->
 {% block articles %} {% endblock %}
 
-
 <!-- About Section -->
 {% block about %} {% endblock %}
-
 
 <!-- Contact Section -->
 {% include "job/post/includes/callback.html" %}
@@ -89,10 +84,10 @@
                 <div class="col-md-3 col-6">
                     <h4>Мы в сети</h4>
                     <div class="footer-icons">
-                        <a href="https://www.facebook.com/login.php/"> <i class="fab fa-facebook-f"></i></a> <a
-                            href="#"> <i class="fab fa-youtube"></i></a> <a
-                            href="https://www.instagram.com/accounts/login/"> <i class="fab fa-instagram"></i></a> <a
-                            href="#"> <i class="fa-brands fa-telegram"></i></a>
+                        <a href="https://www.facebook.com/login.php/"> <i class="fab fa-facebook-f"></i></a>
+                        <a href="#"> <i class="fab fa-youtube"></i></a>
+                        <a href="https://www.instagram.com/accounts/login/"> <i class="fab fa-instagram"></i></a>
+                        <a href="{% url 'job:text_us' %}"> <i class="fa-brands fa-telegram"></i></a>
                     </div>
                 </div>
             </div>

@@ -34,7 +34,6 @@ DEBUG = config('DEBUG')
 ALLOWED_HOSTS = []
 # ALLOWED_HOSTS = ['*']
 
-
 SITE_ID = 1
 # Application definition
 

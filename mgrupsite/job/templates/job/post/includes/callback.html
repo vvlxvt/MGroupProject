@@ -1,36 +1,39 @@
-    <div class="text-white text-center horizontal-bar fs-5" style="background-color: #035199;">
-        Напишите нам Ваши вопросы и мы постараемся помочь
-    </div>
+
 <div id="callback" class="container-fluid pt-3 pl-6 bg-white">
     <form id="contactForm" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-        <div class="row">
             <div class="col-md-3 mb-3">
-                <label for="name" class="form-label">Имя</label> <input type="text" class="form-control" id="name"
-                                                                         name="name" placeholder="Ваше имя" required>
+                <div class="input-group has-validation">
+                    <span class="input-group-text" ><i class="fa-solid fa-user-tie"></i></span>
+                    <input type="text" class="form-control" id="name"
+                        name="name" placeholder="Ваше имя" required>
+                    <div class="invalid-feedback">
+                        Необходимо указать имя
+                    </div>
+                </div>
             </div>
 
             <div class="col-md-3 mb-3">
-                <label for="email" class="form-label">Email</label> <input type="email" class="form-control" id="email"
-                                                                           name="email" placeholder="Ваш Email"
-                                                                           required>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-3 mb-3">
-                <label for="message" class="form-label">Сообщение</label> <textarea class="form-control" id="message"
-                                                                                  name="message" rows="4"
-                                                                                  placeholder="Ваше сообщение"
-                                                                                  required></textarea>
+                <div class="input-group has-validation">
+                    <span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
+                    <input type="email" class="form-control" id="email"
+                            name="email" placeholder="Ваш Email" required>
+                    <div class="invalid-feedback">
+                        Необходимо указать адрес электронной почты
+                    </div>
+                </div>
             </div>
 
             <div class="col-md-3 mb-3">
-                <label for="photo" class="form-label">Загрузить фото</label> <input type="file" class="form-control"
-                                                                                  id="photo" name="фото">
+                <textarea class="form-control" id="message" placeholder="Ваше сообщение" name="message" rows="5" required></textarea>
             </div>
-        </div>
+
+
+            <div class="col-md-3 mb-3">
+                <label for="photo" class="form-label">  Загрузить фото</label>
+                <input type="file" name="photo" class="form-control" id="photo">
+            </div>
 
         <div class="text-left mb-3">
             <button type="submit" class="btn-custom">Отправить сообщение</button>
