@@ -37,7 +37,8 @@
                     </div>
                     {% else %}
                     <div class="photo">
-                        <img src="{% static 'job/images/default-image.jpg' %}" alt="Фото по умолчанию">
+                        <img src="{% static 'job/images/default-image.jpg' %}"
+                             alt="Фото по умолчанию" class="img-fluid" style="object-fit: cover;">
                     </div>
                     {% endif %}
 

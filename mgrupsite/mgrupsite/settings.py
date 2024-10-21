@@ -126,18 +126,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 LANGUAGE_CODE = 'ru-RU'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -155,13 +150,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = 'vvlxvt@yandex.ru'
-EMAIL_HOST_PASSWORD = 'lmshyxsnqqlfjpjr'
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = True
 
 # EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_HOST_USER = 'vvlxvt@gmail.com'
-# EMAIL_HOST_PASSWORD = 'cgaapekwhrmdvees'
+# EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 # EMAIL_POST = 587
 # EMAIL_USE_TLS = True
 # EMAIL_USE_SSL = False
@@ -172,6 +167,6 @@ EMAIL_ADMIN = EMAIL_HOST_USER
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-TELEGRAM_BOT_TOKEN = '8113120422:AAHj5M0W_noC4XItXVvPCRJFECXUbt5n_dE'
-TELEGRAM_CHAT_ID = '541172529'
+TELEGRAM_BOT_TOKEN = config('TELEGRAM_BOT_TOKEN')
+TELEGRAM_CHAT_ID = config('TELEGRAM_CHAT_ID')
 GOOGLE_MAPS_API_KEY = config('GOOGLE_MAPS_API_KEY')
