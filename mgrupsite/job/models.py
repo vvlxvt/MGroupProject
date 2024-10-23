@@ -5,6 +5,8 @@ from django.utils import timezone
 from taggit.managers import TaggableManager
 from .ru_taggit import RuTaggedItem
 from ckeditor.fields import RichTextField
+from easy_thumbnails.fields import ThumbnailerImageField
+
 
 class PublichedManager(models.Manager):
     def get_queryset(self):
@@ -50,6 +52,7 @@ class Post(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=100, db_index=True)
     slug = models.CharField(max_length=100, db_index=True, unique=True)
+    summary = models.TextField()
 
     def __str__(self):
         return self.name
@@ -115,11 +118,12 @@ class Project(models.Model):
         return reverse('job:projects', args=[self.slug])
 
 class Photo(models.Model):
-    article = models.ForeignKey(Project, related_name='photos', on_delete=models.CASCADE)  # Связь с моделью Project
-    image = models.ImageField(upload_to='projects/')  # Хранение изображений
+    project = models.ForeignKey(Project, related_name='photo_set', on_delete=models.CASCADE)  # Связь с моделью Project
+    image = ThumbnailerImageField(upload_to='projects/')
+
 
     def __str__(self):
-        return f"Фото для {self.article.title}"
+        return f"Фото для {self.project.title}"
 
 class Contact(models.Model):
     name = models.CharField(max_length=100)

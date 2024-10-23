@@ -1,49 +1,51 @@
+<br>
+<form id="contactForm" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
-<div id="callback" class="container-fluid pt-3 pl-6 bg-white">
-    <form id="contactForm" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-            <div class="col-md-3 mb-3">
-                <div class="input-group has-validation">
-                    <span class="input-group-text" ><i class="fa-solid fa-user-tie"></i></span>
-                    <input type="text" class="form-control" id="name"
-                        name="name" placeholder="Ваше имя" required>
-                    <div class="invalid-feedback">
-                        Необходимо указать имя
-                    </div>
+        <div class="col-md-4 mb-3 mx-auto">
+            <div class="input-group has-validation">
+                <span class="input-group-text" ><i class="fa-solid fa-user-tie"></i></span>
+                <input type="text" class="form-control" id="name"
+                    name="name" placeholder="Ваше имя" required>
+                <div class="invalid-feedback">
+                    Необходимо указать имя
                 </div>
             </div>
-
-            <div class="col-md-3 mb-3">
-                <div class="input-group has-validation">
-                    <span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
-                    <input type="email" class="form-control" id="email"
-                            name="email" placeholder="Ваш Email" required>
-                    <div class="invalid-feedback">
-                        Необходимо указать адрес электронной почты
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 mb-3">
-                <textarea class="form-control" id="message" placeholder="Ваше сообщение" name="message" rows="5" required></textarea>
-            </div>
-
-
-            <div class="col-md-3 mb-3">
-                <label for="photo" class="form-label">  Загрузить фото</label>
-                <input type="file" name="photo" class="form-control" id="photo">
-            </div>
-
-        <div class="text-left mb-3">
-            <button type="submit" class="btn-custom">Отправить сообщение</button>
         </div>
-    </form>
+
+        <div class="col-md-4 mb-3 mx-auto">
+            <div class="input-group has-validation">
+                <span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
+                <input type="email" class="form-control" id="email"
+                        name="email" placeholder="Ваш Email" required>
+                <div class="invalid-feedback">
+                    Необходимо указать адрес электронной почты
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3 mx-auto">
+            <textarea class="form-control" id="message" placeholder="Ваше сообщение" name="message" rows="5" required></textarea>
+        </div>
+
+
+        <div class="col-md-4 mb-3 mx-auto">
+            <label for="photo" class="form-label">  Загрузить фото</label>
+            <input type="file" name="photo" class="form-control" id="photo">
+        </div>
+
+        <div class="col-md-4 mb-3 mx-auto">
+            <div class="text-left mb-3">
+                <button type="submit" class="btn-custom">Отправить сообщение</button>
+            </div>
+        </div>
+
+</form>
 
     <!-- Div для отображения сообщения об успехе или ошибке -->
     <div id="formResponse" style="display:none;"></div>
 
-</div>
 
 <script>
 document.getElementById('contactForm').addEventListener('submit', function(event) {

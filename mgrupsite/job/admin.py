@@ -1,6 +1,8 @@
 from django.contrib import admin, messages
 from .forms import TagsForm
 from .models import Post, Comment, Article, Project, Category, Photo
+from django.utils.html import format_html
+from easy_thumbnails.files import get_thumbnailer
 
 
 @admin.register(Post)
@@ -47,17 +49,27 @@ class CommentAdmin(admin.ModelAdmin):
 
 class PhotoInline(admin.TabularInline):
     model = Photo
-    extra = 1  # Количество пустых полей для добавления фотографий
+    extra = 1
 
 @admin.register(Project)
-class CommentAdmin(admin.ModelAdmin):
+class ProjectAdmin(admin.ModelAdmin):
      fields = [("title", 'slug'), "body"]
-     list_display = ['title', 'publish',]
+     list_display = ['title', 'publish','thumbnail']
      prepopulated_fields = {'slug': ('title',)}
      list_filter = ['publish']
      search_fields = ['title', 'body']
      ordering = ['publish']
      inlines = [PhotoInline]
+
+     def thumbnail(self, obj):
+         if obj.photo_set.exists():  # Проверяем, есть ли фотографии у проекта
+             # Генерируем миниатюру первой фотографии проекта
+             thumb_url = get_thumbnailer(obj.photo_set.first().image)['admin_thumb'].url
+             return format_html('<img src="{}" style="width: 50px; height:50px;" />', thumb_url)
+         return "Нет фото"
+
+     thumbnail.short_description = "Миниатюра"
+
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):

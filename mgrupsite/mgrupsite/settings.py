@@ -38,6 +38,7 @@ SITE_ID = 1
 # Application definition
 
 INSTALLED_APPS = [
+    'easy_thumbnails',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -141,6 +142,12 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/'media'
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'admin_thumb': {'size': (100, 100), 'crop': True},
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

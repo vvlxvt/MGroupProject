@@ -196,10 +196,12 @@ def article_detail(request,article):
 
 def home(request):
     posts = Post.published.all()
+    cats = Category.objects.all()
     title = 'МалярГрупп ваш подрядчик по промышленной и коммерческой покраске'
     context = {'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY,
                'services': services,
                'posts':posts,
+               'cats': cats,
                'title':title,
                }
 

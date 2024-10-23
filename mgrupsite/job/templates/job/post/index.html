@@ -50,12 +50,17 @@
             <div class="col-lg-6 col-sm-3 mb-5">
                 <p class="h4 text-center text-decoration-none">Наши услуги</p>
                 <ol class="list-unstyled fs-1">
-                    {% for key in facemenu %}
+                    {% for cat in cats %}
+                    <ul>
                         <li class="list-group-item fs-5">
-                            <a href="{% url key.url_name %}?category={{ key.slug }}" class="text-decoration-none">
-                            {{ forloop.counter }}. {{ key.title }}
+                            <a href="{{ cat.get_absolute_url }}" class="text-decoration-none">
+                            {{ forloop.counter }}. {{ cat.name }}
                             </a>
                         </li>
+                        <li class="text-decoration-none fs-6">
+                            {{ cat.summary }}
+                        </li>
+                    </ul>
                     {% endfor %}
                 </ol>
         </div>
