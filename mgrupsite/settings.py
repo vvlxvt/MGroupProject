@@ -152,19 +152,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # SERVER_EMAIL = EMAIL_HOST_USER
 # EMAIL_ADMIN = EMAIL_HOST_USER
 
-
 # TELEGRAM_BOT_TOKEN = config('TELEGRAM_BOT_TOKEN')
 TELEGRAM_BOT_TOKEN = env('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = env('TELEGRAM_CHAT_ID')
-WEBHOOK_HOST = 'https://b14c-94-43-154-7.ngrok-free.app'
-# WEBHOOK_HOST = 'https://mgroup-vvlxvt.amvera.io'
+# WEBHOOK_HOST = 'https://b14c-94-43-154-7.ngrok-free.app'
+WEBHOOK_HOST = 'https://mgroup-vvlxvt.amvera.io'
 WEBHOOK_PATH = '/webhook'
 WEBHOOK_URL = f'{WEBHOOK_HOST}{WEBHOOK_PATH}'
 # NGROK_TOKEN = config('NGROK_TOKEN')
 # TG_SERVER_HOST = "127.0.0.1"
 TG_SERVER_HOST = "0.0.0.0"
-TG_SERVER_PORT = 8001   # for ngrok
-# TG_SERVER_PORT = 80
+# TG_SERVER_PORT = 8001   # for ngrok
+TG_SERVER_PORT = 80
 # GOOGLE_MAPS_API_KEY = config('GOOGLE_MAPS_API_KEY')
 GOOGLE_MAPS_API_KEY = env('GOOGLE_MAPS_API_KEY')
 
