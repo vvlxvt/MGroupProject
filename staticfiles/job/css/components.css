@@ -1,0 +1,132 @@
+* ================================
+   Компоненты
+================================= */
+
+.my-logo-text {
+    filter: url(#highlight);
+    }
+
+
+.btn-custom {
+    padding: var(--spacing-small) var(--spacing-base);
+    display: inline-block;
+    text-decoration: none;
+    font-size: var(--font-size-base);
+    cursor: pointer;
+    background-color: #035199;
+    color: white;
+    border: solid 1px color #035199;
+    border-radius: 5px;
+    transition: background-color 0.3s ease; /* Плавный переход цвета */
+}
+
+.btn-custom:hover {
+    background-color: #02417A; /* Цвет фона при наведении */
+}
+
+.btn-custom:active {
+    background-color: #023563; /* Цвет фона при нажатии */
+}
+
+.btn-custom:focus {
+    outline: none; /* Убираем обводку при фокусе */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Тень при фокусе */
+}
+/* стиль кнопки submit */
+
+
+.card {
+  background: #fff;
+  border: var(--border-width) solid #ddd;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  overflow: hidden;
+  margin: var(--spacing-base) 0;
+}
+
+.card img {
+    width: 100%; /* Изображение заполняет ширину контейнера */
+    height: auto; /* Высота подстраивается под ширину */
+    aspect-ratio: 3 / 2; /* Устанавливаем пропорцию 3:2 */
+    object-fit: cover; /* Масштабируем изображение, обрезая лишнее */
+    object-position: center; /* Центрируем изображение */
+    border-radius: var(--border-radius);
+}
+
+#projects .card img {
+    width: 100%; /* Изображение заполняет ширину контейнера */
+    height: 100%; /* Высота подстраивается под ширину */
+    object-fit: cover; /* Масштабируем изображение, обрезая лишнее */
+    object-position: center; /* Центрируем изображение */
+    border-radius: var(--border-radius);
+}
+
+.card-body {
+  padding: var(--spacing-base);
+}
+
+.blue-bar {
+            background-color: #132F56; /* Синий фон */
+            color: white; /* Белый цвет текста */
+            display: flex; /* Используем Flexbox для равномерного распределения */
+            justify-content: space-around; /* Равномерное распределение элементов */
+            align-items: center; /* Центрирование по вертикали */
+            height: 50px; /* Высота полоски */
+            padding: 0 20px; /* Отступы по краям */
+            margin: 0 0;
+            font-family: var(--font-family-base);
+            font-size: var(--font-size-base);
+        }
+
+#map {
+    height: 700px;
+    width: 100%;
+    margin-top: var(--spacing-base);
+    scroll-margin-top: 70px; /* Высота навбара */
+}
+
+/* Стили для второй формы */
+#contactForm {
+    opacity: 0.5; /* Полупрозрачная форма */
+    pointer-events: none; /* Форма неактивна */
+    transition: opacity 0.3s ease-in-out; /* Плавное изменение прозрачности */
+}
+
+#contactForm.active {
+    opacity: 1; /* Полностью видимая форма */
+    pointer-events: auto; /* Форма становится активной */
+}
+
+.pass-key.active {
+    opacity: 0.5; /* Полупрозрачная форма */
+    pointer-events: none; /* Форма неактивна */
+    transition: opacity 0.3s ease-in-out; /* Плавное изменение прозрачности */
+}
+
+.pass-key {
+    opacity: 1; /* непрозрачная форма */
+    pointer-events: auto; /* Форма неактивна */
+}
+
+.transparent-button {
+    background-color: transparent;
+    border: 2px solid #000;
+    color: #000;
+    padding: 4px 10px;
+    text-decoration: none;
+    font-size: 1rem;
+    float: right;
+    border-radius: 8px; /* Скругленные углы */
+    cursor: pointer;
+    transition: background-color 0.3s, opacity 0.3s; /* Плавный переход */
+    opacity: 0.8; /* Начальная прозрачность */
+}
+
+.transparent-button:hover {
+    opacity: 1; /* Полностью видимая кнопка при наведении */
+    transform: scale(1.03)
+}
+
+.transparent-button:active {
+    opacity: 0.5; /* Полупрозрачная кнопка при нажатии */
+}

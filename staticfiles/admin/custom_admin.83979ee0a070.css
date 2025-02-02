@@ -1,0 +1,30 @@
+input[type="file"] {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    opacity: 50; /* Прячет стандартный элемент */
+    width: 400px; /* Устанавливает ширину для удобства размещения псевдоэлемента */
+    height: 40px; /* Устанавливает высоту для удобства размещения псевдоэлемента */
+}
+
+input[type="file"]::before {
+    content: 'Выбрать файл';
+    display: inline-block;
+    background: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="file"]:hover::before {
+    background: #0056b3;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+input[type="file"]::file-selector-button {
+    visibility: hidden;
+}

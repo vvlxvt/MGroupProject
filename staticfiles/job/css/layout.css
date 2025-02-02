@@ -1,0 +1,19 @@
+/* ================================
+   Контейнеры, сетки
+================================= */
+.container {
+  max-width: var(--max-width-container);
+  margin: 0 auto;
+  padding: 0 var(--spacing-base);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: calc(var(--spacing-small) * -1);
+}
+
+.col {
+  padding: var(--spacing-small);
+  flex: 1;
+}
