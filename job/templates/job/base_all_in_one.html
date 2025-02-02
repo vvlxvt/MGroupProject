@@ -1,0 +1,317 @@
+{% load static %}
+{% load job_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %}</title>
+    <link href="{% static 'job/css/job.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/6a1586a6f1.js" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/png" sizes="64x64" href="/media/photos/Logo/favicon/m_logo_2new2__64.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/media/photos/Logo/favicon/m_logo_new_32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/media/photos/Logo/favicon/m_logo_new_16.png">
+    <title>МалярGroup - Услуги по обработке поверхностей</title>
+</head>
+
+
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="#"> <img src="/media/photos/Logo/favicon/m_logo_2new2__64.png" alt="МалярGroup"
+                                               class="logo" alt="МалярGroup">МалярGroup</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#services">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#projects">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#articles">Articles</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Header / Hero Section -->
+<header class="text-white text-center py-3" style="background-color: #035199;">
+    <div class="container">
+        <h2 class="display-4" style="border-bottom:0">Добро пожаловать к <span style="font-weight: 400; color: #e4e4e4">МалярGroup</span>
+        </h2>
+        <p class="lead">подрядчик по промышленной и коммерческой обработке поверхностей</p>
+    </div>
+</header>
+
+<!-- Services Section -->
+<section id="services" class="bg-light py-5">
+    <div class="container">
+        <h2 class="text-center" style="margin-bottom: 50px;">Наши услуги</h2>
+        {% block content %} {% endblock %}
+    </div>
+</section>
+<hr style="border-top: 2px solid #000; margin-right: 100px; margin-left: 100px;">
+
+<!-- About Us Section -->
+<section id="about" class="py-5">
+    <div class="container">
+        <h2 class="text-center" style="margin-bottom: 50px;">Преимущества компании «Маляр Групп»</h2>
+        <div class="row">
+            <div class="col-lg-6 col-md-6 mb-4">
+                <br>
+                <p><strong>Опыт и профессионализм</strong></p>
+                <p>С 2013 года на строительном рынке, компания «Маляр Групп» зарекомендовала себя как надежный и
+                    профессиональный партнер. В штате — квалифицированные специалисты: маляры, штукатуры, альпинисты и
+                    другие, готовые решать самые сложные задачи.</p>
+                <p><strong>Высокая производительность</strong></p>
+                <p>Наши бригады, состоящие из двух маляров, могут окрасить до 1500 м² за один 8-часовой рабочий день.
+                    Используем метод безвоздушного распыления, который снижает образование опыла, уменьшает расход
+                    материала и стоимость услуг.</p>
+            </div>
+
+            <div class="col-lg-6 col-md-6 mb-4">
+                <p><strong>Современные технологии</strong></p>
+                <p>Работаем на профессиональном оборудовании <a href="https://www.graco.com/us/en.html" target="_blank"
+                                                                rel="noopener noreferrer"> <img
+                        src="/media/photos/Logo/favicon/graco-min.png" class="logo" alt="Graco Inc"></a> — мирового
+                    лидера в разработке и внедрении новых технологий обработки поверхностей.</p>
+                <p><strong>Удобство и поддержка</strong></p>
+                <p>На нашем сайте вы можете изучить технологии, рассчитать количество материалов и получить бесплатную
+                    консультацию специалиста. Специалист поможет составить смету и договор, обеспечив быстрый и удобный
+                    процесс.</p>
+                <strong>Контакт и консультации</strong>
+                <p>Ознакомьтесь с нашим каталогом, отправьте запрос через сайт или свяжитесь с нами по телефону для
+                    консультации.</p>
+            </div>
+        </div>
+    </div>
+</section>
+<hr style="border-top: 2px solid #000; margin-right: 100px; margin-left: 100px;">
+<!-- Projects Section -->
+<section id="projects" class="py-5">
+    <h2 class="text-center" style="margin-bottom: 50px;">Наши проекты</h2>
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-8 col-sm-4 mb-5 my-carousel ">
+                <h3 class="my-invisible-text">География OO</h3>
+                <div id="carouselExampleCaptions" class="carousel slide carousel-fade">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0"
+                                class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                                aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                                aria-label="Slide 3"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
+                                aria-label="Slide 4"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4"
+                                aria-label="Slide 5"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="5"
+                                aria-label="Slide 6"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="/media/products/pokraska-fasadov-kra.jpg" class="d-block w-100" alt="...">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Покраска фасадов зданий</h5>
+                                <p>Some representative placeholder content for the first slide.</p>
+                            </div>
+                        </div>
+
+                        <div class="carousel-item">
+                            <img src="/media/products/pokraska-fasadov-zda.jpg" class="d-block w-100" alt="...">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Second slide label</h5>
+                                <p>Some representative placeholder content for the second slide.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="/media/products/pokraska_fasadov2_o.jpg" class="d-block w-100" alt="2_o">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Third slide label</h5>
+                                <p>Some representative placeholder content for the third slide.</p>
+                            </div>
+                        </div>
+
+                        <div class="carousel-item">
+                            <img src="/media/products/pokraska_fasadov4_o.jpg" class="d-block w-100" alt="4_o">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Third slide label</h5>
+                                <p>Some representative placeholder content for the forth slide.</p>
+                            </div>
+                        </div>
+
+                        <div class="carousel-item">
+                            <img src="/media/products/pokraska_fasadov5_o.jpg" class="d-block w-100" alt="5_o">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Third slide label</h5>
+                                <p>Some representative placeholder content for the fifth slide.</p>
+                            </div>
+                        </div>
+
+                        <div class="carousel-item">
+                            <img src="/media/products/pokraska_fasadov6_o.jpg" class="d-block w-100" alt="6_o">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Third slide label</h5>
+                                <p>Some representative placeholder content for the sixth slide.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+                            class="visually-hidden">Previous</span>
+                    </button>
+
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span> <span
+                            class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-sm-2 mb-5 my-row">
+                <h3>География наших объектов</h3>
+                <a href="#"><img src="/media/Krasnoyarskiy_krai.png" alt="карта Goggle" class="img-fluid" alt="Responsive image"></a>
+            </div>
+
+        </div>
+    </div>
+</section>
+<hr style="border-top: 2px solid #000; margin-right: 100px; margin-left: 100px;">
+
+<!-- Articles Section -->
+<section id="articles" class="bg-light py-5">
+    <div class="container">
+        <h2 class="text-center" style="margin-bottom: 50px;">Статьи</h2>
+        {% include "job/article/article_list.html" with articles=articles %}
+    </div>
+</section>
+<hr style="border-top: 2px solid #000; margin-right: 100px; margin-left: 100px;">
+
+<!-- Contact Section -->
+<section id="contact" class="py-5">
+    <div class="container">
+        <h2 class="text-center" style="margin-bottom: 50px;">Свяжитесь с нами</h2>
+        <form>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="name" class="form-label">Name</label> <input type="text" class="form-control" id="name"
+                                                                             placeholder="Your Name">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="email" class="form-label">Email</label> <input type="email" class="form-control"
+                                                                               id="email" placeholder="Your Email">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="message" class="form-label">Message</label> <textarea class="form-control" id="message"
+                                                                                  rows="4"
+                                                                                  placeholder="Your Message"></textarea>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-3">
+    <section class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-6">
+                    <h4>Информация</h4>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Главная</a></li>
+                        <li><a href="#">О компании</a></li>
+                        <li><a href="#">Вакансии</a></li>
+                        <li><a href="#">Контакты</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3 col-6">
+                    <h4>Время работы</h4>
+                    <ul class="list-unstyled">
+                        <li>Красноярск ул. Кипрейная 11</li>
+                        <li>пн-пт: 10:00 - 18:00</li>
+                        <li>сб-вс: 10:00 - 16:00</li>
+                        <li>без перерыва</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3 col-6">
+                    <h4>Контакты</h4>
+                    <ul class="list-unstyled">
+                        <li><a href="tel:555591331696">(555)591-331-696</a></li>
+                        <li><a href="tel:555591331697">(555)591-331-697</a></li>
+                        <li><a href="tel:555591331698">(555)591-331-698</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3 col-6">
+                    <h4>Мы в сети</h4>
+                    <div class="footer-icons">
+                        <a href="https://www.facebook.com/login.php/"> <i class="fab fa-facebook-f"></i></a> <a
+                            href="#"> <i class="fab fa-youtube"></i></a> <a
+                            href="https://www.instagram.com/accounts/login/"> <i class="fab fa-instagram"></i></a> <a
+                            href="#"> <i class="fa-brands fa-telegram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="mb-0">&copy; 2024 Company Name. All rights reserved.</p>
+        <p>Follow us on <a href="#" class="text-white">Social Media</a></p>
+    </section>
+</footer>
+
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script>
+
+    <!--Сохраняем позицию скролла перед переходом-->
+            document.addEventListener('DOMContentLoaded', function() {
+                const links = document.querySelectorAll('.pagination a');
+
+                links.forEach(link => {
+                    link.addEventListener('click', function(event) {
+                        event.preventDefault(); // Предотвращаем стандартное поведение ссылки
+
+    <!--Сохраняем текущую позицию скролла в localStorage-->
+                        localStorage.setItem('scrollPosition', window.scrollY);
+
+                        // Переходим по новому URL
+                        window.location.href = this.href;
+                    });
+                });
+
+    <!--Восстанавливаем позицию скролла после загрузки страницы-->
+                window.addEventListener('load', function() {
+                    const scrollPosition = localStorage.getItem('scrollPosition');
+                    if (scrollPosition !== null) {
+                        window.scrollTo(0, parseInt(scrollPosition));
+                        localStorage.removeItem('scrollPosition'); // Удаляем сохраненную позицию после восстановления
+                    }
+                });
+            });
+</script>
+</body>
+</html>

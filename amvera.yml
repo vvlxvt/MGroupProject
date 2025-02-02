@@ -1,0 +1,12 @@
+meta:
+  environment: python
+  toolchain:
+    name: python
+    version: "3.11"
+build:
+  requirementsPath: requirements.txt
+run:
+  command: gunicorn mgrupsite.wsgi:application --bind 0.0.0.0:80
+  persistenceMount: /data
+  containerPort: "80"
+  servicePort: "80"

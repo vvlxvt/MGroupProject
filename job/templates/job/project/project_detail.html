@@ -1,0 +1,45 @@
+{% extends "job/base.html" %}
+{% load static %}
+
+{% block title %}
+<title>{{ page_title }} </title>
+{% endblock %}
+
+{% block projects %}
+
+<div class="container" id="project">
+        <article>
+            <p>{{ project.body}}</p>
+        </article>
+    <div class="row mt-4 g-3">
+        {% for photo in project.photos.all %}
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="image-wrapper">
+                    <img class="img-fluid clickable-image" src="{{ photo.image.url }}"
+                         alt="Project Image"
+                         data-bs-toggle="modal"
+                         data-bs-target="#imageModal{{ forloop.counter }}">
+                </div>
+             <!-- Modal -->
+                <div class="modal fade" id="imageModal{{ forloop.counter }}" tabindex="-1"
+                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <img src="{{ photo.image.url }}" class="img-fluid" alt="Project Image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+{% endblock %}
+
+
+
+
+
+
+
+
+

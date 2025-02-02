@@ -1,0 +1,42 @@
+{% extends "job/base.html" %}
+{% load job_tags %}
+{% block meta_description %}{{meta_description}}{% endblock %}
+{% block content %}
+<section id="search" class="bg-light py-3">
+    <div class="container">
+        {% if request.GET %}
+            {% if query %}
+                <p class="fs-5">Посты, которые содержат "{{ query }}"</p>
+
+                {% with results.count as total_results %}
+                    <p class="fs-5">Найдено {{ total_results }} результат(-а)</p>
+                {% endwith %}
+
+                <div class="row">
+                    {% for post in results %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                {% if post.photo %}
+                                    <p><img class="d-block w-100" src="{{ post.photo.url }}" alt="{{ post.title }}"></p>
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ post.title }}</h5>
+                                    <p class="card-text">{{ post.body|markdown|truncatewords_html:12 }}</p>
+                                    <a href="{{ post.get_absolute_url }}" class="btn btn-primary"
+                                       style="background-color:#035199; border-color:#035199;">Узнать больше</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p>Нет результатов запроса</p>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>Пожалуйста, введите запрос для поиска.</p>
+            {% endif %}
+        {% else %}
+            <p>Поиск по статьям будет отображен здесь.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

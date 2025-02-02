@@ -1,0 +1,11 @@
+<div class="container-fluid">
+    <div class="row g-0">
+        {% for photo in project.photos.all %}
+            <div class="col-12 col-sm-6">
+                <div class="image-wrapper">
+                    <img src="{{ photo.image.url }}" alt="Photo" class="img-fluid">
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

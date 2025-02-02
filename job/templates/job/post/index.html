@@ -1,0 +1,48 @@
+{% extends "job/base.html" %}
+{% load static %}
+
+{% block meta_description %}{{meta_description}}{% endblock %}
+{% block landing %}
+<div class="image text-white main_photo p-4">
+    <p class="text-center logo-font" style="font-size:96px; background:transparent;">Mаляр <span
+            style="font-family:'Cuprum';font-size:96px;">Групп</span></p>
+    <p class="display-5 text-center"><strong>подрядчик по промышленной и коммерческой покраске</strong></p>
+
+</div>
+<div class="blue-bar">
+    <span>КАЧЕСТВЕННЫЕ МАТЕРИАЛЫ</span> <span>СПЕЦИАЛИСТЫ СВОЕГО ДЕЛА</span> <span>ВЫБОР ЦВЕТА</span>
+</div>
+<section id="landing" class="bg-white py-3">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-8 mx-auto mb-5">
+                <p class="h4 text-center text-decoration-none">Наши услуги</p><br>
+               {% for post in posts %}
+                    <div class="col mx-auto mb-4">
+                        <div class="card mb-4 flex-md-row {% if forloop.counter|divisibleby:2 %}flex-md-row-reverse{% endif %} border-0">
+                            <!-- Изображение поста -->
+                            <div class="col  p-0">
+                                {% if post.photo %}
+                                    <img src="{{post.photo.url}}">
+                                {% else %}
+                                    <p><img class="custom-image img-fluid" src="{% static 'job/images/default-image.jpg' %}" alt="Description"></p>
+                                {% endif %}
+                            </div>
+
+                            <!-- Содержимое карточки -->
+                            <div class="col d-flex flex-column justify-content-center p-3">
+                                <h4 class="article-title text-start mb-3">
+                                    <a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h4>
+                                <p>{{ post.summary|linebreaksbr}}</p>
+                            </div>
+                        </div>
+                    </div>
+                <hr>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+</section>
+ {% endblock %}
