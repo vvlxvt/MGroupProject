@@ -120,8 +120,13 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR/"static"]
-STATIC_ROOT = BASE_DIR/'staticfiles'
+
+# Правильная конкатенация пути с использованием Pathlib
+STATICFILES_DIRS = [BASE_DIR / 'static']
+
+# Место, куда будут собраны статические файлы при выполнении команды `collectstatic`
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 STORAGES = {
     "staticfiles": {
         "BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
