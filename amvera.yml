@@ -1,12 +1,14 @@
 meta:
   environment: python
   toolchain:
-    name: python
+    name: pip
     version: "3.11"
+
 build:
   requirementsPath: requirements.txt
+
 run:
-  command: cd mgrupsite && gunicorn mgrupsite.wsgi:application --env DJANGO_SETTINGS_MODULE=mgrupsite.settings --bind 0.0.0.0:80
+  command: gunicorn mgrupsite.wsgi:application --env DJANGO_SETTINGS_MODULE=mgrupsite.settings --chdir mgrupsite --bind 0.0.0.0:80
   persistenceMount: /data
   containerPort: "80"
   servicePort: "80"
