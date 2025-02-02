@@ -12,6 +12,7 @@ DEBUG = False
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=['mgroup-vvlxvt.amvera.io', 'localhost'])
 
 
+
 SITE_ID = 1
 # Application definition
 
