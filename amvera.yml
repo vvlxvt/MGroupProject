@@ -11,7 +11,7 @@ run:
   command: |
     python manage.py migrate --noinput &&
     python manage.py collectstatic --noinput &&
-    gunicorn mgrupsite.wsgi:application --env DJANGO_SETTINGS_MODULE=mgrupsite.settings --chdir mgrupsite --bind 0.0.0.0:80 --log-level debug
+    gunicorn mgrupsite.wsgi:application --chdir mgrupsite --bind 0.0.0.0:80 --log-level info
 
   persistenceMount: /data
   containerPort: "80"
