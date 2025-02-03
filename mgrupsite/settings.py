@@ -126,7 +126,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Место, куда будут собраны статические файлы при выполнении команды `collectstatic`
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = "/data/static"
 
 
 STORAGES = {
