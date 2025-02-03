@@ -128,9 +128,16 @@ STATIC_URL = '/static/'
 # Место, куда будут собраны статические файлы при выполнении команды `collectstatic`
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+
 STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "OPTIONS": {
+            "location": BASE_DIR / "media",
+        },
+    },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
 
