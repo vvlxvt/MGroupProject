@@ -6,7 +6,7 @@ env = Env()
 env.read_env()
 
 SECRET_KEY=env('SECRET_KEY')
-DEBUG = False
+DEBUG = True
 
 # ALLOWED_HOSTS = [] # для разработки
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=['mgroup-vvlxvt.amvera.io', 'localhost'])
