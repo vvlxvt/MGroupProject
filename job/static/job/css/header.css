@@ -1,0 +1,49 @@
+header {
+    background-image: url('../images/mgroup24_corner.png');
+    background-position: top left;
+    padding-bottom: 0;
+    background-repeat: no-repeat;
+    background-size: contain; /* Размер по умолчанию, можно использовать cover или contain */
+    }
+
+#navbarNav *  {
+    font-family: 'NeoSansPro';
+    }
+
+
+/* Стили для выпадающего меню */
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Скрываем выпадающее меню по умолчанию */
+.dropdown-menu {
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Стили для навигационных элементов */
+.navbar-nav .nav-link {
+    cursor: pointer;
+}
+
+/* Стили для активного состояния ссылок */
+.navbar-nav .nav-link .active {
+    font-weight: bold;
+}
+
+.navbar-nav .nav-item {
+    margin-left: 30px;
+    }
+
+.nav-list {
+    margin-bottom: 200px
+    }
+
+
+

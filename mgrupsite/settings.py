@@ -123,7 +123,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Правильная конкатенация пути с использованием Pathlib
-# STATICFILES_DIRS = [BASE_DIR / 'static']
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Место, куда будут собраны статические файлы при выполнении команды `collectstatic`
 STATIC_ROOT = BASE_DIR / 'staticfiles'
