@@ -15,7 +15,7 @@
 .image.main_photo {
     width: 100%; /* Full-width container */
     height: 600px; /* Set desired height for the background */
-    background-image: url('../images/IMG_1713.jpg');
+    background-image: url('/static/job/images/IMG_1713.jpg');
     background-size: cover; /* Ensures image covers the entire div */
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Prevents repeating the image */
