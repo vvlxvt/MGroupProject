@@ -10,6 +10,7 @@ build:
 run:
   command: |
     python manage.py migrate --noinput &&
+    python manage.py check &&
     gunicorn mgrupsite.wsgi:application --chdir mgrupsite --bind 0.0.0.0:80 --log-level info
 
   persistenceMount: /data
