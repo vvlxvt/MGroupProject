@@ -9,7 +9,7 @@ from bot_instance import bot
 
 project_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(project_path)
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mgrupsite.mgrupsite.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mgrupsite.settings')
 import django
 django.setup()
 from tgbot.scripts import vars, handlers

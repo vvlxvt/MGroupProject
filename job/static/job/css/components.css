@@ -71,7 +71,7 @@
             display: flex; /* Используем Flexbox для равномерного распределения */
             justify-content: space-around; /* Равномерное распределение элементов */
             align-items: center; /* Центрирование по вертикали */
-            height: 50px; /* Высота полоски */
+            height: 35px; /* Высота полоски */
             padding: 0 20px; /* Отступы по краям */
             margin: 0 0;
             font-family: var(--font-family-base);
