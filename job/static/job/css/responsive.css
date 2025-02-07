@@ -16,3 +16,81 @@
 }
 
 
+/* 📱 Маленькие мобильные устройства (до 576px) */
+@media (max-width: 576px) {
+    :root {
+        --font-size-base: 0.875rem; /* 14px */
+        --spacing-small: 0.5rem;
+        --button-size: 40px;
+    }
+
+    body {
+        font-size: var(--font-size-base);
+        padding: var(--spacing-small);
+    }
+
+    .container {
+        width: 100%;
+        padding: var(--spacing-small);
+    }
+
+    .menu {
+        display: block;
+        text-align: center;
+    }
+
+    .button {
+        width: var(--button-size);
+        height: var(--button-size);
+    }
+}
+
+/* 📱 Средние мобильные устройства (577px – 768px) */
+@media (min-width: 577px) and (max-width: 768px) {
+    :root {
+        --font-size-base: 0.9375rem; /* 15px */
+        --spacing-small: 0.75rem;
+        --button-size: 45px;
+    }
+
+    body {
+        font-size: var(--font-size-base);
+        padding: var(--spacing-small);
+    }
+
+    .container {
+        max-width: 95%;
+        padding: var(--spacing-small);
+    }
+
+    .menu {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* 📱 Большие мобильные устройства и планшеты (769px – 992px) */
+@media (min-width: 769px) and (max-width: 992px) {
+    :root {
+        --font-size-base: 1rem; /* 16px */
+        --spacing-small: 1rem;
+        --button-size: 50px;
+    }
+
+    body {
+        font-size: var(--font-size-base);
+        padding: var(--spacing-small);
+    }
+
+    .container {
+        max-width: 85%;
+        padding: var(--spacing-small);
+    }
+
+    .menu {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+}

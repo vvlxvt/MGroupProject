@@ -33,7 +33,14 @@
                             <div class="col d-flex flex-column justify-content-center p-3">
                                 <h4 class="article-title text-start mb-3">
                                     <a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h4>
-                                <p>{{ post.summary|linebreaksbr}}</p>
+                                <ul>
+                                    {% for post_article in post.postarticle_set.all|dictsort:"number" %}
+                                        <li><a href="{% url 'job:article_detail' slug=post_article.article.slug %}">{{ post_article.number }}. {{ post_article.article.title }}</a></li>
+
+                                    {% empty %}
+                                        <li>Нет связанных статей.</li>
+                                    {% endfor %}
+                                </ul>
                             </div>
                         </div>
                     </div>

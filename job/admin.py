@@ -1,9 +1,13 @@
 from django.contrib import admin, messages
 from django.forms import ModelForm
 from .forms import TagsForm
-from .models import Post, Article, Project, Category, Photo, Contact
+from .models import Post, Article, Project, Category, Photo, Contact, PostArticle
 from django.utils.html import format_html
 
+
+class PostArticleInline(admin.TabularInline):
+    model = PostArticle
+    extra = 1  # Количество пустых строк для добавления новых связей
 
 @admin.register(Post)
 class JobAdmin(admin.ModelAdmin):
@@ -17,6 +21,7 @@ class JobAdmin(admin.ModelAdmin):
     date_hierarchy = 'publish'
     ordering = ['status', 'publish']
     actions = ['set_published', 'set_draft']
+    inlines = [PostArticleInline]  # Вставляем связь через промежуточную модель
 
     @admin.action(description='Опубликовать выбранные записи')
     # добавляем действие к выбранным записям в админку
@@ -30,8 +35,6 @@ class JobAdmin(admin.ModelAdmin):
         self.message_user(request, f'{count} записей снято с публикации', messages.WARNING)
 
 
-
-
 @admin.register(Article)
 class CommentAdmin(admin.ModelAdmin):
      fields = [("title", 'slug'), "body", "photo",]
@@ -40,6 +43,7 @@ class CommentAdmin(admin.ModelAdmin):
      list_filter = ['publish']
      search_fields = ['title', 'body']
      ordering = ['publish']
+
 
 
 class PhotoForm(ModelForm):

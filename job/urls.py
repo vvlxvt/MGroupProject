@@ -1,10 +1,8 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
-
 from . import views
 from .feeds import LatestPostsFeed
-
 
 app_name = 'job'  # определяю пространство имен для приложения
 
@@ -15,7 +13,7 @@ urlpatterns = [
     path('about/', views.AboutView.as_view(), name = 'about'),
     path('articles/',views.ArticleListView.as_view(), name = 'article_list'),
     path('projects/',views.ProjectListView.as_view(), name = 'projects'),
-    path('articles/<slug:article>/', views.article_detail, name='article_detail'),
+    path('articles/<slug:slug>/', views.ArticleDetailView.as_view(), name='article_detail'),
     path('projects/<slug:project>/', views.project_detail, name='project_detail'),
     path('<int:year>/<int:month>/<int:day>/<slug:post>/', views.post_detail, name='post_detail'),
     path('feed/', LatestPostsFeed(), name='post_feed'),

@@ -3,7 +3,7 @@ import re
 import requests, json
 from django.db import IntegrityError
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView, TemplateView, DetailView
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Count
 from django.conf import settings
@@ -158,22 +158,24 @@ class ArticleListView(DataMixin, ListView):
     context_object_name = 'articles'
     template_name = 'job/article/article_list.html'
 
-
     def get_queryset(self):
         return Article.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['meta_description'] = f"Популярные статьи о способах обработки поверхностей"
-
         return context
 
-def article_detail(request,article):
-    article = get_object_or_404(Article, slug=article)
-    context={'title': article,
-            'article': article,
-             'meta_description': article,}
-    return render(request,'job/article/article_detail.html',context)
+class ArticleDetailView(DetailView):
+    model = Article
+    template_name = 'job/article/article_detail.html'
+    context_object_name = 'article'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.object.title
+        context['meta_description'] = f"Cтатья о {self.object.title}"
+        return context
 
 class ProjectListView(DataMixin, ListView):
     title_page = 'Выполненные проекты'
@@ -214,7 +216,8 @@ def project_detail(request,project):
     return render(request,'job/project/project_detail.html',context)
 
 def home(request):
-    posts = Post.published.all()
+    # posts = Post.published.all()
+    posts = Post.published.prefetch_related('postarticle_set__article').all()
     locations = Project.objects.all()
     locations_list = [{'id': place.id, 'position': {'lat': place.lat, 'lng': place.lng}, 'title': place.title} for place in locations]
     # title = 'МалярГрупп'

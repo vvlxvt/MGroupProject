@@ -39,6 +39,7 @@ class Post(models.Model):
     verbose_name="Категория") # чтобы добавить поле надо сделать сначала с null=True, потом без него
     photo = models.ImageField(upload_to=upload_to, default=None, blank=True, null=True,
                               verbose_name='Фото')
+    articles = models.ManyToManyField('Article', through='PostArticle', related_name='posts')
 
     class Meta:
         ordering = ['id']
@@ -92,6 +93,11 @@ class Article (models.Model):
         # возвращает канонический URL-адрес объекта
         return reverse('job:article_detail',
                        args=[self.slug])
+
+class PostArticle(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    number = models.IntegerField(blank=True)
 
 class Project(models.Model):
     title = models.CharField(max_length=250)
