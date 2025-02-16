@@ -1,64 +1,8 @@
+from itertools import zip_longest
 from random import random
 
-
-namespace = 'job'
-
-menu = {
-    'about': {'title': 'О нас', 'url_name': f'{namespace}:about'},
-    'services': {
-        'title': 'Услуги',
-        'url_name': f'{namespace}:post_list',
-        'submenus': [
-            {'title': 'Покраска и антикоррозийная обработка поверхностей', 'url_name': f'{namespace}:post_list', 'slug': 'pokraska-i-antikorrozijnaya-obrabotka-poverhnostej'},
-            {'title': 'Пескоструйная и гидроструйная обработка поверхности', 'url_name': f'{namespace}:post_list', 'slug': 'peskostrujnaya-i-gidrostrujnaya-obrabotka-poverhnosti'},
-            {'title': 'Огнезащитная обработка металла и древесины', 'url_name': f'{namespace}:post_list', 'slug': 'ognezashitnaya-obrabotka-metalla-i-drevesiny'},
-            {'title': 'Нанесение жидких теплоизоляционных материалов', 'url_name': f'{namespace}:post_list', 'slug': 'nanesenie-zhidkih-teploizolyacionnyh-materialov'},
-            {'title': 'Нанесение гидроизоляционных материалов', 'url_name': f'{namespace}:post_list', 'slug': 'nanesenie-gidroizolyacionnyh-materialov'},
-            {'title': 'Нанесение декоративной штукатурки', 'url_name': f'{namespace}:post_list', 'slug': 'nanesenie-dekorativnoj-shtukaturki'},
-        ]
-    },
-    'articles': {'title': 'Статьи', 'url_name': f'{namespace}:article_list'},
-    'projects': {'title': 'Проекты', 'url_name': f'{namespace}:projects'},
-    'contacts': {'title': 'Контакты', 'url_name': f'{namespace}:contacts'},
-}
-
-services = {
-    'industrial_painting': {'title': 'Промышленная покраска',
-                            'url_name': '#',
-                            'submenus': [
-                                        {'title': 'Покраска металлоконструкций', 'url_name': 'pokraska-metallokonstrukcij'},
-                                        {'title': 'Покраска помещений', 'url_name': '#'},
-                                        {'title': 'Покраска фасадов', 'url_name': '#'},
-                                        {'title': 'Покраска резервуаров', 'url_name': '#'}, ],
-                            },
-            'commercial_painting': {'title': 'Коммерческая покраска',
-                                    'url_name': '#',
-                                    'submenu': [
-                                                {'title': 'Покраска жилых помещенией', 'url_name':'#'},
-                                                {'title': 'Покраска общих помещений', 'url_name':'#'},
-                                                {'title': 'Покраска офисов', 'url_name': '#'},
-                                                {'title': 'Покраска квартир', 'url_name': '#'},
-                                                {'title': 'Покраска деревянных поверхностей', 'url_name': '#'},
-                                                {'title': 'Нанесение декоративных штукатурок', 'url_name': '#'}, ],
-                                    },
-            'surface_treatment': {'title': 'Обработка поверхностей',
-                                  'url_name': '#',
-                                  'submenu': [
-                                                {'title': 'Пескоструйная очистка', 'url_name': '#'},
-                                                {'title': 'Огнезащита', 'url_name': '#'},
-                                                {'title': 'Антикорозийная обработка', 'url_name': '#'}, ],
-                                        },
-                'insulation_application': {'title': 'Нанесение изоляции',
-                                           'url_name': '#',
-                                           'submenu': [
-                                                {'title': 'Нанесение термоизоляции', 'url_name': '#'},
-                                                {'title': 'Что-то еще', 'url_name': '#'},]
-                                           },
-    }
-
-
 class DataMixin:
-    paginate_by = 3
+    paginate_by = 6
     title_page = None
     extra_context = {}
 
@@ -67,8 +11,12 @@ class DataMixin:
             self.extra_context['title'] = self.title_page
 
 
-from django.core.cache import cache
 import random
+def generate_verification_code():
+    code = random.randint(1000, 9999)
+    return code
+
+from django.core.cache import cache
 
 # def generate_verification_code_with_cache(tg_username):
 #     code = random.randint(1000, 9999)
@@ -80,6 +28,27 @@ import random
 #     if not cached_code:
 #         return False
 #     return True if cached_code == input_code else False
-def generate_verification_code():
-    code = random.randint(1000, 9999)
-    return code
+
+advantages = {
+    "Гарантия на работы": "На все выполненные работы мы даем официальную гарантию",
+    "Цена известна заранее": "Она фиксирована. Мы составляем план и детальную смету. Полный документооборот",
+    "Дизайн проект": "Может быть полностью ваш или доработан после консультации наших специалистов",
+    "Качественные материалы": "Работаем с лучшими, проверенными производителями оборудования и материалов",
+    "Специалисты своего дела": "Мы за разделение труда. Над каждым проектом работают специалисты узкого профиля",
+    "Выбор цвета": "Предоставляем полный спектр цветов, поможем подобрать оттенок для объекта"
+}
+
+partners = {
+    'Роснефть': "static/job/images/partners/partners-rosneft.png",
+    'Красэнерго': "static/job/images/partners/partners-krasenergo.png",
+    'Лента': "static/job/images/partners/partners-lenta.png",
+    'РН-Бурение': "static/job/images/partners/partners-rnburenie.png"
+}
+
+def chunk_list(lst, size):
+    """Разделяет список на группы заданного размера."""
+    return list(zip_longest(*[iter(lst)] * size, fillvalue=None))
+
+
+lst = ['a','b','c','d','e','f','g']
+print(chunk_list(lst,3))

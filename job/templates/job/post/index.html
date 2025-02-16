@@ -4,28 +4,30 @@
 {% block meta_description %}{{meta_description}}{% endblock %}
 {% block landing %}
 <div class="image text-white main_photo p-4">
-    <p class="text-center logo-font" style="font-size:96px; background:transparent;">Mаляр <span
+    <p class="text-center logo-font soft-shadow" style="font-size:96px; background:transparent;color:#FFF;">Mаляр <span
             style="font-family:'Cuprum';font-size:96px;">Групп</span></p>
-    <p class="display-5 text-center"><strong>подрядчик по промышленной и коммерческой покраске</strong></p>
+    <p class="display-5 text-center soft-shadow"><strong>подрядчик по промышленной и коммерческой покраске</strong></p>
 
 </div>
 <div class="blue-bar">
     <span>КАЧЕСТВЕННЫЕ МАТЕРИАЛЫ</span> <span>СПЕЦИАЛИСТЫ СВОЕГО ДЕЛА</span> <span>ВЫБОР ЦВЕТА</span>
 </div>
-<section id="landing" class="bg-white py-3">
+<section id="landing" class="bg-white py-5">
     <div class="container">
         <div class="row g-5">
             <div class="col-8 mx-auto mb-5">
-                <p class="h4 text-center text-decoration-none">Наши услуги</p><br>
+                <p class="h3 text-center text-decoration-none">Наши услуги</p><br>
                {% for post in posts %}
                     <div class="col mx-auto mb-4">
                         <div class="card mb-4 flex-md-row {% if forloop.counter|divisibleby:2 %}flex-md-row-reverse{% endif %} border-0">
                             <!-- Изображение поста -->
                             <div class="col  p-0">
                                 {% if post.photo %}
-                                    <img src="{{post.photo.url}}">
+                                    <img src="{{post.photo.url}}" loading="lazy">
                                 {% else %}
-                                    <p><img class="custom-image img-fluid" src="{% static 'job/images/default-image.jpg' %}" alt="Description"></p>
+                                    <p><img class="custom-image img-fluid"
+                                            src="{% static 'job/images/default-image.jpg' %}"
+                                            alt="Description" loading="lazy"></p>
                                 {% endif %}
                             </div>
 
@@ -49,7 +51,202 @@
             </div>
         </div>
     </div>
-
-
 </section>
+<h4 class="blue-bar letter-spaced mb-5 mb-5">ПРЕИМУЩЕСТВА РАБОТЫ С НАМИ</h4>
+<div class="container py-4 px-3 mb-5">
+    <div class="row g-5">
+        {% for key, value in advantages.items %}
+        <div class="col-md-6 col-lg-4 mb-3">
+            <div class="p-3 bg-light text-center rounded shadow-sm position-relative">
+                <img src="static/job/images/mgroup24_corner.jpg" alt="Иконка"
+                     class="position-absolute top-0 start-0 m-2" width="50">
+                <strong>{{ key }}</strong><br>{{ value }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<h4 class="blue-bar letter-spaced mb-5">О КОМПАНИИ</h4>
+<div class="container py-4 px-3 mb-5">
+    <div class="d-flex align-items-center justify-content-center">
+        <div class="w-75 font-cuprum">
+            <p class="text-indent fs-5">"МалярГрупп" — промышленный подрядчик по покраске, который с 2013
+                года успешно
+                работает на строительном рынке. Наша компания придаёт особое значение подготовке поверхностей, используя
+                разные методы в зависимости от специфики каждого проекта. В арсенале наших специалистов —
+                высоко-напорная гидроструйная очистка, пескоструйная обработка, химическая и механическая очистка, а
+                также другие современные технологии. Опытная команда "МалярГрупп" точно знает, какой метод нанесения
+                краски или покрытия подойдет в каждой конкретной ситуации.</p><br>
+            <p class="text-indent fs-5">Мы специализируемся на безвоздушном распылении краски, но всегда тщательно
+                подбираем оптимальный метод под каждую задачу. Наши бригады работают на промышленных объектах по всему
+                Красноярскому краю, выполняя как внутренние работы в труднодоступных местах, так и наружную покраску на
+                высоте. Штат компании включает маляров, штукатуров, промышленных альпинистов и других профильных
+                специалистов. Мы беремся за задачи любой сложности: например, наши бригады, обычно состоящие из двух
+                маляров, способны окрасить до 1500 м² поверхности за одну 8-часовую смену.</p><br>
+            <p class="text-indent fs-5">На нашем сайте вы можете ознакомиться с применяемыми технологиями, рассчитать
+                количество материалов и получить бесплатную консультацию специалиста, который поможет составить смету и
+                договор.</p><br>
+            <p class="text-indent fs-5">Мы стремимся сделать процесс работы быстрым и удобным для вас. Ознакомьтесь с
+                нашим каталогом услуг и материалов или свяжитесь с нами по телефону для консультации.</p>
+        </div>
+    </div>
+</div>
+
+
+<!--<h4 class="blue-bar letter-spaced mb-5 mb-5">НАШИ ПРОЕКТЫ</h4>-->
+<!--<div class="container py-4 px-3 mb-5 " style="min-height: 300px">-->
+<!--    <div class="row g-5 h-100 align-items-stretch">-->
+<!--        {% for project in projects %}-->
+<!--        <div class="col-md-4 col-lg-3 mb-3">-->
+<!--            <div class="p-3 text-center h-100 d-flex flex-column align-items-center justify-content-center">-->
+<!--                <p class="mb-0">{{ project.title }}</p>-->
+<!--                {% if project.photos %}-->
+<!--                    {% with project.photos.first as photo %}-->
+<!--                    <img src="{{ photo.image.url }}"-->
+<!--                         alt="Project Thumbnail"-->
+<!--                         class="img-fluid" loading="lazy">-->
+<!--                    {% endwith %}-->
+<!--                {% endif %}-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
+<!--</div>-->
+
+<h4 class="blue-bar letter-spaced mb-5 mb-5">НАШИ ПРОЕКТЫ</h4>
+
+<!-- КАРУСЕЛЬ ДЛЯ БОЛЬШИХ ЭКРАНОВ -->
+<div id="carouselLg" class="carousel slide d-none d-lg-block" data-bs-ride="carousel">
+    <div class="container py-4 px-3 mb-5" style="max-height: 500px;">
+        <div class="carousel-inner">
+            {% for group in grouped_projects.lg %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="row g-3">
+                    {% for project in group %}
+                    <div class="col-lg-4">
+                        <div class="card rounded shadow-sm">
+                            {% with project.photos.first as photo %}
+                            <div class="ratio ratio-16x9 overflow-hidden rounded-top">
+                                <img src="{{ photo.image.url }}" class="img-fluid object-fit-cover w-100 h-100" alt="Project Image">
+                            </div>
+                            {% endwith %}
+                            <div class="card-body text-center p-2">
+                                <h6 class="card-title m-0"><a href="{{ project.get_absolute_url }}">{{ project.title }}</a></h6>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Навигация -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselLg" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon bg-warning rounded-circle p-3" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselLg" data-bs-slide="next">
+        <span class="carousel-control-next-icon bg-warning rounded-circle p-3" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+
+<!-- КАРУСЕЛЬ ДЛЯ СРЕДНИХ ЭКРАНОВ -->
+<div id="carouselMd" class="carousel slide d-none d-md-block d-lg-none" data-bs-ride="carousel">
+    <div class="container py-4 px-3 mb-5" style="max-height: 500px;">
+        <div class="carousel-inner">
+            {% for group in grouped_projects.md %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="row g-3">
+                    {% for project in group %}
+                    <div class="col-md-6">
+                        <div class="card rounded shadow-sm">
+                            {% with project.photos.first as photo %}
+                            <div class="ratio ratio-16x9 overflow-hidden rounded-top">
+                                <img src="{{ photo.image.url }}" class="img-fluid object-fit-cover w-100 h-100" alt="Project Image">
+                            </div>
+                            {% endwith %}
+                            <div class="card-body text-center p-2">
+                                <h6 class="card-title m-0"><a href="{{ project.get_absolute_url }}">{{ project.title }}</a></h6>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Навигация -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselMd" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon bg-warning rounded-circle p-3" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselMd" data-bs-slide="next">
+        <span class="carousel-control-next-icon bg-warning rounded-circle p-3" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+
+<!-- КАРУСЕЛЬ ДЛЯ МОБИЛЬНЫХ ЭКРАНОВ -->
+<div id="carouselSm" class="carousel slide d-block d-md-none" data-bs-ride="carousel">
+    <div class="container py-4 px-3 mb-5" style="max-height: 500px;">
+        <div class="carousel-inner">
+            {% for group in grouped_projects.sm %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="row g-3">
+                    {% for project in group %}
+                    <div class="col-12">
+                        <div class="card rounded shadow-sm">
+                            {% with project.photos.first as photo %}
+                            <div class="ratio ratio-16x9 overflow-hidden rounded-top">
+                                <img src="{{ photo.image.url }}" class="img-fluid object-fit-cover w-100 h-100" alt="Project Image">
+                            </div>
+                            {% endwith %}
+                            <div class="card-body text-center p-2">
+                                <h6 class="card-title m-0"><a href="{{ project.get_absolute_url }}">{{ project.title }}</a></h6>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Навигация -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselSm" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon bg-warning rounded-circle p-3" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselSm" data-bs-slide="next">
+        <span class="carousel-control-next-icon bg-warning rounded-circle p-3" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+
+
+<h4 class="blue-bar letter-spaced mb-5 mb-5">ПАРТНЕРЫ И ЗАКАЗЧИКИ</h4>
+<div class="container py-4 px-3 mb-5 " style="min-height: 300px">
+    <div class="row g-5 h-100 align-items-stretch">
+        {% for key, value in partners.items %}
+        <div class="col-md-4 col-lg-3 mb-3">
+            <div class="p-3 text-center h-100 d-flex flex-column align-items-center justify-content-center">
+                <img src="{{ value }}" alt="Иконка" width="70" class="mb-2">
+                <p class="mb-0">{{ key }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
  {% endblock %}
+

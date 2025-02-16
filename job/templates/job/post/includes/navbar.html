@@ -1,5 +1,5 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg navbar-light">
+<nav class="navbar navbar-expand-lg">
     <a class="navbar-brand ms-3 pt-0" href="{% url 'job:home' %}">
         <svg width="0" height="0">
             <filter id="highlight">
@@ -41,7 +41,7 @@
         <form class="d-flex ms-auto me-5" method="GET" action="{% url 'job:post_list' %}">
             <input class="form-control me-2" type="search" name="query"
                    placeholder="Поиск по статьям" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">
+            <button class="btn button search" type="submit">
              <i class="fa-solid fa-magnifying-glass"></i>
             </button>
         </form>

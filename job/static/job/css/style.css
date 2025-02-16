@@ -19,6 +19,7 @@
     background-size: cover; /* Ensures image covers the entire div */
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Prevents repeating the image */
+    color: #FFD700;
 }
 
 .text-outline {
@@ -64,12 +65,7 @@
 }
 
 
-/* Стиль для тегов */
-.my-tags {
-    font-family: var(--font-family-base)!important;
-    font-weight: var(--font-size-h6);
-    background-color: var(--color-secondary)!important;
-}
+
 
 
 /* центрование постов при навигации в остатке 2

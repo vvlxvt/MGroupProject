@@ -21,7 +21,7 @@
                                     {{ article.title }}
                                 </a>
                             </h5>
-                            <p class="card-text">{{ article.body|truncatewords:30|safe }}</p>
+                            <p class="card-text">{{ article.body|truncatewords:30|striptags|safe|cut:"&mdash;"  }}</p>
                         </div>
                     </div>
                 </div>

@@ -12,14 +12,15 @@ class PostArticleInline(admin.TabularInline):
 @admin.register(Post)
 class JobAdmin(admin.ModelAdmin):
     form = TagsForm
-    fields = [("title", 'slug'),("author","status"), "body","summary", 'tags',"cat", "photo"]
-    list_display = ['title', 'author', 'publish', 'status',"cat",'tags',]
+    fields = [("title", 'slug'),("author","status"),"number", "body",'tags',"cat", "photo"]
+    list_display = ['number','title', 'author', 'publish', 'status',"cat",]
+    list_display_links = ('number', 'title')
     prepopulated_fields = {'slug': ('title',)}
     list_filter = ['status', 'publish', 'author']
     search_fields = ['title', 'body']
     raw_id_fields = ['author']
     date_hierarchy = 'publish'
-    ordering = ['status', 'publish']
+    ordering = ['status', 'number','publish']
     actions = ['set_published', 'set_draft']
     inlines = [PostArticleInline]  # Вставляем связь через промежуточную модель
 
@@ -77,10 +78,11 @@ class ProjectAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+     fields = ["number",("name", 'slug')]
      prepopulated_fields = {'slug': ('name',)}
-     list_display = ('id', 'name')
-     list_display_links = ('id', 'name')
-     ordering = ('name',)
+     list_display = ('number', 'name',)
+     list_display_links = ('number', 'name')
+     ordering = ['number']
 
 
 @admin.register(Contact)

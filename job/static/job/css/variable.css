@@ -3,11 +3,11 @@
 ================================= */
 :root {
   /* Цветовая палитра */
-  --color-primary: #06101F; /* Основной цвет */
-  --color-secondary: #1D4782; /* Вторичный цвет*/
-  --color-accent: #0D203B; /* Акцентный цвет */
+  --color-primary: black; /* Основной цвет - чернильный синий */
+  --color-secondary: #1D4782; /* JBL blue*/
+  --color-accent: #0D203B; /* JBL dark blue*/
   --color-background: #FFF; /* Цвет фона */
-  --bs-tertiary-bg: #7A9FCC;
+  --bs-tertiary-bg: #FFF;
   --color-text: #000; /* Основной цвет текста */
 
   /* Шрифты */

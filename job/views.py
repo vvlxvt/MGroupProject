@@ -16,7 +16,7 @@ from bot_instance import bot, TOKEN, chat_id
 from taggit.models import Tag
 from .forms import ContactForm
 from .models import Post, Article, Project, Category, Contact
-from .utils import DataMixin, generate_verification_code
+from .utils import DataMixin, generate_verification_code, advantages, partners, chunk_list
 from .models import Contact
 import redis
 
@@ -218,15 +218,20 @@ def project_detail(request,project):
 def home(request):
     # posts = Post.published.all()
     posts = Post.published.prefetch_related('postarticle_set__article').all()
-    locations = Project.objects.all()
-    locations_list = [{'id': place.id, 'position': {'lat': place.lat, 'lng': place.lng}, 'title': place.title} for place in locations]
-    # title = 'МалярГрупп'
-    title = '<span>ГАРАНТИЯ НА РАБОТЫ</span> <span>ЦЕНА ИЗВЕСТНА ЗАРАНЕЕ</span> <span>ДИЗАЙН ПРОЕКТ</span>'
+    title = 'МЫ РАДЫ ПРИВЕТСТВОВАТЬ ВАС НА САЙТЕ КОМПАНИИ'
+    projects = Project.objects.only('title','slug')
+    grouped_projects = {"lg": chunk_list(list(projects), 3),  # По 3 для больших экранов
+        "md": chunk_list(list(projects), 2),  # По 2 для средних экранов
+        "sm": chunk_list(list(projects), 1),  # По 1 для мобильных
+    }
+    # projects = Project.objects.all()
     context = {
         'posts': posts,
         'title': title,
-        'locations': locations,  # Для вывода списка проектов
-        'locations_json': json.dumps(locations_list),  # Для передачи в JS
+        'grouped_projects': grouped_projects,
+        'projects': projects,
+        'partners': partners,
+        'advantages': advantages,
     }
 
     return render(request, 'job/post/index.html', context)

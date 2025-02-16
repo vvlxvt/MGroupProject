@@ -26,12 +26,12 @@ class Post(models.Model):
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique_for_date='publish')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='job_posts')
-    body = RichTextField()
-    summary = models.TextField()
+    body =  RichTextField()
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT)
+    number = models.IntegerField(blank=True, null=True)
     tags = TaggableManager(through=RuTaggedItem)
     objects = models.Manager()
     published = PublichedManager()
@@ -42,7 +42,7 @@ class Post(models.Model):
     articles = models.ManyToManyField('Article', through='PostArticle', related_name='posts')
 
     class Meta:
-        ordering = ['id']
+        ordering = ['number']
         indexes = [models.Index(fields=['-publish']),]
 
     def __str__(self):
@@ -60,7 +60,7 @@ class Post(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=100, db_index=True)
     slug = models.CharField(max_length=100, db_index=True, unique=True)
-    summary = models.TextField()
+    number = models.IntegerField(blank=True, null=True)
 
     class Meta:
         ordering = ['id']

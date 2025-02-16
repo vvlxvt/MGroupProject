@@ -25,7 +25,7 @@
                                                 {{ tag.name }}</a>
                                         {% endfor %}
                                     </h6>
-                                <p class="card-text">{{ post.summary|linebreaksbr }}</p>
+                                <p class="card-text">{{ post.body|safe|truncatewords:30 }}</p>
                             </div>
                         </div>
                     </div>

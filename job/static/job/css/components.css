@@ -6,6 +6,10 @@
     filter: url(#highlight);
     }
 
+/* мягкая тень на главной странице */
+.soft-shadow {
+  text-shadow: 0px 20px 20px #83919C;
+}
 
 .btn-custom {
     padding: var(--spacing-small) var(--spacing-base);
@@ -66,8 +70,8 @@
 }
 
 .blue-bar {
-            background-color: #132F56; /* Синий фон */
-            color: white; /* Белый цвет текста */
+            background-color: #FFD700;
+            color: black; /* черный цвет текста */
             display: flex; /* Используем Flexbox для равномерного распределения */
             justify-content: space-around; /* Равномерное распределение элементов */
             align-items: center; /* Центрирование по вертикали */
@@ -75,7 +79,7 @@
             padding: 0 20px; /* Отступы по краям */
             margin: 0 0;
             font-family: var(--font-family-base);
-            font-size: var(--font-size-base);
+            font-size: var(--font-size-large);
         }
 
 #map {
@@ -108,25 +112,96 @@
     pointer-events: auto; /* Форма неактивна */
 }
 
-.transparent-button {
+/* Общие стили для всех кнопок */
+.button {
     background-color: transparent;
-    border: 2px solid #000;
-    color: #000;
+    border-radius: 8px; /* Скругленные углы */
     padding: 4px 10px;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: var(--font-size-base);
     float: right;
-    border-radius: 8px; /* Скругленные углы */
     cursor: pointer;
-    transition: background-color 0.3s, opacity 0.3s; /* Плавный переход */
+    transition: opacity 0.3s, transform 0.2s, background-color 0.3s, color 0.3s; /* Плавные переходы */
     opacity: 0.8; /* Начальная прозрачность */
 }
 
-.transparent-button:hover {
-    opacity: 1; /* Полностью видимая кнопка при наведении */
-    transform: scale(1.03)
+/* Стили для черной кнопки */
+.transparent {
+    border: 2px solid #000;
+    color: #000;
 }
 
-.transparent-button:active {
-    opacity: 0.5; /* Полупрозрачная кнопка при нажатии */
+.transparent:hover {
+    opacity: 1; /* Полностью видимая кнопка при наведении */
+    color: black;
+    border: 2px solid black;
+    transform: scale(1.03);
+}
+
+.transparent:active {
+    opacity: 0.7;
+    background-color: transparent;
+    color: black;
+    border: 2px solid black;
+    transform: scale(0.95);
+}
+
+/* Стили для кнопки поиска */
+.search {
+    border: 2px solid #FFD700;
+    color: #FFD700;
+}
+
+.search:hover {
+    opacity: 1; /* Полностью видимая кнопка при наведении */
+    background-color: transparent;
+    color: #FFD700;
+    border: 2px solid #FFD700;
+}
+
+.search:active {
+    transform: scale(0.95); /* Легкое уменьшение при нажатии */
+    opacity: 0.7; /* Прозрачность 0.7 при нажатии */
+    background-color: transparent;
+    color: #FFD700 !important; /* Цвет текста остается золотым */
+    border: 2px solid #FFD700; /* Граница остается золотой */
+}
+
+/* Стили для поля ввода у кнопки поиска */
+.form-control {
+    color: white !important;
+    background-color: black;
+    outline: 1px solid #FFD700 !important;
+    border: 1px solid #FFD700 !important;
+    opacity: 0.8;
+}
+
+.form-control:focus {
+    color: white !important;
+    background-color: black;
+    border-color: transparent !important;
+    outline: 2px solid #FFD700;
+    border: 2px solid #FFD700;
+}
+
+.form-control::placeholder {
+    color: #FFD700; /* Желтый цвет placeholder */
+    opacity: 0.8;
+    border-color: transparent !important;
+}
+/* Стиль для разяряженного текста */
+.letter-spaced {
+  letter-spacing: 5px;
+}
+
+/* Стиль для тегов */
+.my-tags {
+    font-family: var(--font-family-base)!important;
+    font-weight: var(--font-size-h6);
+    background-color: #FFD700!important;
+    color: black!important;
+}
+
+.font-cuprum {
+    font-family:'Cuprum';
 }

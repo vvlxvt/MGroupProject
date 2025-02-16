@@ -7,9 +7,9 @@
 
 {% block projects %}
 
-<div class="container" id="project">
+<div class="container mt-4" id="project">
         <article>
-            <p>{{ project.body}}</p>
+            <p class="text-center">{{ project.body}}</p>
         </article>
     <div class="row mt-4 g-3">
         {% for photo in project.photos.all %}
