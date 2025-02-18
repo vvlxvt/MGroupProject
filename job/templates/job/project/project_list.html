@@ -89,6 +89,9 @@
             const pin = new PinElement({
                 glyph: `${i + 1}`,
                 scale: 1.0,
+                 background: "#FFD700",  // Жёлтый цвет маркера
+                 glyphColor: "#000000",  // Чёрный цвет текста внутри маркера
+                 borderColor: "#000000",  // Чёрная обводка маркера
             });
             const marker = new AdvancedMarkerElement({
                 position,
@@ -111,17 +114,19 @@
         // Обработка кликов по списку проектов
         document.querySelectorAll('.focus-on-map').forEach(button => {
             button.addEventListener('click', (event) => {
-                const projectId = parseInt(event.target.dataset.id, 10);
-                const marker = markers[projectId];
-                if (marker) {
-                    map.panTo(marker.position);
-                    map.setZoom(6); // Приближаем карту
-                    infoWindow.close();
-                    infoWindow.setContent(marker.title);
-                    infoWindow.open(map, marker);
-                }
-            });
-        });
+            event.preventDefault();
+            const projectId = parseInt(event.currentTarget.dataset.id, 10); // Используем currentTarget
+            const marker = markers[projectId];
+            if (marker) {
+                map.panTo(marker.position);
+                map.setZoom(10); // Приближаем карту
+                infoWindow.close();
+                infoWindow.setContent(marker.title);
+                infoWindow.open(map, marker);
+            }
+    });
+});
+
     }
 
     initMap();

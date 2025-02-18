@@ -1,5 +1,5 @@
 footer {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3)),url('../images/footer.png');
+    background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3)),url('../images/footer.webp');
     background-position: top left;
     background-repeat: no-repeat;
     font-size: var(--font-size-large);

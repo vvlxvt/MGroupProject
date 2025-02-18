@@ -79,8 +79,7 @@ class Article (models.Model):
     body = RichTextField()
     publish = models.DateTimeField(default=timezone.now)
     objects = models.Manager()
-    photo = models.ImageField(upload_to=upload_to, default=None, blank=True, null=True,
-                              verbose_name='photo')
+    photo = models.ImageField(upload_to=upload_to, max_length=255, default=None, blank=True, null=True)
 
     class Meta:
         ordering = ['id']

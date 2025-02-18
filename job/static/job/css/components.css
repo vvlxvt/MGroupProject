@@ -205,3 +205,8 @@
 .font-cuprum {
     font-family:'Cuprum';
 }
+
+.input-group-text {
+    color: #FFD700;
+    background-color: black;
+}

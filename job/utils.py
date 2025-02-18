@@ -41,7 +41,11 @@ advantages = {
 partners = {
     'Роснефть': "static/job/images/partners/partners-rosneft.png",
     'Красэнерго': "static/job/images/partners/partners-krasenergo.png",
+    'Славнефть': "static/job/images/partners/partners-slavneft.png",
+    'Леруа-Мерлен': "static/job/images/partners/partners-Leroy-Merli.png",
     'Лента': "static/job/images/partners/partners-lenta.png",
+    'КраМЗ': "static/job/images/partners/partners-kramz.jpg",
+    'БНГРЭ': "static/job/images/partners/partners-bngre.jpg",
     'РН-Бурение': "static/job/images/partners/partners-rnburenie.png"
 }
 
@@ -49,6 +53,3 @@ def chunk_list(lst, size):
     """Разделяет список на группы заданного размера."""
     return list(zip_longest(*[iter(lst)] * size, fillvalue=None))
 
-
-lst = ['a','b','c','d','e','f','g']
-print(chunk_list(lst,3))
