@@ -1,16 +1,15 @@
 from pathlib import Path
-from decouple import config
 from environs import Env
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 env = Env()
 env.read_env()
 
-SECRET_KEY=config('SECRET_KEY')
+SECRET_KEY=env('SECRET_KEY')
 DEBUG = True
 
-ALLOWED_HOSTS = [] # для разработки
-# ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=['mgroup-vvlxvt.amvera.io', 'localhost']) # for prod
+# ALLOWED_HOSTS = [] # для разработки
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=['mgroup-vvlxvt.amvera.io', 'localhost'])
 
 
 
@@ -86,11 +85,11 @@ WSGI_APPLICATION = 'mgrupsite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST', default='localhost'),
-        'PORT': config('DB_PORT', default='5432'),
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST', default='localhost'),
+        'PORT': env('DB_PORT', default='5432'),
         'ATOMIC_REQUESTS': True,
     },
 }
@@ -112,6 +111,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Internationalization
+# https://docs.djangoproject.com/en/4.2/topics/i18n/
+
 LANGUAGE_CODE = 'ru-RU'
 TIME_ZONE = 'UTC'
 USE_I18N = True
@@ -124,8 +126,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Место, куда будут собраны статические файлы при выполнении команды `collectstatic`
-# STATIC_ROOT = "/data/static" # for prod
-STATIC_ROOT = BASE_DIR/'staticfiles' # for develop
+STATIC_ROOT = "/data/static"
 
 
 STORAGES = {
@@ -166,20 +167,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # TELEGRAM_BOT_TOKEN = config('TELEGRAM_BOT_TOKEN')
 TELEGRAM_BOT_TOKEN = env('TELEGRAM_BOT_TOKEN')
-TELEGRAM_BOT_TOKEN = config('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = env('TELEGRAM_CHAT_ID')
-TELEGRAM_CHAT_ID = config('TELEGRAM_CHAT_ID')
-WEBHOOK_HOST = 'https://d7a5-94-43-154-7.ngrok-free.app'
-# WEBHOOK_HOST = 'https://mgroup-vvlxvt.amvera.io'
+# WEBHOOK_HOST = 'https://b14c-94-43-154-7.ngrok-free.app'
+WEBHOOK_HOST = 'https://mgroup-vvlxvt.amvera.io'
 WEBHOOK_PATH = '/webhook'
 WEBHOOK_URL = f'{WEBHOOK_HOST}{WEBHOOK_PATH}'
-NGROK_TOKEN = config('NGROK_TOKEN')
-TG_SERVER_HOST = "127.0.0.1"
-# TG_SERVER_HOST = "0.0.0.0" # for prod
-TG_SERVER_PORT = 8001   # for ngrok
-# TG_SERVER_PORT = 80 # for prod
-GOOGLE_MAPS_API_KEY = config('GOOGLE_MAPS_API_KEY')
-# GOOGLE_MAPS_API_KEY = env('GOOGLE_MAPS_API_KEY') for prod
+# NGROK_TOKEN = config('NGROK_TOKEN')
+# TG_SERVER_HOST = "127.0.0.1"
+TG_SERVER_HOST = "0.0.0.0"
+# TG_SERVER_PORT = 8001   # for ngrok
+TG_SERVER_PORT = 80
+# GOOGLE_MAPS_API_KEY = config('GOOGLE_MAPS_API_KEY')
+GOOGLE_MAPS_API_KEY = env('GOOGLE_MAPS_API_KEY')
 
 
 # EMAIL_HOST = 'smtp.gmail.com'
