@@ -9,7 +9,7 @@
     <p class="display-5 text-center soft-shadow"><strong>подрядчик по промышленной и коммерческой покраске</strong></p>
 
 </div>
-<div class="blue-bar">
+<div class="yellow-bar" style="justify-content: space-around">
     <span>КАЧЕСТВЕННЫЕ МАТЕРИАЛЫ</span> <span>СПЕЦИАЛИСТЫ СВОЕГО ДЕЛА</span> <span>ВЫБОР ЦВЕТА</span>
 </div>
 <section id="landing" class="bg-white py-5">
@@ -52,7 +52,9 @@
         </div>
     </div>
 </section>
-<h4 class="blue-bar letter-spaced mb-5 mb-5">ПРЕИМУЩЕСТВА РАБОТЫ С НАМИ</h4>
+
+<div class="yellow-bar text-center text-uppercase fw-bold mb-5">ПРЕИМУЩЕСТВА РАБОТЫ С НАМИ</div>
+
 <div class="container py-4 px-3 mb-5">
     <div class="row g-5">
         {% for key, value in advantages.items %}
@@ -68,7 +70,8 @@
 </div>
 
 
-<h4 class="blue-bar letter-spaced mb-5">О КОМПАНИИ</h4>
+<div class="yellow-bar text-center text-uppercase fw-bold mb-5">О КОМПАНИИ</div>
+
 <div class="container py-4 px-3 mb-5">
     <div class="d-flex align-items-center justify-content-center">
         <div class="w-75 font-cuprum">
@@ -95,27 +98,7 @@
 </div>
 
 
-<!--<h4 class="blue-bar letter-spaced mb-5 mb-5">НАШИ ПРОЕКТЫ</h4>-->
-<!--<div class="container py-4 px-3 mb-5 " style="min-height: 300px">-->
-<!--    <div class="row g-5 h-100 align-items-stretch">-->
-<!--        {% for project in projects %}-->
-<!--        <div class="col-md-4 col-lg-3 mb-3">-->
-<!--            <div class="p-3 text-center h-100 d-flex flex-column align-items-center justify-content-center">-->
-<!--                <p class="mb-0">{{ project.title }}</p>-->
-<!--                {% if project.photos %}-->
-<!--                    {% with project.photos.first as photo %}-->
-<!--                    <img src="{{ photo.image.url }}"-->
-<!--                         alt="Project Thumbnail"-->
-<!--                         class="img-fluid" loading="lazy">-->
-<!--                    {% endwith %}-->
-<!--                {% endif %}-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        {% endfor %}-->
-<!--    </div>-->
-<!--</div>-->
-
-<h4 class="blue-bar letter-spaced mb-5 mb-5">НАШИ ПРОЕКТЫ</h4>
+<div class="yellow-bar text-center text-uppercase fw-bold mb-5">НАШИ ПРОЕКТЫ</div>
 
 <!-- КАРУСЕЛЬ ДЛЯ БОЛЬШИХ ЭКРАНОВ -->
 <div id="carouselLg" class="carousel slide d-none d-lg-block" data-bs-ride="carousel">
@@ -234,7 +217,8 @@
 </div>
 
 
-<h4 class="blue-bar letter-spaced mb-5 mb-5">ПАРТНЕРЫ И ЗАКАЗЧИКИ</h4>
+<div class="yellow-bar text-center text-uppercase fw-bold mb-5">ПАРТНЕРЫ И ЗАКАЗЧИКИ</div>
+
 <div class="container py-4 px-3 mb-5 " style="min-height: 300px">
     <div class="row g-5 h-100 align-items-stretch">
         {% for key, value in partners.items %}

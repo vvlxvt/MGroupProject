@@ -75,7 +75,7 @@ class DynamicPostListView(DataMixin, ListView):
         if cat_slug:
             category = Category.objects.filter(slug=cat_slug).first()
             if category:
-                context['title'] = f"Категория: {category.name}"
+                context['title'] = f"{category.name}"
                 context['meta_description'] = f"Отображение постов в категории {category.name}."
 
         if tag_slug:
@@ -345,3 +345,6 @@ def save_message_view(request):
         return JsonResponse({'success': True, 'message': 'Сообщение отправлено!'})
     except Contact.DoesNotExist:
         return JsonResponse({'success': False, 'message': 'Пользователь не верифицирован.'})
+
+def calculator(request):
+    return render(request, 'job/post/calculator.html')

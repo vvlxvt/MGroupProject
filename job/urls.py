@@ -20,6 +20,7 @@ urlpatterns = [
     path('generate-code/', views.generate_code_view, name='generate_code'),
     path('verify-code/', views.verify_code_view, name='verify_code'),
     path('save-message/', views.save_message_view, name='save_message'),
+    path('calculator/', views.calculator, name='calculator'),
 ]
 handler404 = views.page_not_found
 

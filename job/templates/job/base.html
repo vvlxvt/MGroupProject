@@ -26,10 +26,10 @@
     <!-- Header / Hero Section -->
     </header>
 
-    <h4 class="blue-bar letter-spaced">
-        {{ title|safe }}
-    </h4>
+    <div class="yellow-bar text-center text-uppercase fw-bold letter-spaced">{{ title }}</div>
     {% block http404 %} {% endblock %}
+
+    {% block calculator %} {% endblock %}
 
     <!-- landing section -->
     {% block landing %} {% endblock %}

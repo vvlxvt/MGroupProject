@@ -11,7 +11,9 @@ def menu_context(request):
             'submenus': [{'title': category.name, 'url_name': f'{namespace}:post_list', 'slug': category.slug} for
                 category in categories]}, 'articles': {'title': 'Статьи', 'url_name': f'{namespace}:article_list'},
         'projects': {'title': 'Проекты', 'url_name': f'{namespace}:projects'},
-        'contacts': {'title': 'Контакты', 'url_name': f'{namespace}:contacts'}, }
+        'contacts': {'title': 'Контакты', 'url_name': f'{namespace}:contacts'},
+        'contacts': {'title': 'Калькулятор', 'url_name': f'{namespace}:calculator'},
+            }
 
 
     return {'menu': menu, 'facemenu': menu['services'].get('submenus', [])}
