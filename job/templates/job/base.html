@@ -1,0 +1,152 @@
+{% load static %}
+{% load job_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'job/css/variable.css' %}">
+    <link rel="stylesheet" href="{% static 'job/css/fonts.css' %}">
+    <link rel="stylesheet" href="{% static 'job/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'job/css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'job/css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'job/css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'job/css/pages/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'job/css/pages/index.css' %}">
+    <link rel="stylesheet" href="{% static 'job/css/pages/article.css' %}">
+    <link rel="stylesheet" href="{% static 'job/css/components.css' %}">
+    <link rel="stylesheet" href="{% static 'job/css/bootstrap_overrides.css' %}">
+
+    <script defer src="{% static 'job/js/solid.min.js' %}"></script>
+    <link rel="icon" type="image/png" sizes="64x64" href="/media/photos/Logo/favicon/m_logo_64.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/media/photos/Logo/favicon/m_logo_32.png">
+    <title>{{ title }}</title>
+    <meta name="description" content="{% block meta_description %}{{meta_description}}{% endblock %}">
+    <script src="https://kit.fontawesome.com/6a1586a6f1.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <header>
+    <!-- Navbar -->
+        {% include "job/post/includes/navbar.html" %}
+    <!-- Header / Hero Section -->
+    </header>
+    <div class="yellow-bar text-center text-uppercase fw-bold letter-spaced">{{ title }}</div>
+    {% block http404 %} {% endblock %}
+
+    <!-- landing section -->
+    {% block landing %} {% endblock %}
+
+    <!-- Services Section -->
+    {% block content %} {% endblock %}
+
+    <!-- Projects Section -->
+    {% block projects %} {% endblock %}
+
+    <!-- Articles Section -->
+    {% block articles %} {% endblock %}
+
+    <!-- About Section -->
+    {% block about %} {% endblock %}
+
+    <!-- Contact Section -->
+    {% block contact %} {% endblock %}
+
+    {% block calculator %} {% endblock %}
+
+<!-- Footer -->
+<footer>
+        <div class="container text-center align-item-center">
+            <div class="d-flex flex-column flex-sm-row justify-content-around custom-font-mobile g-3">
+
+                <div>
+                    <p><img class="custom-image img-fluid" src="{% static 'job/images/MG.png' %}"
+                                    alt="Маляр Групп" loading="lazy"></p>
+                    <a class="text-decoration-none text-reset" href="tel:+73912516747">+7(391)251-67-47</a>
+                    <p><a class="text-decoration-none text-reset" href="mailto:mgrup24@mail.ru">mgrup24@mail.ru</a></p>
+                </div>
+
+                <div class="p-0">
+                    <h5 class="text-uppercase">Информация</h5>
+                        <p><a href="#">О компании</a></p>
+                        <p><a href="#">Вакансии</a></p>
+                        <p><a href="{% static 'job/images/company-details-mgrup24.pdf' %}">Реквизиты</a></p>
+                </div>
+
+                <div class="p-0">
+                    <h5 class="text-uppercase">Время работы</h5>
+                        <p>пн-пт: 09:00 - 18:00</p>
+                        <p>сб-вс: выходной</p>
+                        <p>без перерыва</p>
+
+                </div>
+
+                <div class="p-0">
+                    <h5 class="text-uppercase">Наш адрес</h5>
+                        <p>660011 , Россия</p>
+                    <p> Красноярский край, г.Красноярск</p>
+                        <p>ул. Кипрейная, д. 11</p>
+                </div>
+
+                <div class="p-0">
+                    <h5 class="text-uppercase">Мы в сети</h5>
+                    <div class="footer-icons fs-2">
+                        <a href="#"><i class="fab fa-youtube fa-xl" style="color: #ff0000;"></i></a>
+                        <a href="{% url 'job:contacts' %}"> <i class="fa-brands fa-telegram fa-lg"
+                                                               style="color: #74C0FC;"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+</footer>
+
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<!--<script>-->
+
+<!--    &lt;!&ndash;Сохраняем позицию скролла перед переходом&ndash;&gt;-->
+<!--            document.addEventListener('DOMContentLoaded', function() {-->
+<!--                const links = document.querySelectorAll('.pagination a');-->
+
+<!--                links.forEach(link => {-->
+<!--                    link.addEventListener('click', function(event) {-->
+<!--                        event.preventDefault(); // Предотвращаем стандартное поведение ссылки-->
+
+<!--    &lt;!&ndash;Сохраняем текущую позицию скролла в localStorage&ndash;&gt;-->
+<!--                        localStorage.setItem('scrollPosition', window.scrollY);-->
+
+<!--                        // Переходим по новому URL-->
+<!--                        window.location.href = this.href;-->
+<!--                    });-->
+<!--                });-->
+
+<!--    &lt;!&ndash;Восстанавливаем позицию скролла после загрузки страницы&ndash;&gt;-->
+<!--                window.addEventListener('load', function() {-->
+<!--                    const scrollPosition = localStorage.getItem('scrollPosition');-->
+<!--                    if (scrollPosition !== null) {-->
+<!--                        window.scrollTo(0, parseInt(scrollPosition));-->
+<!--                        localStorage.removeItem('scrollPosition'); // Удаляем сохраненную позицию после восстановления-->
+<!--                    }-->
+<!--                });-->
+<!--            });-->
+<!--</script>-->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Находим все элементы с классом .nav-link.dropdown-toggle
+        var dropdownLinks = document.querySelectorAll('.nav-link.dropdown-toggle');
+
+        dropdownLinks.forEach(function (link) {
+            link.addEventListener('click', function (event) {
+                // Проверяем, что клик был на главной ссылке, а не просто на меню
+                if (window.innerWidth > 768) { // только на больших экранах
+                    window.location.href = link.href; // перенаправляем по ссылке
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+/*!
+ * normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css
+ */
+
+/* 1. Устанавливает box-sizing по умолчанию для всех элементов */
+html {
+  box-sizing: border-box;
+}
+
+/* 2. Наследует box-sizing для всех дочерних элементов */
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* 3. Устанавливает margin и padding по умолчанию для всех элементов */
+body, h1, h2, h3, h4, h5, h6, p, blockquote, figure, fieldset, ul, ol, dl, pre, table {
+  margin: 0;
+  padding: 0;
+}
+
+/* 4. Устанавливает высоту и ширину на 100% для html и body */
+html, body {
+  height: 100%;
+}
+
+/* 5. Устанавливает разумную высоту для textarea */
+textarea {
+  resize: vertical;
+}
+
+/* 6. Убирает точки у списков */
+ul, ol {
+  list-style: none;
+}
+
+/* 7. Сбрасывает стили для ссылок */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 8. Устанавливает базовый стиль для изображений */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* 9. Убирает стили таблиц */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* 10. Убирает фокусное выделение, если оно не происходит через клавиатуру */
+button, input, textarea, select {
+  background: none;
+  border: none;
+  outline: none;
+}
+
+/* 11. Сброс для кнопок */
+button {
+  cursor: pointer;
+  appearance: none;
+}
+
+
+/* 13. Сброс для SVG */
+svg {
+  vertical-align: middle;
+}

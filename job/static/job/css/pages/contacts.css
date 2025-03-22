@@ -1,0 +1,7 @@
+#callback {
+    background-color: #f8f9fa; /* Светлый фон */
+}
+
+#callback .btn {
+    margin-top: 10px; /* Отступ сверху для кнопки */
+}

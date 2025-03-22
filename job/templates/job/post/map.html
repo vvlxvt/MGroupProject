@@ -1,0 +1,44 @@
+ <div id="map"></div>
+
+  <script>
+    // Передача координат из Django в JavaScript
+    const locations = JSON.parse('{{ locations_json|safe }}');
+
+    let map;
+
+    async function initMap() {
+      const { Map, InfoWindow } = await google.maps.importLibrary("maps");
+      const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
+
+      map = new Map(document.getElementById("map"), {
+        zoom: 12,
+        center: { lat: 56.1199431, lng: 93.335758 },
+        mapId: "4504f8b37365c3d0",
+      });
+
+      const infoWindow = new InfoWindow();
+
+      // Создание маркеров на основе переданных координат
+      locations.forEach(({ position, title }, i) => {
+        const pin = new PinElement({
+          glyph: `${i + 1}`,
+          scale: 1.5,
+        });
+        const marker = new AdvancedMarkerElement({
+          position,
+          map,
+          title: `${i + 1}. ${title}`,
+          content: pin.element,
+          gmpClickable: true,
+        });
+
+        // Добавление слушателя событий для каждого маркера
+        marker.addListener("click", ({ domEvent, latLng }) => {
+          infoWindow.close();
+          infoWindow.setContent(marker.title);
+          infoWindow.open(marker.map, marker);
+        });
+      });
+    }
+    initMap(locations);
+  </script>

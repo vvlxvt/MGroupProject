@@ -1,0 +1,47 @@
+footer {
+    margin-top: 50px;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3)),url('../images/footer.webp');
+    background-position: top left;
+    background-repeat: no-repeat;
+    font-size: var(--font-size-base);
+    background-size: cover; /* Размер по умолчанию, можно использовать cover или contain */
+}
+
+footer a, footer p {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    max-width: 300px; /* Подберите оптимальную ширину */
+    overflow-wrap: break-word;
+    margin-bottom: 0.5rem;
+}
+
+footer h5 {
+    color: var(--color-primary);
+}
+
+.footer-icons i {
+    font-size: 32px;
+    margin: 7px;
+}
+
+.footer-icons i:hover {
+    transform: scale(1.2);
+}
+
+.footer-icons a:nth-child(1) i:hover {
+    color: #3b5998; /* Facebook синий */
+}
+
+.footer-icons a:nth-child(2) i:hover {
+    color: #FF0000; /* YouTube красный */
+}
+
+.footer-icons a:nth-child(3) i:hover {
+    color: #E1306C; /* Instagram розовый */
+    }
+
+.footer-icons a:nth-child(4) i:hover {
+    color: 	#24A1DE; /* telegram blue */
+    }
+/* footer */

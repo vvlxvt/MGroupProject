@@ -1,0 +1,29 @@
+.logo-font {
+    font-family:var(--font-family-logo);
+    font-size: var(--font-size-h1);
+}
+
+/* фото на главной странице */
+.image.main_photo {
+    width: 100%; /* Full-width container */
+    height: 600px; /* Set desired height for the background */
+    background-image: url('/static/job/images/IMG_1713.webp');
+    background-size: cover; /* Ensures image covers the entire div */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevents repeating the image */
+    color: #FFD700;
+}
+
+/* мягкая тень на главной странице */
+.soft-shadow {
+  text-shadow: 0px 20px 20px #83919C;
+}
+
+/* about */
+.text-indent {
+        text-indent: 30px; /* Задаем отступ для красной строки */
+    }
+/* about */
+
+
+

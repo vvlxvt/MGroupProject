@@ -1,0 +1,9 @@
+.list-group-item {
+    padding: 4px 10px; /* Уменьшаем отступы */
+    line-height: 1.1; /* Делаем текст менее разреженным */
+    text-decoration: none;
+}
+
+.list-group-item:active {
+    font-size: 12px;
+}

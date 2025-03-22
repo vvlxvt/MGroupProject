@@ -1,0 +1,51 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand text-decoration-none px-3 pt-n5 ms-2" href="{% url 'job:home' %}">
+        <span class="m-logo">M</span>
+    </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+    <div id="navbarNav" class="collapse navbar-collapse">
+        <ul class="navbar-nav">
+            {% for key, m in menu.items %}
+                {% if m.submenus %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="{% url m.url_name %}" id="navbarDropdown" data-bs-toggle="dropdown"
+                           role="button" aria-haspopup="true" aria-expanded="false">
+                            {{ m.title }}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% for sub in m.submenus %}
+                            <li>
+                                <a class="dropdown-item" href="{% url sub.url_name %}?category={{ sub.slug }}">
+                                    {{ sub.title }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url m.url_name %}">{{ m.title }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+
+        <form class="d-flex ms-auto me-5" method="GET" action="{% url 'job:post_list' %}">
+            <div class="input-group">
+                <input class="form-control" type="search" name="query" placeholder="Поиск по статьям"
+                       aria-label="Search">
+                <button class="btn" type="submit">
+                    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+                </button>
+            </div>
+        </form>
+
+    </div>
+</nav>
+

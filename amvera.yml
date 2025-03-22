@@ -1,0 +1,23 @@
+meta:
+  environment: python
+  toolchain:
+    name: pip
+    version: "3.11"
+
+build:
+  requirementsPath: requirements.txt
+
+run:
+  command: |
+    python manage.py migrate --noinput &&
+    python manage.py collectstatic --noinput &&
+    python manage.py check &&
+    gunicorn mgrupsite.wsgi:application --chdir mgrupsite --bind 0.0.0.0:80 --log-level info
+
+  persistenceMount: /data
+  containerPort: "80"
+  servicePort: "80"
+
+volumes:
+  static_volume:
+    mount: /data/static

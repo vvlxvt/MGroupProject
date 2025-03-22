@@ -1,0 +1,19 @@
+{% extends "job/base.html" %}
+
+{% block title %} Поделиться постом {% endblock %}
+
+{% block content %}
+    {% if sent %}
+        <h1> Email успешно отправлен</h1>
+        <p>
+            "{{post.title}}" был успешно отправлен {{form.cleaned_data.to}}
+        </p>
+    {% else %}
+        <h1> Поделись {{post.title}} по почте</h1>
+        <form method="post">
+            {{form.as_p}}
+            {% csrf_token %}
+            <input type="submit" value="Send e-mail">
+        </form>
+    {% endif %}
+{% endblock %}
