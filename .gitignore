@@ -27,11 +27,9 @@ config.json
 !*/migrations/__init__.py
 
 # Static and media files (if collected separately)
-static/
 staticfiles/
 static_root/
 collected_static/
-media/
 uploads/
 media/CACHE/
 
