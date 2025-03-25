@@ -35,6 +35,8 @@ propcache==0.2.1
 psycopg2-binary==2.9.9
 python-decouple==3.8
 python-dotenv==1.0.1
+pydantic==2.10.6
+pydantic_core==2.27.2
 redis==5.2.1
 requests==2.32.3
 six==1.16.0
