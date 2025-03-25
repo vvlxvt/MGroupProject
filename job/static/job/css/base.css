@@ -1,85 +1,110 @@
-/* Содержит базовые стили (шрифты, отступы, цвет фона, общий body) */
-
+/* Базовые стили (шрифты, отступы, цвет фона, общий body) */
 body {
-  font-family: var(--font-family-base);
-  font-size: var(--font-size-base);
-  color: var(--color-text);
-  background-color: var(--color-background);
-  line-height: 1.6;
-  margin: 0;
-  padding: 0;
-
-
-p, li {
+    font-family: var(--font-family-base);
     font-size: var(--font-size-base);
-    line-height: 1.6rem;
+    color: var(--color-text);
+    background-color: var(--color-background);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
 }
 
-/* Списки */
+/* Заголовки */
+h1, h2, h3, h4 {
+    margin-bottom: 20px; /* Увеличенный отступ после заголовков */
+}
+
+/* Текстовые элементы */
+p {
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Основные списки */
 ul {
+    padding-left: 25px;
+    margin-bottom: 16px; /* Отступ после списка */
+}
+
+/* Первый уровень списка */
+ul > li {
+    font-size: var(--font-size-base);
+    margin-bottom: 6px; /* Уменьшенный отступ между элементами */
+    line-height: 1.4; /* Меньший межстрочный интервал */
+}
+
+/* Оформление маркеров первого уровня */
+ul > li::marker {
+    color: #ff0000; /* Красный цвет маркеров */
+    font-size: 1em;
+}
+
+/* Второй уровень списка */
+ul ul {
     padding-left: 20px;
+    margin-top: 4px;
 }
 
-ul li {
-    margin-bottom: 8px;
+/* Нумерованные списки */
+ol {
+    padding-left: 25px;
+    margin-bottom: 16px; /* Отступ после списка */
 }
 
-/* Оформление маркеров списка */
-ul li::marker {
-    color: #007bff; /* Синий цвет маркеров */
-    font-size: 1.2em;
+/* Первый уровень нумерованного списка */
+ol > li {
+    font-size: var(--font-size-base);
+    margin-bottom: 6px; /* Уменьшенный отступ между элементами */
+    line-height: 1.4; /* Меньший межстрочный интервал */
 }
 
-/* Оформление вложенных пунктов */
-ul li ul {
-    padding-left: 15px;
-    font-size: 0.95em;
-    color: #555;
+/* Оформление номеров первого уровня */
+ol > li::marker {
+    color: #0000ff; /* Синий цвет номеров */
+    font-size: 1em;
 }
 
+/* Второй уровень нумерованного списка */
+ol ol {
+    padding-left: 20px;
+    margin-top: 4px;
+}
+
+
+/* Ссылки */
 a {
-  color: var(--color-primary);
-  text-decoration: none;
-  transition: text-decoration 0.5s ease-in-out;
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: text-decoration 0.5s ease-in-out;
 }
 
 a:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
+    text-decoration: underline;
+    text-underline-offset: 4px;
 }
 
-
-h1 {
-    font-size: var(--font-size-h1);
-}
-h2 {
-    font-size: var(--font-size-h2);
-}
-h3 {
-    font-size: var(--font-size-h3);
-}
-h4 {
-    font-size: var(--font-size-h4);
-}
-h5 {
-    font-size: var(--font-size-h5);
-h6 {
-    font-size: var(--font-size-h6);
-}
-
+/* Заголовки */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-family-base);
-  margin: 0;   /* Отступы start=end=0 */
-  color: var(--color-primary);
+    font-family: var(--font-family-base);
+    margin: 0.5rem;
+    color: var(--color-primary);
 }
 
+h1 { font-size: var(--font-size-h1); }
+h2 { font-size: var(--font-size-h2); }
+h3 { font-size: var(--font-size-h3); }
+h4 { font-size: var(--font-size-h4); }
+h5 { font-size: var(--font-size-h5); }
+h6 { font-size: var(--font-size-h6); }
+
+/* Изображения */
 img {
     border: none;
     padding: 0;
     margin: 0;
     background: none;
     box-shadow: none;
-    max-width: none;
+    max-width: 100%;
     height: auto;
 }
-

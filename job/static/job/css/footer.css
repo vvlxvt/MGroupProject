@@ -1,10 +1,11 @@
 footer {
-    margin-top: 50px;
     background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3)),url('../images/footer.webp');
     background-position: top left;
     background-repeat: no-repeat;
     font-size: var(--font-size-base);
     background-size: cover; /* Размер по умолчанию, можно использовать cover или contain */
+    height: 250px;
+    padding: 50px 0;
 }
 
 footer a, footer p {

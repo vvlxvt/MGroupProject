@@ -59,49 +59,58 @@
 
 <!-- Footer -->
 <footer>
-        <div class="container text-center align-item-center">
-            <div class="d-flex flex-column flex-sm-row justify-content-around custom-font-mobile g-3">
+    <div class="container text-center">
+        <div class="d-flex flex-column flex-sm-row justify-content-around custom-font-mobile g-3">
 
-                <div>
-                    <p><img class="custom-image img-fluid" src="{% static 'job/images/MG.png' %}"
-                                    alt="Маляр Групп" loading="lazy"></p>
-                    <a class="text-decoration-none text-reset" href="tel:+73912516747">+7(391)251-67-47</a>
-                    <p><a class="text-decoration-none text-reset" href="mailto:mgrup24@mail.ru">mgrup24@mail.ru</a></p>
-                </div>
+            <div class="text-center">
+                <p>
+                    <img class="custom-image img-fluid" src="{% static 'job/images/MG.png' %}" alt="Маляр Групп" loading="lazy">
+                </p>
+                <p><a class="text-decoration-none text-reset fs-5" href="tel:+73912516747">+7(391)251-67-47</a></p>
+                <p><a class="text-decoration-none text-reset fs-5" href="mailto:mgrup24@mail.ru">mgrup24@mail.ru</a></p>
+            </div>
 
-                <div class="p-0">
-                    <h5 class="text-uppercase">Информация</h5>
-                        <p><a href="#">О компании</a></p>
-                        <p><a href="#">Вакансии</a></p>
-                        <p><a href="{% static 'job/images/company-details-mgrup24.pdf' %}">Реквизиты</a></p>
-                </div>
+            <div class="p-0 text-center">
+                <h5 class="text-uppercase">Информация</h5>
+                <hr class="my-2">
+                <p><a href="#">О компании</a></p>
+                <p><a href="#">Вакансии</a></p>
+                <p><a href="{% static 'job/images/company-details-mgrup24.pdf' %}" target="_blank" rel="noopener noreferrer">Реквизиты</a></p>
+            </div>
 
-                <div class="p-0">
-                    <h5 class="text-uppercase">Время работы</h5>
-                        <p>пн-пт: 09:00 - 18:00</p>
-                        <p>сб-вс: выходной</p>
-                        <p>без перерыва</p>
+            <div class="p-0 text-center">
+                <h5 class="text-uppercase">Время работы</h5>
+                <hr class="my-2">
+                <p>пн-пт: 09:00 - 18:00</p>
+                <p>сб-вс: выходной</p>
+                <p>без перерыва</p>
+            </div>
 
-                </div>
+            <div class="p-0 text-center">
+                <h5 class="text-uppercase">Наш адрес</h5>
+                <hr class="my-2">
+                <p>660011, Россия</p>
+                <p>Красноярский край, г.Красноярск</p>
+                <p>ул. Кипрейная, д. 11</p>
+            </div>
 
-                <div class="p-0">
-                    <h5 class="text-uppercase">Наш адрес</h5>
-                        <p>660011 , Россия</p>
-                    <p> Красноярский край, г.Красноярск</p>
-                        <p>ул. Кипрейная, д. 11</p>
-                </div>
-
-                <div class="p-0">
-                    <h5 class="text-uppercase">Мы в сети</h5>
-                    <div class="footer-icons fs-2">
-                        <a href="#"><i class="fab fa-youtube fa-xl" style="color: #ff0000;"></i></a>
-                        <a href="{% url 'job:contacts' %}"> <i class="fa-brands fa-telegram fa-lg"
-                                                               style="color: #74C0FC;"></i></a>
-                    </div>
+            <div class="p-0 text-center">
+                <h5 class="text-uppercase">Мы в сети</h5>
+                <hr class="my-2">
+                <div class="footer-icons fs-2">
+                    <a href="#" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-youtube fa-xl" style="color: #ff0000;"></i>
+                    </a>
+                    <a href="{% url 'job:contacts' %}" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-telegram fa-lg" style="color: #74C0FC;"></i>
+                    </a>
                 </div>
             </div>
+
         </div>
+    </div>
 </footer>
+
 
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 <!--<script>-->

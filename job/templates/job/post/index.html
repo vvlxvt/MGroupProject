@@ -4,9 +4,9 @@
 {% block meta_description %}{{meta_description}}{% endblock %}
 {% block landing %}
 <div class="image text-white main_photo p-4">
-    <p class="text-center logo-font soft-shadow mt-5" style="font-size:96px; background:transparent;color:#FFF;">Mаляр
+    <p class="text-center logo-font soft-shadow mt-5" style="font-size:96px; background:transparent;color:white;">Mаляр
         <span style="font-family:'Cuprum';font-size:96px;">Групп</span></p>
-    <p class="display-5 mt-5 text-center soft-shadow"><strong>подрядчик по промышленной и коммерческой покраске</strong>
+    <p class="display-5 text-center soft-shadow"><strong>подрядчик по промышленной и коммерческой покраске</strong>
     </p>
 </div>
 
@@ -17,10 +17,11 @@
     <div class="container">
         <div class="row g-5">
             <div class="col-10 mx-auto">
-                <p class="h3 text-center text-decoration-none">Наши услуги</p><br> {% for post in posts %}
+                <p class="h3 text-center text-decoration-none">Наши услуги</p><hr> {% for post in posts %}
                 <div class="col mx-auto mb-0">
-                    <div
-                            class="card mb-0 flex-md-row {% if forloop.counter|divisibleby:2 %}flex-md-row-reverse{% endif %} border-0">
+                    <div class="card mb-0 flex-md-row
+                    {% if forloop.counter|divisibleby:2 %}
+                    flex-md-row-reverse{% endif %} border-0">
                         <!-- Изображение поста -->
                         <div class="col p-0">
                             {% if post.photo %} <img src="{{post.photo.url}}" loading="lazy"> {% else %}
@@ -30,15 +31,22 @@
                         </div>
 
                         <!-- Содержимое карточки -->
-                        <div class="col d-flex flex-column justify-content-center px-3 py-0">
+                        <div class="col d-flex flex-column justify-content-center ps-5 pe-1 py-0">
                             <h4 class="article-title text-start mb-3">
-                                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h4>
-                            {% for post_article in post.postarticle_set.all|dictsort:"number" %}
-                            <p><a href="{% url 'job:article_detail' slug=post_article.article.slug %}">
-                                {{post_article.number }}. {{ post_article.article.title }}</a></p>
-                            {% empty %}
-                            <p>Нет связанных статей.</p>
-                            {% endfor %}
+                                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                            </h4>
+                            {% if post.postarticle_set.all %}
+                                <ul class="list-unstyled">
+                                    {% for post_article in post.postarticle_set.all|dictsort:"number" %}
+                                    <li>
+                                        <a href="{% url 'job:article_detail' slug=post_article.article.slug %}">
+                                            {{post_article.article.title}} </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p>Нет связанных статей.</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -57,8 +65,10 @@
         <div class="col-md-6 col-lg-4 mb-3">
             <div class="p-3 bg-light text-center rounded shadow-sm position-relative">
                 <img src="static/job/images/m_marker.webp" alt="Иконка"
-                     class="position-absolute top-0 start-0 m-2 opacity-50" style="mix-blend-mode: multiply" width="70">
-                <strong>{{ key }}</strong><br>{{ value }}
+                     class="position-absolute top-0 start-0 m-2 opacity-50" style="mix-blend-mode: multiply"
+                     width="70">
+                <strong class="text-uppercase">{{ key }}</strong><br>
+                <p>{{ value }}</p>
             </div>
         </div>
         {% endfor %}
@@ -221,10 +231,10 @@
 <div class="yellow-bar text-center text-uppercase fw-bold mb-5">ПАРТНЕРЫ И ЗАКАЗЧИКИ</div>
 
 <div class="container py-4 px-3 mb-5" style="min-height: 300px">
-    <div class="row g-3 h-100">
+    <div class="row g-2 g-md-2 h-100">
         {% for key, value in partners.items %}
-        <div class="col-md-4 col-lg-3">
-            <div class="p-3 text-center d-flex flex-column align-items-center justify-content-center h-100">
+        <div class="col-6 col-md-3">
+            <div class="p-3 text-center d-flex flex-column align-items-center justify-content-center h-100 flex-grow-1">
                 <img src="{{ value }}" alt="Иконка" width="70" class="mb-2">
                 <p class="mb-0">{{ key }}</p>
             </div>
@@ -232,6 +242,7 @@
         {% endfor %}
     </div>
 </div>
+
 
  {% endblock %}
 

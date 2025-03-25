@@ -1,9 +1,18 @@
 .list-group-item {
+    font-size: var(--font-size-small);
     padding: 4px 10px; /* Уменьшаем отступы */
-    line-height: 1.1; /* Делаем текст менее разреженным */
+    line-height: 1.2; /* Делаем текст менее разреженным */
     text-decoration: none;
+    font-weight: bold;
+    color: inherit; /* Наследуем цвет текста */
 }
 
-.list-group-item:active {
-    font-size: 12px;
+.list-group-item.active {
+    background-color:var(--color-secondary); /* Фон красный */
+    color: white; /* Текст белый */
+    font-weight: bold;
+}
+
+.list-group-item.active a {
+    text-decoration: none;
 }

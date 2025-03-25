@@ -7,9 +7,8 @@
         <div class="col-lg-4 bg-light">
             <ul class="list-unstyled">
                 {% for article in articles %}
-                <li class="list-group-item mb-0 {% if article == object %}h6{% endif %}">
-                    <a href="{{ article.get_absolute_url }}">
-                        {{ article.title }} </a>
+                <li class="list-group-item mb-0 {% if article == object %}active{% endif %}">
+                    <a href="{{ article.get_absolute_url }}"> {{ article.title }} </a>
                 </li>
                 {% endfor %}
             </ul>
@@ -25,8 +24,7 @@
                       <small class="text-muted">Опубликовано: {{ article.publish }}</small>
                     </div>
                         <a href="{{ request.META.HTTP_REFERER|default:'#' }}"
-                           class="transparent-button"
-                           style="text-align: center;"
+                           class="btn" style="text-align: center; background-color: #FFD700;"
                            onclick="window.history.back(); return false;">назад
                         </a>
                 </div>

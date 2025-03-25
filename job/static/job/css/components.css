@@ -38,6 +38,10 @@
   margin-bottom: 1.5rem;
 }
 
+#landing .card li {
+    font-size: var(--font-size-large);
+}
+
 .card img {
     aspect-ratio: 3 / 2; /* Устанавливаем пропорцию 3:2 */
     width: 100%; /* Изображение заполняет ширину контейнера */
@@ -211,11 +215,9 @@ a.tag:active {
 }
 
 .article-title a {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 600;
   margin: 0 0;
-  color: #333; /* Тёмно-серый начальный цвет */
-  text-decoration: none; /* Убираем подчеркивание */
 }
 
 .my-pagination {
