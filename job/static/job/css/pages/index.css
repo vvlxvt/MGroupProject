@@ -1,6 +1,16 @@
 .logo-font {
     font-family:var(--font-family-logo);
-    font-size: var(--font-size-h1);
+    font-size: var(--font-size-h4);
+    line-height: 1;
+    vertical-align: baseline;
+    color:var(--color-secondary);
+}
+
+.info-font {
+    font-family:var(--font-family-menu);
+    font-size: var(font-size-x-small);
+    font-weight: var(font-weight-bold);
+    color: var(--color-secondary);
 }
 
 /* фото на главной странице */
@@ -11,7 +21,7 @@
     background-size: cover; /* Ensures image covers the entire div */
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Prevents repeating the image */
-    color: #FFD700;
+    color: var(--color-secondary);
 }
 
 /* мягкая тень на главной странице */

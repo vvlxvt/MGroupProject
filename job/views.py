@@ -104,21 +104,15 @@ class AboutView(DataMixin,TemplateView):
         return context
 
 
-def post_detail(request, year, month, day, post):
+def post_detail(request, post):
     # извлекаем пост по id
-    post = get_object_or_404(Post, status=Post.Status.PUBLISHED,
-                             slug=post,
-                             publish__year=year,
-                             publish__month=month,
-                             publish__day=day)
+    post = get_object_or_404(Post, status=Post.Status.PUBLISHED, slug=post)
     # Набор запросов QuerySet values_list() возвращает кортежи со значениями заданных полей
     post_tags_ids = post.tags.values_list('id', flat=True) # параметр flat=True, чтобы получить одиночные значения
     similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
     similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags','-publish')[:4]
     return render(request,'job/post/detail.html',
-                  {'post': post,
-                   'title': post,
-                   'similar_posts':similar_posts})
+                  {'post': post,'title': post,'similar_posts':similar_posts})
 
 
 # def post_search(request):
