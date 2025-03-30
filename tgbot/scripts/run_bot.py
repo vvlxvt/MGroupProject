@@ -33,8 +33,8 @@ async def on_shutdown(bot:Bot)->None:
 def main() -> None:
     dp = Dispatcher()
     dp.include_router(handlers.router)
-    dp.startup.register(on_startup)
-    dp.shutdown.register(on_shutdown)
+    # dp.startup.register(on_startup)
+    # dp.shutdown.register(on_shutdown)
     app = web.Application()
     webhook_requests_handler = SimpleRequestHandler(dispatcher=dp, bot=bot)
     webhook_requests_handler.register(app, path=WEBHOOK_PATH)
