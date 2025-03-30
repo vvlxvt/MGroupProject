@@ -129,12 +129,9 @@
         return;
     }
 
-fetch("{% url 'job:generate_code' %}", {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRFToken': formData.get('csrfmiddlewaretoken')
-        }
+fetch("{% url 'job:generate_code' %}", { method: 'POST',
+                                        body: formData,
+                                        headers: { 'X-CSRFToken': formData.get('csrfmiddlewaretoken') }
     })
     .then(response => response.json())
     .then(data => {
@@ -262,4 +259,16 @@ document.getElementById('contactForm').addEventListener('submit', function(event
     });
 });
 
+<script async src="https://telegram.org/js/telegram-widget.js?19"
+        data-telegram-login="YourBotUsername"
+        data-size="large"
+        data-auth-url="https://example.com/auth"
+        data-request-access="write"></script>
+
 </script>
+
+<script async src="https://telegram.org/js/telegram-widget.js?19"
+        data-telegram-login="YourBotUsername"
+        data-size="large"
+        data-auth-url="https://example.com/auth"
+        data-request-access="write"></script>

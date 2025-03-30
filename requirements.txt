@@ -37,6 +37,7 @@ python-decouple==3.8
 python-dotenv==1.0.1
 pydantic==2.10.6
 pydantic_core==2.27.2
+PyJWT==2.10.1
 redis==5.2.1
 requests==2.32.3
 six==1.16.0

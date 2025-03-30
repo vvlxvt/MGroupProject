@@ -2,7 +2,8 @@
 {% load static %}
 {% block meta_description %}{{meta_description}}{% endblock %}
 {% block calculator %}
-    <div class="container mt-4 mb-2">
-        <h3 class="mb-3">Калькулятор</h3>
-    </div>
+    <h1>Welcome, {{ user.first_name }}!</h1>
+<p>You have successfully logged in with Telegram.</p>
+<a href="#">Logout</a>
+
 {% endblock %}

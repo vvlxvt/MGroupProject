@@ -16,18 +16,21 @@ def generate_verification_code():
     code = random.randint(1000, 9999)
     return code
 
-from django.core.cache import cache
 
-# def generate_verification_code_with_cache(tg_username):
-#     code = random.randint(1000, 9999)
-#     cache.set(f'verification_code_{tg_username}', code, timeout=600)  # Срок действия 10 минут
-#     return code
-#
-# def verify_code_with_cache(tg_username, input_code):
-#     cached_code = cache.get(f'verification_code_{tg_username}')
-#     if not cached_code:
-#         return False
-#     return True if cached_code == input_code else False
+import jwt
+import datetime
+
+SECRET_KEY = "xyz"
+
+def generate_code(user):
+    payload = {
+        "user": user,
+        "code": "1424",
+        "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=10)
+    }
+    return jwt.encode(payload, SECRET_KEY, algorithm="HS256")
+
+
 
 advantages = {
     "Гарантия на работы": "На все выполненные работы мы даем официальную гарантию",

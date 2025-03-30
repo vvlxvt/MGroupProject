@@ -1,5 +1,4 @@
 import re
-
 import requests, json
 from django.db import IntegrityError
 from django.shortcuts import render, get_object_or_404
@@ -12,11 +11,9 @@ from django.contrib.postgres.search import SearchVector, SearchQuery, TrigramSim
 from django.db.models import Q
 from django.views.decorators.http import require_http_methods
 from django.http import JsonResponse
-from bot_instance import bot, TOKEN, chat_id
 from taggit.models import Tag
-from .forms import ContactForm
 from .models import Post, Article, Project, Category, Contact
-from .utils import DataMixin, generate_verification_code, advantages, partners, chunk_list
+from .utils import DataMixin, generate_verification_code, advantages, partners, chunk_list, generate_code
 from .models import Contact
 import redis
 
@@ -290,19 +287,18 @@ def send_telegram_message(username, user_id, telegram_message, photo=None):
         return False
 
 
-
 @require_http_methods(["POST"])
 def generate_code_view(request):
     tg_username = request.POST.get('tg_username')
     if not re.match(r'^[a-zA-Z0-9_]+$', tg_username):
-        return JsonResponse(
-            {'success': False, 'message': 'Username должен содержать только латинские буквы, цифры и _.'})
+        return JsonResponse({'success': False,
+                             'message': 'Username должен содержать только латинские буквы, цифры и _.'})
     request.session['tg_username'] = tg_username
-    code = str(generate_verification_code())
-    redis_client.hset(tg_username, "code", code)
-    redis_client.expire(tg_username, 300)
+    jwtcode = str(generate_code(tg_username))[:36] # максимальное количество знаков в url-параметре в telegram
+    # redis_client.hset(tg_username, "code", code)
+    # redis_client.expire(tg_username, 300)
     name = request.POST.get('name')
-    telegram_url = f"https://t.me/mgrup24_bot?start={tg_username}"
+    telegram_url = f"https://t.me/mgrup24_bot?start={jwtcode}"
     try:
         contact = Contact.objects.get(tg_username=tg_username)
         if contact.name != name:
@@ -360,3 +356,51 @@ def save_message_view(request):
 
 def calculator(request):
     return render(request, 'job/post/calculator.html')
+
+from decouple import config
+
+TELEGRAM_BOT_TOKEN = config('TELEGRAM_BOT_TOKEN')
+
+import hashlib
+import hmac
+import json
+import time
+from django.http import JsonResponse, HttpResponseRedirect
+from django.shortcuts import redirect
+from django.conf import settings
+
+def check_telegram_authorization(auth_data):
+    try:
+        check_hash = auth_data.pop("hash", None)
+        if not check_hash:
+            raise ValueError("Missing hash parameter")
+
+        data_check_arr = [f"{key}={value}" for key, value in sorted(auth_data.items())]
+        data_check_string = "\n".join(data_check_arr)
+
+        secret_key = hashlib.sha256(settings.BOT_TOKEN.encode()).digest()
+        hash_calc = hmac.new(secret_key, data_check_string.encode(), hashlib.sha256).hexdigest()
+
+        if not hmac.compare_digest(hash_calc, check_hash):
+            raise ValueError("Data is NOT from Telegram")
+
+        if time.time() - int(auth_data.get("auth_date", 0)) > 86400:
+            raise ValueError("Data is outdated")
+
+        return auth_data
+    except Exception as e:
+        return str(e)
+
+def save_telegram_user_data(response, auth_data):
+    response.set_cookie("tg_user", json.dumps(auth_data), max_age=86400)
+
+def telegram_login(request):
+    auth_data = request.GET.dict()
+    result = check_telegram_authorization(auth_data)
+
+    if isinstance(result, str):  # Ошибка
+        return JsonResponse({"error": result}, status=400)
+
+    response = redirect("/calculator/")  # Куда перенаправить после входа
+    save_telegram_user_data(response, result)
+    return response

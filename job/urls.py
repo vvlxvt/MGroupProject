@@ -8,19 +8,20 @@ app_name = 'job'  # определяю пространство имен для 
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('services/',views.DynamicPostListView.as_view(), name = 'post_list'),
+    path('services/', views.DynamicPostListView.as_view(), name='post_list'),
     path('contacts/', views.contacts, name='contacts'),
-    path('about/', views.AboutView.as_view(), name = 'about'),
-    path('articles/',views.ArticleListView.as_view(), name = 'article_list'),
-    path('projects/',views.ProjectListView.as_view(), name = 'projects'),
+    path('about/', views.AboutView.as_view(), name='about'),
+    path('articles/', views.ArticleListView.as_view(), name='article_list'),
+    path('projects/', views.ProjectListView.as_view(), name='projects'),
     path('articles/<slug:slug>/', views.ArticleDetailView.as_view(), name='article_detail'),
     path('projects/<slug:slug>/', views.ProjectDetailView.as_view(), name='project_detail'),
-    path('<slug:post>/', views.post_detail, name='post_detail'),
     path('feed/', LatestPostsFeed(), name='post_feed'),
     path('generate-code/', views.generate_code_view, name='generate_code'),
     path('verify-code/', views.verify_code_view, name='verify_code'),
     path('save-message/', views.save_message_view, name='save_message'),
     path('calculator/', views.calculator, name='calculator'),
+    path("auth/telegram/", views.telegram_login, name="telegram_login"),
+    path('<slug:post>/', views.post_detail, name='post_detail'),
 ]
 handler404 = views.page_not_found
 
