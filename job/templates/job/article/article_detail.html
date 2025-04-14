@@ -1,35 +1,37 @@
 {% extends "job/base.html" %}
 {% load static %}
-{% block meta_description %}{{meta_description}}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
 {% block articles %}
-<div class="container py-3 mt-4">
-    <div class="row justify-content-center">
-        <div class="col-lg-4 bg-light">
-            <ul class="list-unstyled">
-                {% for article in articles %}
-                <li class="list-group-item mb-0 {% if article == object %}active{% endif %}">
-                    <a href="{{ article.get_absolute_url }}"> {{ article.title }} </a>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-
-        <div class="col-lg-8">
-            <div class="card mb-4 ps-1 pe-1">
-                <img src="{{ article.photo.url }}" class="card-img-top" alt="Article Image" loading="lazy">
-                <div class="card-body">
-                    <p class="card-text"> {{ article.body|safe }}.</p>
-
-                    <div class="card-footer mb-3">
-                      <small class="text-muted">Опубликовано: {{ article.publish }}</small>
-                    </div>
+    <div class="container py-3 mt-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-4 bg-light">
+                <ul class="list-unstyled">
+                    {% for article in articles %}
+                        <li class="list-group-item mb-0 {% if article == object %}active{% endif %}">
+                            <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-lg-8">
+                <div class="card mb-4 ps-1 pe-1">
+                    <img src="{{ article.photo.url }}"
+                         class="card-img-top"
+                         alt="Article Image"
+                         loading="lazy">
+                    <div class="card-body">
+                        <p class="card-text">{{ article.body|safe }}.</p>
+                        <div class="card-footer mb-3">
+                            <small class="text-muted">Опубликовано: {{ article.publish }}</small>
+                        </div>
                         <a href="{{ request.META.HTTP_REFERER|default:'#' }}"
-                           class="btn" style="text-align: center; background-color: #FFD700;"
-                           onclick="window.history.back(); return false;">назад
-                        </a>
+                           class="btn"
+                           style="text-align: center;
+                                  background-color: #FFD700"
+                           onclick="window.history.back(); return false;">назад</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

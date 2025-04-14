@@ -1,43 +1,41 @@
-{% extends "job/base.html" %}{% load job_tags %}
+{% extends "job/base.html" %}
+{% load job_tags %}
 {% load static %}
-{% block meta_description %}{{meta_description}}{% endblock %}
-{% block title %}
-   <title> {{post.title}} </title>
-{% endblock %}
-
+{% block meta_description %}{{ meta_description }}{% endblock %}
+{% block title %}<title>{{ post.title }}</title>{% endblock %}
 {% block content %}
-
-<div class="container py-3 mt-4">
-    <div class="row justify-content-center">
-        <div class="col-lg-8 mx-auto">
-            <div class="card h-10 mb-4">
+    <div class="container py-3 mt-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 mx-auto">
+                <div class="card h-10 mb-4">
                     {% if post.photo %}
                         <img src="{{ post.photo.url }}" class="card-img-top" alt="post image">
                     {% else %}
-                        <img src="{% static 'job/images/default-image.jpg' %}" class="card-img-top"
+                        <img src="{% static 'job/images/default-image.jpg' %}"
+                             class="card-img-top"
                              alt="Default Image">
                     {% endif %}
-
-                <div class="card-body">
-
-                    <p class="card-text"> {{ post.body|markdown|safe  }}.</p>
-                    <hr>
-                    <p class="text-end">
-                        <small class="text-muted"> Опубликовано: {{ post.publish }} {{ post.author }}</small></p>
-
-                    <div class="card-footer">
-
-                        <ul><strong>Похожие посты</strong></ul>
-                        {% for post in similar_posts %}
-                            <li class="text-indent"><a href="{{post.get_absolute_url}}">{{post.title}}</a></li>
-                        {% empty %}
-                            Здесь пока нет похожих постов
-                        {% endfor %}
-
+                    <div class="card-body">
+                        <p class="card-text">{{ post.body|markdown|safe }}.</p>
+                        <hr>
+                        <p class="text-end">
+                            <small class="text-muted">Опубликовано: {{ post.publish }} {{ post.author }}</small>
+                        </p>
+                        <div class="card-footer">
+                            <ul>
+                                <strong>Похожие посты</strong>
+                            </ul>
+                            {% for post in similar_posts %}
+                                <li class="text-indent">
+                                    <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                                </li>
+                            {% empty %}
+                                Здесь пока нет похожих постов
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

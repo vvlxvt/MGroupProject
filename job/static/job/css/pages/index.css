@@ -3,7 +3,6 @@
     font-size: var(--font-size-h4);
     line-height: 1;
     vertical-align: baseline;
-    color:var(--color-secondary);
 }
 
 .info-font {
@@ -13,6 +12,16 @@
     color: var(--color-secondary);
 }
 
+.main-title {
+    font-size: 128px;
+    background: transparent;
+}
+
+.cuprum-bold {
+    font-family: 'Cuprum', sans-serif;
+    font-size: 116px;
+    font-weight: bold;
+}
 /* фото на главной странице */
 .image.main_photo {
     width: 100%; /* Full-width container */
@@ -21,7 +30,7 @@
     background-size: cover; /* Ensures image covers the entire div */
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Prevents repeating the image */
-    color: var(--color-secondary);
+    color: #1c1c1c;
 }
 
 /* мягкая тень на главной странице */

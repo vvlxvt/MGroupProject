@@ -1,6 +1,5 @@
- <div id="map"></div>
-
-  <script>
+<div id="map"></div>
+<script>
     // Передача координат из Django в JavaScript
     const locations = JSON.parse('{{ locations_json|safe }}');
 
@@ -41,4 +40,4 @@
       });
     }
     initMap(locations);
-  </script>
+</script>

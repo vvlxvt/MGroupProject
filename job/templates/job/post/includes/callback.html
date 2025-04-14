@@ -1,9 +1,179 @@
-<h1>Login with Telegram</h1>
+{% load static %}
+<br>
+<div class="container my-5" id="contacts">
+    <div class="row">
+        <!-- Форма -->
+        <div class="col-lg-5">
+            <!-- Форма -->
+            <form id="contactForm" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden"
+                       name="telegram_id"
+                       value="{{ request.session.user.id }}">
+                <!-- Ник в Telegram -->
+                <div class="mb-1 d-flex justify-content-between align-items-center gap-1">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-at"></i></span>
+                        <input type="text"
+                               name="username"
+                               class="form-control"
+                               placeholder="login name in telegram"
+                               value="{{ request.session.user.username|default:'' }}"
+                               readonly>
+                    </div>
+                    <div style="max-height:38px; margin-bottom: 2px;">
+                        <script async
+                                src="https://telegram.org/js/telegram-widget.js?22"
+                                data-telegram-login="mgrup24_bot"
+                                data-size="large"
+                                data-radius="7"
+                                data-auth-url="https://920a-94-43-154-7.ngrok-free.app/callback"
+                                data-request-access="write"></script>
+                    </div>
+                </div>
+                <!-- Имя -->
+                <div class="mb-1">
+                    <div class="input-group w-100">
+                        <span class="input-group-text"><i class="fa-solid fa-user-tie"></i></span>
+                        <input type="text"
+                               name="first_name"
+                               class="form-control"
+                               placeholder="Ваше имя"
+                               value="{{ request.session.user.first_name|default:'' }}"
+                               readonly>
+                    </div>
+                </div>
+                <!-- Дата аутентификации -->
+                <div class="mb-1">
+                    <div class="input-group w-100">
+                        <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+                        <input type="text"
+                               name="Дата верификации"
+                               placeholder="login name in telegram"
+                               class="form-control"
+                               value="{{ request.session.user.auth_date|default:'' }}"
+                               readonly>
+                    </div>
+                </div>
+                <!-- Email -->
+                <div class="mb-1">
+                    <div class="input-group w-100 has-validation">
+                        <span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
+                        <input type="email"
+                               class="form-control"
+                               id="mail"
+                               name="email"
+                               value="{{ user_form.initial.email }}"
+                               placeholder="Ваш Email">
+                        <div class="invalid-feedback">Укажите email</div>
+                    </div>
+                </div>
+                <!-- Город -->
+                <div class="mb-1">
+                    <div class="input-group w-100 has-validation">
+                        <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
+                        <input type="text"
+                               class="form-control"
+                               id="city"
+                               value="{{ user_form.initial.city }}"
+                               name="city"
+                               placeholder="Укажите откуда Вы">
+                        <div class="invalid-feedback">Укажите населенный пункт</div>
+                    </div>
+                </div>
+                <!-- Сообщение -->
+                <div class="mb-1">
+                    <textarea class="form-control w-100"
+                              id="message"
+                              name="question_text"
+                              placeholder="Задайте Ваш вопрос к нам"
+                              required></textarea>
+                </div>
+                <!-- Фото -->
+                <div class="mb-3">
+                    <label for="attached_photo" class="form-label">Загрузить фото</label>
+                    <input type="file"
+                           name="attached_photo"
+                           class="form-control w-100"
+                           id="attached_photo">
+                </div>
+                <!-- Кнопка -->
+                <div class="mb-3 text-center">
+                    <button type="submit" class="btn button transparent">Отправить сообщение</button>
+                </div>
+            </form>
+        </div>
+        <!-- Второй столбец: Информация -->
+        <div class="col-lg-7 px-3">
+            <div class="fs-5">
+                <p class="text-indent">
+                    К настоящему моменту вы узнали многое о "МалярГрупп". Однако остается один важный
+                    вопрос: Что конкретно "МалярГрупп" может сделать для вашего проекта по покраске и нанесению
+                    покрытий? Сейчас у вас есть возможность узнать об этом.
+                    <p class="text-indent">
+                        Расскажите нам о своем проекте, о том, что вам нужно и чего вы ожидаете от
+                        подрядчика по покраске и покрытиям. Мы с удовольствием обсудим детали работы и предоставим вам
+                        дополнительную информацию о наших преимуществах, таких как:
+                        <ul>
+                            <li>Более двадцати лет опыта в лакокрасочной отрасли</li>
+                            <li>Постоянное внимание к вопросам безопасности, которое укрепляется каждый день</li>
+                            <li>Профессиональные и сертифицированные сотрудники, прекрасно знающие свое дело</li>
+                            <li>
+                                Современные инструменты и оборудование, обеспечивающие высокую производительность и
+                                эффективность
+                            </li>
+                            <li>Высокий уровень сервиса, который заслужил признание по всему Сибирскому региону</li>
+                            <li>
+                                Мы часто говорим о гордости за нашу работу в "МалярГрупп", но больше всего это чувство
+                                передается нашим клиентам, когда мы завершаем их проект по покраске и покрытиям.
+                            </li>
+                        </ul>
+                        <p class="text-indent">
+                            После сотрудничества с нами мы уверены, что и вы ощутите это.
+                        </div>
+                    </div>
+                </div>
+                <div id="formResponse" style="display:none;"></div>
+            </div>
+            <script>
+    document.getElementById('contactForm').addEventListener('submit', function(event) {
+        event.preventDefault();  // Останавливаем стандартную отправку формы
 
-<div style="text-align: center; margin-top: 20px;">
-    <script async src="https://telegram.org/js/telegram-widget.js?22"
-            data-telegram-login="mgroupverifybot"
-            data-size="medium"
-            data-auth-url="https://mgroup-vvlxvt.amvera.io/calculator"
-            data-request-access="write"></script>
-</div>
+        let formData = new FormData(document.getElementById('contactForm')); // Создаем объект FormData для отправки файлов и других данных формы
+
+        fetch("{% url 'job:submit_question' %}", {
+            method: 'POST',
+            body: formData,  // Передаем данные формы
+            headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value }
+        })
+
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                // Успешный ответ
+                document.getElementById('formResponse').innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+                document.getElementById('formResponse').style.display = 'block';
+                document.getElementById('contactForm').reset();  // Очищаем форму после успешной отправки
+
+                // Скрываем сообщение через 3 секунды
+                setTimeout(function() {
+                    document.getElementById('formResponse').style.display = 'none';
+                }, 3000);
+            } else if (data.error) {
+                // Ошибка
+                let errors = JSON.parse(data.error);
+                let errorMessage = '';
+                for (let field in errors) {
+                    errorMessage += `${errors[field][0].message}<br>`;
+                }
+                document.getElementById('formResponse').innerHTML = `<div class="alert alert-danger">${errorMessage}</div>`;
+                document.getElementById('formResponse').style.display = 'block';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('formResponse').innerHTML = `<div class="alert alert-danger">Ошибка отправки формы. Попробуйте снова.</div>`;
+            document.getElementById('formResponse').style.display = 'block';
+        });
+    });
+            </script>

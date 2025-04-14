@@ -1,67 +1,74 @@
 {% load static %}
 {% load job_tags %}
-
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %} {% endblock %}</title>
-    <link href="{% static 'job/css/job.css' %}" rel="stylesheet">
-    <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
-
-</head>
-<body>
-    <div id="content">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-sm-4 mb-5 my-carousel">
-                    {% block content %}
-                    {% endblock %}
-                </div>
-
-                <div class="col-lg-4 col-sm-2 mb-5 my-row">
-                    Привет <br>
-                    Привет<br>
-                    Привет<br>
-                    Привет<br>
-                    Привет<br>
-                    Привет<br>
-                    Привет<br>
-                    Привет<br>
-                    Привет<br>
-                    Привет<br>
-                    Привет<br>
-                    Привет<br>
-                    Привет<br>
-                    Привет<br>
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            {% block title %}{% endblock %}
+        </title>
+        <link href="{% static 'job/css/job.css' %}" rel="stylesheet">
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    </head>
+    <body>
+        <div id="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-sm-4 mb-5 my-carousel">
+                        {% block content %}{% endblock %}
+                    </div>
+                    <div class="col-lg-4 col-sm-2 mb-5 my-row">
+                        Привет
+                        <br>
+                        Привет
+                        <br>
+                        Привет
+                        <br>
+                        Привет
+                        <br>
+                        Привет
+                        <br>
+                        Привет
+                        <br>
+                        Привет
+                        <br>
+                        Привет
+                        <br>
+                        Привет
+                        <br>
+                        Привет
+                        <br>
+                        Привет
+                        <br>
+                        Привет
+                        <br>
+                        Привет
+                        <br>
+                        Привет
+                        <br>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div id="sidebar">
-        <h2>Наши работы</h2>
-        <p>Это наши работы.</p>
-        <p>Было написано {% total_posts %} постов</p>
-        <p>
-            <a href="{% url "job:post_feed" %}">
-                Подпишитесь на нашу RSS-ленту
-            </a>
-        </p>
-        <h3> Последний пост </h3>
-        {% show_latest_posts 3 %}
-        <h3> Самые комментируемые посты </h3>
-        {% get_most_commented_posts as most_commented_posts %}
-        <ul>
-            {% for post in most_commented_posts %}
-            <li>
-                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-
-<script src="{% static 'js/bootstrap.bundle.min.js' %}"> </script>
-</body>
+        <div id="sidebar">
+            <h2>Наши работы</h2>
+            <p>Это наши работы.</p>
+            <p>Было написано {% total_posts %} постов</p>
+            <p>
+                <a href="{% url "job:post_feed" %}">Подпишитесь на нашу RSS-ленту</a>
+            </p>
+            <h3>Последний пост</h3>
+            {% show_latest_posts 3 %}
+            <h3>Самые комментируемые посты</h3>
+            {% get_most_commented_posts as most_commented_posts %}
+            <ul>
+                {% for post in most_commented_posts %}
+                    <li>
+                        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"> </script>
+    </body>
 </html>

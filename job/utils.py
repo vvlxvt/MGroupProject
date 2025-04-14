@@ -1,5 +1,12 @@
 from itertools import zip_longest
-from random import random
+import hashlib
+import hmac
+import time
+import urllib
+import requests, json, logging
+from django.core.files.base import ContentFile
+from django.conf import settings
+
 
 class DataMixin:
     paginate_by = 3
@@ -8,28 +15,7 @@ class DataMixin:
 
     def __init__(self):
         if self.title_page:
-            self.extra_context['title'] = self.title_page
-
-
-import random
-def generate_verification_code():
-    code = random.randint(1000, 9999)
-    return code
-
-
-import jwt
-import datetime
-
-SECRET_KEY = "xyz"
-
-def generate_code(user):
-    payload = {
-        "user": user,
-        "code": "1424",
-        "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=10)
-    }
-    return jwt.encode(payload, SECRET_KEY, algorithm="HS256")
-
+            self.extra_context["title"] = self.title_page
 
 
 advantages = {
@@ -38,21 +24,153 @@ advantages = {
     "Дизайн проект": "Может быть полностью ваш или доработан после консультации наших специалистов",
     "Качественные материалы": "Работаем с лучшими, проверенными производителями оборудования и материалов",
     "Специалисты своего дела": "Мы за разделение труда. Над каждым проектом работают специалисты узкого профиля",
-    "Выбор цвета": "Предоставляем полный спектр цветов, поможем подобрать оттенок для объекта"
+    "Выбор цвета": "Предоставляем полный спектр цветов, поможем подобрать оттенок для объекта",
 }
 
 partners = {
-    'Роснефть': "static/job/images/partners/partners-rosneft.png",
-    'Красэнерго': "static/job/images/partners/partners-krasenergo.png",
-    'Славнефть': "static/job/images/partners/partners-slavneft.png",
-    'Леруа-Мерлен': "static/job/images/partners/partners-Leroy-Merli.png",
-    'Лента': "static/job/images/partners/partners-lenta.png",
-    'КраМЗ': "static/job/images/partners/partners-kramz.jpg",
-    'БНГРЭ': "static/job/images/partners/partners-bngre.jpg",
-    'РН-Бурение': "static/job/images/partners/partners-rnburenie.png"
+    "Роснефть": "static/job/images/partners/partners-rosneft.png",
+    "Красэнерго": "static/job/images/partners/partners-krasenergo.png",
+    "Славнефть": "static/job/images/partners/partners-slavneft.png",
+    "Леруа-Мерлен": "static/job/images/partners/partners-Leroy-Merli.png",
+    "Лента": "static/job/images/partners/partners-lenta.png",
+    "КраМЗ": "static/job/images/partners/partners-kramz.jpg",
+    "БНГРЭ": "static/job/images/partners/partners-bngre.jpg",
+    "РН-Бурение": "static/job/images/partners/partners-rnburenie.png",
 }
+
 
 def chunk_list(lst, size):
     """Разделяет список на группы заданного размера."""
     return list(zip_longest(*[iter(lst)] * size, fillvalue=None))
 
+
+token = "8113120422:AAHj5M0W_noC4XItXVvPCRJFECXUbt5n_dE"
+
+
+def verify_telegram_auth(data):
+    token = "8113120422:AAHj5M0W_noC4XItXVvPCRJFECXUbt5n_dE"
+    secret_key = hashlib.sha256(token.encode()).digest()
+    auth_data = urllib.parse.parse_qs(data, keep_blank_values=True)
+    auth_data = {k: v[0] for k, v in auth_data.items()}
+    hash_check = auth_data.pop("hash", None)
+    if not hash_check:
+        return False
+    check_string = "\n".join(f"{k}={auth_data[k]}" for k in sorted(auth_data.keys()))
+    calculated_hash = hmac.new(
+        secret_key, check_string.encode(), hashlib.sha256
+    ).hexdigest()
+    auth_date = int(auth_data.get("auth_date", 0))
+    if time.time() - auth_date > 86400:
+        print("❌ Данные устарели!")
+        return False
+    else:
+        print("✅ Данные актуальны!")
+    return calculated_hash == hash_check
+
+
+def get_user_photo_id(telegram_id):
+    """Получает file_id аватара пользователя"""
+    url = f"https://api.telegram.org/bot{token}/getUserProfilePhotos"
+    params = {"user_id": telegram_id, "limit": 1}
+
+    response = requests.get(url, params=params).json()
+    print(json.dumps(response, indent=4, ensure_ascii=False))
+
+    if response["ok"] and response["result"]["total_count"] > 0:
+        return response["result"]["photos"][0][-1][
+            "file_id"
+        ]  # Берём фото максимального размера
+    return None
+
+
+def download_user_photo(file_id):
+    """Скачивает фото пользователя с Telegram"""
+    url = f"https://api.telegram.org/bot{token}/getFile"
+    response = requests.get(url, params={"file_id": file_id}).json()
+
+    if response["ok"]:
+        file_path = response["result"]["file_path"]
+        photo_url = f"https://api.telegram.org/file/bot{token}/{file_path}"
+        return photo_url  # Это рабочая ссылка на файл!
+    return None
+
+
+print(get_user_photo_id("541172529"))
+
+
+def save_user_photo(user):
+    """Получает и сохраняет фото пользователя"""
+    file_id = get_user_photo_id(user.telegram_id)
+    if not file_id:
+        print("⚠ Фото отсутствует")
+        return
+
+    photo_url = download_user_photo(file_id)
+    if not photo_url:
+        print("❌ Не удалось получить ссылку на фото")
+        return
+
+    try:
+        response = requests.get(photo_url, stream=True)
+        if response.status_code == 200:
+            file_name = f"telegram_photos/{user.telegram_id}.jpg"
+            user.photo.save(file_name, ContentFile(response.content), save=True)
+            print(f"✅ Фото {file_name} успешно сохранено")
+        else:
+            print(f"❌ Ошибка загрузки фото: {response.status_code}")
+    except requests.RequestException as e:
+        print(f"❌ Ошибка при запросе к {photo_url}: {e}")
+
+
+logger = logging.getLogger(__name__)
+
+
+def send_telegram_message(question):
+    """
+    Отправляет сообщение или фото в Telegram на основе экземпляра UserQuestion.
+
+    :param question: экземпляр модели UserQuestion
+    :return: bool (успех/неудача)
+    """
+    user = question.user
+    bot_token = settings.TELEGRAM_BOT_TOKEN
+    telegram_url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+    telegram_url_photo = f"https://api.telegram.org/bot{bot_token}/sendPhoto"
+
+    # Получаем имя пользователя или ID
+    user_label = (
+        f"@{user.username}"
+        if user.username
+        else f"User ID: <code>{user.telegram_id}</code>"
+    )
+    caption = f"{question.question_text}\n\nот пользователя {user_label}"
+
+    try:
+        if question.attached_photo:
+            with question.attached_photo.open("rb") as photo_file:
+                files = {"photo": photo_file}
+                response = requests.post(
+                    telegram_url_photo,
+                    data={
+                        "chat_id": user.telegram_id,
+                        "caption": caption,
+                        "parse_mode": "HTML",
+                    },
+                    files=files,
+                )
+        else:
+            response = requests.post(
+                telegram_url,
+                data={
+                    "chat_id": user.telegram_id,
+                    "text": caption,
+                    "parse_mode": "HTML",
+                },
+            )
+
+        response.raise_for_status()
+        return True
+
+    except Exception as e:
+        logger.error(f"Ошибка при отправке в Telegram: {e}")
+        return False

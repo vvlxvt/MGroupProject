@@ -2,7 +2,7 @@ from taggit.forms import TagField
 from django import forms
 from taggit_labels.widgets import LabelWidget
 
-from job.models import Contact
+from job.models import UserProfile, UserQuestion
 
 
 class SearchForm(forms.Form):
@@ -19,9 +19,14 @@ class EmailPostForm(forms.Form):
     to = forms.EmailField()
     comments = forms.CharField(required=False, widget=forms.Textarea)
 
-class ContactForm(forms.ModelForm):
-    email = forms.EmailField()
-    class Meta:
-        model = Contact
-        fields = ['name', 'tg_username','email', 'message', 'photo']
 
+class UserQuestionForm(forms.ModelForm):
+    class Meta:
+        model = UserQuestion
+        fields = ["question_text", "attached_photo"]
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ["email", "city"]

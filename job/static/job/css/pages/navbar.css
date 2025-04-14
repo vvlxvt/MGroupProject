@@ -25,26 +25,26 @@
 
 /* Стили для поля ввода у кнопки поиска */
 .form-control {
-    color: white !important;
+    color: white;
     background-color: black;
-    outline: 1px solid #FFD700 !important;
-    border: 1px solid #FFD700 !important;
-    opacity: 0.8;
+    border: 1px solid #FFD700;
+    outline: none;
+    opacity: 0.9;
+    transition: all 0.3s ease;
 }
 
 .form-control:focus {
-    color: white !important;
-    background-color: black;
-    border-color: transparent !important;
-    outline: 2px solid #FFD700;
     border: 2px solid #FFD700;
+    outline: none;
+    background-color: black;
+    color: white;
 }
 
 .form-control::placeholder {
-    color: #FFD700; /* Желтый цвет placeholder */
+    color: #FFD700;
     opacity: 0.8;
-    border-color: transparent !important;
 }
+
 
 .input-group .btn {
   border: 2px solid #FFD700; /* Жёлтая обводка */

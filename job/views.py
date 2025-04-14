@@ -1,58 +1,66 @@
-import re
-import requests, json
-from django.db import IntegrityError
-from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, TemplateView, DetailView
-from django.views.decorators.csrf import csrf_exempt
-from django.db.models import Count
+import json
+import requests
+from datetime import datetime
+
 from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
-from django.contrib.postgres.search import SearchVector, SearchQuery, TrigramSimilarity
-from django.db.models import Q
-from django.views.decorators.http import require_http_methods
+from django.db.models import Q, Count
 from django.http import JsonResponse
-from taggit.models import Tag
-from .models import Post, Article, Project, Category, Contact
-from .utils import DataMixin, generate_verification_code, advantages, partners, chunk_list, generate_code
-from .models import Contact
-import redis
+from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.timezone import make_aware
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from django.views.generic import ListView, TemplateView, DetailView
+from django.contrib.postgres.search import SearchVector, SearchQuery, TrigramSimilarity
 
-redis_client = redis.StrictRedis(host='127.0.0.1', port=6379, db=1)  # Используем базу 1
+from taggit.models import Tag
+
+from .models import Post, Article, Project, Category, UserProfile, UserQuestion
+from .forms import UserQuestionForm, UserProfileForm
+from .utils import (
+    DataMixin,
+    advantages,
+    partners,
+    chunk_list,
+    verify_telegram_auth,
+    save_user_photo,
+    send_telegram_message,
+)
+
 
 class DynamicPostListView(DataMixin, ListView):
-    title_page = 'Наши услуги'
+    title_page = "Наши услуги"
     model = Post
-    context_object_name = 'posts'
-    template_name = 'job/post/list.html'
+    context_object_name = "posts"
+    template_name = "job/post/list.html"
     allow_empty = True  # Позволяет показывать пустой список, если постов нет
 
     def get_queryset(self):
-        queryset = Post.published.all().select_related('cat').prefetch_related('tags')
+        queryset = Post.published.all().select_related("cat").prefetch_related("tags")
 
         # Фильтрация по категории
-        cat_slug = self.request.GET.get('category')
+        cat_slug = self.request.GET.get("category")
         if cat_slug:
             queryset = queryset.filter(cat__slug=cat_slug)
 
         # Фильтрация по тегу
-        tag_slug = self.request.GET.get('tag')
+        tag_slug = self.request.GET.get("tag")
         if tag_slug:
             queryset = queryset.filter(tags__slug=tag_slug)
 
         # Поиск по запросу
-        query = self.request.GET.get('query')
+        query = self.request.GET.get("query")
         if query:
-            search_vector = (
-                SearchVector('title', weight='A', config='russian') +
-                SearchVector('body', weight='B', config='russian')
+            search_vector = SearchVector(
+                "title", weight="A", config="russian"
+            ) + SearchVector("body", weight="B", config="russian")
+            search_query = SearchQuery(query, config="russian")
+            queryset = (
+                queryset.annotate(
+                    search=search_vector, similarity=TrigramSimilarity("title", query)
+                )
+                .filter(Q(search=search_query) | Q(similarity__gt=0.1))
+                .order_by("-similarity")
             )
-            search_query = SearchQuery(query, config='russian')
-            queryset = queryset.annotate(
-                search=search_vector,
-                similarity=TrigramSimilarity('title', query)
-            ).filter(
-                Q(search=search_query) | Q(similarity__gt=0.1)
-            ).order_by('-similarity')
 
         return queryset
 
@@ -60,43 +68,48 @@ class DynamicPostListView(DataMixin, ListView):
         context = super().get_context_data(**kwargs)
 
         # Доступ к фильтрующим параметрам
-        cat_slug = self.request.GET.get('category')
-        tag_slug = self.request.GET.get('tag')
-        query = self.request.GET.get('query')
+        cat_slug = self.request.GET.get("category")
+        tag_slug = self.request.GET.get("tag")
+        query = self.request.GET.get("query")
 
         # Добавляем категории и теги в контекст
-        context['categories'] = Category.objects.all()
-        context['tags'] = Tag.objects.all()
+        context["categories"] = Category.objects.all()
+        context["tags"] = Tag.objects.all()
 
         # Устанавливаем заголовок и мета-описание
         if cat_slug:
             category = Category.objects.filter(slug=cat_slug).first()
             if category:
-                context['title'] = f"{category.name}"
-                context['meta_description'] = f"Отображение постов в категории {category.name}."
+                context["title"] = f"{category.name}"
+                context["meta_description"] = (
+                    f"Отображение постов в категории {category.name}."
+                )
 
         if tag_slug:
             tag = Tag.objects.filter(slug=tag_slug).first()
             if tag:
-                context['title'] = f"Тег: {tag.name}"
-                context['meta_description'] = f"Результат поиска постов, содержащих тэги: {tag.name}."
+                context["title"] = f"Тег: {tag.name}"
+                context["meta_description"] = (
+                    f"Результат поиска постов, содержащих тэги: {tag.name}."
+                )
 
         if query:
-            context['query'] = query
-            context['title'] = f"Результаты поиска: {query}"
-            context['meta_description'] = f"Результат поиска постов, содержащих слово: {query}."
+            context["query"] = query
+            context["title"] = f"Результаты поиска: {query}"
+            context["meta_description"] = (
+                f"Результат поиска постов, содержащих слово: {query}."
+            )
 
         return context
 
 
-class AboutView(DataMixin,TemplateView):
+class AboutView(DataMixin, TemplateView):
     template_name = "job/post/about.html"
-    title_page = 'О нас'
-
+    title_page = "О нас"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['meta_description'] = f"Информация о нашей компании"
+        context["meta_description"] = f"Информация о нашей компании"
         # context["latest_articles"] = Article.objects.all()[:5]
         return context
 
@@ -105,11 +118,18 @@ def post_detail(request, post):
     # извлекаем пост по id
     post = get_object_or_404(Post, status=Post.Status.PUBLISHED, slug=post)
     # Набор запросов QuerySet values_list() возвращает кортежи со значениями заданных полей
-    post_tags_ids = post.tags.values_list('id', flat=True) # параметр flat=True, чтобы получить одиночные значения
+    post_tags_ids = post.tags.values_list(
+        "id", flat=True
+    )  # параметр flat=True, чтобы получить одиночные значения
     similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
-    similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags','-publish')[:4]
-    return render(request,'job/post/detail.html',
-                  {'post': post,'title': post,'similar_posts':similar_posts})
+    similar_posts = similar_posts.annotate(same_tags=Count("tags")).order_by(
+        "-same_tags", "-publish"
+    )[:4]
+    return render(
+        request,
+        "job/post/detail.html",
+        {"post": post, "title": post, "similar_posts": similar_posts},
+    )
 
 
 # def post_search(request):
@@ -145,42 +165,46 @@ def post_detail(request, post):
 
 class ArticleListView(DataMixin, ListView):
     model = Article
-    title_page = 'Статьи'
-    context_object_name = 'articles'
-    template_name = 'job/article/article_list.html'
+    title_page = "Статьи"
+    context_object_name = "articles"
+    template_name = "job/article/article_list.html"
 
     def get_queryset(self):
         return Article.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['meta_description'] = f"Популярные статьи о способах обработки поверхностей"
+        context["meta_description"] = (
+            f"Популярные статьи о способах обработки поверхностей"
+        )
         return context
+
 
 class ArticleDetailView(DetailView):
     model = Article
-    template_name = 'job/article/article_detail.html'
-    context_object_name = 'article'
+    template_name = "job/article/article_detail.html"
+    context_object_name = "article"
 
     def get_queryset(self):
-        return Article.objects.only('title')
+        return Article.objects.only("title")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = self.object.title
-        context['meta_description'] = f"Cтатья о {self.object.title}"
-        context['articles'] = Article.objects.only('title')
+        context["title"] = self.object.title
+        context["meta_description"] = f"Cтатья о {self.object.title}"
+        context["articles"] = Article.objects.only("title")
         return context
 
+
 class ProjectListView(DataMixin, ListView):
-    title_page = 'Выполненные проекты'
-    context_object_name = 'projects'
+    title_page = "Выполненные проекты"
+    context_object_name = "projects"
     paginate_by = 20  # количество объектов на страницу
-    template_name = 'job/project/project_list.html'
+    template_name = "job/project/project_list.html"
 
     def get_queryset(self):
         # Выбираем только нужные поля
-        return Project.objects.only('id', 'title', 'lat', 'lng', 'publish')
+        return Project.objects.only("id", "title", "lat", "lng", "publish")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -190,217 +214,179 @@ class ProjectListView(DataMixin, ListView):
 
         # Генерируем список локаций для карты
         locations_list = [
-            {'id': project.id, 'position': {'lat': project.lat, 'lng': project.lng}, 'title': project.title}
+            {
+                "id": project.id,
+                "position": {"lat": project.lat, "lng": project.lng},
+                "title": project.title,
+            }
             for project in projects
         ]
 
         # Добавляем данные в контекст
-        context['locations_json'] = json.dumps(locations_list, cls=DjangoJSONEncoder)
-        context['google_maps_api_key'] = settings.GOOGLE_MAPS_API_KEY
-        context['meta_description'] = f"Наши выполненные проекты с координатами на карте Google"
+        context["locations_json"] = json.dumps(locations_list, cls=DjangoJSONEncoder)
+        context["google_maps_api_key"] = settings.GOOGLE_MAPS_API_KEY
+        context["meta_description"] = (
+            f"Наши выполненные проекты с координатами на карте Google"
+        )
 
         return context
 
 
-
-# def project_detail(request,project):
-#     project = get_object_or_404(Project, slug=project)
-#     context = {'project': project,
-#                'title': project,
-#                'meta_description': f"Выполненный проект {project}",}
-#     return render(request,'job/project/project_detail.html',context)
-
 class ProjectDetailView(DetailView):
     model = Project
-    template_name = 'job/project/project_detail.html'
-    context_object_name = 'project'
+    template_name = "job/project/project_detail.html"
+    context_object_name = "project"
 
     def get_queryset(self):
         return Project.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = self.object.title
-        context['meta_description'] = f"Выполненный проект {self.object.title}"
+        context["title"] = self.object.title
+        context["meta_description"] = f"Выполненный проект {self.object.title}"
         return context
+
 
 def home(request):
     # posts = Post.published.all()
-    posts = Post.published.prefetch_related('postarticle_set__article').all()
-    title = 'МЫ РАДЫ ПРИВЕТСТВОВАТЬ ВАС НА САЙТЕ КОМПАНИИ'
-    projects = Project.objects.only('title','slug')
-    grouped_projects = {"lg": chunk_list(list(projects), 3),  # По 3 для больших экранов
+    posts = Post.published.prefetch_related("postarticle_set__article").all()
+    title = "МЫ РАДЫ ПРИВЕТСТВОВАТЬ ВАС НА САЙТЕ КОМПАНИИ"
+    projects = Project.objects.only("title", "slug")
+    grouped_projects = {
+        "lg": chunk_list(list(projects), 3),  # По 3 для больших экранов
         "md": chunk_list(list(projects), 2),  # По 2 для средних экранов
         "sm": chunk_list(list(projects), 1),  # По 1 для мобильных
     }
     # projects = Project.objects.all()
     context = {
-        'posts': posts,
-        'title': title,
-        'grouped_projects': grouped_projects,
-        'projects': projects,
-        'partners': partners,
-        'advantages': advantages,
+        "posts": posts,
+        "title": title,
+        "grouped_projects": grouped_projects,
+        "projects": projects,
+        "partners": partners,
+        "advantages": advantages,
     }
 
-    return render(request, 'job/post/index.html', context)
+    return render(request, "job/post/index.html", context)
+
 
 def page_not_found(request, exception):
-    return render(request, '404.html', status=404)
+    return render(request, "404.html", status=404)
 
 
 def contacts(request):
-    title = 'Напишите нам Ваши вопросы и мы постараемся помочь'
-    context = {'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY,
-               'title': title,
+    title = "Напишите нам Ваши вопросы и мы постараемся помочь"
+
+    user_data = request.session.get("user", {})
+    telegram_id = user_data.get("id")
+
+    user = None
+    if telegram_id:
+        try:
+            user = UserProfile.objects.get(telegram_id=telegram_id)
+        except UserProfile.DoesNotExist:
+            pass
+
+    # Инициализация формы с уже сохранёнными данными
+    if user:
+        if not user.email:
+            user.email = user_data.get("email", "")
+        if not user.city:
+            user.city = user_data.get("city", "")
+
+    user_form = UserProfileForm(instance=user)
+    print(user_form.initial)
+    q_form = UserQuestionForm()
+
+    context = {
+        "google_maps_api_key": settings.GOOGLE_MAPS_API_KEY,
+        "title": title,
+        "user_form": user_form,
+        "q_form": q_form,
     }
-    return render(request, 'job/post/contacts.html',context)
+    return render(request, "job/post/contacts.html", context)
 
 
+from django.views.decorators.http import require_GET, require_POST
+from django.views.decorators.csrf import csrf_protect
 
-# Функция для отправки сообщения и фото в Telegram
-def send_telegram_message(username, user_id, telegram_message, photo=None):
-    bot_token = settings.TELEGRAM_BOT_TOKEN
-    chat_id = settings.TELEGRAM_CHAT_ID
 
-    # URL для отправки текстового сообщения
-    telegram_url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+@require_GET
+def telegram_auth_view(request):
+    user_data = request.GET.dict()
 
-    # URL для отправки файла
-    telegram_url_photo = f"https://api.telegram.org/bot{bot_token}/sendPhoto"
-    link = f'User ID: <code>{user_id}</code> (User has no username)'
-    caption = f"{telegram_message} от пользователя {username} c {link}"
+    # Проверка Telegram-аутентификации
+    if not verify_telegram_auth(request.META["QUERY_STRING"]):
+        return JsonResponse({"error": "Invalid Telegram authentication"}, status=403)
+
     try:
-        if photo:
-            files = {'photo': photo}
-            requests.post(telegram_url_photo, data={'chat_id': user_id,
-                                                    'caption': caption,
-                                                    'parse_mode': 'HTML'}, files=files)
-        else:
-            requests.post(telegram_url, data={'chat_id': user_id,
-                                              'text': caption,
-                                              'parse_mode': 'HTML'})
-        return True
+        timestamp = int(user_data.get("auth_date", 0))
+        calendar_time = make_aware(datetime.utcfromtimestamp(timestamp))
+    except (ValueError, TypeError):
+        return JsonResponse({"error": "Некорректная дата аутентификации"}, status=400)
 
-    except Exception as e:
-        print(f"Ошибка при отправке в Telegram: {e}")
-        return False
+    # Создаём пользователя, если не существует
+    telegram_id = int(user_data.get("id", 0))
+    user, created = UserProfile.objects.get_or_create(
+        telegram_id=telegram_id,
+        defaults={
+            "username": user_data.get("username", ""),
+            "first_name": user_data.get("first_name", ""),
+            "last_name": user_data.get("last_name", ""),
+            "auth_date": calendar_time,
+        },
+    )
 
+    save_user_photo(user)
 
-@require_http_methods(["POST"])
-def generate_code_view(request):
-    tg_username = request.POST.get('tg_username')
-    if not re.match(r'^[a-zA-Z0-9_]+$', tg_username):
-        return JsonResponse({'success': False,
-                             'message': 'Username должен содержать только латинские буквы, цифры и _.'})
-    request.session['tg_username'] = tg_username
-    jwtcode = str(generate_code(tg_username))[:36] # максимальное количество знаков в url-параметре в telegram
-    # redis_client.hset(tg_username, "code", code)
-    # redis_client.expire(tg_username, 300)
-    name = request.POST.get('name')
-    telegram_url = f"https://t.me/mgrup24_bot?start={jwtcode}"
-    try:
-        contact = Contact.objects.get(tg_username=tg_username)
-        if contact.name != name:
-            return JsonResponse({'success': False, 'message': 'Имя пользователя не совпадает с Telegram username.'})
-        else:
-            return JsonResponse({"success": True, "message": "Пользователь успешно найден.", 'email': contact.email,
-                "show_pass_key": False})
-    except Contact.DoesNotExist:  # Исправлено: указана модель Contact
-        return JsonResponse(
-            {'success': True, 'message': "Требуется верификация.",
-             "redirect": telegram_url, "show_pass_key": True})
+    # Сохраняем в сессию
+    request.session["user"] = {
+        "id": user.telegram_id,
+        "username": user.username,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "auth_date": user.auth_date.strftime("%Y-%m-%d %H:%M"),
+        "email": user.email,
+        "city": user.city,
+    }
+
+    return redirect("/contacts/")
 
 
-@require_http_methods(["POST"])
-def verify_code_view(request):
-    tg_username = request.POST.get('tg_username')
-    name = request.POST.get('name')
-    code = request.POST.get('code')
-    # Проверка наличия данных
-    if not tg_username or not code:
-        return JsonResponse({'success': False, 'message': 'Необходимо указать Telegram username и код.'})
-    redis_value = redis_client.hget(tg_username,'code')
-    print(f'{redis_value} - получил')
-    if redis_value is not None:
-        if redis_value.decode('utf-8') == code:
-            print('код совпал')
-            tg_id = redis_client.hget(tg_username,'user_id')
-            try:
-                contact = Contact.objects.create(tg_username=tg_username, name=name, verified=True, tg_id=tg_id)
-            except IntegrityError:
-                return JsonResponse({'status': 'error', 'message': 'Пользователь с вашим id уже существует'})
-            return JsonResponse({'status': 'verified', 'message': 'Вы верифицированны. Пожалуйста напишите вопрос'})
-        else:
-            return JsonResponse({'status': 'error', 'message': 'Неверный код'})
-    else:
-        return JsonResponse({'status': 'error', 'message': 'Истек срок действия ключа'})
+@csrf_protect
+@require_POST
+def submit_question(request):
+    q_form = UserQuestionForm(request.POST, request.FILES)
 
+    if q_form.is_valid():
+        telegram_id = request.POST.get("telegram_id")
+        try:
+            user = UserProfile.objects.get(telegram_id=telegram_id)
+        except UserProfile.DoesNotExist:
+            return JsonResponse(
+                {"success": False, "error": "Пользователь не найден!"}, status=404
+            )
 
-@require_http_methods(["POST"])
-def save_message_view(request):
-    tg_username = request.session.get('tg_username')
-    photo = request.FILES.get('photo')
-    try:
-        contact = Contact.objects.get(tg_username=tg_username)
-        if contact.verified == True:
-            contact.email = request.POST.get('email')
-            contact.message = request.POST.get('message')
-            if photo:
-                contact.photo = photo
-            send_telegram_message(contact.tg_username, contact.tg_id, contact.message, photo)
-            contact.save()
-        return JsonResponse({'success': True, 'message': 'Сообщение отправлено!'})
-    except Contact.DoesNotExist:
-        return JsonResponse({'success': False, 'message': 'Пользователь не верифицирован.'})
+        # Сохраняем вопрос
+        question = q_form.save(commit=False)
+        question.user = user
+        question.save()
+
+        # Обновляем email и city, если переданы
+        email = request.POST.get("email")
+        city = request.POST.get("city")
+        if email and email != user.email:
+            user.email = email
+        if city and city != user.city:
+            user.city = city
+        user.save()
+
+        send_telegram_message(question)
+        return JsonResponse({"success": True, "message": "Вопрос успешно отправлен!"})
+
+    return JsonResponse({"success": False, "error": q_form.errors})
+
 
 def calculator(request):
-    return render(request, 'job/post/calculator.html')
-
-from decouple import config
-
-TELEGRAM_BOT_TOKEN = config('TELEGRAM_BOT_TOKEN')
-
-import hashlib
-import hmac
-import json
-import time
-from django.http import JsonResponse, HttpResponseRedirect
-from django.shortcuts import redirect
-from django.conf import settings
-
-def check_telegram_authorization(auth_data):
-    try:
-        check_hash = auth_data.pop("hash", None)
-        if not check_hash:
-            raise ValueError("Missing hash parameter")
-
-        data_check_arr = [f"{key}={value}" for key, value in sorted(auth_data.items())]
-        data_check_string = "\n".join(data_check_arr)
-
-        secret_key = hashlib.sha256(settings.BOT_TOKEN.encode()).digest()
-        hash_calc = hmac.new(secret_key, data_check_string.encode(), hashlib.sha256).hexdigest()
-
-        if not hmac.compare_digest(hash_calc, check_hash):
-            raise ValueError("Data is NOT from Telegram")
-
-        if time.time() - int(auth_data.get("auth_date", 0)) > 86400:
-            raise ValueError("Data is outdated")
-
-        return auth_data
-    except Exception as e:
-        return str(e)
-
-def save_telegram_user_data(response, auth_data):
-    response.set_cookie("tg_user", json.dumps(auth_data), max_age=86400)
-
-def telegram_login(request):
-    auth_data = request.GET.dict()
-    result = check_telegram_authorization(auth_data)
-
-    if isinstance(result, str):  # Ошибка
-        return JsonResponse({"error": result}, status=400)
-
-    response = redirect("/calculator/")  # Куда перенаправить после входа
-    save_telegram_user_data(response, result)
-    return response
+    user_data = request.GET.dict()  # Получаем все GET-параметры
+    return render(request, "job/post/calculator.html", {"user_data": user_data})

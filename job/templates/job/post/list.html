@@ -1,19 +1,22 @@
 {% extends "job/base.html" %}
 {% load job_tags %}
 {% load static %}
-{% block meta_description %}{{meta_description}}{% endblock %}
-
+{% block meta_description %}{{ meta_description }}{% endblock %}
 {% block content %}
-<section id="services" class="bg-white py-3 mt-4">
+    <section id="services" class="bg-white py-3 mt-4">
         <div class="container ">
             <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
                 {% for post in posts %}
                     <div class="col">
                         <div class="card h-100">
                             {% if post.photo %}
-                                <img src="{{post.photo.url}}">
+                                <img src="{{ post.photo.url }}">
                             {% else %}
-                                <p><img class="custom-image img-fluid" src="{% static 'job/images/default-image.jpg' %}" alt="Description"></p>
+                                <p>
+                                    <img class="custom-image img-fluid"
+                                         src="{% static 'job/images/default-image.jpg' %}"
+                                         alt="Description">
+                                </p>
                             {% endif %}
                             <div class="card-body">
                                 <h4 class="text-center mb-2" style="height: 70px;">
@@ -21,10 +24,7 @@
                                 </h4>
                                 <div class="d-flex flex-wrap gap-1">
                                     {% for tag in post.tags.all %}
-                                    <a href="{% url 'job:post_list' %}?tag={{ tag.slug }}"
-                                       class="tag">
-                                        {{tag.name}}
-                                    </a>
+                                        <a href="{% url 'job:post_list' %}?tag={{ tag.slug }}" class="tag">{{ tag.name }}</a>
                                     {% endfor %}
                                 </div>
                                 <p class="card-text">{{ post.body|safe|truncatewords:30 }}</p>
@@ -39,7 +39,5 @@
         {% if page_obj.has_other_pages %}
             {% include "pagination.html" with page=posts %}
         {% endif %}
-</section>
+    </section>
 {% endblock %}
-
-

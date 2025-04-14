@@ -1,6 +1,6 @@
 {% extends "job/base.html" %}
 {% load job_tags %}
-{% block meta_description %}{{meta_description}}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
 {% block content %}
     <section id="category" class="bg-white py-3">
         <div class="container ">
@@ -9,8 +9,10 @@
                     <div class="col-md-4 mb-4 d-flex align-items-stretch">
                         <div class="card h-100">
                             {% if post.photo %}
-                                <p><img class="d-block w-100 img-fluid fixed-height"
-                                        src="{{ post.photo.url }}"></p>
+                                <p>
+                                    <img class="d-block w-100 img-fluid fixed-height"
+                                         src="{{ post.photo.url }}">
+                                </p>
                             {% endif %}
                             <div class="card-body">
                                 <h5 class="card-title text-reset">
@@ -20,13 +22,11 @@
                             </div>
                         </div>
                     </div>
-                    {% endfor %}
+                {% endfor %}
             </div>
         </div>
         {% if page_obj.has_other_pages %}
             {% include "pagination.html" with page=posts %}
         {% endif %}
     </section>
-
 {% endblock %}
-

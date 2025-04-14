@@ -13,8 +13,9 @@ import hmac
 
 project_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(project_path)
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mgrupsite.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mgrupsite.settings")
 import django
+
 django.setup()
 from tgbot.scripts import vars, handlers
 
@@ -25,10 +26,13 @@ HOST = vars.TG_SERVER_HOST
 PORT = vars.TG_SERVER_PORT
 
 
-async def on_startup(bot:Bot)->None:
+async def on_startup(bot: Bot) -> None:
     await bot.set_webhook(WEBHOOK_URL)
-async def on_shutdown(bot:Bot)->None:
+
+
+async def on_shutdown(bot: Bot) -> None:
     await bot.delete_webhook()
+
 
 def main() -> None:
     dp = Dispatcher()
@@ -45,5 +49,3 @@ def main() -> None:
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
     main()
-
-

@@ -7,10 +7,11 @@ import random
 # Словарь для временного хранения кодов подтверждения
 verification_codes = {}
 
+
 def verify_user(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        tg_username = request.POST.get('tg_username')
+    if request.method == "POST":
+        name = request.POST.get("name")
+        tg_username = request.POST.get("tg_username")
 
         # Проверяем наличие пользователя в БД
         user = User.objects.filter(tg_username=tg_username).first()
@@ -18,24 +19,28 @@ def verify_user(request):
         if user:
             # Если пользователь найден и верифицирован, возвращаем успешный ответ
             if user.verified:
-                return JsonResponse({'status': 'verified'})
+                return JsonResponse({"status": "verified"})
             else:
-                return JsonResponse({'status': 'pending_verification'})
+                return JsonResponse({"status": "pending_verification"})
         else:
             # Если пользователь не найден, перенаправляем к телеграм-боту
             bot_url = f"https://t.me/mgrup24_bot?start=user={tg_username}"
-            return JsonResponse({'status': 'redirect', 'url': bot_url})
+            return JsonResponse({"status": "redirect", "url": bot_url})
 
-    return render(request, 'verify_user.html')
+    return render(request, "verify_user.html")
+
 
 @csrf_exempt
 def verify_code(request):
-    if request.method == 'POST':
-        tg_username = request.POST.get('tg_username')
-        code = request.POST.get('code')
+    if request.method == "POST":
+        tg_username = request.POST.get("tg_username")
+        code = request.POST.get("code")
 
         # Проверяем код из временного хранилища
-        if tg_username in verification_codes and verification_codes[tg_username] == code:
+        if (
+            tg_username in verification_codes
+            and verification_codes[tg_username] == code
+        ):
             user, created = User.objects.get_or_create(tg_username=tg_username)
             user.verified = True
             user.save()
@@ -43,11 +48,12 @@ def verify_code(request):
             # Удаляем код после успешной верификации
             del verification_codes[tg_username]
 
-            return JsonResponse({'status': 'verified'})
+            return JsonResponse({"status": "verified"})
         else:
-            return JsonResponse({'status': 'error', 'message': 'Invalid code'})
+            return JsonResponse({"status": "error", "message": "Invalid code"})
 
-    return JsonResponse({'status': 'error', 'message': 'Invalid request'})
+    return JsonResponse({"status": "error", "message": "Invalid request"})
+
 
 # В телеграм-боте нужно будет реализовать генерацию кода:
 # 1. Получаем tg_username и telegram_id

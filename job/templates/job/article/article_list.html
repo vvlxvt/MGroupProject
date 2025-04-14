@@ -1,35 +1,36 @@
 {% extends "job/base.html" %}
 {% load static %}
 <title>{{ page_title }}</title>
-{% block meta_description %}{{meta_description}}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
 {% block articles %}
-<section id="articles" class="bg-white py-3 mt-4">
+    <section id="articles" class="bg-white py-3 mt-4">
         <div class="container">
             <div class="row justify-content-center">
                 {% for article in page_obj %}
                     <div class="col-12 col-sm-6 col-md-4 mb-4">
                         <div class="card h-100">
-                        {% if article.photo %}
-                            <img src="{{article.photo.url}}"
-                                    alt="article image">
-                        {% else %}
-                            <p><img class="custom-image img-fluid" src="{% static 'job/images/default-image.jpg' %}" alt="Description"></p>
-                        {% endif %}
-                        <div class="card-body">
-                            <h5 class="article-title text-center mb-2">
-                                <a href="{{ article.get_absolute_url }}">
-                                    {{ article.title }}
-                                </a>
-                            </h5>
-                            <p class="card-text">{{ article.body|truncatewords:30|striptags|safe|cut:"&mdash;"  }}</p>
+                            {% if article.photo %}
+                                <img src="{{ article.photo.url }}" alt="article image">
+                            {% else %}
+                                <p>
+                                    <img class="custom-image img-fluid"
+                                         src="{% static 'job/images/default-image.jpg' %}"
+                                         alt="Description">
+                                </p>
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="article-title text-center mb-2">
+                                    <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+                                </h5>
+                                <p class="card-text">{{ article.body|truncatewords:30|striptags|safe|cut:"&mdash;" }}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
                 {% endfor %}
             </div>
         </div>
-    {% if page_obj.has_other_pages %}
-        {% include "pagination.html" with page=posts %}
-    {% endif %}
-</section>
+        {% if page_obj.has_other_pages %}
+            {% include "pagination.html" with page=posts %}
+        {% endif %}
+    </section>
 {% endblock %}

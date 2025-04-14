@@ -7,10 +7,11 @@ folder_path = "C:/Users/vital/PycharmProjects/MGroupProject/mgrupsite/job/static
 # путь к папке с фото
 
 # Поддерживаемые расширения
-extensions = (".png", ".jpg", ".jpeg",'JPG')
+extensions = (".png", ".jpg", ".jpeg", "JPG")
 
 # Лимит размера файла в байтах (1MB = 1 * 1024 * 1024)
 size_limit = 1 * 1024 * 1024
+
 
 def convert_and_compress(image_path):
     try:
@@ -35,6 +36,7 @@ def convert_and_compress(image_path):
 
     except Exception as e:
         print(f"❌ Ошибка с {image_path}: {e}")
+
 
 # Рекурсивный обход папок
 for root, _, files in os.walk(folder_path):

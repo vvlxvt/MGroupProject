@@ -1,9 +1,17 @@
 {% extends "job/base.html" %}
 {% load static %}
-{% block meta_description %}{{meta_description}}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
 {% block calculator %}
-    <h1>Welcome, {{ user.first_name }}!</h1>
-<p>You have successfully logged in with Telegram.</p>
-<a href="#">Logout</a>
-
+    {% if user_data %}
+        <h2>Данные пользователя:</h2>
+        <ul>
+            {% for key, value in user_data.items %}
+                <li>
+                    <strong>{{ key }}</strong>: {{ value }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Авторизуйтесь через Telegram</p>
+    {% endif %}
 {% endblock %}

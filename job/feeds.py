@@ -7,9 +7,9 @@ from .models import Post
 
 class LatestPostsFeed(Feed):
     # подкласс фреймворка Feed синдицированных новостных лент
-    title = 'Мои работы'
-    link = reverse_lazy('job:post_list')
-    description = 'Новые статьи о наших работах'
+    title = "Мои работы"
+    link = reverse_lazy("job:post_list")
+    description = "Новые статьи о наших работах"
 
     def items(self):
         return Post.published.all()[:3]
@@ -18,7 +18,9 @@ class LatestPostsFeed(Feed):
         return item.title
 
     def item_description(self, item):
-        return truncatewords_html(markdown.markdown(item.body),30) # конвертирую контент Markdown -> HTML
+        return truncatewords_html(
+            markdown.markdown(item.body), 30
+        )  # конвертирую контент Markdown -> HTML
 
     def item_pubdate(self, item):
         return item.publish
