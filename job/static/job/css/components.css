@@ -1,6 +1,13 @@
 /* ================================
  Отвечает за кастомные кнопки, карточки, формы
 ================================= */
+.content-preview strong {
+    font-weight: bold;
+}
+
+.pagination * {
+    font-weight: normal !important; /* Сброс, если баг "переползает" */
+}
 
 .btn-custom {
     padding: var(--spacing-small) var(--spacing-base);
@@ -70,24 +77,32 @@
   padding: var(--spacing-base);
 }
 
+/* header of section */
 .yellow-bar {
-    background-color: #FFD700;
-    color: black;
-    display: flex;
-    justify-content: center; /* Центрируем текст */
-    align-items: center;
-    height: 35px;
-    padding: 0 20px;
-    font-family: var(--font-family-base);
-    font-size: 1.2rem; /* Размер шрифта для десктопа */
+  background-color: #FFD700;
+  text-align: center;
+  font-weight: var(--font-weight-bold);
+  padding: var(--spacing-small) 0;
+}
+
+.page-title {
+  margin: 0;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 5px;
+  text-transform: uppercase;
 }
 
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
-    .yellow-bar {
-        font-size: 1rem; /* Уменьшаем размер шрифта */
-        height: 30px; /* Уменьшаем высоту */
-    }
+    .page-title {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  }
 }
 
 #map {
@@ -97,46 +112,6 @@
     scroll-margin-top: 70px; /* Высота навбара */
 }
 
-/* Общие стили для всех кнопок */
-.button {
-    background-color: transparent;
-    border-radius: 8px; /* Скругленные углы */
-    text-decoration: none;
-    font-size: 8px;
-    float: right;
-    cursor: pointer;
-    transition: opacity 0.3s, transform 0.2s, background-color 0.3s, color 0.3s; /* Плавные переходы */
-    opacity: 0.8; /* Начальная прозрачность */
-    display: flex; /* Центрируем иконку */
-    align-items: center;
-    justify-content: center;
-    padding: 5px 10px; /* Задаем padding кнопке, а не <i> */
-    font-size: var(--font-size-small);
-}
-
-.input-group .btn {
-  border: 2px solid #FFD700; /* Жёлтая обводка */
-  background: transparent; /* Прозрачный фон */
-  padding: 0; /* Убираем отступы */
-  color: #FFD700;
-  display: flex; /* Используем flexbox для выравнивания иконки */
-  justify-content: center; /* Центрируем иконку по горизонтали */
-  align-items: center; /* Центрируем иконку по вертикали */
-  width: 35px; /* Устанавливаем ширину кнопки */
-  text-decoration: none; /* Убираем подчеркивание у ссылки */
-}
-
-.input-group .btn i {
-  margin: 0; /* Убираем отступы вокруг иконки */
-}
-
-.input-group .btn i.active {
-  opacity: 0.5; /* Полностью видимая кнопка при наведении */
-}
-
-.input-group .btn:focus, .input-group .btn:hover {
-  box-shadow: none; /* Убираем тень при фокусе или наведении */
-}
 
 
 /* Стили для черной кнопки */
@@ -206,28 +181,32 @@ a.tag:active {
   margin: 0 0;
 }
 
-.my-pagination {
-    border: none;
-}
-
 .my-pagination .page-link {
-    color: #000 !important; /* Black text */
+    color: #000 !important;
+    background-color: white !important;
     border: none;
-    background-color: white !important; /* Yellow background */
+    box-shadow: none;
+    text-decoration: none;
 }
 
-.my-pagination .page-link:hover {
+.my-pagination .page-link:hover,
+.my-pagination .page-link:focus {
+    color: #000 !important;
     background-color: white !important;
-    color: #000 !important; /* Keep text black */
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    box-shadow: none;
 }
 
 .my-pagination .active .page-link {
-    color: #000; /* золотистый текст */
+    color: #000;
     text-decoration: underline;
+    text-underline-offset: 5px; /* увеличенный зазор */
+    background-color: white !important;
     border: none;
 }
 
-.page-link:focus {
-    box-shadow: none !important;
-}
+
+
+
 

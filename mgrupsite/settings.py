@@ -9,10 +9,10 @@ env.read_env()
 SECRET_KEY = config("SECRET_KEY")
 DEBUG = True
 
-ALLOWED_HOSTS = ["*", "https://920a-94-43-154-7.ngrok-free.app"]  # для ngrok
+ALLOWED_HOSTS = ["*", "https://2d95-185-115-6-148.ngrok-free.app"]  # для ngrok
 # ALLOWED_HOSTS = [] # для разработки
 # ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=['mgroup-vvlxvt.amvera.io', 'localhost']) # for prod
-CSRF_TRUSTED_ORIGINS = ["https://920a-94-43-154-7.ngrok-free.app"]
+CSRF_TRUSTED_ORIGINS = ["https://2d95-185-115-6-148.ngrok-free.app"]
 
 
 SITE_ID = 1

@@ -15,13 +15,20 @@
 .main-title {
     font-size: 128px;
     background: transparent;
+    color:#31B787;
 }
+
 
 .cuprum-bold {
     font-family: 'Cuprum', sans-serif;
     font-size: 116px;
     font-weight: bold;
 }
+
+.main-statement {
+    font-size: var(--font-size-h2);
+}
+
 /* фото на главной странице */
 .image.main_photo {
     width: 100%; /* Full-width container */
@@ -33,6 +40,46 @@
     color: #1c1c1c;
 }
 
+@media (min-width: 576px) and (max-width: 991.98px) {
+      .main-title {
+      font-size: 80px;
+    }
+
+    .cuprum-bold {
+        font-family: 'Cuprum', sans-serif;
+        font-size: 70px;
+        font-weight: bold;
+    }
+
+    .main-statement {
+        font-size: var(--font-size-base);
+    }
+}
+
+@media (max-width: 575.98px) {
+    .main-title {
+        font-size: 64px;
+    }
+
+    .cuprum-bold {
+        font-family: 'Cuprum', sans-serif;
+        font-size: 58px;
+        font-weight: bold;
+    }
+
+    .main-statement {
+        font-size: var(--font-size-small);
+    }
+
+    .image.main_photo {
+        width: 100vw;
+        height: calc(100vw * 2 / 3); /* пропорция 3:2 */
+        object-fit: cover;
+        object-position: center top; /* или просто center */
+        display: block;
+    }
+}
+
 /* мягкая тень на главной странице */
 .soft-shadow {
   text-shadow: 0px 20px 20px #83919C;
@@ -42,7 +89,7 @@
 .text-indent {
         text-indent: 30px; /* Задаем отступ для красной строки */
     }
-/* about */
+
 
 
 

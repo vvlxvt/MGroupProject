@@ -1,28 +1,33 @@
 /* Шрифты */
 @font-face {
-  font-family: 'Cuprum';
-  src: url('../fonts/Cuprum-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'Cuprum';
+    src: url('../fonts/Cuprum-Regular.woff2') format('woff2'),
+         url('../fonts/Cuprum-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: 'Cuprum';
-  src: url('../fonts/Cuprum-Bold.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
+    font-family: 'Cuprum';
+    src: url('../fonts/Cuprum-Bold.woff2') format('woff2'),
+         url('../fonts/Cuprum-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: 'Cuprum';
-  src: url('../fonts/Cuprum-Italic.ttf') format('truetype');
-  font-weight: normal;
-  font-style: italic;
+    font-family: 'Cuprum';
+    src: url('../fonts/Cuprum-Italic.woff2') format('woff2'),
+         url('../fonts/Cuprum-Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
 }
 
+
 @font-face {
-  font-family: 'Cuprum';
-  src: url('../fonts/Cuprum-BoldItalic.ttf') format('truetype');
+    font-family: 'Cuprum';
+    src: url('../fonts/Cuprum-BoldItalic.woff2') format('woff2'),
+         url('../fonts/Cuprum-BoldItalic.woff') format('woff');
   font-weight: bold;
   font-style: italic;
 }
@@ -30,8 +35,8 @@
 
 @font-face {
     font-family: 'LegendeC';
-    src: url('../fonts/LegendeC-Plain.woff') format('woff'),
-    src: url('../fonts/LegendeC-Plain.woff2') format('woff2');
+    src: url('../fonts/LegendeC-Plain.woff2') format('woff2'),
+    src: url('../fonts/LegendeC-Plain.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -39,42 +44,48 @@
 
 @font-face {
   font-family: 'NeoSansPro';
-  src: url('../fonts/NeoSansPro-Regular.otf') format('opentype');
+  src: url('../fonts/NeoSansPro-Regular.woff2') format('woff2'),
+  src: url('../fonts/NeoSansPro-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'NeoSansPro';
-  src: url('../fonts/NeoSansPro-Bold.otf') format('opentype');
+    src: url('../fonts/NeoSansPro-Bold.woff2') format('woff2'),
+  src: url('../fonts/NeoSansPro-Bold.woff') format('woff');
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'NeoSansPro';
-  src: url('../fonts/NeoSansPro-BoldItalic.otf') format('opentype');
+      src: url('../fonts/NeoSansPro-BoldItalic.woff2') format('woff2'),
+  src: url('../fonts/NeoSansPro-BoldItalic.woff') format('woff');
   font-weight: bold;
   font-style: italic;
 }
 
 @font-face {
   font-family: 'NeoSansPro';
-  src: url('../fonts/NeoSansPro-Light.otf') format('opentype');
+      src: url('../fonts/NeoSansPro-Light.woff2') format('woff2'),
+  src: url('../fonts/NeoSansPro-Light.woff') format('woff');
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'NeoSansPro';
-  src: url('../fonts/NeoSansPro-Medium.otf') format('opentype');
+      src: url('../fonts/NeoSansPro-Medium.woff2') format('woff2'),
+  src: url('../fonts/NeoSansPro-Medium.woff') format('woff');
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'NeoSansPro';
-  src: url('../fonts/NeoSansPro-Ultra.otf') format('opentype');
+      src: url('../fonts/NeoSansPro-Ultra.woff') format('woff'),
+  src: url('../fonts/NeoSansPro-Ultra.woff2') format('woff2');
   font-weight: 900;
   font-style: normal;
 }

@@ -15,20 +15,12 @@ urlpatterns = [
     path("about/", views.AboutView.as_view(), name="about"),
     path("articles/", views.ArticleListView.as_view(), name="article_list"),
     path("projects/", views.ProjectListView.as_view(), name="projects"),
-    path(
-        "articles/<slug:slug>/",
-        views.ArticleDetailView.as_view(),
-        name="article_detail",
-    ),
-    path(
-        "projects/<slug:slug>/",
-        views.ProjectDetailView.as_view(),
-        name="project_detail",
-    ),
+    path("articles/<slug:slug>/",views.ArticleDetailView.as_view(),name="article_detail"),
+    path("projects/<slug:slug>/",views.ProjectDetailView.as_view(),name="project_detail"),
     path("calculator/", views.calculator, name="calculator"),
     path("feed/", LatestPostsFeed(), name="post_feed"),
     path("callback/", views.telegram_auth_view, name="callback"),
-    path("<slug:post>/", views.post_detail, name="post_detail"),
+    path("<slug:slug>/", views.post_detail, name="post_detail"),
 ]
 handler404 = views.page_not_found
 

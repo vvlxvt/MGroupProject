@@ -1,62 +1,69 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg">
-    <a class="navbar-brand text-decoration-none px-3 pt-n5 ms-2"
-       href="{% url 'job:home' %}">
-        <img class="custom-image img-fluid"
-             src="{% static 'job/images/Logo_150_235.png' %}"
-             alt="Маляр Групп"
-             loading="lazy">
-    </a>
-    <button class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div id="navbarNav" class="collapse navbar-collapse">
-        <ul class="navbar-nav">
-            {% for key, m in menu.items %}
-                {% if m.submenus %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle"
-                           href="{% url m.url_name %}"
-                           id="navbarDropdown"
-                           data-bs-toggle="dropdown"
-                           role="button"
-                           aria-haspopup="true"
-                           aria-expanded="false">{{ m.title }}</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            {% for sub in m.submenus %}
-                                <li>
-                                    <a class="dropdown-item"
-                                       href="{% url sub.url_name %}?category={{ sub.slug }}">{{ sub.title }}</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url m.url_name %}">{{ m.title }}</a>
-                    </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-        <form class="d-flex ms-auto me-5"
-              method="GET"
-              action="{% url 'job:post_list' %}">
-            <div class="input-group">
-                <input class="form-control"
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-black text-white">
+    <div class="container-fluid">
+        <a class="navbar-brand d-block d-lg-none text-decoration-none py-0 ms-2 fs-3 fw-bold"
+           style="color:#FFD700"
+           href="{% url 'job:home' %}">
+            М
+        </a>
+        <a class="d-none d-lg-block position-fixed top-0 start-0 z-3"
+           href="{% url 'job:home' %}">
+            <img src="{% static 'job/images/Logo_150_235.png' %}" alt="Маляр Групп">
+        </a>
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse bg-black" id="navbarNav">
+            <ul class="navbar-nav mx-2 mx-lg-auto d-flex justify-content-around w-50 mb-2 mb-lg-0">
+                {% for key, m in menu.items %}
+                    {% if m.submenus %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"
+                               href="{% url m.url_name %}"
+                               id="navbarDropdown"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">{{ m.title }}</a>
+                            <ul class="dropdown-menu dropdown-menu-dark"
+                                aria-labelledby="navbarDropdown">
+                                {% for sub in m.submenus %}
+                                    <li>
+                                        <a class="dropdown-item"
+                                           href="{% url sub.url_name %}?category={{ sub.slug }}">{{ sub.title }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link{% if m.url_name|cut:'job:' == request.resolver_match.url_name %} active{% endif %}"
+                               href="{% url m.url_name %}"
+                               aria-current="page">{{ m.title }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <form class="input-group"
+                  method="GET"
+                  action="{% url 'job:post_list' %}">
+                <input class="form-control me-2"
                        type="search"
                        name="query"
-                       placeholder="Поиск по статьям"
+                       placeholder="Поиск"
                        aria-label="Search">
                 <button class="btn" type="submit">
                     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
                 </button>
-            </div>
-        </form>
-    </div>
+            </form>
+
+        </div>
+    </form>
+</div>
+</div>
 </nav>

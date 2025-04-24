@@ -8,6 +8,7 @@ from django.db.models import Q, Count
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.timezone import make_aware
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.views.generic import ListView, TemplateView, DetailView
 from django.contrib.postgres.search import SearchVector, SearchQuery, TrigramSimilarity
@@ -34,6 +35,15 @@ class DynamicPostListView(DataMixin, ListView):
     template_name = "job/post/list.html"
     allow_empty = True  # Позволяет показывать пустой список, если постов нет
 
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+
+        if queryset.count() == 1:
+            post = queryset.first()
+            return redirect("post_detail", post=post.slug)
+
+        return super().get(request, *args, **kwargs)
+
     def get_queryset(self):
         queryset = Post.published.all().select_related("cat").prefetch_related("tags")
 
@@ -41,6 +51,8 @@ class DynamicPostListView(DataMixin, ListView):
         cat_slug = self.request.GET.get("category")
         if cat_slug:
             queryset = queryset.filter(cat__slug=cat_slug)
+
+            print(queryset)
 
         # Фильтрация по тегу
         tag_slug = self.request.GET.get("tag")
@@ -102,6 +114,15 @@ class DynamicPostListView(DataMixin, ListView):
 
         return context
 
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+
+        if queryset.count() == 1:
+            post = queryset.first()
+            return redirect("job:post_detail", slug=post.slug)
+
+        return super().get(request, *args, **kwargs)
+
 
 class AboutView(DataMixin, TemplateView):
     template_name = "job/post/about.html"
@@ -114,9 +135,9 @@ class AboutView(DataMixin, TemplateView):
         return context
 
 
-def post_detail(request, post):
+def post_detail(request, slug):
     # извлекаем пост по id
-    post = get_object_or_404(Post, status=Post.Status.PUBLISHED, slug=post)
+    post = get_object_or_404(Post, status=Post.Status.PUBLISHED, slug=slug)
     # Набор запросов QuerySet values_list() возвращает кортежи со значениями заданных полей
     post_tags_ids = post.tags.values_list(
         "id", flat=True
@@ -130,37 +151,6 @@ def post_detail(request, post):
         "job/post/detail.html",
         {"post": post, "title": post, "similar_posts": similar_posts},
     )
-
-
-# def post_search(request):
-#     form = SearchForm()
-#     query = None
-#     results = []
-#
-#     if 'query' in request.GET: # использую GET чтобы результат отображался в строке адреса и им можно было делиться
-#         form = SearchForm(request.GET)
-#         if form.is_valid():
-#             query = form.cleaned_data['query']
-#             print(f"Поисковый запрос: {query}")
-#             search_vector = (SearchVector('title', weight='A', config='russian')
-#                              + SearchVector('body', weight='B',config='russian'))
-#             # выполняем поиск опубликованных постов сформированного с использованием полей title и body
-#             #  с помощью прикладного экземпляра SearchVector
-#             search_query = SearchQuery(query, config='russian') # класс SearchQuery транслирует термин в объект поискового запроса
-#             # print(search_query)
-#             # results = (Post.published
-#             #            .annotate(search=search_vector,rank=SearchRank(search_vector,search_query))
-#             #            .filter(rank__gte=0.3)
-#             #            .order_by('-rank'))
-#             results = (Post.published.annotate(similarity=TrigramSimilarity('title', query),)
-#                                        .filter(similarity__gt=0.1)
-#                                        .order_by('-similarity'))
-#             print(connection.queries)
-#
-#         return render(request, 'job/post/search.html', {
-#                       'form':form, 'query':query, 'results':results, 'title': "Результаты поиска" })
-#     else:
-#         return render(request, 'job/post/search.html')
 
 
 class ArticleListView(DataMixin, ListView):

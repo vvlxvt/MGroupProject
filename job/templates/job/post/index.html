@@ -7,12 +7,16 @@
             Mаляр
             <span class="cuprum-bold">Групп</span>
         </p>
-        <p class="display-5 text-center soft-shadow">
+        <p class="text-center soft-shadow main-statement">
             <strong>подрядчик по промышленной и коммерческой покраске</strong>
         </p>
     </div>
-    <div class="yellow-bar" style="justify-content: space-around">
-        <span>КАЧЕСТВЕННЫЕ МАТЕРИАЛЫ</span> <span>СПЕЦИАЛИСТЫ СВОЕГО ДЕЛА</span> <span>ВЫБОР ЦВЕТА</span>
+    <div class="d-none d-sm-flex justify-content-around yellow-bar">
+        <span>ГАРАНТИЯ НА РАБОТЫ</span>
+        <span>КАЧЕСТВЕННЫЕ МАТЕРИАЛЫ</span>
+        <span>СПЕЦИАЛИСТЫ СВОЕГО ДЕЛА</span>
+        <span>ЦЕНА ИЗВЕСТНА ЗАРАНЕЕ</span>
+        <span>ВЫБОР ЦВЕТА</span>
     </div>
     <section id="landing" class="bg-white py-5">
         <div class="container">
@@ -68,14 +72,19 @@
             {% for key, value in advantages.items %}
                 <div class="col-md-6 col-lg-4 mb-3">
                     <div class="p-3 bg-light text-center rounded shadow-sm position-relative">
-                        <img src="static/job/images/m_marker.webp"
+                        <img src="{{ value.icon }}"
                              alt="Иконка"
-                             class="position-absolute top-0 start-0 m-2 opacity-50"
+                             class="position-absolute center-0 start-0 m-2 opacity-50"
                              style="mix-blend-mode: multiply"
-                             width="70">
-                        <strong class="text-uppercase">{{ key }}</strong>
-                        <br>
-                        <p>{{ value }}</p>
+                             width="64">
+                        <div class="row">
+                            <div class="col-2"></div>
+                            <div class="col-10">
+                                    <strong class="text-uppercase">{{ value.title }}</strong>
+                                            <br>
+                                    {{ value.content }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             {% endfor %}
@@ -271,7 +280,10 @@
             {% for key, value in partners.items %}
                 <div class="col-6 col-md-3">
                     <div class="p-3 text-center d-flex flex-column align-items-center justify-content-center h-100 flex-grow-1">
-                        <img src="{{ value }}" alt="Иконка" width="70" class="mb-2">
+                        <img src="{{ value }}"
+                             alt="Иконка"
+                             width="70"
+                             class="mb-2 d-none d-sm-block">
                         <p class="mb-0">{{ key }}</p>
                     </div>
                 </div>

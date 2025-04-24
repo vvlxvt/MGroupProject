@@ -6,7 +6,19 @@
 }
 
 .navbar {
-    min-height: 50px;
+  min-height: 60px;
 }
 
+/* Общий стиль ссылок в dropdown */
+/* При наведении или фокусе */
+.navbar .dropdown-menu .dropdown-item:hover,
+.navbar .dropdown-menu .dropdown-item:focus {
+  background-color: #343A40;
+  color: #f0f0f0;
+}
 
+/* При нажатии */
+.navbar .dropdown-menu .dropdown-item:active {
+  background-color: #343A40;
+  color: #FFF;
+}

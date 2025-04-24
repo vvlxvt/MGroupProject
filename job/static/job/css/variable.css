@@ -11,10 +11,10 @@
   --color-text: #000; /* Основной цвет текста */
 
   /* Шрифты */
-  --font-family-base: 'Segoe UI','NeoSansPro', 'Cuprum', sans-serif; /* Основной шрифт */
-  --font-family-logo: 'LegendeC',sans-serif;
-  --font-family-menu: 'NeoSansPro',sans-serif;
-  --font-family-heading: 'Cuprum','NeoSansPro', serif; /* Шрифт для заголовков */
+  --font-family-base: 'Segoe UI',sans-serif,Arial; /* Основной шрифт */
+  --font-family-logo: 'LegendeC',sans-serif,Arial;;
+  --font-family-menu: 'NeoSansPro',sans-serif,Arial;;
+  --font-family-heading: 'Cuprum',sans-serif,Arial;; /* Шрифт для заголовков */
 
 /* Базовый размер шрифта */
     --font-size-base: 1rem; /* 16px */
@@ -36,7 +36,7 @@
     --font-size-h5: 1.25rem; /* 20px */
     --font-size-h6: 1rem; /* 16px */
 
-    --font-weight-bold: 600; /* Толщина шрифта для bold */
+    --font-weight-bold: 700; /* Толщина шрифта для bold */
     --font-weight-normal: 400; /* Обычная толщина */
     --font-weight-light: 300; /* Легкая толщина */
 

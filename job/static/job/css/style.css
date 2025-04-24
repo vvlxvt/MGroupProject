@@ -179,18 +179,6 @@
     color: black;
 }
 
-/* project carusel */
-
-.custom-image {
-    width: 100%; /* Фиксированная ширина */
-    height: auto; /* Вычисленная высота для соотношения 3:2 (400 * 2 / 3) */
-    object-fit: cover; /* Обрезка изображения для заполнения заданной области */
-    object-position: center; /* Центрирование изображения при обрезке */
-}
-
-
-
-
 /* Контейнер пагинации */
 .pagination-container {
   margin: 20px 0;
