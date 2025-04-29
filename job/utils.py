@@ -71,12 +71,11 @@ def chunk_list(lst, size):
     return list(zip_longest(*[iter(lst)] * size, fillvalue=None))
 
 
-token = "8113120422:AAHj5M0W_noC4XItXVvPCRJFECXUbt5n_dE"
+bot_token = settings.TELEGRAM_BOT_TOKEN
 
 
 def verify_telegram_auth(data):
-    token = "8113120422:AAHj5M0W_noC4XItXVvPCRJFECXUbt5n_dE"
-    secret_key = hashlib.sha256(token.encode()).digest()
+    secret_key = hashlib.sha256(bot_token.encode()).digest()
     auth_data = urllib.parse.parse_qs(data, keep_blank_values=True)
     auth_data = {k: v[0] for k, v in auth_data.items()}
     hash_check = auth_data.pop("hash", None)
@@ -97,7 +96,7 @@ def verify_telegram_auth(data):
 
 def get_user_photo_id(telegram_id):
     """Получает file_id аватара пользователя"""
-    url = f"https://api.telegram.org/bot{token}/getUserProfilePhotos"
+    url = f"https://api.telegram.org/bot{bot_token}/getUserProfilePhotos"
     params = {"user_id": telegram_id, "limit": 1}
 
     response = requests.get(url, params=params).json()
@@ -112,17 +111,14 @@ def get_user_photo_id(telegram_id):
 
 def download_user_photo(file_id):
     """Скачивает фото пользователя с Telegram"""
-    url = f"https://api.telegram.org/bot{token}/getFile"
+    url = f"https://api.telegram.org/bot{bot_token}/getFile"
     response = requests.get(url, params={"file_id": file_id}).json()
 
     if response["ok"]:
         file_path = response["result"]["file_path"]
-        photo_url = f"https://api.telegram.org/file/bot{token}/{file_path}"
+        photo_url = f"https://api.telegram.org/file/bot{bot_token}/{file_path}"
         return photo_url  # Это рабочая ссылка на файл!
     return None
-
-
-print(get_user_photo_id("541172529"))
 
 
 def save_user_photo(user):

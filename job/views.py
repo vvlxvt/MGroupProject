@@ -194,7 +194,7 @@ class ProjectListView(DataMixin, ListView):
 
     def get_queryset(self):
         # Выбираем только нужные поля
-        return Project.objects.only("id", "title", "lat", "lng", "publish")
+        return Project.objects.only("id", "slug", "title", "lat", "lng", "publish")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -219,6 +219,18 @@ class ProjectListView(DataMixin, ListView):
             f"Наши выполненные проекты с координатами на карте Google"
         )
 
+        return context
+
+
+class ProjectCardView(DetailView):
+    model = Project
+    template_name = "job/project/project_card.html"  # нужно в кавычках
+    context_object_name = "project"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["id"] = self.object.id
+        context["meta_description"] = f"Выполненный проект {self.object.title}"
         return context
 
 
@@ -377,6 +389,6 @@ def submit_question(request):
     return JsonResponse({"success": False, "error": q_form.errors})
 
 
-def calculator(request):
-    user_data = request.GET.dict()  # Получаем все GET-параметры
-    return render(request, "job/post/calculator.html", {"user_data": user_data})
+def vacancies(request):
+    title = "Открытые вакансии"
+    return render(request, "job/post/vacancies.html", {"title": title})

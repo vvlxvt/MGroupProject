@@ -1,15 +1,15 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-black text-white">
     <div class="container-fluid">
-        <a class="navbar-brand d-block d-lg-none text-decoration-none py-0 ms-2 fs-3 fw-bold"
-           style="color:#FFD700"
-           href="{% url 'job:home' %}">
-            М
-        </a>
+        <!-- Mobile logo -->
+        <a class="navbar-brand d-lg-none py-0 ms-2 fs-3 fw-bold text-warning"
+           href="{% url 'job:home' %}">М</a>
+        <!-- Desktop logo -->
         <a class="d-none d-lg-block position-fixed top-0 start-0 z-3"
            href="{% url 'job:home' %}">
             <img src="{% static 'job/images/Logo_150_235.png' %}" alt="Маляр Групп">
         </a>
+        <!-- Burger -->
         <button class="navbar-toggler"
                 type="button"
                 data-bs-toggle="collapse"
@@ -19,6 +19,7 @@
                 aria-label="Toggle navigation">
             <i class="fa-solid fa-bars"></i>
         </button>
+        <!-- Collapsible nav -->
         <div class="collapse navbar-collapse bg-black" id="navbarNav">
             <ul class="navbar-nav mx-2 mx-lg-auto d-flex justify-content-around w-50 mb-2 mb-lg-0">
                 {% for key, m in menu.items %}
@@ -30,7 +31,7 @@
                                role="button"
                                data-bs-toggle="dropdown"
                                aria-expanded="false">{{ m.title }}</a>
-                            <ul class="dropdown-menu dropdown-menu-dark"
+                            <ul class="dropdown-menu dropdown-menu-dark bg-black"
                                 aria-labelledby="navbarDropdown">
                                 {% for sub in m.submenus %}
                                     <li>
@@ -48,10 +49,12 @@
                         </li>
                     {% endif %}
                 {% endfor %}
+                <li class="nav-item d-sm-none">
+                    <a class="text-white fw-bold" href="tel:+73912516747">+7(391)2516747</a>
+                </li>
             </ul>
-            <form class="input-group"
-                  method="GET"
-                  action="{% url 'job:post_list' %}">
+            <!-- Search form -->
+            <form class="input-group" method="GET" action="{% url 'job:post_list' %}">
                 <input class="form-control me-2"
                        type="search"
                        name="query"
@@ -61,9 +64,6 @@
                     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
                 </button>
             </form>
-
         </div>
-    </form>
-</div>
-</div>
+    </div>
 </nav>

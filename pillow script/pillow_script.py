@@ -3,8 +3,7 @@ from PIL import Image
 
 # Папка, где находятся изображения
 folder_path = "C:/Users/vital/PycharmProjects/MGroupProject/mgrupsite/job/static/job/images/partners/transparent"  #
-# Укажите
-# путь к папке с фото
+# Укажите путь к папке с фото
 
 # Поддерживаемые расширения
 extensions = (".png", ".jpg", ".jpeg", "JPG")
@@ -39,8 +38,14 @@ def convert_and_compress(image_path):
 
 
 # Рекурсивный обход папок
-for root, _, files in os.walk(folder_path):
-    for file in files:
-        if file.lower().endswith(extensions):
-            file_path = os.path.join(root, file)
-            convert_and_compress(file_path)
+# for root, _, files in os.walk(folder_path):
+#     for file in files:
+#         if file.lower().endswith(extensions):
+#             file_path = os.path.join(root, file)
+#             convert_and_compress(file_path)
+
+image = Image.open('C:/Users/vital/PycharmProjects/MGroupProject/mgrupsite/job/static/job/images/IMG_9436.JPG')
+# Конвертируем в чёрно-белое
+bw_image = image.convert('L')
+# Сохраняем результат
+bw_image.save('plug_image_bw.jpg')

@@ -13,12 +13,43 @@
 /* При наведении или фокусе */
 .navbar .dropdown-menu .dropdown-item:hover,
 .navbar .dropdown-menu .dropdown-item:focus {
-  background-color: #343A40;
+  background-color: black;
   color: #f0f0f0;
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block;
+  margin-top: 0; /* убрать эффект "прыжка" */
 }
 
 /* При нажатии */
 .navbar .dropdown-menu .dropdown-item:active {
   background-color: #343A40;
   color: #FFF;
+}
+
+.dropdown-menu {
+  min-width: 15rem; /* например, больше */
+}
+
+.card {
+  background: #fff;
+  border: var(--border-width) solid #ddd;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.card img {
+    aspect-ratio: 3 / 2; /* Устанавливаем пропорцию 3:2 */
+    width: 100%; /* Изображение заполняет ширину контейнера */
+    height: auto; /* Высота подстраивается под ширину */
+    object-fit: cover; /* Масштабируем изображение, обрезая лишнее */
+    object-position: center; /* Центрируем изображение */
+    border-radius: var(--border-radius);
+}
+
+.card-body {
+  padding: var(--spacing-base);
 }

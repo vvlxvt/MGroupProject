@@ -1,9 +1,10 @@
 footer {
-    background-image: url('../images/footer.webp');
+    /*background-image: url('../images/footer.webp');*/
     background-position: top center;
     background-repeat: no-repeat;
     background-size: cover;
     font-size: var(--font-size-base);
+    background-color:#31B787;
     padding: 50px 0;
 }
 

@@ -1,0 +1,35 @@
+{% load static %}
+<div class="card">
+    <div class="card-img-top">
+        {% if project.photos %}
+            {% with project.photos.first as photo %}
+                <img src="{{ photo.image.url }}"
+                     alt="Project Thumbnail"
+                     loading="lazy"
+                     class="img-fluid">
+            {% endwith %}
+        {% else %}
+            <img src="{% static 'job/images/plug_image_bw.jpg' %}"
+                 alt="Фото выбранного объекта"
+                 class="w-auto">
+        {% endif %}
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{ project.title }}</h5>
+        <p class="card-text">{{ project.body|truncatewords:30 }}</p>
+        <a href="{{ project.get_absolute_url }}"
+           class="btn button transparent"
+           data-bs-toggle="popover"
+           data-bs-trigger="hover"
+           data-bs-title="Подсказка!"
+           data-bs-content="Кликни на объект на карте">Больше фото</a>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+  var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+    return new bootstrap.Popover(popoverTriggerEl);
+  });
+});
+</script>

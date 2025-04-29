@@ -1,0 +1,16 @@
+#about p {
+    font-size: var(--font-size-base);
+}
+
+/*Групп*/
+#about .font_heading {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-bold);
+}
+
+#about .logo-font,
+#about .font_heading {
+  color: #FD1B03;
+  vertical-align: baseline;
+}

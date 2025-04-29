@@ -9,7 +9,7 @@
     font-family:var(--font-family-menu);
     font-size: var(font-size-x-small);
     font-weight: var(font-weight-bold);
-    color: var(--color-secondary);
+    color:#31B787;
 }
 
 .main-title {
@@ -27,6 +27,7 @@
 
 .main-statement {
     font-size: var(--font-size-h2);
+    color:#1c1c1c;
 }
 
 /* фото на главной странице */
@@ -38,6 +39,10 @@
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Prevents repeating the image */
     color: #1c1c1c;
+}
+
+#landing .card li {
+    font-size: var(--font-size-large);
 }
 
 @media (min-width: 576px) and (max-width: 991.98px) {

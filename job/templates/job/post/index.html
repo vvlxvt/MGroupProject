@@ -2,7 +2,7 @@
 {% load static %}
 {% block meta_description %}{{ meta_description }}{% endblock %}
 {% block landing %}
-    <div class="image main_photo p-4">
+    <div class="image main_photo p-4 d-flex flex-column align-items-center">
         <p class="main-title text-center logo-font soft-shadow mt-5">
             Mаляр
             <span class="cuprum-bold">Групп</span>
@@ -21,7 +21,7 @@
     <section id="landing" class="bg-white py-5">
         <div class="container">
             <div class="row g-5">
-                <div class="col-10 mx-auto">
+                <div class="col-12 col-md-10 mx-auto">
                     <p class="h3 text-center text-decoration-none">Наши услуги</p>
                     <hr>
                     {% for post in posts %}
@@ -42,7 +42,7 @@
                                 </div>
                                 <!-- Содержимое карточки -->
                                 <div class="col d-flex flex-column justify-content-center ps-5 pe-1 py-0">
-                                    <h4 class="article-title text-start mb-3">
+                                    <h4 class="article-title text-center text-sm-start mb-3">
                                         <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
                                     </h4>
                                     {% if post.postarticle_set.all %}
@@ -67,10 +67,10 @@
         </div>
     </section>
     <div class="yellow-bar text-center text-uppercase fw-bold mb-5">ПРЕИМУЩЕСТВА РАБОТЫ С НАМИ</div>
-    <div class="container py-4 px-3 mb-5">
-        <div class="row g-5">
+    <div class="container py-2 px-3 mb-5">
+        <div class="row g-1 g-sm-2 g-lg-3">
             {% for key, value in advantages.items %}
-                <div class="col-md-6 col-lg-4 mb-3">
+                <div class="col-md-6 col-lg-4">
                     <div class="p-3 bg-light text-center rounded shadow-sm position-relative">
                         <img src="{{ value.icon }}"
                              alt="Иконка"
@@ -80,9 +80,9 @@
                         <div class="row">
                             <div class="col-2"></div>
                             <div class="col-10">
-                                    <strong class="text-uppercase">{{ value.title }}</strong>
-                                            <br>
-                                    {{ value.content }}
+                                <strong class="text-uppercase">{{ value.title }}</strong>
+                                <br>
+                                {{ value.content }}
                             </div>
                         </div>
                     </div>
@@ -284,7 +284,7 @@
                              alt="Иконка"
                              width="70"
                              class="mb-2 d-none d-sm-block">
-                        <p class="mb-0">{{ key }}</p>
+                        <p class="mb-0 fs-4">{{ key }}</p>
                     </div>
                 </div>
             {% endfor %}

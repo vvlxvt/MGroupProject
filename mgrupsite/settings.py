@@ -8,11 +8,12 @@ env.read_env()
 
 SECRET_KEY = config("SECRET_KEY")
 DEBUG = True
+TONNEL_DOMAIN = "https://fhc7jzs3mz.sharedwithexpose.com"
 
-ALLOWED_HOSTS = ["*", "https://2d95-185-115-6-148.ngrok-free.app"]  # для ngrok
+ALLOWED_HOSTS = ["*", TONNEL_DOMAIN]  # для ngrok
 # ALLOWED_HOSTS = [] # для разработки
 # ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=['mgroup-vvlxvt.amvera.io', 'localhost']) # for prod
-CSRF_TRUSTED_ORIGINS = ["https://2d95-185-115-6-148.ngrok-free.app"]
+CSRF_TRUSTED_ORIGINS = [TONNEL_DOMAIN]
 
 
 SITE_ID = 1
@@ -193,3 +194,6 @@ GOOGLE_MAPS_API_KEY = config("GOOGLE_MAPS_API_KEY")
 # EMAIL_USE_TLS = True
 # EMAIL_USE_SSL = False
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+MAX_UPLOAD_SIZE = 10 * 1024 * 1024  # 10 мегабайт
+

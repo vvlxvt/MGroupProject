@@ -1,5 +1,6 @@
 {% load static %}
 {% load job_tags %}
+{% load breadcrumbs %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -17,8 +18,10 @@
         <link rel="stylesheet" href="{% static 'job/css/pages/article.css' %}">
         <link rel="stylesheet" href="{% static 'job/css/pages/about.css' %}">
         <link rel="stylesheet" href="{% static 'job/css/pages/contacts.css' %}">
+        <link rel="stylesheet" href="{% static 'job/css/pages/vacancies.css' %}">
         <link rel="stylesheet" href="{% static 'job/css/components.css' %}">
-        <link rel="stylesheet" href="{% static 'job/css/bootstrap_overwrite.css' %}">
+        <link rel="stylesheet"
+              href="{% static 'job/css/bootstrap_overwrite.css' %}">
         <script defer src="{% static 'job/js/solid.min.js' %}"></script>
         <link rel="icon"
               type="image/png"
@@ -28,7 +31,7 @@
               type="image/png"
               sizes="32x32"
               href="/media/photos/Logo/favicon/m_logo_32.png">
-        <title>Маляр Групп | Главная</title>
+        <title>Маляр Групп | {{ title }}</title>
         <meta name="description"
               content="{% block meta_description %}{{ meta_description }}{% endblock %}">
         <script src="https://kit.fontawesome.com/6a1586a6f1.js"
@@ -38,6 +41,8 @@
         <header>
             <!-- Navbar -->
             {% include "job/post/includes/navbar.html" %}
+            <!-- Хлебные крошки -->
+            {% breadcrumbs %}
             <!-- Header / Hero Section -->
         </header>
         <main>
@@ -57,6 +62,7 @@
             {% block about %}{% endblock %}
             <!-- Contact Section -->
             {% block contact %}{% endblock %}
+            {% block calculator %}{% endblock %}
         </main>
         <!-- Footer -->
         <footer>

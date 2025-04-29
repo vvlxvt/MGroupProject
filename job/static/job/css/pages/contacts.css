@@ -9,8 +9,10 @@
 
 #contacts .form-control {
   color: #333;
+  border-left: none;
   background-color: #fff;
   border: 2px solid #000;
+  border-radius: 0 0.375rem 0.375rem 0;
   outline: none;
   opacity: 0.95;
   transition: all 0.3s ease;
@@ -20,7 +22,7 @@
 }
 
 #contacts .form-control:focus {
-  border-color: #FFD700;
+  border-color: #000;
   outline: none;
   background-color: #fff;
   color: #000;
@@ -29,6 +31,11 @@
 #contacts .form-control::placeholder {
   color: #999;
   opacity: 0.7;
+}
+
+#contacts textarea.form-control,
+input#attached_photo.form-control {
+    border-radius: 0.375rem;
 }
 
 /* Обводка и фон обертки с иконкой */
@@ -42,14 +49,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-right: none; /* чтобы не было утолщения границы между иконкой и input */
+  border-right: none;
+  border-radius: 0.375rem 0 0 0.375rem;
 }
 
 /* Иконка */
 #contacts .input-group-text i {
   min-width: 1.25rem;
+  padding-right: 0.3rem;
   text-align: center;
   color: #000; /* Чёрный символ */
+  border-radius: 0.375rem 0 0 0.375rem;
 }
 
 /* Убираем утолщение между иконкой и полем */

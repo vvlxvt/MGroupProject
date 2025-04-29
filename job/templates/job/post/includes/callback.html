@@ -2,14 +2,10 @@
 <br>
 <div class="container my-5" id="contacts">
     <div class="row">
-        <!-- Форма -->
         <div class="col-lg-5">
-            <!-- Форма -->
             <form id="contactForm" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input type="hidden"
-                       name="telegram_id"
-                       value="{{ request.session.user.id }}">
+                <input type="hidden" name="telegram_id" value="{{ request.session.user.id }}">
                 <!-- Ник в Telegram -->
                 <div class="mb-1 d-flex justify-content-between align-items-center gap-1">
                     <div class="input-group">
@@ -27,10 +23,12 @@
                                 data-telegram-login="mgrup24_bot"
                                 data-size="large"
                                 data-radius="7"
-                                data-auth-url="https://2d95-185-115-6-148.ngrok-free.app/callback"
-                                data-request-access="write"></script>
+                                data-auth-url="https://fhc7jzs3mz.sharedwithexpose.com/callback"
+                                data-request-access="write">
+                        </script>
                     </div>
                 </div>
+
                 <!-- Имя -->
                 <div class="mb-1">
                     <div class="input-group w-100">
@@ -43,18 +41,20 @@
                                readonly>
                     </div>
                 </div>
+
                 <!-- Дата аутентификации -->
                 <div class="mb-1">
                     <div class="input-group w-100">
                         <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
                         <input type="text"
-                               name="Дата верификации"
-                               placeholder="login name in telegram"
+                               name="auth_date"
                                class="form-control"
+                               placeholder="Дата верификации"
                                value="{{ request.session.user.auth_date|default:'' }}"
                                readonly>
                     </div>
                 </div>
+
                 <!-- Email -->
                 <div class="mb-1">
                     <div class="input-group w-100 has-validation">
@@ -63,11 +63,12 @@
                                class="form-control"
                                id="mail"
                                name="email"
-                               value="{{ user_form.initial.email }}"
+                               value="{{ user_form.initial.email|default_if_none:'' }}"
                                placeholder="Ваш Email">
-                        <div class="invalid-feedback">Укажите email</div>
                     </div>
+                    <div class="invalid-feedback d-none" id="email-error"></div>
                 </div>
+
                 <!-- Город -->
                 <div class="mb-1">
                     <div class="input-group w-100 has-validation">
@@ -75,12 +76,13 @@
                         <input type="text"
                                class="form-control"
                                id="city"
-                               value="{{ user_form.initial.city }}"
+                               value="{{ user_form.initial.city|default_if_none:'' }}"
                                name="city"
                                placeholder="Укажите откуда Вы">
-                        <div class="invalid-feedback">Укажите населенный пункт</div>
                     </div>
+                    <div class="invalid-feedback d-none" id="city-error"></div>
                 </div>
+
                 <!-- Сообщение -->
                 <div class="mb-1">
                     <textarea class="form-control w-100"
@@ -88,93 +90,109 @@
                               name="question_text"
                               placeholder="Задайте Ваш вопрос к нам"
                               required></textarea>
+                    <div class="invalid-feedback d-none" id="question_text-error"></div>
                 </div>
+
                 <!-- Фото -->
                 <div class="mb-3">
                     <label for="attached_photo" class="form-label">Загрузить фото</label>
                     <input type="file"
                            name="attached_photo"
                            class="form-control w-100"
-                           placeholder="файла нет"
                            id="attached_photo">
+                    <div class="invalid-feedback d-none" id="attached_photo-error"></div>
                 </div>
+
                 <!-- Кнопка -->
                 <div class="mb-3 text-center">
                     <button type="submit" class="btn button transparent">Отправить сообщение</button>
                 </div>
             </form>
         </div>
+
         <!-- Второй столбец: Информация -->
         <div class="col-lg-7 px-3">
+            <!-- текст о компании -->
             <div class="fs-5">
-                <p class="text-indent">
-                    К настоящему моменту вы узнали многое о "МалярГрупп". Однако остается один важный
-                    вопрос: Что конкретно "МалярГрупп" может сделать для вашего проекта по покраске и нанесению
-                    покрытий? Сейчас у вас есть возможность узнать об этом.
-                    <p class="text-indent">
-                        Расскажите нам о своем проекте, о том, что вам нужно и чего вы ожидаете от
-                        подрядчика по покраске и покрытиям. Мы с удовольствием обсудим детали работы и предоставим вам
-                        дополнительную информацию о наших преимуществах, таких как:
-                        <ul>
-                            <li>Более двадцати лет опыта в лакокрасочной отрасли</li>
-                            <li>Постоянное внимание к вопросам безопасности, которое укрепляется каждый день</li>
-                            <li>Профессиональные и сертифицированные сотрудники, прекрасно знающие свое дело</li>
-                            <li>
-                                Современные инструменты и оборудование, обеспечивающие высокую производительность и
-                                эффективность
-                            </li>
-                            <li>Высокий уровень сервиса, который заслужил признание по всему Сибирскому региону</li>
-                            <li>
-                                Мы часто говорим о гордости за нашу работу в "МалярГрупп", но больше всего это чувство
-                                передается нашим клиентам, когда мы завершаем их проект по покраске и покрытиям.
-                            </li>
-                        </ul>
-                        <p class="text-indent">
-                            После сотрудничества с нами мы уверены, что и вы ощутите это.
-                        </div>
-                    </div>
-                </div>
-                <div id="formResponse" style="display:none;"></div>
-            </div>
-            <script>
-    document.getElementById('contactForm').addEventListener('submit', function(event) {
-        event.preventDefault();  // Останавливаем стандартную отправку формы
+    <p class="text-indent">
+        К настоящему моменту вы узнали многое о "МалярГрупп". Однако остается один важный вопрос: Что конкретно "МалярГрупп" может сделать для вашего проекта по покраске и нанесению покрытий? Сейчас у вас есть возможность узнать об этом.
+    </p>
 
-        let formData = new FormData(document.getElementById('contactForm')); // Создаем объект FormData для отправки файлов и других данных формы
+    <p class="text-indent">
+        Расскажите нам о своем проекте, о том, что вам нужно и чего вы ожидаете от подрядчика по покраске и покрытиям. Мы с удовольствием обсудим детали работы и предоставим вам дополнительную информацию о наших преимуществах, таких как:
+    </p>
 
-        fetch("{% url 'job:submit_question' %}", {
-            method: 'POST',
-            body: formData,  // Передаем данные формы
-            headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value }
-        })
+    <ul>
+        <li>Более двадцати лет опыта в лакокрасочной отрасли</li>
+        <li>Постоянное внимание к вопросам безопасности, которое укрепляется каждый день</li>
+        <li>Профессиональные и сертифицированные сотрудники, прекрасно знающие свое дело</li>
+        <li>Современные инструменты и оборудование, обеспечивающие высокую производительность и эффективность</li>
+        <li>Высокий уровень сервиса, который заслужил признание по всему Сибирскому региону</li>
+        <li>Мы часто говорим о гордости за нашу работу в "МалярГрупп", но больше всего это чувство передается нашим клиентам, когда мы завершаем их проект по покраске и покрытиям.</li>
+    </ul>
 
-        .then(response => response.json())
-        .then(data => {
-            if (data.message) {
-                // Успешный ответ
-                document.getElementById('formResponse').innerHTML = `<div class="alert alert-success">${data.message}</div>`;
-                document.getElementById('formResponse').style.display = 'block';
-                document.getElementById('contactForm').reset();  // Очищаем форму после успешной отправки
+    <p class="text-indent">
+        После сотрудничества с нами мы уверены, что и вы ощутите это.
+    </p>
+</div>
 
-                // Скрываем сообщение через 3 секунды
-                setTimeout(function() {
-                    document.getElementById('formResponse').style.display = 'none';
-                }, 3000);
-            } else if (data.error) {
-                // Ошибка
-                let errors = JSON.parse(data.error);
-                let errorMessage = '';
-                for (let field in errors) {
-                    errorMessage += `${errors[field][0].message}<br>`;
-                }
-                document.getElementById('formResponse').innerHTML = `<div class="alert alert-danger">${errorMessage}</div>`;
-                document.getElementById('formResponse').style.display = 'block';
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('formResponse').innerHTML = `<div class="alert alert-danger">Ошибка отправки формы. Попробуйте снова.</div>`;
-            document.getElementById('formResponse').style.display = 'block';
-        });
+        </div>
+    </div>
+    <div id="formResponse" style="display:none;"></div>
+</div>
+
+<script>
+document.getElementById('contactForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const form = document.getElementById('contactForm');
+    const formData = new FormData(form);
+    const formResponse = document.getElementById('formResponse');
+
+    clearErrors();
+
+    fetch("{% url 'job:submit_question' %}", {
+        method: 'POST',
+        body: formData,
+        headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            formResponse.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+            formResponse.style.display = 'block';
+            location.reload();
+
+            setTimeout(() => formResponse.style.display = 'none', 3000);
+        } else if (data.error) {
+            displayErrors(data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        formResponse.innerHTML = `<div class="alert alert-danger">Ошибка отправки формы. Попробуйте снова.</div>`;
+        formResponse.style.display = 'block';
     });
-            </script>
+
+    function clearErrors() {
+        document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+        document.querySelectorAll('.invalid-feedback').forEach(el => {
+            el.classList.add('d-none');
+            el.innerHTML = '';
+        });
+    }
+
+    function displayErrors(errors) {
+        for (let field in errors) {
+            const input = document.querySelector(`[name=${field}]`);
+            const errorDiv = document.getElementById(`${field}-error`);
+            if (input) input.classList.add('is-invalid');
+            if (errorDiv && errors[field].length > 0) {
+                errorDiv.classList.remove('d-none');
+                errorDiv.innerHTML = errors[field][0].message;
+            }
+        }
+    }
+});
+</script>
+
