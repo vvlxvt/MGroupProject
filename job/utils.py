@@ -157,6 +157,7 @@ def send_telegram_message(question):
     """
     user = question.user
     bot_token = settings.TELEGRAM_BOT_TOKEN
+    chat_id = settings.TELEGRAM_CHAT_ID
     telegram_url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
     telegram_url_photo = f"https://api.telegram.org/bot{bot_token}/sendPhoto"
 
@@ -175,7 +176,7 @@ def send_telegram_message(question):
                 response = requests.post(
                     telegram_url_photo,
                     data={
-                        "chat_id": user.telegram_id,
+                        "chat_id": chat_id,
                         "caption": caption,
                         "parse_mode": "HTML",
                     },
@@ -185,7 +186,7 @@ def send_telegram_message(question):
             response = requests.post(
                 telegram_url,
                 data={
-                    "chat_id": user.telegram_id,
+                    "chat_id": chat_id,
                     "text": caption,
                     "parse_mode": "HTML",
                 },

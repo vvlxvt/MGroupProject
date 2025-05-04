@@ -12,7 +12,7 @@ from taggit_labels.widgets import LabelWidget
 class UserQuestionForm(forms.ModelForm):
     attached_photo = forms.FileField(
         required=False,
-        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png'])]
+        validators=[FileExtensionValidator(allowed_extensions=["jpg", "jpeg", "png"])],
     )
 
     class Meta:
@@ -20,17 +20,19 @@ class UserQuestionForm(forms.ModelForm):
         fields = ["question_text", "attached_photo"]
 
     def clean_question_text(self):
-        text = self.cleaned_data.get('question_text')
+        text = self.cleaned_data.get("question_text")
         if text and len(text.strip()) < 10:
             raise ValidationError("Вопрос должен содержать минимум 10 символов.")
         return text
 
     def clean_attached_photo(self):
-        photo = self.cleaned_data.get('attached_photo')
+        photo = self.cleaned_data.get("attached_photo")
         if photo:
             max_size = 10 * 1024 * 1024  # 10MB, например
             if photo.size > max_size:
-                raise ValidationError(f"Размер изображения не должен превышать {max_size / (1024 * 1024)}MB.")
+                raise ValidationError(
+                    f"Размер изображения не должен превышать {max_size / (1024 * 1024)}MB."
+                )
         return photo
 
 
@@ -44,7 +46,7 @@ class UserProfileForm(forms.ModelForm):
         fields = ["email", "city"]
 
     def clean_city(self):
-        city = self.cleaned_data.get('city')
+        city = self.cleaned_data.get("city")
         if city and any(char.isdigit() for char in city):
             raise ValidationError("Название города не должно содержать цифр.")
         return city
@@ -68,7 +70,7 @@ class EmailPostForm(forms.Form):
 class UserQuestionForm(forms.ModelForm):
     attached_photo = forms.FileField(
         required=False,
-        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png'])]
+        validators=[FileExtensionValidator(allowed_extensions=["jpg", "jpeg", "png"])],
     )
 
     class Meta:
@@ -76,17 +78,19 @@ class UserQuestionForm(forms.ModelForm):
         fields = ["question_text", "attached_photo"]
 
     def clean_question_text(self):
-        text = self.cleaned_data.get('question_text')
+        text = self.cleaned_data.get("question_text")
         if text and len(text.strip()) < 10:
             raise ValidationError("Вопрос должен содержать минимум 10 символов.")
         return text
 
     def clean_attached_photo(self):
-        photo = self.cleaned_data.get('attached_photo')
+        photo = self.cleaned_data.get("attached_photo")
         if photo:
             max_size = settings.MAX_UPLOAD_SIZE
             if photo.size > max_size:
-                raise ValidationError(f"Размер изображения не должен превышать {max_size / (1024 * 1024)}MB.")
+                raise ValidationError(
+                    f"Размер изображения не должен превышать {max_size / (1024 * 1024)}MB."
+                )
         return photo
 
 
@@ -100,8 +104,7 @@ class UserProfileForm(forms.ModelForm):
         fields = ["email", "city"]
 
     def clean_city(self):
-        city = self.cleaned_data.get('city')
+        city = self.cleaned_data.get("city")
         if city and any(char.isdigit() for char in city):
             raise ValidationError("Название города не должно содержать цифр.")
         return city
-

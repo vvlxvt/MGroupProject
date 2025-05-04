@@ -2,11 +2,11 @@
 {% load static %}
 {% block meta_description %}{{ meta_description }}{% endblock %}
 {% block contact %}
-    <div class="container bg-white">{% include "job/post/includes/callback.html" %}</div>
+    {% include "job/post/includes/callback.html" %}
     <div class="container text-center mb-5">
         <div class="row justify-content-md-center">
-            <div class="col-lg-5 justify-content-md-center">
-                <iframe width="500"
+            <div class="col-lg-6 justify-content-md-center">
+                <iframe width="600"
                         height="350"
                         frameborder="0"
                         style="border:0;
@@ -16,7 +16,7 @@
                         allowfullscreen>
                 </iframe>
             </div>
-            <div class="col-lg-7 position-relative">
+            <div class="col-lg-6 position-relative">
                 <div class="position-absolute top-0 start-0">
                     <h3>Наш адрес и контакты</h3>
                     <hr>

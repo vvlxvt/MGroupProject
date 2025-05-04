@@ -26,6 +26,7 @@
 }
 
 .main-statement {
+    font-family: var(--font-family-menu);
     font-size: var(--font-size-h2);
     color:#1c1c1c;
 }
@@ -96,5 +97,35 @@
     }
 
 
+@property --color-gradient-start {
+      syntax: '<color>';
+      inherits: false;
+      initial-value: #F5BF0C;
+    }
+
+    @property --color-gradient-end {
+      syntax: '<color>';
+      inherits: false;
+      initial-value: #FD1B03;
+    }
+
+    .gradient-text {
+      font-size: 128px;
+      background-image: linear-gradient(
+        90deg,
+        var(--color-gradient-start),
+        var(--color-gradient-end)
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition:
+        --color-gradient-start 1s,
+        --color-gradient-end 1s;
+    }
+
+    .gradient-text:hover {
+      --color-gradient-start: #FFD700;
+      --color-gradient-end: #31B787;
+    }
 
 

@@ -8,7 +8,7 @@ env.read_env()
 
 SECRET_KEY = config("SECRET_KEY")
 DEBUG = True
-TONNEL_DOMAIN = "https://fhc7jzs3mz.sharedwithexpose.com"
+TONNEL_DOMAIN = "https://nglzuvwjl9.sharedwithexpose.com"
 
 ALLOWED_HOSTS = ["*", TONNEL_DOMAIN]  # для ngrok
 # ALLOWED_HOSTS = [] # для разработки
@@ -174,7 +174,7 @@ TELEGRAM_BOT_TOKEN = env("TELEGRAM_BOT_TOKEN")
 TELEGRAM_BOT_TOKEN = config("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = env("TELEGRAM_CHAT_ID")
 TELEGRAM_CHAT_ID = config("TELEGRAM_CHAT_ID")
-WEBHOOK_HOST = "https://d7a5-94-43-154-7.ngrok-free.app"
+WEBHOOK_HOST = TONNEL_DOMAIN
 # WEBHOOK_HOST = 'https://mgroup-vvlxvt.amvera.io'
 WEBHOOK_PATH = "/webhook"
 WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"

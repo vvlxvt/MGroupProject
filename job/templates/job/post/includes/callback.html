@@ -1,11 +1,13 @@
 {% load static %}
 <br>
 <div class="container my-5" id="contacts">
-    <div class="row">
-        <div class="col-lg-5">
+    <div class="row px-md-5">
+        <div class="col-lg-6 px-md-5">
             <form id="contactForm" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input type="hidden" name="telegram_id" value="{{ request.session.user.id }}">
+                <input type="hidden"
+                       name="telegram_id"
+                       value="{{ request.session.user.id }}">
                 <!-- Ник в Telegram -->
                 <div class="mb-1 d-flex justify-content-between align-items-center gap-1">
                     <div class="input-group">
@@ -13,22 +15,15 @@
                         <input type="text"
                                name="username"
                                class="form-control"
-                               placeholder="login name in telegram"
+                               placeholder="telegram login"
                                value="{{ request.session.user.username|default:'' }}"
                                readonly>
                     </div>
                     <div style="max-height:38px; margin-bottom: 2px;">
-                        <script async
-                                src="https://telegram.org/js/telegram-widget.js?22"
-                                data-telegram-login="mgrup24_bot"
-                                data-size="large"
-                                data-radius="7"
-                                data-auth-url="https://fhc7jzs3mz.sharedwithexpose.com/callback"
-                                data-request-access="write">
+                        <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="mgrup24_bot" data-size="large" data-radius="7" data-auth-url="https://nglzuvwjl9.sharedwithexpose.com/callback" data-request-access="write">
                         </script>
                     </div>
                 </div>
-
                 <!-- Имя -->
                 <div class="mb-1">
                     <div class="input-group w-100">
@@ -41,7 +36,6 @@
                                readonly>
                     </div>
                 </div>
-
                 <!-- Дата аутентификации -->
                 <div class="mb-1">
                     <div class="input-group w-100">
@@ -54,7 +48,6 @@
                                readonly>
                     </div>
                 </div>
-
                 <!-- Email -->
                 <div class="mb-1">
                     <div class="input-group w-100 has-validation">
@@ -68,7 +61,6 @@
                     </div>
                     <div class="invalid-feedback d-none" id="email-error"></div>
                 </div>
-
                 <!-- Город -->
                 <div class="mb-1">
                     <div class="input-group w-100 has-validation">
@@ -82,7 +74,6 @@
                     </div>
                     <div class="invalid-feedback d-none" id="city-error"></div>
                 </div>
-
                 <!-- Сообщение -->
                 <div class="mb-1">
                     <textarea class="form-control w-100"
@@ -92,7 +83,6 @@
                               required></textarea>
                     <div class="invalid-feedback d-none" id="question_text-error"></div>
                 </div>
-
                 <!-- Фото -->
                 <div class="mb-3">
                     <label for="attached_photo" class="form-label">Загрузить фото</label>
@@ -102,45 +92,39 @@
                            id="attached_photo">
                     <div class="invalid-feedback d-none" id="attached_photo-error"></div>
                 </div>
-
                 <!-- Кнопка -->
                 <div class="mb-3 text-center">
                     <button type="submit" class="btn button transparent">Отправить сообщение</button>
                 </div>
             </form>
         </div>
-
         <!-- Второй столбец: Информация -->
-        <div class="col-lg-7 px-3">
+        <div class="col-lg-6 px-md-5 mx-auto">
             <!-- текст о компании -->
             <div class="fs-5">
-    <p class="text-indent">
-        К настоящему моменту вы узнали многое о "МалярГрупп". Однако остается один важный вопрос: Что конкретно "МалярГрупп" может сделать для вашего проекта по покраске и нанесению покрытий? Сейчас у вас есть возможность узнать об этом.
-    </p>
-
-    <p class="text-indent">
-        Расскажите нам о своем проекте, о том, что вам нужно и чего вы ожидаете от подрядчика по покраске и покрытиям. Мы с удовольствием обсудим детали работы и предоставим вам дополнительную информацию о наших преимуществах, таких как:
-    </p>
-
-    <ul>
-        <li>Более двадцати лет опыта в лакокрасочной отрасли</li>
-        <li>Постоянное внимание к вопросам безопасности, которое укрепляется каждый день</li>
-        <li>Профессиональные и сертифицированные сотрудники, прекрасно знающие свое дело</li>
-        <li>Современные инструменты и оборудование, обеспечивающие высокую производительность и эффективность</li>
-        <li>Высокий уровень сервиса, который заслужил признание по всему Сибирскому региону</li>
-        <li>Мы часто говорим о гордости за нашу работу в "МалярГрупп", но больше всего это чувство передается нашим клиентам, когда мы завершаем их проект по покраске и покрытиям.</li>
-    </ul>
-
-    <p class="text-indent">
-        После сотрудничества с нами мы уверены, что и вы ощутите это.
-    </p>
-</div>
-
+                <p class="text-indent">
+                    К настоящему моменту вы узнали многое о "МалярГрупп". Однако остается один важный вопрос: Что конкретно
+                    Маляр Групп может сделать для вашего проекта по покраске и нанесению покрытий? Сейчас у вас есть возможность узнать об этом.
+                </p>
+                <p class="text-indent">
+                    Расскажите нам о своем проекте, о том, что вам нужно и чего вы ожидаете от подрядчика по покраске и покрытиям. Мы с удовольствием обсудим детали работы и предоставим вам дополнительную информацию о наших преимуществах, таких как:
+                </p>
+                <ul>
+                    <li>Более двадцати лет опыта в лакокрасочной отрасли</li>
+                    <li>Постоянное внимание к вопросам безопасности, которое укрепляется каждый день</li>
+                    <li>Профессиональные и сертифицированные сотрудники, прекрасно знающие свое дело</li>
+                    <li>Современные инструменты и оборудование, обеспечивающие высокую производительность и эффективность</li>
+                    <li>Высокий уровень сервиса, который заслужил признание по всему Сибирскому региону</li>
+                    <li>
+                        Мы часто говорим о гордости за нашу работу в "МалярГрупп", но больше всего это чувство передается нашим клиентам, когда мы завершаем их проект по покраске и покрытиям.
+                    </li>
+                </ul>
+                <p class="text-indent">После сотрудничества с нами мы уверены, что и вы ощутите это.</p>
+            </div>
         </div>
     </div>
     <div id="formResponse" style="display:none;"></div>
 </div>
-
 <script>
 document.getElementById('contactForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -195,4 +179,3 @@ document.getElementById('contactForm').addEventListener('submit', function(event
     }
 });
 </script>
-

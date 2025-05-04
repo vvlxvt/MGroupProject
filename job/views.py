@@ -392,3 +392,6 @@ def submit_question(request):
 def vacancies(request):
     title = "Открытые вакансии"
     return render(request, "job/post/vacancies.html", {"title": title})
+
+
+
