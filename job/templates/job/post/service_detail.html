@@ -3,20 +3,20 @@
 {% load static %}
 {% block meta_description %}{{ meta_description }}{% endblock %}
 {% block title %}<title>{{ post.title }}</title>{% endblock %}
-{% block content %}
+{% block services %}
     <div class="container py-3 mt-4">
         <div class="row justify-content-center">
             <div class="col-lg-8 mx-auto">
                 <div class="card h-10 mb-4">
                     {% if post.photo %}
-                        <img src="{{ post.photo.url }}" class="card-img-top" alt="post image">
+                        <img src="{{ post.photo.url }}" class="card-img-top" alt="фото услуги">
                     {% else %}
                         <img src="{% static 'job/images/default-image.jpg' %}"
                              class="card-img-top"
-                             alt="Default Image">
+                             alt="фото по умолчанию">
                     {% endif %}
                     <div class="card-body">
-                        <p class="card-text">{{ post.body|markdown|safe }}.</p>
+                        <article class="card-text mb-0">{{ post.body|markdown|safe }}.</article>
                         <hr>
                         <p class="text-end">
                             <small class="text-muted">Опубликовано: {{ post.publish }} {{ post.author }}</small>

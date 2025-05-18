@@ -35,7 +35,7 @@ class JobAdmin(admin.ModelAdmin):
         "number",
         "title",
         "author",
-        "publish",
+        "updated",
         "status",
         "cat",
     ]

@@ -71,3 +71,8 @@ input#attached_photo.form-control {
   height: 200px;
   resize: vertical;
 }
+
+#contacts .visually-hidden:{
+  position: absolute;
+  left: -9999px;
+}

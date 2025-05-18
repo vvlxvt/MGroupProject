@@ -29,10 +29,10 @@ from .utils import (
 
 
 class DynamicPostListView(DataMixin, ListView):
-    title_page = "Наши услуги"
+    title_page = "Услуги по покраске, очистке, защите поверхностей"
     model = Post
     context_object_name = "posts"
-    template_name = "job/post/list.html"
+    template_name = "job/post/services.html"
     allow_empty = True  # Позволяет показывать пустой список, если постов нет
 
     def get(self, request, *args, **kwargs):
@@ -126,7 +126,7 @@ class DynamicPostListView(DataMixin, ListView):
 
 class AboutView(DataMixin, TemplateView):
     template_name = "job/post/about.html"
-    title_page = "О нас"
+    title_page = "Информация о Маляр Групп"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -148,7 +148,7 @@ def post_detail(request, slug):
     )[:4]
     return render(
         request,
-        "job/post/detail.html",
+        "job/post/service_detail.html",
         {"post": post, "title": post, "similar_posts": similar_posts},
     )
 
@@ -165,7 +165,7 @@ class ArticleListView(DataMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["meta_description"] = (
-            f"Популярные статьи о способах обработки поверхностей"
+            f"Статьи о способах обработки поверхностей: покраска, очистка"
         )
         return context
 
@@ -187,7 +187,7 @@ class ArticleDetailView(DetailView):
 
 
 class ProjectListView(DataMixin, ListView):
-    title_page = "Выполненные проекты"
+    title_page = "Наши проекты: покраска, очистка, защита объектов"
     context_object_name = "projects"
     paginate_by = 20  # количество объектов на страницу
     template_name = "job/project/project_list.html"
@@ -216,9 +216,8 @@ class ProjectListView(DataMixin, ListView):
         context["locations_json"] = json.dumps(locations_list, cls=DjangoJSONEncoder)
         context["google_maps_api_key"] = settings.GOOGLE_MAPS_API_KEY
         context["meta_description"] = (
-            f"Наши выполненные проекты с координатами на карте Google"
+            f"География проектов: очистка, антикоррозийная защита, покраска"
         )
-
         return context
 
 
@@ -252,7 +251,8 @@ class ProjectDetailView(DetailView):
 def home(request):
     # posts = Post.published.all()
     posts = Post.published.prefetch_related("postarticle_set__article").all()
-    title = "МЫ РАДЫ ПРИВЕТСТВОВАТЬ ВАС НА САЙТЕ КОМПАНИИ"
+    title = "Промышленная покраска, антикоррозийная защита, теплоизоляция | Маляр Групп"
+    meta_description = "Комплексные услуги: промышленная покраска, антикоррозийная защита, пескоструй, теплоизоляция. Работаем по всей Сибири. Маляр Групп."
     projects = Project.objects.only("title", "slug")
     grouped_projects = {
         "lg": chunk_list(list(projects), 3),  # По 3 для больших экранов
@@ -263,13 +263,14 @@ def home(request):
     context = {
         "posts": posts,
         "title": title,
+        "meta_description": meta_description,
         "grouped_projects": grouped_projects,
         "projects": projects,
         "partners": partners,
         "advantages": advantages,
     }
 
-    return render(request, "job/post/index.html", context)
+    return render(request, "job/post/landing.html", context)
 
 
 def page_not_found(request, exception):
@@ -392,6 +393,3 @@ def submit_question(request):
 def vacancies(request):
     title = "Открытые вакансии"
     return render(request, "job/post/vacancies.html", {"title": title})
-
-
-

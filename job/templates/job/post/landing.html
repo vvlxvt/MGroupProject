@@ -1,0 +1,301 @@
+{% extends "job/base.html" %}
+{% load static %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+{% block landing %}
+    <section id="landing" aria-label="Презентация компании">
+        <div class="image main_photo pb-sm-4 d-flex flex-column align-items-center">
+            <div class="gradient-text text-center logo-font soft-shadow mt-5">
+                Mаляр
+                <span class="cuprum-bold">Групп</span>
+            </div>
+            <p class="text-center soft-shadow main-statement d-none d-lg-block">
+                подрядчик по промышленной и коммерческой покраске
+            </p>
+        </div>
+        <article aria-label="Основная информация о компании">
+            <div class="container px-3 my-5">
+                <div class="d-flex align-items-center justify-content-center">
+                    <div class="w-75 font-cuprum">
+                        <p class="text-indent fs-5 mb-4" style="text-align: justify;">
+                            <span class="logo-font">М</span>аляр Групп — надёжный подрядчик по промышленной и коммерческой покраске с опытом работы более 10 лет в Сибирском регионе.
+                            Более <strong>300 тыс. кв. м.</strong> площадь окрашенных поверхностей ярче слов говорят о
+                            нашем опыте!
+                            Мы выполняем проекты любой сложности, включая:
+                            <ul>
+                                <li class="fs-5">
+                                    покраску производственных объектов в нефтегазовой отрасли, таких как трубопроводы, резервуары, воздушные линии и блоки буровых установок;
+                                </li>
+                                <li class="fs-5">
+                                    <strong><a href="/pokraska-fasadov-zdanij">окраску фасадов</a></strong> промышленных и коммерческих зданий;
+                                </li>
+                                <li class="fs-5">внутреннюю покраску складов, ангаров и производственных помещений.</li>
+                            </ul>
+                            <p class="fs-5">
+                                Также мы занимаемся внутренней покраской под ключ коммерческих и частных объектов.
+                                Наша компания специализируется на нанесении защитных покрытий, включая вспучивающуюся
+                                огнезащиту и антикоррозионные системы.
+                            </p>
+                        </p>
+
+                        <p class="text-indent fs-5 mb-4" style="text-align: justify;">
+                            Мы используем современные методы подготовки поверхности — <strong><a href="/articles/gidrostrujnaya-podgotovka-metallicheskih-konstrukcij">гидроструйную</a></strong>,
+                            <strong><a href="/articles/peskostrujnaya-obrabotka-metallicheskih-konstrukcij">пескоструйную</a></strong>, химическую и механическую очистку, обеспечивая прочную адгезию и
+                            долговечность покрытия. Наш основной метод нанесения — <strong><a href="/antikorrozijnaya-obrabotka-metallokonstrukcij">безвоздушное распыление краски</a></strong></em>, что
+                            позволяет быстро и точно окрашивать большие объёмы, в том числе на высоте и в
+                            труднодоступных местах.
+                        </p>
+                        <p class="text-indent fs-4 fw-bold text-center">
+                            Мы предлагаем комплексный подход — от подбора материалов до выполнения работ.
+                        </p>
+                        <p class="text-indent fs-4 text-center">Нужна консультация или расчёт сметы?</p>
+                        <p class="text-indent fs-4 text-uppercase fw-bold text-center mb-4">Мы
+                            поможем!</p>
+                        <p class="fs-4 mb-4 gradient-title text-uppercase fw-bold text-center">
+                            Ознакомьтесь с услугами компании, чтобы выбрать решение под ваш проект
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <article aria-label="Основная информация о наших услугах">
+            <h2 class="yellow-bar">наши услуги</h2>
+            <div class="container">
+                <div class="row g-5">
+                    <div class="col-12 col-md-10 mx-auto">
+                        {% for post in posts %}
+                            <div class="col mx-auto mb-0">
+                                <div class="card mb-0 flex-md-row {% if forloop.counter|divisibleby:2 %}flex-md-row-reverse{% endif %} border-0">
+                                    <!-- Изображение поста -->
+                                    <div class="col p-0">
+                                        {% if post.photo %}
+                                            <img src="{{ post.photo.url }}" alt="фото услуги" loading="lazy">
+                                        {% else %}
+                                            <img class="custom-image img-fluid"
+                                                 src="{% static 'job/images/default-image.jpg' %}"
+                                                 alt="фото по умолчанию"
+                                                 loading="lazy">
+                                        {% endif %}
+                                    </div>
+                                    <!-- Содержимое карточки -->
+                                    <div class="col d-flex flex-column justify-content-center ps-5 pe-1 py-0">
+                                        <h3 class="article-title text-center text-sm-start mb-3">
+                                            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                                        </h3>
+                                        {% if post.postarticle_set.all %}
+                                            <ul class="list-unstyled">
+                                                {% for post_article in post.postarticle_set.all|dictsort:"number" %}
+                                                    <li>
+                                                        <span class="info-font">info</span>
+                                                        <a href="{% url 'job:article_detail' slug=post_article.article.slug %}">{{ post_article.article.title }}</a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% else %}
+                                            <p>Нет связанных статей.</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </article>
+        <article aria-label="Основные преимущества работы с нами">
+            <h2 class="yellow-bar">ПРЕИМУЩЕСТВА РАБОТЫ С НАМИ</h2>
+            <div class="container py-2 px-3 mb-5">
+                <div class="row g-1 g-sm-2 g-lg-4">
+                    {% for key, value in advantages.items %}
+                        <div class="col-md-6 col-lg-4">
+                            <div class="p-3 bg-light text-center rounded shadow-sm position-relative">
+                                <img src="{{ value.icon }}"
+                                     alt="изображение преимущества"
+                                     class="position-absolute center-0 start-0 m-2 opacity-50"
+                                     style="mix-blend-mode: multiply"
+                                     width="64">
+                                <div class="row">
+                                    <div class="col-2"></div>
+                                    <div class="col-10">
+                                        <strong class="text-uppercase">{{ value.title }}</strong>
+                                        <br>
+                                        {{ value.content }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </article>
+        <article aria-label="Список выполненных нами проектов по покраске">
+            <h2 class="yellow-bar">НАШИ ПРОЕКТЫ</h2>
+            <!-- КАРУСЕЛЬ ДЛЯ БОЛЬШИХ ЭКРАНОВ -->
+            <div id="carouselLg"
+                 class="carousel slide d-none d-lg-block"
+                 data-bs-ride="carousel">
+                <div class="container py-4 px-3 mb-5" style="max-height: 500px;">
+                    <div class="carousel-inner">
+                        {% for group in grouped_projects.lg %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <div class="row g-3">
+                                    {% for project in group %}
+                                        <div class="col-lg-4">
+                                            <div class="card rounded shadow-sm">
+                                                {% with project.photos.first as photo %}
+                                                    <div class="ratio ratio-16x9 overflow-hidden rounded-top">
+                                                        <img src="{{ photo.image.url }}"
+                                                             class="img-fluid object-fit-cover w-100 h-100"
+                                                             alt="фото проекта"
+                                                             loading="lazy">
+                                                    </div>
+                                                {% endwith %}
+                                                <div class="card-body text-center p-2">
+                                                    <h6 class="card-title m-0">
+                                                        <a href="{{ project.get_absolute_url }}">{{ project.title }}</a>
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- Навигация -->
+                <button class="carousel-control-prev"
+                        type="button"
+                        data-bs-target="#carouselLg"
+                        data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon bg-warning rounded-circle p-3"
+                          aria-hidden="true"></span> <span class="visually-hidden">Предыдущий</span>
+                </button>
+                <button class="carousel-control-next"
+                        type="button"
+                        data-bs-target="#carouselLg"
+                        data-bs-slide="next">
+                    <span class="carousel-control-next-icon bg-warning rounded-circle p-3"
+                          aria-hidden="true"></span> <span class="visually-hidden">Следующий</span>
+                </button>
+            </div>
+            <!-- КАРУСЕЛЬ ДЛЯ СРЕДНИХ ЭКРАНОВ -->
+            <div id="carouselMd"
+                 class="carousel slide d-none d-md-block d-lg-none"
+                 data-bs-ride="carousel">
+                <div class="container py-4 px-3 mb-5" style="max-height: 500px;">
+                    <div class="carousel-inner">
+                        {% for group in grouped_projects.md %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <div class="row g-3">
+                                    {% for project in group %}
+                                        <div class="col-md-6">
+                                            <div class="card rounded shadow-sm">
+                                                {% with project.photos.first as photo %}
+                                                    <div class="ratio ratio-16x9 overflow-hidden rounded-top">
+                                                        <img src="{{ photo.image.url }}"
+                                                             class="img-fluid object-fit-cover w-100 h-100"
+                                                             alt="Project Image"
+                                                             loading="lazy">
+                                                    </div>
+                                                {% endwith %}
+                                                <div class="card-body text-center p-2">
+                                                    <h6 class="card-title m-0">
+                                                        <a href="{{ project.get_absolute_url }}">{{ project.title }}</a>
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- Навигация -->
+                <button class="carousel-control-prev"
+                        type="button"
+                        data-bs-target="#carouselMd"
+                        data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon bg-warning rounded-circle p-3"
+                          aria-hidden="true"></span> <span class="visually-hidden">Предыдущий</span>
+                </button>
+                <button class="carousel-control-next"
+                        type="button"
+                        data-bs-target="#carouselMd"
+                        data-bs-slide="next">
+                    <span class="carousel-control-next-icon bg-warning rounded-circle p-3"
+                          aria-hidden="true"></span> <span class="visually-hidden">Следующий</span>
+                </button>
+            </div>
+            <!-- КАРУСЕЛЬ ДЛЯ МОБИЛЬНЫХ ЭКРАНОВ -->
+            <div id="carouselSm"
+                 class="carousel slide d-block d-md-none"
+                 data-bs-ride="carousel">
+                <div class="container py-4 px-3 mb-5" style="max-height: 500px;">
+                    <div class="carousel-inner">
+                        {% for group in grouped_projects.sm %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <div class="row g-3">
+                                    {% for project in group %}
+                                        <div class="col-12">
+                                            <div class="card rounded shadow-sm">
+                                                {% with project.photos.first as photo %}
+                                                    <div class="ratio ratio-16x9 overflow-hidden rounded-top">
+                                                        <img src="{{ photo.image.url }}"
+                                                             class="img-fluid object-fit-cover w-100 h-100"
+                                                             alt="Project Image"
+                                                             loading="lazy">
+                                                    </div>
+                                                {% endwith %}
+                                                <div class="card-body text-center p-2">
+                                                    <h6 class="card-title m-0">
+                                                        <a href="{{ project.get_absolute_url }}">{{ project.title }}</a>
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- Навигация -->
+                <button class="carousel-control-prev"
+                        type="button"
+                        data-bs-target="#carouselSm"
+                        data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon bg-warning rounded-circle p-3"
+                          aria-hidden="true"></span> <span class="visually-hidden">Предыдущий</span>
+                </button>
+                <button class="carousel-control-next"
+                        type="button"
+                        data-bs-target="#carouselSm"
+                        data-bs-slide="next">
+                    <span class="carousel-control-next-icon bg-warning rounded-circle p-3"
+                          aria-hidden="true"></span> <span class="visually-hidden">Следующий</span>
+                </button>
+            </div>
+        </article>
+        <article aria-label="Список наших крупных партнеров и заказчиков">
+            <div class="yellow-bar">ПАРТНЕРЫ И ЗАКАЗЧИКИ</div>
+            <div class="container py-4 px-3" style="min-height: 300px">
+                <div class="row g-2 g-md-2 h-100">
+                    {% for key, value in partners.items %}
+                        <div class="col-6 col-md-3">
+                            <div class="p-3 text-center d-flex flex-column align-items-center justify-content-center h-100 flex-grow-1">
+                                <img src="{{ value }}"
+                                     alt="Иконка"
+                                     width="70"
+                                     loading="lazy"
+                                     class="mb-2 d-none d-sm-block">
+                                <p class="mb-0 fs-4">{{ key }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </article>
+    </section>
+{% endblock %}

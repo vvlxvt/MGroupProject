@@ -68,4 +68,12 @@ footer h5 {
 .footer-icons a:nth-child(4) i:hover {
     color: 	#24A1DE; /* telegram blue */
     }
+
+.youtube-icon {
+  color: #ff0000;
+}
+
+.telegram-icon {
+  color: #74C0FC;
+}
 /* footer */

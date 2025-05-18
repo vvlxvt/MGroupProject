@@ -12,6 +12,7 @@
                 <div class="mb-1 d-flex justify-content-between align-items-center gap-1">
                     <div class="input-group">
                         <span class="input-group-text"><i class="fa-solid fa-at"></i></span>
+                        <label for="username" class="visually-hidden">Ваш telegram login</label>
                         <input type="text"
                                name="username"
                                class="form-control"
@@ -20,7 +21,7 @@
                                readonly>
                     </div>
                     <div style="max-height:38px; margin-bottom: 2px;">
-                        <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="mgrup24_bot" data-size="large" data-radius="7" data-auth-url="https://nglzuvwjl9.sharedwithexpose.com/callback" data-request-access="write">
+                        <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="mgrup24_bot" data-size="large" data-radius="7" data-auth-url="https://86f5-94-43-154-7.ngrok-free.app/callback" data-request-access="write">
                         </script>
                     </div>
                 </div>
@@ -28,6 +29,7 @@
                 <div class="mb-1">
                     <div class="input-group w-100">
                         <span class="input-group-text"><i class="fa-solid fa-user-tie"></i></span>
+                        <label for="first_name" class="visually-hidden">Ваше имя</label>
                         <input type="text"
                                name="first_name"
                                class="form-control"
@@ -40,10 +42,11 @@
                 <div class="mb-1">
                     <div class="input-group w-100">
                         <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+                        <label for="auth_date" class="visually-hidden">Дата аутенфикации</label>
                         <input type="text"
                                name="auth_date"
                                class="form-control"
-                               placeholder="Дата верификации"
+                               placeholder="Дата аутенфикации"
                                value="{{ request.session.user.auth_date|default:'' }}"
                                readonly>
                     </div>
@@ -52,6 +55,7 @@
                 <div class="mb-1">
                     <div class="input-group w-100 has-validation">
                         <span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
+                        <label for="mail" class="visually-hidden">Ваша почта</label>
                         <input type="email"
                                class="form-control"
                                id="mail"
@@ -65,6 +69,7 @@
                 <div class="mb-1">
                     <div class="input-group w-100 has-validation">
                         <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
+                        <label for="city" class="visually-hidden">Ваш город</label>
                         <input type="text"
                                class="form-control"
                                id="city"
@@ -76,6 +81,7 @@
                 </div>
                 <!-- Сообщение -->
                 <div class="mb-1">
+                    <label for="message" class="visually-hidden">Ваш вопрос</label>
                     <textarea class="form-control w-100"
                               id="message"
                               name="question_text"

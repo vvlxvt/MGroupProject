@@ -24,3 +24,11 @@ def menu_context(request):
         "calculator": {"title": "Вакансии", "url_name": f"{namespace}:vacancies"},
     }
     return {"menu": menu, "facemenu": menu["services"].get("submenus", [])}
+
+def canonical_url(request):
+    path = request.path
+    if path == '/':
+        canonical = f"{request.scheme}://{request.get_host}"
+    else:
+        canonical = request.build_absolute_uri(path)
+    return {'canonical_url': canonical}

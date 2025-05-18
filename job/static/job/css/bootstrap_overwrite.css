@@ -53,3 +53,7 @@
 .card-body {
   padding: var(--spacing-base);
 }
+
+section {
+    margin-bottom: 3rem;
+}

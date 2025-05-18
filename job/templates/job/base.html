@@ -1,8 +1,7 @@
 {% load static %}
 {% load job_tags %}
-{% load breadcrumbs %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,41 +30,43 @@
               type="image/png"
               sizes="32x32"
               href="/media/photos/Logo/favicon/m_logo_32.png">
-        <title>Маляр Групп | {{ title }}</title>
+        <title>{{ title }}</title>
         <meta name="description"
-              content="{% block meta_description %}{{ meta_description }}{% endblock %}">
+              content="{% block meta_description %}{% endblock %}">
         <script src="https://kit.fontawesome.com/6a1586a6f1.js"
                 crossorigin="anonymous"></script>
+        {% block canonical %}<link rel="canonical" href="{{ request.build_absolute_uri }}">{% endblock %}
     </head>
     <body>
-        <header>
-            <!-- Navbar -->
-            {% include "job/post/includes/navbar.html" %}
-            <!-- Хлебные крошки -->
-            {% breadcrumbs %}
-            <!-- Header / Hero Section -->
-        </header>
         <main>
-            <section class="d-none d-sm-block yellow-bar text-center">
-                <h1 class="page-title">{{ title }}</h1>
-            </section>
+            <header>
+                {% include "job/post/includes/navbar.html" %}
+            </header>
+            <div class="d-none d-sm-block yellow-stripe">
+                {% block page_title %}
+                    <h1 class="page-title">
+                        {% if request.path == '/' %}
+                            Промышленная покраска, антикоррозийная защита, теплоизоляция
+                        {% else %}
+                            {% if page_obj and page_obj.number > 1 %}
+                                {{ title }} <span style="font-size: 14px;">– страница {{ page_obj.number }}</span>
+                            {% else %}
+                                {{ title }}
+                            {% endif %}
+                        {% endif %}
+                    </h1>
+                {% endblock %}
+            </div>
             {% block http404 %}{% endblock %}
             {% block http500 %}{% endblock %}
-            <!-- landing section -->
             {% block landing %}{% endblock %}
-            <!-- Services Section -->
-            {% block content %}{% endblock %}
-            <!-- Projects Section -->
+            {% block services %}{% endblock %}
             {% block projects %}{% endblock %}
-            <!-- Articles Section -->
             {% block articles %}{% endblock %}
-            <!-- About Section -->
             {% block about %}{% endblock %}
-            <!-- Contact Section -->
             {% block contact %}{% endblock %}
-            {% block calculator %}{% endblock %}
+            {% block vacancies %}{% endblock %}
         </main>
-        <!-- Footer -->
         <footer>
             <div class="container text-center">
                 <div class="d-flex flex-column flex-sm-row justify-content-around text-center g-3">
@@ -91,7 +92,7 @@
                             <a href="#">О компании</a>
                         </p>
                         <p>
-                            <a href="#">Вакансии</a>
+                            <a href="{% url 'job:vacancies' %}">Вакансии</a>
                         </p>
                         <p>
                             <a href="{% static 'job/images/company-details-mgrup24.pdf' %}"
@@ -117,13 +118,17 @@
                         <h5 class="text-uppercase">Мы в сети</h5>
                         <hr class="my-2">
                         <div class="footer-icons fs-2">
-                            <a href="#" target="_blank" rel="noopener noreferrer">
-                                <i class="fab fa-youtube fa-xl" style="color: #ff0000;"></i>
-                            </a>
-                            <a href="{% url 'job:contacts' %}"
+                            <a href="#"
+                               aria-label="YouTube"
                                target="_blank"
                                rel="noopener noreferrer">
-                                <i class="fab fa-telegram fa-lg" style="color: #74C0FC;"></i>
+                                <i class="fab fa-youtube fa-xl youtube-icon"></i>
+                            </a>
+                            <a href="{% url 'job:contacts' %}"
+                               aria-label="Telegram"
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                <i class="fab fa-telegram fa-lg telegram-icon"></i>
                             </a>
                         </div>
                     </div>

@@ -26,7 +26,7 @@
 }
 
 .main-statement {
-    font-family: var(--font-family-menu);
+    font-family: var(--font-family-base);
     font-size: var(--font-size-h2);
     color:#1c1c1c;
 }

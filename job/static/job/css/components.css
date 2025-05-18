@@ -53,10 +53,20 @@
 }
 
 
-
-/* header of section */
 .yellow-bar {
-  background-color: #FFD700;
+  background-color: #31B787;
+  color: white;
+  text-align: center;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: var(--font-size-large);
+  line-height: 1.2;
+  padding: 0.5rem 0;
+  margin-bottom: 3rem;              /* mb-5 = 3rem */
+}
+
+.yellow-stripe {
+  background-color: #31B787;
   text-align: center;
   font-weight: var(--font-weight-bold);
   padding: var(--spacing-small) 0;
@@ -64,10 +74,11 @@
 
 .page-title {
   margin: 0;
+  color: white;
   font-family: var(--font-family-base);
   font-size: var(--font-size-large);
   font-weight: var(--font-weight-bold);
-  letter-spacing: 5px;
+  letter-spacing: 3px;
   text-transform: uppercase;
 }
 
@@ -183,6 +194,11 @@ a.tag:active {
     border: none;
 }
 
+.gradient-title {
+  background: linear-gradient(to left, #31B787, #F91803);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
 
 

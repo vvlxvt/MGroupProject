@@ -4,7 +4,7 @@ from django.contrib.sitemaps import GenericSitemap
 from .models import Project, Article, Post
 
 post_info = {
-    'queryset': Post.objects.all(),
+    'queryset': Post.objects.filter(status='PB'),
     'date_field': 'updated',
 }
 
