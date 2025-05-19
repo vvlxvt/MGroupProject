@@ -9,6 +9,8 @@ build:
 
 run:
   command: |
+    mkdir -p /data/media &&
+    cp -r /app/media/* /data/media/ || true &&
     python manage.py migrate --noinput &&
     python manage.py collectstatic --noinput &&
     python manage.py check &&
@@ -21,3 +23,11 @@ run:
 volumes:
   static_volume:
     mount: /data/static
+  media_volume:
+    mount: /data/media
+
+routes:
+  - path: /static/
+    target: /data/static/
+  - path: /media/
+    target: /data/media/

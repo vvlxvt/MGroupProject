@@ -4,13 +4,13 @@
         {% if project.photos %}
             {% with project.photos.first as photo %}
                 <img src="{{ photo.image.url }}"
-                     alt="Project Thumbnail"
+                     alt="Фото выбранного объекта"
                      loading="lazy"
                      class="img-fluid">
             {% endwith %}
         {% else %}
             <img src="{% static 'job/images/plug_image_bw.jpg' %}"
-                 alt="Фото выбранного объекта"
+                 alt="чб фото объекта"
                  class="w-auto">
         {% endif %}
     </div>
