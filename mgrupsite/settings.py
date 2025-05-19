@@ -112,7 +112,7 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = "/data/static"
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = "/data/media"
 
 STORAGES = {
     "default": {
