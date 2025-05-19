@@ -10,7 +10,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env.bool("DEBUG", default=False)
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=['mgroup-vvlxvt.amvera.io', 'localhost'])
-CSRF_TRUSTED_ORIGINS = 'mgroup-vvlxvt.amvera.io'
+CSRF_TRUSTED_ORIGINS = ['https://mgroup-vvlxvt.amvera.io']
 SITE_ID = 1
 
 # === Установленные приложения ===
