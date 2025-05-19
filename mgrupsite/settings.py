@@ -118,13 +118,14 @@ STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
         "OPTIONS": {
-            "location": BASE_DIR / "media",
+            "location": "/data/media",  # ← так правильно для PaaS с volume
         },
     },
     "staticfiles": {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
+
 
 # === Безопасность ===
 SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"
