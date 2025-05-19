@@ -44,8 +44,10 @@ def convert_and_compress(image_path):
 #             file_path = os.path.join(root, file)
 #             convert_and_compress(file_path)
 
-image = Image.open('C:/Users/vital/PycharmProjects/MGroupProject/mgrupsite/job/static/job/images/IMG_9436.JPG')
+image = Image.open(
+    "C:/Users/vital/PycharmProjects/MGroupProject/mgrupsite/job/static/job/images/IMG_9436.JPG"
+)
 # Конвертируем в чёрно-белое
-bw_image = image.convert('L')
+bw_image = image.convert("L")
 # Сохраняем результат
-bw_image.save('plug_image_bw.jpg')
+bw_image.save("plug_image_bw.jpg")

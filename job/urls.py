@@ -6,7 +6,7 @@ from .feeds import LatestPostsFeed
 
 app_name = "job"  # определяю пространство имен для приложения
 
-urlpatterns = [    # it is URLconf
+urlpatterns = [  # it is URLconf
     path("", views.home, name="home"),
     path("services/", views.DynamicPostListView.as_view(), name="post_list"),
     # path('telegram-auth/', views.telegram_auth_view, name='telegram_auth'),
@@ -31,5 +31,3 @@ urlpatterns = [    # it is URLconf
     path("callback/", views.telegram_auth_view, name="callback"),
     path("<slug:slug>/", views.post_detail, name="post_detail"),
 ]
-
-
