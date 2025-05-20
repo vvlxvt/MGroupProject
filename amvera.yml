@@ -24,8 +24,3 @@ volumes:
   media_volume:
     mount: /data/media
 
-routes:
-  - path: /static/
-    target: /data/static/
-  - path: /media/
-    target: /data/media/
