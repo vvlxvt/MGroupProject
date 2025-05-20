@@ -7,7 +7,6 @@ env = Env()
 env.read_env()
 
 SECRET_KEY = env('SECRET_KEY')
-# DEBUG = env.bool("DEBUG", default=False)
 DEBUG = env.bool("DEBUG", default=False)
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=['mgroup-vvlxvt.amvera.io', 'localhost'])
@@ -111,6 +110,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = "/data/static"
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = "/data/media"
