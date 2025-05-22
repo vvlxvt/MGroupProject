@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'taggit',
     'taggit_labels',
     'bootstrap5',
+    'storages',
 
     'job.apps.JobConfig',
     'tgbot',
@@ -111,16 +112,17 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = "/data/static"
 
-MEDIA_URL = "/media/"
+# MEDIA_URL = "/media/"
+MEDIA_URL = f"https://storage.yandexcloud.net/mgroup/"
 MEDIA_ROOT = "/data/media"
 
 STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-        "OPTIONS": {
-            "location": "/data/media",  # ← так правильно для PaaS с volume
-        },
-    },
+    # "default": {
+    #     "BACKEND": "django.core.files.storage.FileSystemStorage",
+    #     "OPTIONS": {
+    #         "location": "/data/media",  # ← так правильно для PaaS с volume
+    #     },
+    # },
     "staticfiles": {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
@@ -170,6 +172,17 @@ THUMBNAIL_ALIASES = {
         'admin_thumb': {'size': (100, 100), 'crop': True},
     },
 }
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+AWS_S3_ENDPOINT_URL = 'https://storage.yandexcloud.net'
+AWS_ACCESS_KEY_ID = env('YANDEX_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('YANDEX_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = 'mgroup'
+
+AWS_QUERYSTRING_AUTH = True  # отключить подписи в URL (для прямых ссылок)
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None  # отключить управление ACL
 
 # === Email (закомментирован, включайте при необходимости) ===
 # EMAIL_HOST = 'smtp.gmail.com'
