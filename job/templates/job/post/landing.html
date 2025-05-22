@@ -3,14 +3,21 @@
 {% block meta_description %}{{ meta_description }}{% endblock %}
 {% block landing %}
     <section id="landing" aria-label="Презентация компании">
-        <div class="image main_photo pb-sm-4 d-flex flex-column align-items-center">
-            <div class="gradient-text text-center logo-font soft-shadow mt-5">
-                Mаляр
-                <span class="cuprum-bold">Групп</span>
+        <div class="hero-img-container position-relative pb-sm-4">
+            <picture>
+                <source media="(max-width: 768px)"
+                        srcset="{% static 'job/images/IMG_1716_small.webp' %}">
+                <img src="{% static 'job/images/IMG_1713.webp' %}"
+                     alt="Фоновое изображение компании Маляр Групп"
+                     class="w-100 h-100 object-fit-cover"
+                     loading="eager">
+            </picture>
+            <div class="text-overlay position-absolute top-50 start-50 translate-middle d-none d-lg-block text-center text-white">
+                <div class="gradient-text logo-font soft-shadow">
+                    Mаляр <span class="cuprum-bold">Групп</span>
+                </div>
+                <p class="soft-shadow main-statement">подрядчик по промышленной и коммерческой покраске</p>
             </div>
-            <p class="text-center soft-shadow main-statement d-none d-lg-block">
-                подрядчик по промышленной и коммерческой покраске
-            </p>
         </div>
         <article aria-label="Основная информация о компании">
             <div class="container px-3 my-5">
@@ -36,7 +43,6 @@
                                 огнезащиту и антикоррозионные системы.
                             </p>
                         </p>
-
                         <p class="text-indent fs-5 mb-4" style="text-align: justify;">
                             Мы используем современные методы подготовки поверхности — <strong><a href="/articles/gidrostrujnaya-podgotovka-metallicheskih-konstrukcij">гидроструйную</a></strong>,
                             <strong><a href="/articles/peskostrujnaya-obrabotka-metallicheskih-konstrukcij">пескоструйную</a></strong>, химическую и механическую очистку, обеспечивая прочную адгезию и
@@ -48,8 +54,10 @@
                             Мы предлагаем комплексный подход — от подбора материалов до выполнения работ.
                         </p>
                         <p class="text-indent fs-4 text-center">Нужна консультация или расчёт сметы?</p>
-                        <p class="text-indent fs-4 text-uppercase fw-bold text-center mb-4">Мы
-                            поможем!</p>
+                        <p class="text-indent fs-4 text-uppercase fw-bold text-center mb-4">
+                            Мы
+                            поможем!
+                        </p>
                         <p class="fs-4 mb-4 gradient-title text-uppercase fw-bold text-center">
                             Ознакомьтесь с услугами компании, чтобы выбрать решение под ваш проект
                         </p>

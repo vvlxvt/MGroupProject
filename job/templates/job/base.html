@@ -5,7 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
         <link rel="stylesheet" href="{% static 'job/css/variable.css' %}">
         <link rel="stylesheet" href="{% static 'job/css/fonts.css' %}">
         <link rel="stylesheet" href="{% static 'job/css/base.css' %}">
@@ -21,7 +21,9 @@
         <link rel="stylesheet" href="{% static 'job/css/components.css' %}">
         <link rel="stylesheet"
               href="{% static 'job/css/bootstrap_overwrite.css' %}">
-        <script defer src="{% static 'job/js/solid.min.js' %}"></script>
+        <!--        <script defer src="{% static 'job/js/solid.min.js' %}"></script>-->
+        <script src="https://kit.fontawesome.com/6a1586a6f1.js"
+                crossorigin="anonymous"></script>
         <link rel="icon"
               type="image/png"
               sizes="64x64"
@@ -36,6 +38,8 @@
         <script src="https://kit.fontawesome.com/6a1586a6f1.js"
                 crossorigin="anonymous"></script>
         {% block canonical %}<link rel="canonical" href="{{ request.build_absolute_uri }}">{% endblock %}
+        <meta name="ahrefs-site-verification"
+              content="ab1ae9a6c2b80e3b2ea9c72c53ab7c950bb19f56c4c2cd9fdc1e134cf790c474">
     </head>
     <body>
         <main>
@@ -135,7 +139,11 @@
                 </div>
             </div>
         </footer>
-        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+            <script
+                src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+                crossorigin="anonymous">
+              </script>
         <!--<script>-->
         <!--    &lt;!&ndash;Сохраняем позицию скролла перед переходом&ndash;&gt;-->
         <!--            document.addEventListener('DOMContentLoaded', function() {-->

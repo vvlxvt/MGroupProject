@@ -29,8 +29,7 @@
                                         <a href="{% url 'job:post_list' %}?tag={{ tag.slug }}" class="tag">{{ tag.name }}</a>
                                     {% endfor %}
                                 </div>
-                                <div class="card-text content-preview">
-                                    {{ post.body|remove_first_h2|safe|truncatewords:30 }}</div>
+                                <div class="card-text content-preview">{{ post.body|remove_first_h2|safe|truncatewords:30 }}</div>
                             </div>
                         </div>
                     </div>

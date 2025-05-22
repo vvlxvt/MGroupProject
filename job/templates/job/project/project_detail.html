@@ -10,10 +10,14 @@
                 </article>
                 <div class="d-flex flex-column align-items-center mt-3 gap-3">
                     {% for photo in project.photos.all %}
-                        <div class="image-wrapper w-100">
+                        <div class="w-100">
                             <img class="img-fluid clickable-image"
                                  src="{{ photo.image.url }}"
-                                 alt="Фото проекта"
+                                 alt="{{ photo.alt|default:'Фотография проекта' }}"
+                                 width="{{ photo.image.width }}"
+                                 height="{{ photo.image.height }}"
+                                 loading="eager"
+                                 decoding="async"
                                  data-bs-toggle="modal"
                                  data-bs-target="#imageModal{{ forloop.counter }}">
                         </div>
