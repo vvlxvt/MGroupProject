@@ -33,6 +33,7 @@ collected_static/
 uploads/
 media/CACHE/
 media/
+readme.md
 
 # Dependency-related
 *.egg-info/
