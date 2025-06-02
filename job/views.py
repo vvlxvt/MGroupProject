@@ -35,14 +35,10 @@ class DynamicPostListView(DataMixin, ListView):
     template_name = "job/post/services.html"
     allow_empty = True  # Позволяет показывать пустой список, если постов нет
 
-    def get(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-
-        if queryset.count() == 1:
-            post = queryset.first()
-            return redirect("post_detail", post=post.slug)
-
-        return super().get(request, *args, **kwargs)
+    def dispatch(self, request, *args, **kwargs):
+        if request.GET.get("page") == "1":
+            return HttpResponsePermanentRedirect(reverse("job:post_list"))
+        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
         queryset = Post.published.all().select_related("cat").prefetch_related("tags")

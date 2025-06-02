@@ -37,7 +37,9 @@
               content="{% block meta_description %}{% endblock %}">
         <script src="https://kit.fontawesome.com/6a1586a6f1.js"
                 crossorigin="anonymous"></script>
-        {% block canonical %}<link rel="canonical" href="{{ request.build_absolute_uri }}">{% endblock %}
+        {% block canonical %}
+            <link rel="canonical" href="{{ canonical_url }}">
+        {% endblock %}
         <meta name="ahrefs-site-verification"
               content="ab1ae9a6c2b80e3b2ea9c72c53ab7c950bb19f56c4c2cd9fdc1e134cf790c474">
     </head>
