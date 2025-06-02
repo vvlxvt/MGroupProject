@@ -159,10 +159,11 @@ class ArticleListView(DataMixin, ListView):
     context_object_name = "articles"
     template_name = "job/article/article_list.html"
 
-    def get(self, request, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
         if request.GET.get("page") == "1":
-            return HttpResponsePermanentRedirect(reverse("articles"))
-        return super().get(request, *args, **kwargs)
+            return HttpResponsePermanentRedirect(reverse("job:article_list"))
+        return super().dispatch(request, *args, **kwargs)
+
 
     def get_queryset(self):
         return Article.objects.all()
