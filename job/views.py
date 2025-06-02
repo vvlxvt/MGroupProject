@@ -5,7 +5,7 @@ from datetime import datetime
 from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Q, Count
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponsePermanentRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.timezone import make_aware
 from django.urls import reverse
@@ -158,6 +158,11 @@ class ArticleListView(DataMixin, ListView):
     title_page = "Статьи"
     context_object_name = "articles"
     template_name = "job/article/article_list.html"
+
+    def get(self, request, *args, **kwargs):
+        if request.GET.get("page") == "1":
+            return HttpResponsePermanentRedirect(reverse("articles"))
+        return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
         return Article.objects.all()

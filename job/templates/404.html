@@ -1,7 +1,10 @@
 {% extends "job/base.html" %}
 {% with "Ошибка 404 - Страница не найдена" as title %}{% endwith %}
 {% block http404 %}
+<div class="d-flex flex-column justify-content-center align-items-top text-center min-vh-70">
     <h1>404 Not Found</h1>
     <p>Извините, страница не найдена.</p>
-    <a href="{% url 'job:home' %}">Вернуться на главную страницу</a>
+    <a href="{% url 'job:home' %}" class="btn btn-primary mt-3">Вернуться на главную страницу</a>
+</div>
 {% endblock %}
+
