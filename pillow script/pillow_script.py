@@ -16,18 +16,17 @@ def convert_and_compress(image_path):
     try:
         # Открываем изображение
         with Image.open(image_path) as img:
-            # Проверяем размер файла
-            # file_size = os.path.getsize(image_path)
-            # if file_size > size_limit:
-            #     # Уменьшаем размер на 50%
-            #     width, height = img.size
-            #     img = img.resize((width // 2, height // 2))
-
-
-            new_width = 768
-            width_percent = new_width / float(img.size[0])
-            new_height = int((float(img.size[1]) * float(width_percent)))
-            img = img.resize((new_width, new_height), Image.LANCZOS)
+            file_size = os.path.getsize(image_path)
+            if file_size > size_limit:
+                # Уменьшаем размер на 50%
+                width, height = img.size
+                img = img.resize((width // 2, height // 2))
+            #
+            #
+            # new_width = 768
+            # width_percent = new_width / float(img.size[0])
+            # new_height = int((float(img.size[1]) * float(width_percent)))
+            # img = img.resize((new_width, new_height), Image.LANCZOS)
             img=img.transpose(Image.ROTATE_270)
 
 
@@ -45,11 +44,11 @@ def convert_and_compress(image_path):
         print(f"❌ Ошибка с {image_path}: {e}")
 
 
-for root, _, files in os.walk(folder_path):
-    for file in files:
-        if file.lower().endswith(extensions):
-            file_path = os.path.join(root, file)
-            convert_and_compress(file_path)
+# for root, _, files in os.walk(folder_path):
+#     for file in files:
+#         if file.lower().endswith(extensions):
+#             file_path = os.path.join(root, file)
+#             convert_and_compress(file_path)
 
 # image = Image.open(
 #     "C:/Users/vital/PycharmProjects/MGroupProject/mgrupsite/job/static/job/images/IMG_2551.JPG"
@@ -59,4 +58,5 @@ for root, _, files in os.walk(folder_path):
 # # Сохраняем результат
 # bw_image.save("plug_image_bw.jpg")
 
-
+img_path = ("C:/Users/vital/PycharmProjects/MGroupProject/mgrupsite/media/photos/projects/pokraska-rvs-puyar/IMG_6546.JPG")
+convert_and_compress(img_path)

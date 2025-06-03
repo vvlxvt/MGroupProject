@@ -82,6 +82,23 @@ TEMPLATES = [
     },
 ]
 
+#=== Логгирование ===
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        '': {  # root logger
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+    },
+}
+
 
 # === База данных ===
 DATABASES = {
