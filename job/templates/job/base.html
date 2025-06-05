@@ -49,7 +49,7 @@
                             Промышленная покраска, антикоррозийная защита, теплоизоляция
                         {% else %}
                             {% if page_obj and page_obj.number > 1 %}
-                                {{ title }} <span style="font-size: 14px;">– страница {{ page_obj.number }}</span>
+                                {{ title }} <span class="fs-6">– страница {{ page_obj.number }}</span>
                             {% else %}
                                 {{ title }}
                             {% endif %}
@@ -68,73 +68,66 @@
             {% block vacancies %}{% endblock %}
         </main>
         <footer>
-            <div class="container text-center">
-                <div class="d-flex flex-column flex-sm-row justify-content-around text-center g-3">
-                    <div>
-                        <p>
-                            <img class="custom-image img-fluid"
-                                 src="{% static 'job/images/MG.png' %}"
-                                 alt="Маляр Групп"
-                                 loading="lazy">
-                        </p>
-                        <p>
-                            <a class="text-decoration-none text-reset fs-5" href="tel:+73912516747">+7(391)251-67-47</a>
-                        </p>
-                        <p>
-                            <a class="text-decoration-none text-reset fs-5"
-                               href="mailto:mgrup24@mail.ru">mgrup24@mail.ru</a>
-                        </p>
-                    </div>
-                    <div>
-                        <h5 class="text-uppercase">Информация</h5>
-                        <hr class="my-2">
-                        <p>
-                            <a href="#">О компании</a>
-                        </p>
-                        <p>
-                            <a href="{% url 'job:vacancies' %}">Вакансии</a>
-                        </p>
-                        <p>
-                            <a href="{% static 'job/images/company-details-mgrup24.pdf' %}"
-                               target="_blank"
-                               rel="noopener noreferrer">Реквизиты</a>
-                        </p>
-                    </div>
-                    <div>
-                        <h5 class="text-uppercase">Время работы</h5>
-                        <hr class="my-2">
-                        <p>пн-пт: 09:00 - 18:00</p>
-                        <p>сб-вс: выходной</p>
-                        <p>без перерыва</p>
-                    </div>
-                    <div>
-                        <h5 class="text-uppercase">Наш адрес</h5>
-                        <hr class="my-2">
-                        <p>660011, Россия</p>
-                        <p>Красноярский край, г.Красноярск</p>
-                        <p>ул. Кипрейная, д. 11</p>
-                    </div>
-                    <div>
-                        <h5 class="text-uppercase">Мы в сети</h5>
-                        <hr class="my-2">
-                        <div class="footer-icons fs-2">
-                            <a href="#"
-                               aria-label="YouTube"
-                               target="_blank"
-                               rel="noopener noreferrer">
-                                <i class="fab fa-youtube fa-xl youtube-icon"></i>
-                            </a>
-                            <a href="{% url 'job:contacts' %}"
-                               aria-label="Telegram"
-                               target="_blank"
-                               rel="noopener noreferrer">
-                                <i class="fab fa-telegram fa-lg telegram-icon"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
+  <div class="container text-center text-md-start">
+    <div class="row g-3 justify-content-center">
+      <div class="col-12 col-md-4 col-lg-auto mb-4">
+        <p>
+          <img class="custom-image img-fluid" src="{% static 'job/images/MG.png' %}"
+               alt="Маляр Групп" loading="lazy"
+               width="149" height="68">
+        </p>
+        <p>
+          <a class="text-decoration-none text-reset fs-5" href="tel:+73912516747">+7(391)251-67-47</a>
+        </p>
+        <p>
+          <a class="text-decoration-none text-reset fs-5" href="mailto:mgrup24@mail.ru">mgrup24@mail.ru</a>
+        </p>
+      </div>
+
+      <div class="col-12 col-md-4 col-lg-auto mb-4">
+        <h5 class="text-uppercase">Информация</h5>
+        <hr class="my-2">
+        <p><a href="#">О компании</a></p>
+        <p><a href="{% url 'job:vacancies' %}">Вакансии</a></p>
+        <p>
+          <a href="{% static 'job/images/company-details-mgrup24.pdf' %}" target="_blank" rel="noopener noreferrer">
+            Реквизиты
+          </a>
+        </p>
+      </div>
+
+      <div class="col-12 col-md-4 col-lg-auto mb-4">
+        <h5 class="text-uppercase">Время работы</h5>
+        <hr class="my-2">
+        <p>пн-пт: 09:00 - 18:00</p>
+        <p>сб-вс: выходной</p>
+        <p>без перерыва</p>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-auto mb-4">
+        <h5 class="text-uppercase">Наш адрес</h5>
+        <hr class="my-2">
+        <p>660011, Россия</p>
+        <p>Красноярский край, г.Красноярск</p>
+        <p>ул. Кипрейная, д. 11</p>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-auto mb-4">
+        <h5 class="text-uppercase">Мы в сети</h5>
+        <hr class="my-2">
+        <div class="footer-icons fs-2">
+          <a href="#" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-youtube fa-xl youtube-icon"></i>
+          </a>
+          <a href="{% url 'job:contacts' %}" aria-label="Telegram" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-telegram fa-lg telegram-icon"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
             <script
                 src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"

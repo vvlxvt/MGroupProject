@@ -10,11 +10,15 @@
                     <div class="col-12 col-sm-6 col-md-4 mb-4">
                         <div class="card h-100">
                             {% if article.photo %}
-                                <img src="{{ article.photo.url }}" alt="картинка к статье">
+                                <img src="{{ article.photo.url }}" alt="картинка к статье"
+                                     width="{{ article.photo.width }}"
+                                     height="{{ article.photo.height }}">
                             {% else %}
                                 <p>
                                     <img class="custom-image img-fluid"
                                          src="{% static 'job/images/default-image.jpg' %}"
+                                         width="{{ article.photo.width }}"
+                         height="{{ article.photo.height }}"
                                          alt="картинка по умолчанию">
                                 </p>
                             {% endif %}
