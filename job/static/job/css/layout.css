@@ -2,12 +2,18 @@
    Описывает сетку, контейнеры, отступы
 ================================= */
 .container {
-    max-width: 1300px;
+    max-width: 1500px;
     margin: 0 auto;
 }
 
 article {
     margin-bottom: 32px;
+}
+
+@media (max-width: 768px) {
+    article {
+        margin-bottom: 0;
+    }
 }
 
 main {

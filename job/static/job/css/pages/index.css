@@ -31,6 +31,14 @@
     color:#1c1c1c;
 }
 
+.justify-text {
+    text-align: justify;
+}
+
+article#us p{
+    font-size: var(--font-size-large);
+}
+
 /* фото на главной странице
 .image.main_photo {
     width: 100%;
@@ -52,6 +60,7 @@
 .hero-img-container {
     height: 600px;
     overflow: hidden;
+    margin-bottom: 32px;
 }
 
 @media (max-width: 768px) {

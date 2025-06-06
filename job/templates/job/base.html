@@ -13,8 +13,8 @@
         <link rel="stylesheet" href="{% static 'job/css/header.css' %}">
         <link rel="stylesheet" href="{% static 'job/css/footer.css' %}">
         <link rel="stylesheet" href="{% static 'job/css/pages/navbar.css' %}">
-        <link rel="stylesheet" href="{% static 'job/css/pages/index.css' %}">
         <link rel="stylesheet" href="{% static 'job/css/pages/article.css' %}">
+        <link rel="stylesheet" href="{% static 'job/css/pages/index.css' %}">
         <link rel="stylesheet" href="{% static 'job/css/pages/about.css' %}">
         <link rel="stylesheet" href="{% static 'job/css/pages/contacts.css' %}">
         <link rel="stylesheet" href="{% static 'job/css/pages/vacancies.css' %}">
@@ -22,8 +22,6 @@
         <link rel="stylesheet"
               href="{% static 'job/css/bootstrap_overwrite.css' %}">
         <!--        <script defer src="{% static 'job/js/solid.min.js' %}"></script>-->
-        <script src="https://kit.fontawesome.com/6a1586a6f1.js"
-                crossorigin="anonymous"></script>
         <link rel="icon" type="image/png" sizes="64x64" href="{{ MEDIA_URL }}photos/Logo/favicon/m_logo_64.png">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ MEDIA_URL }}photos/Logo/favicon/m_logo_32.png">
         <title>{{ title }}</title>
@@ -67,67 +65,112 @@
             {% block contact %}{% endblock %}
             {% block vacancies %}{% endblock %}
         </main>
-        <footer>
-  <div class="container text-center text-md-start">
-    <div class="row g-3 justify-content-center">
-      <div class="col-12 col-md-4 col-lg-auto mb-4">
-        <p>
-          <img class="custom-image img-fluid" src="{% static 'job/images/MG.png' %}"
-               alt="Маляр Групп" loading="lazy"
-               width="149" height="68">
-        </p>
-        <p>
-          <a class="text-decoration-none text-reset fs-5" href="tel:+73912516747">+7(391)251-67-47</a>
-        </p>
-        <p>
-          <a class="text-decoration-none text-reset fs-5" href="mailto:mgrup24@mail.ru">mgrup24@mail.ru</a>
-        </p>
-      </div>
+<footer>
+  <div class="container">
+    <div class="row gy-3">
 
-      <div class="col-12 col-md-4 col-lg-auto mb-4">
-        <h5 class="text-uppercase">Информация</h5>
-        <hr class="my-2">
-        <p><a href="#">О компании</a></p>
-        <p><a href="{% url 'job:vacancies' %}">Вакансии</a></p>
-        <p>
-          <a href="{% static 'job/images/company-details-mgrup24.pdf' %}" target="_blank" rel="noopener noreferrer">
-            Реквизиты
-          </a>
-        </p>
-      </div>
-
-      <div class="col-12 col-md-4 col-lg-auto mb-4">
-        <h5 class="text-uppercase">Время работы</h5>
-        <hr class="my-2">
-        <p>пн-пт: 09:00 - 18:00</p>
-        <p>сб-вс: выходной</p>
-        <p>без перерыва</p>
-      </div>
-
-      <div class="col-12 col-md-6 col-lg-auto mb-4">
-        <h5 class="text-uppercase">Наш адрес</h5>
-        <hr class="my-2">
-        <p>660011, Россия</p>
-        <p>Красноярский край, г.Красноярск</p>
-        <p>ул. Кипрейная, д. 11</p>
-      </div>
-
-      <div class="col-12 col-md-6 col-lg-auto mb-4">
-        <h5 class="text-uppercase">Мы в сети</h5>
-        <hr class="my-2">
-        <div class="footer-icons fs-2">
-          <a href="#" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-youtube fa-xl youtube-icon"></i>
-          </a>
-          <a href="{% url 'job:contacts' %}" aria-label="Telegram" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-telegram fa-lg telegram-icon"></i>
-          </a>
+      <!-- Блок 1 -->
+      <div class="col-12 col-md-4 col-lg ">
+        <div class="p-3 text-start-md text-center">
+          <p class="m-1">
+                <img src="{% static 'job/images/MG.png' %}"
+                     alt="Маляр Групп" width="149" height="68" loading="eager"></p>
+            <p><a class="text-decoration-none text-reset fs-5 m-1"
+                 href="tel:+73912516747">+7(391)251-67-47</a></p>
+            <p><a class="text-decoration-none text-reset fs-5 m-1"
+                 href="mailto:mgrup24@mail.ru">mgrup24@mail.ru</a></p>
         </div>
       </div>
+
+      <!-- Блок 2 -->
+      <div class="col-12 col-md-4 col-lg">
+        <div class="p-3 text-start-md text-center mb-md-3 mb-3 mb-xl-0">
+          <h5 class="text-uppercase m-1">Информация</h5>
+              <hr class="my-2">
+              <p class="m-1"><a href="{% url 'job:about' %}">О компании</a></p>
+              <p class="m-1"><a href="{% url 'job:vacancies' %}">Вакансии</a></p>
+              <p class="m-1"><a href="{% static 'job/images/company-details-mgrup24.pdf' %}" target="_blank"
+                     rel="noopener noreferrer">Реквизиты</a>
+              </p>
+        </div>
+        <div class="col-12 d-lg-none">
+          <div class="p-3 text-start-md text-center">
+            <h5 class="text-uppercase m-1">Время работы</h5>
+                        <hr class="my-2">
+                        <p class="m-1">пн-пт: 09:00 - 18:00</p>
+                        <p class="m-1">сб-вс: выходной</p>
+                        <p class="m-1">без перерыва</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Блок 3 -->
+      <div class="d-none d-lg-block col-lg">
+        <div class="p-3 text-start-md text-center">
+          <h5 class="text-uppercase m-1">Время работы</h5>
+                        <hr class="my-2">
+                        <p class="m-1">пн-пт: 09:00 - 18:00</p>
+                        <p class="m-1">сб-вс: выходной</p>
+                        <p class="m-1">без перерыва</p>
+        </div>
+      </div>
+
+      <!-- Блок 4 -->
+      <div class="col-12 col-md-4 col-lg">
+        <div class="p-3 text-start-md text-center mb-md-3 mb-3 mb-xl-0"">
+          <h5 class="text-uppercase m-1">Наш адрес</h5>
+                        <hr class="my-2">
+                        <p class="m-1">660011, Россия</p>
+                        <p class="m-1">Красноярский край, г.Красноярск</p>
+                        <p class="m-1">ул. Кипрейная, д. 11</p>
+        </div>
+        <div class="col-12 d-lg-none">
+          <div class="p-3 text-start-md text-center">
+            <h5 class="text-uppercase m-1">Мы в сети</h5>
+                <hr class="my-2">
+                <div class="footer-icons fs-2 m-1">
+                    <a href="#"
+                       aria-label="YouTube"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        <i class="fab fa-youtube fa-xl youtube-icon"></i>
+                    </a>
+                    <a href="{% url 'job:contacts' %}"
+                       aria-label="Telegram"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        <i class="fab fa-telegram fa-lg telegram-icon"></i>
+                    </a>
+                </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Блок 5 -->
+      <div class="d-none d-lg-block col-lg">
+        <div class="p-3 text-start-md text-center">
+          <h5 class="text-uppercase m-1">Мы в сети</h5>
+                <hr class="my-2">
+                <div class="footer-icons fs-2 m-1">
+                    <a href="#"
+                       aria-label="YouTube"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        <i class="fab fa-youtube fa-xl youtube-icon"></i>
+                    </a>
+                    <a href="{% url 'job:contacts' %}"
+                       aria-label="Telegram"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        <i class="fab fa-telegram fa-lg telegram-icon"></i>
+                    </a>
+                </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </footer>
-
             <script
                 src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"

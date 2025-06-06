@@ -4,8 +4,8 @@ footer {
     background-repeat: no-repeat;
     background-size: cover;
     font-size: var(--font-size-base);
-    background-color:#31B787;
-    padding: 50px 0;
+    background-color: #31B787;
+    padding: 20px 0;
 }
 
 @media (max-width: 576px) {
@@ -17,25 +17,15 @@ footer {
     background-attachment: local;
     width: 100vw;
     aspect-ratio: 3 / 2;
-    padding: 30px 0;
-  }
-
-  footer .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center; /* Чтобы текст тоже центрировался */
+    padding: 10px 0;
   }
 }
 
 
 
 footer a, footer p {
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-large);
     color: var(--color-primary);
-    max-width: 300px; /* Подберите оптимальную ширину */
     overflow-wrap: break-word;
     margin-bottom: 0.5rem;
 }
