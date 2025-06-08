@@ -23,7 +23,7 @@ folder = "static/job/images/advantages/"
 advantages = {
     "color": {
         "title": "Выбор цвета",
-        "content": "На все выполненные работы мы даем официальную гарантию",
+        "content": "Предоставляем полный спектр цветов для вышего объекта",
         "icon": f"{folder}palette.png",
     },
     "guarantee": {

@@ -272,7 +272,7 @@ def home(request):
         "advantages": advantages,
     }
 
-    return render(request, "job/post/landing.html", context)
+    return render(request, "job/post/index.html", context)
 
 
 def page_not_found(request, exception):
