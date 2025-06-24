@@ -7,7 +7,7 @@
         <!-- Desktop logo -->
         <a class="d-none d-lg-block position-fixed top-0 start-0 z-3"
            href="{% url 'job:home' %}">
-            <img src="{% static 'job/images/Logo_150_235.png' %}" alt="Маляр Групп">
+            <img src="{% static 'job/images/logo.webp' %}" alt="Маляр Групп">
         </a>
         <!-- Burger -->
         <button class="navbar-toggler"
@@ -24,19 +24,27 @@
             <ul class="navbar-nav mx-2 mx-lg-auto d-flex justify-content-around w-50 mb-2 mb-lg-0">
                 {% for key, m in menu.items %}
                     {% if m.submenus %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle"
-                               href="{% url m.url_name %}"
-                               id="navbarDropdown"
-                               role="button"
-                               data-bs-toggle="dropdown"
-                               aria-expanded="false">{{ m.title }}</a>
-                            <ul class="dropdown-menu dropdown-menu-light bg-white"
-                                aria-labelledby="navbarDropdown">
+                        <li class="nav-item dropdown
+                            {% if m.submenus %}
                                 {% for sub in m.submenus %}
-                                    <li>
-                                        <a class="dropdown-item"
-                                           href="{% url sub.url_name %}?category={{ sub.slug }}">{{ sub.title }}</a>
+                                    {% if sub.url_name|cut:'job:' == request.resolver_match.url_name %}
+                                        active
+                                    {% endif %}
+                                {% endfor %}
+                            {% elif m.url_name|cut:'job:' == request.resolver_match.url_name %}
+                                active
+                            {% endif %}
+                        ">
+                            <a class="nav-link dropdown-toggle" href="{% url m.url_name %}" id="navbarDropdown"
+                               role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ m.title }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-light bg-white" aria-labelledby="navbarDropdown">
+                                {% for sub in m.submenus %}
+                                    <li><a class="dropdown-item"
+                                           href="{% url sub.url_name %}?category={{ sub.slug }}">
+                                            {{ sub.title }}
+                                        </a>
                                     </li>
                                 {% endfor %}
                             </ul>

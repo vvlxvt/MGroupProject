@@ -28,6 +28,13 @@
   color: #FFF;
 }
 
+.nav-link.active,
+ .nav-item.active > .nav-link {
+    border: 1px solid #31B787;
+    border-radius: 25px;
+    padding: 0.4rem;
+}
+
 .dropdown-menu {
   min-width: 15rem; /* например, больше */
 }
