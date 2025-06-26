@@ -7,16 +7,20 @@
             <picture>
                 <source media="(max-width: 768px)"
                         srcset="{% static 'job/images/IMG_1716_small.webp' %}">
-                <img src="{% static 'job/images/IMG_1713.webp' %}"
+                <img src="{% static 'job/images/IMG_index.webp' %}"
                      alt="Фоновое изображение компании Маляр Групп"
-                     class="w-100 h-100 object-fit-cover"
+                     class="img-fluid w-100"
                      loading="eager">
             </picture>
-            <div class="text-overlay position-absolute top-50 start-50 translate-middle d-none d-lg-block text-center text-white">
-                <div class="gradient-text logo-font soft-shadow">
-                    Mаляр <span class="cuprum-bold">Групп</span>
-                </div>
-                <p class="soft-shadow main-statement">подрядчик по промышленной и коммерческой покраске</p>
+            <div class="position-absolute top-50 start-0 translate-middle-y ps-3 text-white">
+                <div class="position-relative title-container ps-3 soft-shadow">
+                      <p class="position-absolute top-0 start-0 logo-font mb-0 z-1">Mаляр</p>
+                      <div class="d-flex align-items-center h-100">
+                        <p class="neopro-bold mb-0 text-indent ps-5">Групп</p>
+                      </div>
+                      <p class="position-absolute bottom-0 start-0 main-statement z-3 pb-3">профессиональная
+                          промышленная покраска</p>
+                    </div>
             </div>
         </div>
 
