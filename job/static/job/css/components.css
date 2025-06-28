@@ -164,11 +164,6 @@ a.tag:active {
     font-family:'Cuprum';
 }
 
-.input-group-text {
-    color: #FFD700;
-    background-color: black;
-}
-
 .article-title a {
   font-size: 1.4rem;
   font-weight: 600;

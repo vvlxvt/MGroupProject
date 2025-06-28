@@ -1,70 +1,39 @@
-#callback {
-    background-color: #f8f9fa; /* Светлый фон */
+.data-input {
+  max-width: 400px;
+  margin-bottom: 1rem;
 }
 
-#callback .btn {
-    margin-top: 10px; /* Отступ сверху для кнопки */
-}
-
-
-#contacts .form-control {
-  color: #333;
+.data-input .form-control:not(textarea) {
+  background-color: white;
+  color: black;
   border-left: none;
-  background-color: #fff;
-  border: 1px solid #000;
   border-radius: 0 0.375rem 0.375rem 0;
-  outline: none;
-  opacity: 0.95;
-  transition: all 0.3s ease;
-  font-size: 1.2rem;
-  padding: 0.375rem 0.75rem;
-  height: calc(1.5em + 0.75rem + 2px); /* выравнивание по высоте */
+  font-size: 1rem;
+  padding: 0.375rem 0.1rem;
 }
 
-#contacts .form-control:focus {
+.data-input .form-control:focus {
+  box-shadow: none;
   border-color: #000;
-  outline: none;
   background-color: #fff;
-  color: #000;
 }
 
-#contacts .form-control::placeholder {
-  color: #999;
-  opacity: 0.7;
-}
-
-#contacts textarea.form-control,
-input#attached_photo.form-control {
-    border-radius: 0.375rem;
-}
-
-/* Обводка и фон обертки с иконкой */
-#contacts .input-group-text {
-  background-color: #fff;
-  color: #000;
-  border: 1px solid #000;
-  font-size: 1.2rem;
-  padding: 0.375rem 0.5rem;
-  height: calc(1.5em + 0.75rem + 2px); /* равная высота с input */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.data-input .input-group-text {
   border-right: none;
   border-radius: 0.375rem 0 0 0.375rem;
+  color: #000;
+  font-size: 1rem;
+  padding: 0.375rem 0.75rem;
 }
 
-/* Иконка */
-#contacts .input-group-text i {
-  min-width: 1.25rem;
+.data-input .input-group-text i {
+  width: 0.5rem;
   padding-right: 0.3rem;
   text-align: center;
-  color: #000; /* Чёрный символ */
-  border-radius: 0.375rem 0 0 0.375rem;
 }
 
-/* Убираем утолщение между иконкой и полем */
-#contacts .input-group > .form-control {
-  border-left: none;
+.data-input textarea, .data-input.form-control {
+    border: 1px solid black;
 }
 
 #contacts #message {
@@ -75,4 +44,36 @@ input#attached_photo.form-control {
 #contacts .visually-hidden:{
   position: absolute;
   left: -9999px;
+}
+
+.text-blocks-container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  padding: 50px 0;
+  flex-direction: column;
+}
+
+.block {
+  margin-bottom: 1rem;
+  padding: 20px;
+  text-align: center;
+  width: 500px;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.block.block-left {
+    margin-left: 100px;
+    background-color: var(--color-secondary);
+}
+
+.block.block-right {
+    background-color: var(--color-accent);
+    color: white;
+}
+
+.block > p {
+   font-size: 1.2rem;
 }
