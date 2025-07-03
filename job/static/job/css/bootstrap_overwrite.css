@@ -6,7 +6,8 @@
 }
 
 .navbar {
-  min-height: 40px;
+  min-height: 35px;
+  padding: 0 1px 0 1px;
 }
 
 /* Общий стиль ссылок в dropdown */

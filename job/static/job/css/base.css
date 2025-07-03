@@ -7,7 +7,7 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 40px 0 0 0;
-
+    overflow-x: hidden;
 }
 
 /* Заголовки */
@@ -135,5 +135,6 @@ img {
     box-shadow: none;
     max-width: 100%;
     height: auto;
+    overflow: hidden;
 }
 

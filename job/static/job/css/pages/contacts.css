@@ -46,7 +46,7 @@
   left: -9999px;
 }
 
-.text-blocks-container {
+#contacts .text-blocks-container {
   width: 100%;
   height: auto;
   display: flex;
@@ -55,7 +55,7 @@
   flex-direction: column;
 }
 
-.block {
+#contacts .block {
   margin-bottom: 1rem;
   padding: 20px;
   text-align: center;
@@ -64,16 +64,16 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.block.block-left {
+#contacts .block.block-left {
     margin-left: 100px;
     background-color: var(--color-secondary);
 }
 
-.block.block-right {
+#contacts .block.block-right {
     background-color: var(--color-accent);
     color: white;
 }
 
-.block > p {
+#contacts .block > p {
    font-size: 1.2rem;
 }

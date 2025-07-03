@@ -3,15 +3,17 @@
 {% block meta_description %}{{ meta_description }}{% endblock %}
 {% block landing %}
     <section id="landing" aria-label="Презентация компании">
-        <div class="hero-img-container position-relative pb-sm-4">
+        <div class="hero-img-container position-relative pb-sm-4 px-0">
+
             <picture>
                 <source media="(max-width: 768px)"
                         srcset="{% static 'job/images/IMG_1716_small.webp' %}">
                 <img src="{% static 'job/images/IMG_index.webp' %}"
                      alt="Фоновое изображение компании Маляр Групп"
-                     class="img-fluid w-100"
+                     class="hero"
                      loading="eager">
             </picture>
+
             <div class="position-absolute top-50 start-0 translate-middle-y ps-3 text-white">
                 <div class="position-relative title-container ps-3 soft-shadow">
                       <p class="position-absolute top-0 start-0 logo-font mb-0 z-1">Mаляр</p>
@@ -23,6 +25,8 @@
                     </div>
             </div>
         </div>
+
+
 
         <article id="us" aria-label="Основная информация о компании">
             <div class="container px-3 my-3 my-md-5">

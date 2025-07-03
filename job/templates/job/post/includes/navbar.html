@@ -2,13 +2,13 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-white">
     <div class="container-fluid">
         <!-- Mobile logo -->
-        <a class="navbar-brand d-lg-none py-0 ms-2 fs-3 fw-bold text-warning"
+        <a class="navbar-brand py-0 ms-2 fs-3 fw-bold"
            href="{% url 'job:home' %}">Маляр Групп</a>
         <!-- Desktop logo -->
-        <a class="d-none d-lg-block position-fixed top-0 start-0 soft-shadow"
-           href="{% url 'job:home' %}">
-            <img src="{% static 'job/images/logo.webp' %}" alt="Маляр Групп">
-        </a>
+<!--        <a class="d-none d-lg-block position-fixed top-0 start-0 soft-shadow"-->
+<!--           href="{% url 'job:home' %}">-->
+<!--            <img src="{% static 'job/images/logo.webp' %}" alt="Маляр Групп">-->
+<!--        </a>-->
         <!-- Burger -->
         <button class="navbar-toggler"
                 type="button"
@@ -21,7 +21,7 @@
         </button>
         <!-- Collapsible nav -->
         <div class="collapse navbar-collapse bg-white" id="navbarNav">
-            <ul class="navbar-nav mx-2 mx-lg-auto d-flex justify-content-around w-50 mb-2 mb-lg-0">
+            <ul class="navbar-nav d-flex mx-2 mx-lg-auto justify-content-around w-50 mb-2 mb-lg-0">
                 {% for key, m in menu.items %}
                     {% if m.submenus %}
                         <li class="nav-item dropdown
@@ -62,14 +62,14 @@
                 </li>
             </ul>
             <!-- Search form -->
-            <form class="input-group" method="GET" action="{% url 'job:post_list' %}">
-                <input class="form-control me-2"
+            <form class="input-group search-input" method="GET" action="{% url 'job:post_list' %}">
+                <input class="form-control"
                        type="search"
                        name="query"
                        placeholder="Поиск"
                        aria-label="Search">
-                <button class="btn" type="submit">
-                    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+                <button class="btn d-flex justify-content-center align-items-center" type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </form>
         </div>
