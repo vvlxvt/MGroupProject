@@ -168,3 +168,68 @@ article#us p{
 }
 
 
+.carousel-container {
+      max-width: 100vw;
+      height: 100vh;
+      margin: 0 auto;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;   /* по вертикали */
+      justify-content: center; /* по горизонтали */
+    }
+
+.carousel-image-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 3px;
+}
+
+    .carousel-image {
+      width: auto;
+      height: 600px;
+      object-fit: cover;
+      display: none;
+    }
+
+    .carousel-image.active {
+      display: block;
+    }
+
+    .carousel-titles {
+      display: flex;
+      overflow-x: auto; /* ✅ горизонтальная прокрутка */
+      overflow-y: hidden;
+      gap: 5px; /* заменяет Bootstrap gap-1 */
+      padding: 0;
+      background: #f4f4f4;
+      width: 100%;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    .carousel-title {
+      display: flex;
+      height: 80px;
+      min-width: 170px;
+      line-height: 1.2;
+      cursor: pointer;
+      background: #ddd;
+      border-radius: 6px;
+      transition: 0.3s;
+      font-size: 1rem;
+    }
+
+    .carousel-title:hover,
+    .carousel-title.active {
+      background: #31B787;
+      color: white;
+    }
+
+    .carousel-title-text {
+        margin: auto;
+        text-align: center;
+    }

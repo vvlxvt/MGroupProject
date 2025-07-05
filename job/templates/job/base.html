@@ -176,6 +176,25 @@
                 integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
                 crossorigin="anonymous">
               </script>
+
+        <script>
+  let prevScrollPos = window.pageYOffset;
+  const navbar = document.getElementById("navbar");
+
+  window.addEventListener("scroll", () => {
+    const currentScrollPos = window.pageYOffset;
+
+    if (prevScrollPos > currentScrollPos) {
+      // Прокручиваем вверх → показываем навбар
+      navbar.classList.remove("hidden");
+    } else {
+      // Прокручиваем вниз → скрываем навбар
+      navbar.classList.add("hidden");
+    }
+
+    prevScrollPos = currentScrollPos;
+  });
+</script>
         <!--<script>-->
         <!--    &lt;!&ndash;Сохраняем позицию скролла перед переходом&ndash;&gt;-->
         <!--            document.addEventListener('DOMContentLoaded', function() {-->

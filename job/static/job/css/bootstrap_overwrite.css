@@ -6,8 +6,18 @@
 }
 
 .navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
   min-height: 35px;
   padding: 0 1px 0 1px;
+  transition: top 0.3s ease;     /* Добавлен тип easing для плавности */
+  background-color: white;       /* Подстраховка, если нет класса bg-white */
+}
+
+.navbar.hidden {
+  top: -45px;
 }
 
 /* Общий стиль ссылок в dropdown */
@@ -27,6 +37,10 @@
 .navbar .dropdown-menu .dropdown-item:active {
   background-color: #343A40;
   color: #FFF;
+}
+
+.nav-link {
+    color: black;
 }
 
 .nav-link.active,

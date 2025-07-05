@@ -26,7 +26,27 @@
             </div>
         </div>
 
+        <div class="carousel-container">
+          <div class="carousel-image-wrapper">
+            {% for post in posts %}
+              {% if post.photo %}
+                <img src="{{ post.photo.url }}"
+                     class="carousel-image {% if forloop.first %}active{% endif %}"
+                     alt="{{ post.title }}">
+              {% endif %}
+            {% endfor %}
+          </div>
 
+          <div class="carousel-titles">
+              {% for post in posts %}
+                <div class="carousel-title {% if forloop.first %}active{% endif %}"
+                     data-index="{{ forloop.counter0 }}">
+                    <div class = 'carousel-title-text'>{{ post.title }}</div>
+                </div>
+              {% endfor %}
+            </div>
+
+        </div>
 
         <article id="us" aria-label="Основная информация о компании">
             <div class="container px-3 my-3 my-md-5">
@@ -340,4 +360,25 @@
             </div>
         </article>
     </section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const titles = document.querySelectorAll(".carousel-title");
+    const images = document.querySelectorAll(".carousel-image");
+
+    titles.forEach((title, index) => {
+      title.addEventListener("click", () => {
+        // Удаляем .active у всех
+        titles.forEach(t => t.classList.remove("active"));
+        images.forEach(img => img.classList.remove("active"));
+
+        // Добавляем .active только по индексу
+        title.classList.add("active");
+        if (images[index]) {
+          images[index].classList.add("active");
+        }
+      });
+    });
+  });
+</script>
 {% endblock %}
