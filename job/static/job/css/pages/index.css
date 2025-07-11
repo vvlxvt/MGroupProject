@@ -174,23 +174,12 @@ article#us p{
       margin: 0 auto;
       overflow: hidden;
       display: flex;
-      flex-direction: column;
-      align-items: center;   /* по вертикали */
-      justify-content: center; /* по горизонтали */
+      position: relative;
     }
 
-.carousel-image-wrapper {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 3px;
-}
-
     .carousel-image {
-      width: auto;
-      height: 600px;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       display: none;
     }
@@ -200,32 +189,43 @@ article#us p{
     }
 
     .carousel-titles {
+      position: absolute;
+      left: 0;
+      z-index: 2;
+      height: 100%;
       display: flex;
-      overflow-x: auto; /* ✅ горизонтальная прокрутка */
-      overflow-y: hidden;
-      gap: 5px; /* заменяет Bootstrap gap-1 */
+      flex-direction: column;
+      overflow-x: hidden; /* ✅ горизонтальная прокрутка */
+      overflow-y: auto;
       padding: 0;
-      background: #f4f4f4;
-      width: 100%;
+      background: transparent;
       box-sizing: border-box;
       scroll-behavior: smooth;
     }
 
     .carousel-title {
       display: flex;
+      border-top: solid 2px black;
       height: 80px;
-      min-width: 170px;
+      min-width: 200px;
       line-height: 1.2;
       cursor: pointer;
-      background: #ddd;
-      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.5);
       transition: 0.3s;
       font-size: 1rem;
+      clip-path: polygon(0% 0%, 100% 0%, 95% 100%, 0% 100%);;
     }
 
-    .carousel-title:hover,
+    .carousel-title:hover {
+        font-weight: bold;
+        color: white;
+    }
+
+
     .carousel-title.active {
-      background: #31B787;
+      background: transparent;
+      font-weight: bold;
+      border-top: none;
       color: white;
     }
 

@@ -27,7 +27,6 @@
         </div>
 
         <div class="carousel-container">
-          <div class="carousel-image-wrapper">
             {% for post in posts %}
               {% if post.photo %}
                 <img src="{{ post.photo.url }}"
@@ -35,7 +34,7 @@
                      alt="{{ post.title }}">
               {% endif %}
             {% endfor %}
-          </div>
+
 
           <div class="carousel-titles">
               {% for post in posts %}
