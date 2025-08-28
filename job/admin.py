@@ -1,17 +1,10 @@
 from django.contrib import admin, messages
 from django.forms import ModelForm
-from .forms import TagsForm
-from .models import (
-    Post,
-    Article,
-    Project,
-    Category,
-    Photo,
-    PostArticle,
-    UserProfile,
-    UserQuestion,
-)
 from django.utils.html import format_html
+
+from .forms import TagsForm
+from .models import (Article, Category, Photo, Post, PostArticle, Project,
+                     UserProfile, UserQuestion)
 
 
 class PostArticleInline(admin.TabularInline):

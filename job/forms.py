@@ -2,11 +2,10 @@ from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator, FileExtensionValidator
-
-from job.models import UserProfile, UserQuestion
-
 from taggit.forms import TagField
 from taggit_labels.widgets import LabelWidget
+
+from job.models import UserProfile, UserQuestion
 
 
 class UserQuestionForm(forms.ModelForm):

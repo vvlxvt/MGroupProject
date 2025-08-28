@@ -80,3 +80,30 @@
 section {
     margin-bottom: 3rem;
 }
+
+.carousel-caption.left-center {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  right: auto;             /* отменяем right: 15% от Bootstrap */
+  bottom: auto;            /* отменяем bottom: 20px от Bootstrap */
+  text-align: left;        /* выравниваем текст по левому краю */
+  padding-left: 2rem;      /* немного отступаем от левого края */
+  z-index: 1;
+}
+
+.carousel-item {
+  position: relative;  /* обязательно для абсолютного позиционирования caption */
+}
+
+.carousel-item img {
+  pointer-events: none; /* не блокирует текст */
+  z-index: 0;
+}
+
+/* Отключаем любые анимации/переходы у подписей карусели, чтобы текст не "прыгался" */
+.carousel-caption,
+.carousel-caption * {
+  animation: none !important;
+  transition: none !important;
+}

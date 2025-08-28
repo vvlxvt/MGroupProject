@@ -1,7 +1,6 @@
-from django.contrib.sitemaps import Sitemap
+from django.contrib.sitemaps import GenericSitemap, Sitemap
 
-from django.contrib.sitemaps import GenericSitemap
-from .models import Project, Article, Post
+from .models import Article, Post, Project
 
 post_info = {
     "queryset": Post.objects.filter(status="PB"),

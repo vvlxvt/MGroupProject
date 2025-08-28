@@ -1,13 +1,15 @@
+from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
-from django.core.validators import MinValueValidator, MaxValueValidator, EmailValidator
+from django.core.validators import (EmailValidator, MaxValueValidator,
+                                    MinValueValidator)
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-from taggit.managers import TaggableManager
-from .ru_taggit import RuTaggedItem
-from ckeditor.fields import RichTextField
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
+from taggit.managers import TaggableManager
+
+from .ru_taggit import RuTaggedItem
 
 
 class PublichedManager(models.Manager):

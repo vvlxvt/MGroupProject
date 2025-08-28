@@ -1,11 +1,13 @@
-import os
 import logging
-from django.core.management.base import BaseCommand
+import os
+
 import boto3
-from django.conf import settings
 from botocore.exceptions import BotoCoreError, ClientError
+from django.conf import settings
+from django.core.management.base import BaseCommand
 
 logger = logging.getLogger(__name__)
+
 
 class Command(BaseCommand):
     help = "Upload local media folder to Yandex Object Storage"
@@ -38,4 +40,3 @@ class Command(BaseCommand):
                     self.stdout.write(self.style.SUCCESS(f"Uploaded: {s3_key}"))
                 except (BotoCoreError, ClientError) as e:
                     logger.error(f"Error uploading {s3_key}: {e}")
-

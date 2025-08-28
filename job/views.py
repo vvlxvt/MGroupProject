@@ -1,31 +1,25 @@
 import json
-import requests
 from datetime import datetime
 
+import requests
 from django.conf import settings
+from django.contrib.postgres.search import (SearchQuery, SearchVector,
+                                            TrigramSimilarity)
 from django.core.serializers.json import DjangoJSONEncoder
-from django.db.models import Q, Count
-from django.http import JsonResponse, HttpResponsePermanentRedirect
-from django.shortcuts import render, redirect, get_object_or_404
-from django.utils.timezone import make_aware
+from django.db.models import Count, Q
+from django.http import HttpResponsePermanentRedirect, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils.timezone import make_aware
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
-from django.views.generic import ListView, TemplateView, DetailView
-from django.contrib.postgres.search import SearchVector, SearchQuery, TrigramSimilarity
-
+from django.views.generic import DetailView, ListView, TemplateView
 from taggit.models import Tag
 
-from .models import Post, Article, Project, Category, UserProfile, UserQuestion
-from .forms import UserQuestionForm, UserProfileForm
-from .utils import (
-    DataMixin,
-    advantages,
-    partners,
-    chunk_list,
-    verify_telegram_auth,
-    save_user_photo,
-    send_telegram_message,
-)
+from .forms import UserProfileForm, UserQuestionForm
+from .models import Article, Category, Post, Project, UserProfile, UserQuestion
+from .utils import (DataMixin, advantages, chunk_list, partners,
+                    save_user_photo, send_telegram_message,
+                    verify_telegram_auth)
 
 
 class DynamicPostListView(DataMixin, ListView):
@@ -159,7 +153,6 @@ class ArticleListView(DataMixin, ListView):
         if request.GET.get("page") == "1":
             return HttpResponsePermanentRedirect(reverse("job:article_list"))
         return super().dispatch(request, *args, **kwargs)
-
 
     def get_queryset(self):
         return Article.objects.all()
@@ -312,8 +305,8 @@ def contacts(request):
     return render(request, "job/post/contacts.html", context)
 
 
-from django.views.decorators.http import require_GET, require_POST
 from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.http import require_GET, require_POST
 
 
 @require_GET
