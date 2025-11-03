@@ -233,3 +233,11 @@ article#us p{
         margin: auto;
         text-align: center;
     }
+
+    .h-3 {
+font-size: var(--font-size-h3);
+    }
+
+    .h-4 {
+font-size: var(--font-size-h4);
+    }

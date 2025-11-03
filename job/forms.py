@@ -5,7 +5,7 @@ from django.core.validators import EmailValidator, FileExtensionValidator
 from taggit.forms import TagField
 from taggit_labels.widgets import LabelWidget
 
-from job.models import UserProfile, UserQuestion
+from job.models import UserProfile, UserQuestion, ApplicantProfile
 
 
 class UserQuestionForm(forms.ModelForm):
@@ -49,6 +49,23 @@ class UserProfileForm(forms.ModelForm):
         if city and any(char.isdigit() for char in city):
             raise ValidationError("Название города не должно содержать цифр.")
         return city
+
+
+class ApplicantProfileForm(forms.ModelForm):
+    class Meta:
+        model = ApplicantProfile
+        fields = [
+            "name",
+            "surname",
+            "age",
+            "education",
+            "professional_education",
+            "additional_education",
+            "place_of_residence",
+            "ready_for_business_trip",
+            "telephone_number",
+            "email",
+        ]
 
 
 class SearchForm(forms.Form):

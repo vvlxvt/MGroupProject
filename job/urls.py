@@ -17,6 +17,7 @@ urlpatterns = [  # it is URLconf
     path("articles/", views.ArticleListView.as_view(), name="article_list"),
     path("projects/", views.ProjectListView.as_view(), name="projects"),
     path("ajax/card/<int:pk>/", views.ProjectCardView.as_view(), name="ajax_load_card"),
+    path("applicant/", views.applicant, name="applicant"),
     path(
         "articles/<slug:slug>/",
         views.ArticleDetailView.as_view(),

@@ -194,3 +194,20 @@ class UserQuestion(models.Model):
 
     def __str__(self):
         return f"Question from {self.user.username or self.user.telegram_id}"
+
+
+class ApplicantProfile(models.Model):
+    name = models.CharField(max_length=150)
+    surname = models.CharField(max_length=150)
+    age = models.PositiveIntegerField(blank=True, null=True)
+    education = models.CharField(max_length=255, blank=True)
+    professional_education = models.CharField(max_length=255, blank=True)
+    additional_education = models.TextField(blank=True)
+    place_of_residence = models.CharField(max_length=255, blank=True)
+    ready_for_business_trip = models.BooleanField(default=False)
+    telephone_number = models.CharField(max_length=50, blank=True)
+    email = models.EmailField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.surname} {self.name}"

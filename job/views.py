@@ -15,7 +15,7 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.views.generic import DetailView, ListView, TemplateView
 from taggit.models import Tag
 
-from .forms import UserProfileForm, UserQuestionForm
+from .forms import UserProfileForm, UserQuestionForm, ApplicantProfileForm
 from .models import Article, Category, Post, Project, UserProfile, UserQuestion
 from .utils import (DataMixin, advantages, chunk_list, partners,
                     save_user_photo, send_telegram_message,
@@ -388,3 +388,23 @@ def submit_question(request):
 def vacancies(request):
     title = "Открытые вакансии"
     return render(request, "job/post/vacancies.html", {"title": title})
+
+
+def applicant(request):
+    title = "Анкета соискателя"
+    success = False
+    if request.method == "POST":
+        form = ApplicantProfileForm(request.POST)
+        if form.is_valid():
+            form.save()
+            success = True
+            form = ApplicantProfileForm()
+    else:
+        form = ApplicantProfileForm()
+
+    context = {
+        "title": title,
+        "form": form,
+        "success": success,
+    }
+    return render(request, "job/post/applicant.html", context)

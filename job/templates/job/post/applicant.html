@@ -1,0 +1,71 @@
+{% extends "job/base.html" %}
+{% load static %}
+{% block meta_description %}Анкета соискателя{% endblock %}
+{% block vacancies %}
+<div class="container my-4">
+  <h2 class="text-center mb-4">Анкета соискателя</h2>
+  {% if success %}
+    <div class="alert alert-success" role="alert">
+      Спасибо! Ваша анкета отправлена.
+    </div>
+  {% endif %}
+  <form method="post" class="row g-3" novalidate>
+    {% csrf_token %}
+
+    <div class="col-md-6">
+      <label for="id_name" class="form-label">Имя</label>
+      {{ form.name }}
+    </div>
+    <div class="col-md-6">
+      <label for="id_surname" class="form-label">Фамилия</label>
+      {{ form.surname }}
+    </div>
+
+    <div class="col-md-4">
+      <label for="id_age" class="form-label">Возраст</label>
+      {{ form.age }}
+    </div>
+
+    <div class="col-md-8">
+      <label for="id_place_of_residence" class="form-label">Место проживания</label>
+      {{ form.place_of_residence }}
+    </div>
+
+    <div class="col-12">
+      <label for="id_education" class="form-label">Образование</label>
+      {{ form.education }}
+    </div>
+
+    <div class="col-12">
+      <label for="id_professional_education" class="form-label">Профессиональное образование</label>
+      {{ form.professional_education }}
+    </div>
+
+    <div class="col-12">
+      <label for="id_additional_education" class="form-label">Дополнительное образование</label>
+      {{ form.additional_education }}
+    </div>
+
+    <div class="col-md-6">
+      <label for="id_telephone_number" class="form-label">Телефон</label>
+      {{ form.telephone_number }}
+    </div>
+
+    <div class="col-md-6">
+      <label for="id_email" class="form-label">E-mail</label>
+      {{ form.email }}
+    </div>
+
+    <div class="col-12 form-check">
+      {{ form.ready_for_business_trip }}
+      <label class="form-check-label" for="id_ready_for_business_trip">Готов к командировкам</label>
+    </div>
+
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary">Отправить</button>
+      <a href="{% url 'job:vacancies' %}" class="btn btn-outline-secondary ms-2">Назад к вакансиям</a>
+    </div>
+  </form>
+</div>
+
+{% endblock %}
