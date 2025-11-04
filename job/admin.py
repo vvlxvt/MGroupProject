@@ -4,7 +4,7 @@ from django.utils.html import format_html
 
 from .forms import TagsForm
 from .models import (Article, Category, Photo, Post, PostArticle, Project,
-                     UserProfile, UserQuestion)
+                     UserProfile, UserQuestion, ApplicantProfile)
 
 
 class PostArticleInline(admin.TabularInline):
@@ -164,3 +164,31 @@ class QuestionAdmin(admin.ModelAdmin):
         return "Нет фото"
 
     thumbnail.short_description = "Фото"
+
+
+@admin.register(ApplicantProfile)
+class ApplicantProfileAdmin(admin.ModelAdmin):
+    list_display = [
+        "surname",
+        "name",
+        "position",
+        "age",
+        "education",
+        "professional_education",
+        "place_of_residence",
+        "ready_for_business_trip",
+        "telephone_number",
+        "email",
+        "created_at",
+    ]
+    search_fields = [
+        "surname",
+        "name",
+        "position",
+        "email",
+        "telephone_number",
+        "place_of_residence",
+    ]
+    list_filter = ["ready_for_business_trip", "created_at"]
+    ordering = ["surname", "name"]
+
