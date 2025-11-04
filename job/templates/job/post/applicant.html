@@ -2,70 +2,96 @@
 {% load static %}
 {% block meta_description %}Анкета соискателя{% endblock %}
 {% block vacancies %}
-<div class="container my-4">
-  <h2 class="text-center mb-4">Анкета соискателя</h2>
-  {% if success %}
-    <div class="alert alert-success" role="alert">
-      Спасибо! Ваша анкета отправлена.
-    </div>
-  {% endif %}
-  <form method="post" class="row g-3" novalidate>
-    {% csrf_token %}
+<div class="container my-5">
+  <div class="row px-md-5">
+    <div class="col-lg-8 px-md-5 mx-auto">
+      <h2 class="text-center mb-4">Анкета соискателя</h2>
+      {% if success %}
+        <div class="alert alert-success" role="alert">Спасибо! Ваша анкета отправлена.</div>
+      {% endif %}
 
-    <div class="col-md-6">
-      <label for="id_name" class="form-label">Имя</label>
-      {{ form.name }}
-    </div>
-    <div class="col-md-6">
-      <label for="id_surname" class="form-label">Фамилия</label>
-      {{ form.surname }}
-    </div>
+      <form method="post" novalidate>
+        {% csrf_token %}
 
-    <div class="col-md-4">
-      <label for="id_age" class="form-label">Возраст</label>
-      {{ form.age }}
-    </div>
+        <div class="d-flex gap-2 flex-column flex-md-row">
+          <div class="input-group data-input w-100">
+            <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+            <label for="id_name" class="visually-hidden">Имя</label>
+            {{ form.name }}
+          </div>
 
-    <div class="col-md-8">
-      <label for="id_place_of_residence" class="form-label">Место проживания</label>
-      {{ form.place_of_residence }}
-    </div>
+          <div class="input-group data-input w-100">
+            <span class="input-group-text"><i class="fa-solid fa-user-tie"></i></span>
+            <label for="id_surname" class="visually-hidden">Фамилия</label>
+            {{ form.surname }}
+          </div>
+        </div>
 
-    <div class="col-12">
-      <label for="id_education" class="form-label">Образование</label>
-      {{ form.education }}
-    </div>
+        <div class="input-group data-input w-100">
+          <span class="input-group-text"><i class="fa-solid fa-briefcase"></i></span>
+          <label for="id_position" class="visually-hidden">Желаемая должность</label>
+          {{ form.position }}
+        </div>
 
-    <div class="col-12">
-      <label for="id_professional_education" class="form-label">Профессиональное образование</label>
-      {{ form.professional_education }}
-    </div>
+        <div class="d-flex gap-2 flex-column flex-md-row">
+          <div class="input-group data-input w-100">
+            <span class="input-group-text"><i class="fa-solid fa-hashtag"></i></span>
+            <label for="id_age" class="visually-hidden">Возраст</label>
+            {{ form.age }}
+          </div>
 
-    <div class="col-12">
-      <label for="id_additional_education" class="form-label">Дополнительное образование</label>
-      {{ form.additional_education }}
-    </div>
+          <div class="input-group data-input w-100">
+            <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
+            <label for="id_place_of_residence" class="visually-hidden">Место проживания</label>
+            {{ form.place_of_residence }}
+          </div>
+        </div>
 
-    <div class="col-md-6">
-      <label for="id_telephone_number" class="form-label">Телефон</label>
-      {{ form.telephone_number }}
-    </div>
+        <div class="input-group data-input w-100">
+          <span class="input-group-text"><i class="fa-solid fa-graduation-cap"></i></span>
+          <label for="id_education" class="visually-hidden">Образование</label>
+          {{ form.education }}
+        </div>
 
-    <div class="col-md-6">
-      <label for="id_email" class="form-label">E-mail</label>
-      {{ form.email }}
-    </div>
+        <div class="input-group data-input w-100">
+          <span class="input-group-text"><i class="fa-solid fa-user-graduate"></i></span>
+          <label for="id_professional_education" class="visually-hidden">Профессиональное образование</label>
+          {{ form.professional_education }}
+        </div>
 
-    <div class="col-12 form-check">
-      {{ form.ready_for_business_trip }}
-      <label class="form-check-label" for="id_ready_for_business_trip">Готов к командировкам</label>
-    </div>
+        <div class="data-input w-100">
+          <label for="id_additional_education" class="visually-hidden">Дополнительное образование</label>
+          {{ form.additional_education }}
+        </div>
 
-    <div class="col-12">
-      <button type="submit" class="btn btn-primary">Отправить</button>
-      <a href="{% url 'job:vacancies' %}" class="btn btn-outline-secondary ms-2">Назад к вакансиям</a>
+        <div class="d-flex gap-2 flex-column flex-md-row">
+          <div class="input-group data-input w-100">
+            <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
+            <label for="id_telephone_number" class="visually-hidden">Телефон</label>
+            {{ form.telephone_number }}
+          </div>
+
+          <div class="input-group data-input w-100">
+            <span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
+            <label for="id_email" class="visually-hidden">E-mail</label>
+            {{ form.email }}
+          </div>
+        </div>
+
+        <div class="form-check my-2">
+          {{ form.ready_for_business_trip }}
+          <label class="form-check-label" for="id_ready_for_business_trip">Готов к командировкам</label>
+        </div>
+
+        <div class="mb-3 d-flex justify-content-start gap-2">
+          <button type="submit" class="btn button transparent">Отправить</button>
+          <a href="{% url 'job:vacancies' %}" class="btn btn-outline-secondary">Назад к вакансиям</a>
+        </div>
+      </form>
     </div>
-  </form>
+  </div>
 </div>
 
 {% endblock %}
+
+

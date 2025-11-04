@@ -57,6 +57,7 @@ class ApplicantProfileForm(forms.ModelForm):
         fields = [
             "name",
             "surname",
+            "position",
             "age",
             "education",
             "professional_education",
@@ -66,6 +67,53 @@ class ApplicantProfileForm(forms.ModelForm):
             "telephone_number",
             "email",
         ]
+        widgets = {
+            "name": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Ваше имя",
+            }),
+            "surname": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Ваша фамилия",
+            }),
+            "position": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Желаемая должность",
+            }),
+            "age": forms.NumberInput(attrs={
+                "class": "form-control",
+                "placeholder": "Возраст",
+                "min": "0",
+            }),
+            "education": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Образование",
+            }),
+            "professional_education": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Профессиональное образование",
+            }),
+            "additional_education": forms.Textarea(attrs={
+                "class": "form-control",
+                "placeholder": "Дополнительное образование",
+                "rows": 3,
+            }),
+            "place_of_residence": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Место проживания",
+            }),
+            "telephone_number": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Телефон",
+            }),
+            "email": forms.EmailInput(attrs={
+                "class": "form-control",
+                "placeholder": "E-mail",
+            }),
+            "ready_for_business_trip": forms.CheckboxInput(attrs={
+                "class": "form-check-input",
+            }),
+        }
 
 
 class SearchForm(forms.Form):

@@ -199,6 +199,7 @@ class UserQuestion(models.Model):
 class ApplicantProfile(models.Model):
     name = models.CharField(max_length=150)
     surname = models.CharField(max_length=150)
+    position = models.CharField(max_length=255, blank=True)
     age = models.PositiveIntegerField(blank=True, null=True)
     education = models.CharField(max_length=255, blank=True)
     professional_education = models.CharField(max_length=255, blank=True)
