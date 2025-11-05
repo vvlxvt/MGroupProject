@@ -20,28 +20,6 @@ article h6 {
     margin-bottom: 0.5em; /* Увеличенный отступ после заголовков */
 }
 
-
-h1 {
-  font-size: 3rem; /* 48px */
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-h2 {
-  font-size: 2rem; /* 32px */
-  font-weight: 600;
-}
-
-h3 {
-  font-size: 1.5rem; /* 24px */
-  font-weight: 500;
-}
-
-h4 {
-  font-size: 1.25rem; /* 20px */
-  font-weight: 500;
-}
-
 /* Текстовые элементы */
 p {
     font-size: var(--font-size-base);

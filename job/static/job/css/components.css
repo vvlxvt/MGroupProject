@@ -106,7 +106,27 @@
     scroll-margin-top: 70px; /* Высота навбара */
 }
 
+/* Button system (compatible with existing markup: "btn button transparent") */
+.btn.button {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    line-height: 1.25;
+    transition: transform 0.12s ease, opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
 
+.btn.button:active {
+    transform: scale(0.98);
+}
+
+/* Outline variant keeps using existing .transparent class */
+.btn.button.transparent {
+    background-color: transparent;
+    border-color: #000;
+}
+
+.btn.button.transparent:hover {
+    background-color: transparent;
+}
 
 /* Стили для черной кнопки */
 .transparent {
@@ -128,7 +148,6 @@
     border: 2px solid black;
     transform: scale(0.95);
 }
-
 
 /* Стиль для разяряженного текста */
 .letter-spaced {
@@ -158,7 +177,6 @@ a.tag:active {
     background-color: #d6d6d6; /* Темнее при нажатии */
     transform: scale(0.98); /* Легкое уменьшение при клике */
 }
-
 
 .font-cuprum {
     font-family:'Cuprum';
@@ -197,14 +215,62 @@ a.tag:active {
 
 .gradient-title {
   background: linear-gradient(to left, #31B787, #F91803);
+  background-clip: text;
+  color: transparent; /* fallback */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .gradient-title-r {
   background: linear-gradient(to right, #31B787, #F91803);
+  background-clip: text;
+  color: transparent; /* fallback */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
+/* Utilities */
+.tg-login-wrap {
+    max-height: 38px;
+    margin-bottom: 2px;
+}
 
+.is-hidden {
+    display: none;
+}
+
+/* Card component (moved from vacancies.css) */
+.custom-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    transition: box-shadow 0.3s ease;
+}
+
+.custom-card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.custom-card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-card-title {
+    display: flex;
+    align-items: center;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.custom-card-icon {
+    width: 64px;
+    height: 64px;
+    margin-right: 0.75rem;
+}
+
+.custom-card-text {
+    font-weight: 600;
+}
