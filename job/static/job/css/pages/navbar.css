@@ -17,14 +17,14 @@ a.navbar-brand:hover {
   line-height: 1;
 }
 
-.search-input .form-control {
+#navbarNav .search-input .form-control {
   border: 1px solid black;
   border-right: none;
   padding: 2px 10px 2px;
   height: 30px;
 }
 
-.search-input .btn {
+#navbarNav .search-input .btn {
   border: 1px solid black;
   border-left: none;
   height: 30px;

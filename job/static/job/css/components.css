@@ -110,7 +110,7 @@
 
 /* Стили для черной кнопки */
 .transparent {
-    border: 2px solid #000;
+    border: 2px solid black;
     color: #000;
 }
 

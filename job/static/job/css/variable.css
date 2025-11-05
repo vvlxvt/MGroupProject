@@ -5,10 +5,10 @@
   /* Цветовая палитра */
   --color-primary: black;
   --color-secondary: #FFD700; /* golden*/
-  --color-accent: #31B787; /* JBL dark blue*/
-  --color-background: #FFF; /* Цвет фона */
+  --color-accent: #31B787; /* dark mint */
+  --color-background: #FFF; /* Цвет фона белый */
   --bs-tertiary-bg: #FFF;
-  --color-text: #000; /* Основной цвет текста */
+  --color-text: #000; /* Основной цвет текста черный */
 
   /* Шрифты */
   --font-family-base: 'Segoe UI',sans-serif,Arial; /* Основной шрифт */

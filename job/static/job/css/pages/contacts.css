@@ -1,23 +1,45 @@
 .data-input {
   max-width: 400px;
   margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.375rem;
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Общие стили для элементов внутри input-group */
+.data-input .form-control,
+.data-input .input-group-text {
+  border: none;
+  box-shadow: none;
+}
+
+/* Стили поля */
 .data-input .form-control:not(textarea) {
-  background-color: white;
-  color: black;
+  background-color: #fff;
+  color: #000;
   border-left: none;
   border-radius: 0 0.375rem 0.375rem 0;
   font-size: 1rem;
   padding: 0.375rem 0.1rem;
 }
 
+
+/* Подсветка при фокусе */
 .data-input .form-control:focus {
-  box-shadow: none;
-  border-color: #000;
-  background-color: #fff;
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
+  outline: none;
 }
 
+/* Подсветка всей группы при фокусе */
+.data-input:focus-within {
+  border: 1px solid #0d6efd;
+  border-radius: 0.375rem;
+  box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
+}
+
+/* Стили иконки */
 .data-input .input-group-text {
   border-right: none;
   border-radius: 0.375rem 0 0 0.375rem;
@@ -32,27 +54,39 @@
   text-align: center;
 }
 
-.data-input textarea, .data-input.form-control {
-    border: 1px solid black;
-}
-
-#contacts #message {
-  height: 200px;
+/* Текстовые области (textarea) */
+.data-input textarea.form-control {
+  width: 100%;
+  min-height: 150px;
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+  background-color: #fff;
+  color: #000;
+  font-size: 1rem;
+  padding: 0.375rem 0.75rem;
   resize: vertical;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-#contacts .visually-hidden:{
+
+.data-input textarea.form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
+  outline: none;
+}
+
+/* Секция контактов */
+#contacts .visually-hidden {
   position: absolute;
   left: -9999px;
 }
 
 #contacts .text-blocks-container {
   width: 100%;
-  height: auto;
   display: flex;
-  justify-content: center;
-  padding: 50px 0;
   flex-direction: column;
+  align-items: center;
+  padding: 50px 0;
 }
 
 #contacts .block {
@@ -64,16 +98,16 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-#contacts .block.block-left {
-    margin-left: 100px;
-    background-color: var(--color-secondary);
+#contacts .block-left {
+  margin-left: 100px;
+  background-color: var(--color-secondary);
 }
 
-#contacts .block.block-right {
-    background-color: var(--color-accent);
-    color: white;
+#contacts .block-right {
+  background-color: var(--color-accent);
+  color: #fff;
 }
 
 #contacts .block > p {
-   font-size: 1.2rem;
+  font-size: 1.2rem;
 }

@@ -107,3 +107,21 @@ section {
   animation: none !important;
   transition: none !important;
 }
+
+.input-group:focus-within {
+  border: 1px solid #0d6efd; /* тот же цвет, что и стандартный фокус Bootstrap */
+  border-radius: 0.375rem; /* как у .form-control */
+  box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
+}
+
+.input-group {
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+  overflow: hidden; /* чтобы не было двойных границ */
+}
+
+.input-group .form-control,
+.input-group .input-group-text {
+  border: none;
+  box-shadow: none;
+}
