@@ -22,6 +22,7 @@
     font-weight: 500;
     font-style: italic;
     background: linear-gradient(to bottom, #85c1e9, #1abc9c);
+  background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
 }
@@ -155,8 +156,10 @@ article#us p{
     var(--color-gradient-start),
     var(--color-gradient-end)
   );
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  color: transparent;
   transition:
     --color-gradient-start 1s,
     --color-gradient-end 1s;
@@ -241,3 +244,16 @@ font-size: var(--font-size-h3);
     .h-4 {
 font-size: var(--font-size-h4);
     }
+
+/* Utilities for index page */
+.blend-multiply {
+  mix-blend-mode: multiply;
+}
+
+.max-h-500 {
+  max-height: 500px;
+}
+
+.min-h-300 {
+  min-height: 300px;
+}

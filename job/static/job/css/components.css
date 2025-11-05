@@ -239,6 +239,21 @@ a.tag:active {
     display: none;
 }
 
+/* Global utilities */
+.btn-brand {
+    background-color: #035199 !important;
+    border-color: #035199 !important;
+    color: #fff !important;
+}
+.btn-brand:hover {
+    background-color: #02417A !important;
+    border-color: #02417A !important;
+}
+
+.h-55 { height: 55px; }
+.rounded-10 { border-radius: 10px; }
+.text-justify { text-align: justify; }
+
 /* Card component (moved from vacancies.css) */
 .custom-card {
     background-color: #ffffff;

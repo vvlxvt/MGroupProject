@@ -1,0 +1,46 @@
+.carousel-container {
+  max-width: 100vw;
+  height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.carousel-image-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.carousel-image {
+  width: 70%;
+  height: 80%;
+  object-fit: cover;
+  display: none;
+}
+
+.carousel-image.active {
+  display: block;
+}
+
+.carousel-titles {
+  width: 100%;
+  padding: 1rem;
+  justify-content: center;
+  background-color: #fff;
+}
+
+
+position: absolute;
+  bottom: 0; /* прилипает к низу контейнера */
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6); /* полупрозрачный фон */
+  color: white;
+  padding: 20px;
+  text-align: center;
+  z-index: 2;
