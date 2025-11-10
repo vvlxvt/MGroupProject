@@ -82,26 +82,16 @@ section {
 }
 
 .carousel-item {
-  position: relative;  /* обязательно для абсолютного позиционирования caption */
-  width: 1600px;
-  height: 1061px;
-  max-width: 100%;
-  background-color: #000; /* фон, если картинка меньше */
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto; /* выравнивает по центру */
-}
-
-.carousel-item.active {
-  display: flex;
+  position: relative; /* требуется для позиционирования caption */
+  /* Размер элемента определяется содержимым (изображением) */
 }
 
 .carousel-item img {
   pointer-events: none; /* не блокирует текст */
   z-index: 0;
   width: 100%;
-  height: 100%;
-  object-fit: contain; /* вписать целиком */
+  height: auto; /* высота следует за пропорциями изображения */
+  object-fit: cover; /* заполняет ширину без «полос» */
 }
 
 .carousel-caption {
