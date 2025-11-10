@@ -26,60 +26,6 @@
             </div>
         </div>
 
-        <div id="carouselHero" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-indicators">
-              {% for post in posts %}
-            <button type="button" data-bs-target="#carouselHero" data-bs-slide-to="{{ forloop.counter0 }}"
-                    class="{% if forloop.first %}active{% endif %}"
-                    aria-current="true"
-                    aria-label="{{ post.title }}">
-            </button>
-              {% endfor %}
-          </div>
-
-          <div class="carousel-inner vh-100">
-              {% for post in posts %}
-            <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                {% if post.photo %}
-              <img src="{{ post.photo.url }}" class="img-fluid w-100 h-100 object-fit-contain" alt="...">
-                {% endif %}
-                <div class="carousel-caption left-center d-none d-md-block">
-                <h5 class="h-3">{{ post.title }}</h5>
-                <p class="h-4">Some representative placeholder content for the first slide.</p>
-              </div>
-            </div>
-              {% endfor %}
-         </div>
-
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselHero" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselHero" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
-
-
-<!--        <div class="carousel-container">-->
-<!--            {% for post in posts %}-->
-<!--              {% if post.photo %}-->
-<!--                <img src="{{ post.photo.url }}"-->
-<!--                     class="carousel-image {% if forloop.first %}active{% endif %}"-->
-<!--                     alt="{{ post.title }}">-->
-<!--              {% endif %}-->
-<!--            {% endfor %}-->
-<!--            <div class="carousel-titles">-->
-<!--              {% for post in posts %}-->
-<!--                <div class="carousel-title {% if forloop.first %}active{% endif %}"-->
-<!--                     data-index="{{ forloop.counter0 }}">-->
-<!--                    <div class = 'carousel-title-text'>{{ post.title }}</div>-->
-<!--                </div>-->
-<!--              {% endfor %}-->
-<!--            </div>-->
-<!--        </div>-->
 
         <article id="us" aria-label="Основная информация о компании">
             <div class="container px-3 my-3 my-md-5">
@@ -154,6 +100,48 @@
 
         <article aria-label="Основная информация о наших услугах">
             <h2 class="yellow-bar">наши услуги</h2>
+
+
+        <div id="carouselHero" class="carousel slide mb-2" data-bs-ride="carousel">
+          <div class="carousel-indicators">
+              {% for post in posts %}
+            <button type="button" data-bs-target="#carouselHero" data-bs-slide-to="{{ forloop.counter0 }}"
+                    class="{% if forloop.first %}active{% endif %}"
+                    aria-current="true"
+                    aria-label="{{ post.title }}">
+            </button>
+              {% endfor %}
+          </div>
+
+          <div class="carousel-inner">
+              {% for post in posts %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                {% if post.photo %}
+                <img src="{{ post.photo.url }}"
+                   class="d-block w-100"
+                   alt="photo of completed project">
+                {% endif %}
+                <div class="overlay d-none d-md-block">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>{{ post.title }}</h5>
+                        <p>Some representative placeholder content for the first slide.</p>
+                    </div>
+                </div>
+            </div>
+              {% endfor %}
+         </div>
+
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselHero" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselHero" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+
             <div class="container">
                 <div class="row g-5">
                     <div class="col-12 col-md-10 mx-auto">
@@ -197,6 +185,7 @@
                 </div>
             </div>
         </article>
+
         <article aria-label="Основные преимущества работы с нами">
             <h2 class="yellow-bar">ПРЕИМУЩЕСТВА РАБОТЫ С НАМИ</h2>
             <div class="container py-2 px-3 mb-md-5">
