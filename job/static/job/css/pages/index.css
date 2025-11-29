@@ -210,6 +210,12 @@ article#us p{
   margin: 0 auto;
 }
 
+.img-original {
+    max-width: none;   /* не сжимать */
+    width: 1600px;       /* оставить оригинальный размер */
+    height: 1061px;
+}
+
 .overlay {
   position: absolute;
   inset: 0;
@@ -218,4 +224,175 @@ article#us p{
     rgba(0, 0, 0, 0) 70%,      /* от прозрачного до 60% высоты */
     rgba(0, 0, 0, 0.5) 100%    /* к низу затемнение */
   );
+}
+
+
+
+/* Ensure no extra side padding forcing overscroll */
+#mainCarousel .carousel-item {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Slide container */
+.slide-figure {
+  position: relative;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  overflow: hidden; /* ← чтобы overlay и картинка резались одинаково */
+}
+
+/* Image: keep aspect, fully visible in viewport */
+.slide-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;              /* do not overflow horizontally */
+  max-height: 100vh;
+  object-position: center;              /* fit within visible area */
+  object-fit: cover;           /* preserve aspect ratio */
+}
+
+/* Нижняя половина с текстом */
+.m-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 50%; /* нижняя половина */
+  padding: 20px;
+
+  background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8),
+      rgba(0, 0, 0, 0.3),
+      rgba(0, 0, 0, 0)
+  );
+
+  color: #fff;
+
+  display: flex;
+  flex-direction: column;     /* текст вертикально */
+  justify-content: center;    /* по центру по вертикали */
+  align-items: center;        /* по центру по горизонтали */
+  text-align: center;         /* центрируем сам текст */
+}
+
+
+/* Заголовок */
+.m-caption-title {
+  font-weight: 800;
+  font-size: 28px;
+  line-height: 1.1;
+  margin: 0 0 12px 0; /* отступ вниз */
+  color: #ffffff;
+  /* text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+/* Описание */
+.m-caption-text {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+  color: #e5e7eb;
+  max-width: 600px; /* чтобы текст не растягивался на всю ширину */
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+
+/* Indicators and controls tuned for visibility on images */
+.carousel-indicators {
+  position: absolute;
+  bottom: 5%;       /* расстояние снизу */
+  left: 50%;
+  transform: translateX(-50%);  /* выравнивание по центру */
+  gap: 10px;
+  margin: 0;
+
+}
+
+.carousel-indicators [data-bs-target] {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #cecece;
+  border: none;
+  margin: 0 6px;
+  transition: all 0.3s;
+}
+
+.carousel-indicators .active {
+  width: 16px;          /* длинная черта */
+  height: 8px;          /* толщина черты */
+  border-radius: 4px;   /* скругление */
+  background-color: #ffffff;
+
+}
+
+.carousel-indicators [data-bs-target]:hover {
+  transform: scale(1.2);
+  background-color: #a0a0a0;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+}
+
+/* Responsive adjustments */
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .m-caption {
+    height: 50%;          /* сохраняем половину картинки */
+    padding: 16px;        /* меньше отступ */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-width: 100%;      /* убрать ограничение ширины */
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .m-caption-title {
+    font-size: 24px;
+  }
+
+  .m-caption-text {
+    font-size: 14px;
+    max-width: 90%;        /* чтобы текст не был слишком широким */
+  }
+
+  .slide-image {
+    max-height: 85vh;
+  }
+}
+
+@media (max-width: 576px) {
+  .m-caption {
+    height: 50%;
+    padding: 12px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-width: 100%;       /* убрать ограничение */
+  }
+
+  .m-caption-title {
+    font-size: 20px;
+  }
+
+  .m-caption-text {
+    font-size: 13px;
+    max-width: 95%;        /* чуть компактнее */
+  }
+
+  .slide-image {
+    max-height: 80vh;
+  }
 }
