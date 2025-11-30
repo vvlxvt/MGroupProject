@@ -58,7 +58,6 @@
   background: #fff;
   border: var(--border-width) solid #ddd;
   border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
   overflow: hidden;
   margin-bottom: 1.5rem;
 }
@@ -80,20 +79,6 @@
 section {
     margin-bottom: 3rem;
 }
-
-/*
-.carousel-item {
-  position: relative;
-}
-
-.carousel-item img {
-  pointer-events: none; /
-  z-index: 0;
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-}
-*/
 
 .carousel-caption {
   position: absolute;
