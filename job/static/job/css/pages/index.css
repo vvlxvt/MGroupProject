@@ -290,7 +290,7 @@ article#us p{
   line-height: 1.1;
   margin: 0 0 12px 0; /* отступ вниз */
   color: #ffffff;
-  /* text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  /* text-shadow: 0 2px 8px rgba(0,0,0,0.5); */
 }
 
 /* Описание */
@@ -306,17 +306,19 @@ article#us p{
 
 
 /* Indicators and controls tuned for visibility on images */
-.carousel-indicators {
+/* High specificity selectors to override Bootstrap without !important */
+#mainCarousel.carousel.slide .carousel-indicators {
   position: absolute;
   bottom: 5%;       /* расстояние снизу */
   left: 50%;
   transform: translateX(-50%);  /* выравнивание по центру */
   gap: 10px;
   margin: 0;
-
+  z-index: 2;
 }
 
-.carousel-indicators [data-bs-target] {
+#mainCarousel.carousel.slide .carousel-indicators button[data-bs-target],
+#mainCarousel.carousel.slide .carousel-indicators [data-bs-target] {
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -324,17 +326,22 @@ article#us p{
   border: none;
   margin: 0 6px;
   transition: all 0.3s;
+  opacity: 1;
+  text-indent: 0;
+  flex: 0 0 auto;
 }
 
-.carousel-indicators .active {
+#mainCarousel.carousel.slide .carousel-indicators button[data-bs-target].active,
+#mainCarousel.carousel.slide .carousel-indicators [data-bs-target].active {
   width: 16px;          /* длинная черта */
   height: 8px;          /* толщина черты */
   border-radius: 4px;   /* скругление */
   background-color: #ffffff;
-
+  opacity: 1;
 }
 
-.carousel-indicators [data-bs-target]:hover {
+#mainCarousel.carousel.slide .carousel-indicators button[data-bs-target]:hover,
+#mainCarousel.carousel.slide .carousel-indicators [data-bs-target]:hover {
   transform: scale(1.2);
   background-color: #a0a0a0;
 }

@@ -2,7 +2,7 @@ import os
 from PIL import Image
 
 # Папка, где находятся изображения
-folder_path = "C:/Users/vital/PycharmProjects/Frontend_for_MGroup/photo"  #"C:\Users\vital\PycharmProjects\Frontend_for_MGroup\photo\Ilford 2018_01.jpg"
+folder_path = "C:/Users/vital/Downloads/mgrup24/job/1536x1024/webp"  #"C:\Users\vital\PycharmProjects\Frontend_for_MGroup\photo\Ilford 2018_01.jpg"
 # Укажите путь к папке с фото
 
 # Поддерживаемые расширения
@@ -16,17 +16,17 @@ def convert_and_compress(image_path):
     try:
         # Открываем изображение
         with Image.open(image_path) as img:
-            file_size = os.path.getsize(image_path)
-            if file_size > size_limit:
+            # file_size = os.path.getsize(image_path)
+            # if file_size > size_limit:
                 # Уменьшаем размер на 50%
-                width, height = img.size
-            # img = img.resize((width // 2, height // 2))
+            # width, height = img.size
+            # img = img.resize((width // 10, height // 10))
             #
             #
-            new_width = 1600
+            # new_width = 1600
             # width_percent = new_width / float(img.size[0])
             # new_height = int((float(img.size[1]) * float(width_percent)))
-            img = img.resize((new_width, 1061), Image.LANCZOS)
+            # img = img.resize((new_width, 1061), Image.LANCZOS)
             # img=img.transpose(Image.ROTATE_270)
 
 
@@ -51,7 +51,7 @@ for root, _, files in os.walk(folder_path):
             convert_and_compress(file_path)
 
 # image = Image.open(
-#     "C:/Users/vital/PycharmProjects/MGroupProject/mgrupsite/job/static/job/images/IMG_2551.JPG"
+#     "C:/Users/vital/Downloads/mgrup24/1/caution-barricade_tape.jpg"
 # )
 # # Конвертируем в чёрно-белое
 # bw_image = image.convert("L")

@@ -81,39 +81,41 @@ section {
     margin-bottom: 3rem;
 }
 
+/*
 .carousel-item {
-  position: relative; /* требуется для позиционирования caption */
-  /* Размер элемента определяется содержимым (изображением) */
+  position: relative;
 }
 
 .carousel-item img {
-  pointer-events: none; /* не блокирует текст */
+  pointer-events: none; /
   z-index: 0;
   width: 100%;
-  height: auto; /* высота следует за пропорциями изображения */
-  object-fit: cover; /* заполняет ширину без «полос» */
+  height: auto;
+  object-fit: cover;
 }
+*/
 
 .carousel-caption {
   position: absolute;
   bottom: 80px;
   left: 60px;
   text-align: left;
-  color: #fff;
   background: transparent;
   padding: 20px 30px;
 }
 
-.carousel-caption h5 {
+.carousel .carousel-caption h5 {
   font-size: 2rem; /* Крупный заголовок */
+  color: white;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
-.carousel-caption p {
-  font-size: 1rem; /* Текст меньше заголовка */
+.carousel .carousel-caption p {
+  font-size: 1.5rem; /* Текст меньше заголовка */
   line-height: 1.4;
   margin: 0;
+   color: white;
 }
 
 .input-group:focus-within {
