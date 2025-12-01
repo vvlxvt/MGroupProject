@@ -17,7 +17,7 @@
     cursor: pointer;
     background-color: #035199;
     color: white;
-    border: solid 1px color #035199;
+    border: 1px solid #035199;
     border-radius: 5px;
     transition: background-color 0.3s ease; /* Плавный переход цвета */
 }
@@ -213,10 +213,13 @@ a.tag:active {
     border: none;
 }
 
+/* ================================
+   Gradient Text Styles
+================================= */
 .gradient-title {
   background: linear-gradient(to left, #31B787, #F91803);
   background-clip: text;
-  color: transparent; /* fallback */
+  color: transparent;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -224,9 +227,42 @@ a.tag:active {
 .gradient-title-r {
   background: linear-gradient(to right, #31B787, #F91803);
   background-clip: text;
-  color: transparent; /* fallback */
+  color: transparent;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+/* Animated gradient text with CSS custom properties */
+@property --color-gradient-start {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #F5BF0C;
+}
+
+@property --color-gradient-end {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #FD1B03;
+}
+
+.gradient-text {
+  background-image: linear-gradient(
+    90deg,
+    var(--color-gradient-start),
+    var(--color-gradient-end)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  transition:
+    --color-gradient-start 1s,
+    --color-gradient-end 1s;
+}
+
+.gradient-text:hover {
+  --color-gradient-start: #FFD700;
+  --color-gradient-end: #31B787;
 }
 
 /* Utilities */
@@ -250,9 +286,16 @@ a.tag:active {
     border-color: #02417A !important;
 }
 
+/* ================================
+   Utility Classes
+================================= */
 .h-55 { height: 55px; }
 .rounded-10 { border-radius: 10px; }
 .text-justify { text-align: justify; }
+.justify-text { text-align: justify; }
+.text-indent { text-indent: 23px; }
+.soft-shadow { text-shadow: 0px 20px 20px #83919C; }
+.letter-spaced { letter-spacing: 5px; }
 
 /* Card component (moved from vacancies.css) */
 .custom-card {
@@ -288,4 +331,89 @@ a.tag:active {
 
 .custom-card-text {
     font-weight: 600;
+}
+
+/* ================================
+   Hero Section Styles
+================================= */
+.hero {
+  background-image: url('/static/job/images/IMG_index.webp');
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+.hero-img-container {
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 768px) {
+  .hero-img-container {
+    height: 400px;
+  }
+}
+
+.title-container {
+  width: 1500px;
+  height: 300px;
+}
+
+/* ================================
+   Typography Styles
+================================= */
+.logo-font {
+  font-family: var(--font-family-logo);
+  font-size: 8rem;
+  line-height: 1.4;
+}
+
+.info-font {
+  font-family: var(--font-family-menu);
+  font-size: var(--font-size-x-small);
+  font-weight: var(--font-weight-bold);
+  color: #31B787;
+}
+
+.main-title {
+  font-size: 12rem;
+}
+
+.neopro-bold {
+  font-family: 'NeoSansPro', sans-serif;
+  font-size: 5rem;
+  font-weight: 500;
+  font-style: italic;
+  background: linear-gradient(to bottom, #85c1e9, #1abc9c);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.main-statement {
+  font-family: var(--font-family-base);
+  font-size: 3rem;
+  color: white;
+}
+
+@media (min-width: 576px) and (max-width: 991.98px) {
+  .main-title {
+    font-size: 80px;
+  }
+
+  .main-statement {
+    font-size: var(--font-size-base);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .main-title {
+    font-size: 64px;
+  }
+
+  .main-statement {
+    font-size: var(--font-size-small);
+  }
 }
