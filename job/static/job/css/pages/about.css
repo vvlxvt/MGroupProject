@@ -11,6 +11,8 @@
 
 #about .logo-font,
 #about .font_heading {
-  color: #FD1B03;
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-accent);
   vertical-align: baseline;
 }

@@ -1,5 +1,5 @@
 /* Page-specific styles for index page */
-article#us p {
+article#hero-features p {
     font-size: var(--font-size-large);
 }
 
@@ -7,7 +7,6 @@ article#us p {
 #landing .card li {
     font-size: var(--font-size-large);
 }
-
 
 
 /* Ensure no extra side padding forcing overscroll */
@@ -183,4 +182,29 @@ article#us p {
   .slide-image {
     max-height: 80vh;
   }
+}
+
+#hero-features p {
+    font-size: var(--font-size-large);
+}
+#hero-features .card {
+    background-color: #f2f2f2;
+    border-top: 4px solid var(--color-accent);
+    border-radius: 18px;
+    padding-top: 24px;
+}
+
+/* Стилизация самой карточки.
+   Мы переопределяем стандартный белый фон Bootstrap на наш темный.
+*/
+.industrial-card {
+    background-color: #f2f2f2 !important; /* !important нужен, чтобы перебить bg-white бутстрапа */
+    /* Добавляем главную фишку дизайна - верхнюю оранжевую рамку */
+    border-top: 4px solid var(--color-accent) !important;
+    font-family: 'montserrat';
+}
+
+/* Утилита для оранжевого текста заголовков */
+.text-accent {
+    color: var(--color-accent) !important;
 }
