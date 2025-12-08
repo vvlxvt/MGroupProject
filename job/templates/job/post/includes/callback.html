@@ -33,68 +33,68 @@
                 </div>
 
                 <!-- Имя -->
-                    <div class="input-group data-input w-100">
-                        <span class="input-group-text"><i class="fa-solid fa-user-tie"></i></span>
-                        <label for="first_name" class="visually-hidden">Ваше имя</label>
-                        <input type="text"
-                               name="first_name"
-                               class="form-control"
-                               placeholder="Ваше имя"
-                               value="{{ request.session.user.first_name|default:'' }}"
-                               readonly>
-                    </div>
+                <div class="input-group data-input w-100">
+                    <span class="input-group-text"><i class="fa-solid fa-user-tie"></i></span>
+                    <label for="first_name" class="visually-hidden">Ваше имя</label>
+                    <input type="text"
+                           name="first_name"
+                           class="form-control"
+                           placeholder="Ваше имя"
+                           value="{{ request.session.user.first_name|default:'' }}"
+                           readonly>
+                </div>
 
                 <!-- Дата аутентификации -->
-                    <div class="input-group data-input w-100">
-                        <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
-                        <label for="auth_date" class="visually-hidden">Дата аутенфикации</label>
-                        <input type="text"
-                               name="auth_date"
-                               class="form-control"
-                               placeholder="Дата аутенфикации"
-                               value="{{ request.session.user.auth_date|default:'' }}"
-                               readonly>
-                    </div>
+                <div class="input-group data-input w-100">
+                    <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+                    <label for="auth_date" class="visually-hidden">Дата аутенфикации</label>
+                    <input type="text"
+                           name="auth_date"
+                           class="form-control"
+                           placeholder="Дата аутенфикации"
+                           value="{{ request.session.user.auth_date|default:'' }}"
+                           readonly>
+                </div>
                 <!-- Email -->
-                    <div class="input-group data-input w-100 has-validation">
-                        <span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
-                        <label for="mail" class="visually-hidden">Ваша почта</label>
-                        <input type="email"
-                               class="form-control"
-                               id="mail"
-                               name="email"
-                               value="{{ user_form.initial.email|default_if_none:'' }}"
-                               placeholder="Ваш Email">
-                    </div>
-                    <div class="invalid-feedback d-none" id="email-error"></div>
+                <div class="input-group data-input w-100 has-validation">
+                    <span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
+                    <label for="mail" class="visually-hidden">Ваша почта</label>
+                    <input type="email"
+                           class="form-control"
+                           id="mail"
+                           name="email"
+                           value="{{ user_form.initial.email|default_if_none:'' }}"
+                           placeholder="Ваш Email">
+                </div>
+                <div class="invalid-feedback d-none" id="email-error"></div>
                 <!-- Город -->
-                    <div class="input-group data-input w-100 has-validation">
-                        <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
-                        <label for="city" class="visually-hidden">Ваш город</label>
-                        <input type="text"
-                               class="form-control"
-                               id="city"
-                               value="{{ user_form.initial.city|default_if_none:'' }}"
-                               name="city"
-                               placeholder="Укажите откуда Вы">
-                    </div>
-                    <div class="invalid-feedback d-none" id="city-error"></div>
+                <div class="input-group data-input w-100 has-validation">
+                    <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
+                    <label for="city" class="visually-hidden">Ваш город</label>
+                    <input type="text"
+                           class="form-control"
+                           id="city"
+                           value="{{ user_form.initial.city|default_if_none:'' }}"
+                           name="city"
+                           placeholder="Укажите откуда Вы">
+                </div>
+                <div class="invalid-feedback d-none" id="city-error"></div>
                 <!-- Сообщение -->
                 <div class="data-input w-100">
                     <label for="message" class="visually-hidden">Ваш вопрос</label>
                     <textarea class="form-control"
-                        id="message"
-                        name="question_text"
-                        placeholder="Задайте Ваш вопрос к нам" required></textarea>
+                              id="message"
+                              name="question_text"
+                              placeholder="Задайте Ваш вопрос к нам" required></textarea>
                     <div class="invalid-feedback d-none" id="question_text-error"></div>
                 </div>
                 <!-- Фото -->
-                    <label for="attached_photo" class="form-label ">Загрузить фото</label>
-                    <input type="file"
-                           name="attached_photo"
-                           class="form-control data-input w-100"
-                           id="attached_photo">
-                    <div class="invalid-feedback d-none" id="attached_photo-error"></div>
+                <label for="attached_photo" class="form-label ">Загрузить фото</label>
+                <input type="file"
+                       name="attached_photo"
+                       class="form-control data-input w-100"
+                       id="attached_photo">
+                <div class="invalid-feedback d-none" id="attached_photo-error"></div>
                 <!-- Кнопка -->
                 <div class="mb-3 d-flex justify-content-start">
                     <button type="submit" class="btn button transparent">Отправить сообщение</button>
@@ -102,92 +102,157 @@
             </form>
         </div>
         <!-- Второй столбец: Информация -->
-        <div class="col-lg-6 px-md-3 mx-auto">
-            <!-- текст о компании -->
-            <div class="text-blocks-container">
-                <p class="text-indent">К настоящему моменту вы узнали многое о "МалярГрупп". </p>
-                <p class="text-indent">Oстается один важный вопрос:</p>
-                <p class="text-uppercase fs-5">Что конкретно Маляр Групп может сделать для вашего проекта по покраске и
-                    нанесению покрытий?</p>
-                <p>Сейчас у вас есть возможность узнать об этом.</p>
-                <p class="text-indent">
-                    Расскажите нам о своем проекте, о том, что вам нужно и чего вы ожидаете от подрядчика по покраске и покрытиям. Мы с удовольствием обсудим детали работы и предоставим вам дополнительную информацию о наших преимуществах, таких как:
+        <div class="col-lg-6 px-md-4 mx-auto align-self-center">
+
+            <div class="mb-2">
+                <p class="h-3 text-muted mb-2">К этому моменту вы уже узнали многое о компании «МалярГрупп».</p>
+                <p class="fw-bold mb-2 text-dark">
+                    Но остаётся главный вопрос: <br>
+                    <span class="text-primary">Что именно «МалярГрупп» может сделать для вашего проекта по покраске и нанесению покрытий?</span>
                 </p>
-                <div class="block block-left ">
-                    <p>Более десяти лет опыта в лакокрасочной отрасли</p>
-                </div>
-                <div class="block block-right">
-                    <p>Постоянное внимание к вопросам безопасности, которое укрепляется каждый день</p>
-                </div>
-                <div class="block block-left">
-                    <p>Профессиональные и сертифицированные сотрудники,прекрасно знающие свое дело</p>
-                </div>
-                <div class="block block-right">
-                    <p>Современные инструменты и оборудование, обеспечивающие высокую производительность и
-                        эффективность</p>
-                </div>
-                <div class="block block-left">
-                    <p>Высокий уровень сервиса, который заслужил признание по всему Сибирскому региону</p>
+                <p class="lead fs-6 text-secondary">
+                    Сейчас — лучший момент, чтобы это узнать.
+                    Расскажите нам о своём проекте: какие задачи предстоит решить и каким вы видите идеального
+                    подрядчика. Мы обсудим детали, предложим оптимальные варианты и покажем, почему нам доверяют по
+                    всему региону:
+                </p>
+            </div>
+
+            <div class="d-flex flex-column gap-3 mb-5">
+
+                <div class="d-flex align-items-start">
+                    <div class="flex-shrink-0 me-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                             class="bi bi-check-circle-fill text-accent" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-1">10+ лет опыта</h5>
+                        <p class="mb-0 text-muted">Глубокая экспертиза в лакокрасочной отрасли.</p>
+                    </div>
                 </div>
 
-                        Мы часто говорим о гордости за нашу работу в "МалярГрупп", но больше всего это чувство передается нашим клиентам, когда мы завершаем их проект по покраске и покрытиям.
-                <p class="text-indent">После сотрудничества с нами мы уверены, что и вы ощутите это.</p>
+                <div class="d-flex align-items-start">
+                    <div class="flex-shrink-0 me-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                             class="bi bi-shield-fill-check text-accent" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                  d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.777 11.777 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7.159 7.159 0 0 0 1.048-.625 11.775 11.775 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.541 1.541 0 0 0-1.044-1.263 62.467 62.467 0 0 0-2.887-.87C9.843.266 8.69 0 8 0zm2.146 5.146a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-1">Бескомпромиссная безопасность</h5>
+                        <p class="mb-0 text-muted">Ежедневный контроль и соблюдение всех норм охраны труда.</p>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-start">
+                    <div class="flex-shrink-0 me-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                             class="bi bi-person-badge-fill text-accent" viewBox="0 0 16 16">
+                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm4.5 0a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zM8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm5 2.755C12.146 12.825 10.623 12 8 12s-4.146.826-5 1.755V14a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-.245z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-1">Сертифицированные профи</h5>
+                        <p class="mb-0 text-muted">Сотрудники, которые досконально знают технологии нанесения.</p>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-start">
+                    <div class="flex-shrink-0 me-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                             class="bi bi-tools text-accent" viewBox="0 0 16 16">
+                            <path d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.356 3.356a1 1 0 0 0 1.414 0l1.586-1.586a1 1 0 0 0 0-1.414l-3.356-3.356a1 1 0 0 0-1.023-.242L10.5 5.5l.96-.96 2.617 2.654A3.003 3.003 0 0 0 16 3a3 3 0 0 0-5.878.851l-2.654 2.617-.968-.968.305-.914a1 1 0 0 0-.242-1.023L3.356.356a1 1 0 0 0-1.414 0L.356 1.942l-.293.708 3.081 2.2a1 1 0 0 0 .419-.815V4h.07a1 1 0 0 1 .293-.708L2.2.356.356 1.942.356.356z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-1">Технологичный подход</h5>
+                        <p class="mb-0 text-muted">Современное оборудование для высокой скорости и качества.</p>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-start">
+                    <div class="flex-shrink-0 me-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                             class="bi bi-star-fill text-accent" viewBox="0 0 16 16">
+                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-1">Признанный сервис</h5>
+                        <p class="mb-0 text-muted">Стандарты качества, которые ценят во всем Сибирском регионе.</p>
+                    </div>
+                </div>
+
             </div>
+
+            <div class="card shadow-sm p-4 industrial-card">
+                <p class="fst-italic mb-3">
+                    «Мы гордимся своей работой, но настоящая гордость приходит, когда мы видим довольного клиента после
+                    завершения проекта».
+                </p>
+                <p class="fw-bold mb-0">
+                    Сотрудничая с нами, вы испытаете это чувство на собственном опыте.
+                </p>
+            </div>
+
         </div>
     </div>
     <div id="formResponse" class="is-hidden"></div>
 </div>
 <script>
-document.getElementById('contactForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+    document.getElementById('contactForm').addEventListener('submit', function(event) {
+        event.preventDefault();
 
-    const form = document.getElementById('contactForm');
-    const formData = new FormData(form);
-    const formResponse = document.getElementById('formResponse');
+        const form = document.getElementById('contactForm');
+        const formData = new FormData(form);
+        const formResponse = document.getElementById('formResponse');
 
-    clearErrors();
+        clearErrors();
 
-    fetch("{% url 'job:submit_question' %}", {
-        method: 'POST',
-        body: formData,
-        headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            formResponse.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+        fetch("{% url 'job:submit_question' %}", {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                formResponse.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+                formResponse.style.display = 'block';
+                location.reload();
+
+                setTimeout(() => formResponse.style.display = 'none', 3000);
+            } else if (data.error) {
+                displayErrors(data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            formResponse.innerHTML = `<div class="alert alert-danger">Ошибка отправки формы. Попробуйте снова.</div>`;
             formResponse.style.display = 'block';
-            location.reload();
-
-            setTimeout(() => formResponse.style.display = 'none', 3000);
-        } else if (data.error) {
-            displayErrors(data.error);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        formResponse.innerHTML = `<div class="alert alert-danger">Ошибка отправки формы. Попробуйте снова.</div>`;
-        formResponse.style.display = 'block';
-    });
-
-    function clearErrors() {
-        document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
-        document.querySelectorAll('.invalid-feedback').forEach(el => {
-            el.classList.add('d-none');
-            el.innerHTML = '';
         });
-    }
 
-    function displayErrors(errors) {
-        for (let field in errors) {
-            const input = document.querySelector(`[name=${field}]`);
-            const errorDiv = document.getElementById(`${field}-error`);
-            if (input) input.classList.add('is-invalid');
-            if (errorDiv && errors[field].length > 0) {
-                errorDiv.classList.remove('d-none');
-                errorDiv.innerHTML = errors[field][0].message;
+        function clearErrors() {
+            document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+            document.querySelectorAll('.invalid-feedback').forEach(el => {
+                el.classList.add('d-none');
+                el.innerHTML = '';
+            });
+        }
+
+        function displayErrors(errors) {
+            for (let field in errors) {
+                const input = document.querySelector(`[name=${field}]`);
+                const errorDiv = document.getElementById(`${field}-error`);
+                if (input) input.classList.add('is-invalid');
+                if (errorDiv && errors[field].length > 0) {
+                    errorDiv.classList.remove('d-none');
+                    errorDiv.innerHTML = errors[field][0].message;
+                }
             }
         }
-    }
-});
+    });
 </script>
