@@ -366,9 +366,14 @@ a.tag:active {
 ================================= */
 .logo-font {
   font-family: var(--font-family-logo);
-  font-size: 8rem;
   line-height: 1.4;
+  font-size: 4rem;
 }
+
+#landing .logo-font {
+  font-size: 8rem;
+}
+
 
 .info-font {
   font-family: var(--font-family-menu);
@@ -383,7 +388,6 @@ a.tag:active {
 
 .neopro-bold {
   font-family: 'NeoSansPro', sans-serif;
-  font-size: 5rem;
   font-weight: 500;
   font-style: italic;
   background: linear-gradient(to bottom, #85c1e9, #1abc9c);

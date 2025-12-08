@@ -111,3 +111,16 @@
 #contacts .block > p {
   font-size: 1.2rem;
 }
+
+/* Кастомный цвет акцента, как вы просили */
+.text-accent {
+    color: #fd7e14; /* Оранжевый Bootstrap, замените на свой бренд-цвет */
+}
+.bg-chat {
+    background-color: #f2f2f2;
+}
+/* Небольшой стиль для хвостика сообщения (опционально) */
+.chat-bubble {
+    position: relative;
+    border-bottom-left-radius: 0; /* Делаем левый нижний угол острым для эффекта чата */
+}
