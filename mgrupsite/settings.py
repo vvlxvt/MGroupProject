@@ -13,7 +13,7 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = True  # На проде: DEBUG = config("DEBUG", cast=bool, default=False)
 
 # TONNEL_DOMAIN = "https://tdiebepstu.sharedwithexpose.com"
-TONNEL_DOMAIN = "https://e3421c3c4b18.ngrok-free.app"
+TONNEL_DOMAIN = "https://bc9276037b53.ngrok-free.app"
 ALLOWED_HOSTS = ["*", TONNEL_DOMAIN]
 CSRF_TRUSTED_ORIGINS = [TONNEL_DOMAIN]
 SITE_ID = 1

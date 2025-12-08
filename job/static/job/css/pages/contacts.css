@@ -116,11 +116,24 @@
 .text-accent {
     color: #fd7e14; /* Оранжевый Bootstrap, замените на свой бренд-цвет */
 }
-.bg-chat {
+
+.chat-bubble {
+    border-radius: 5px;
     background-color: #f2f2f2;
 }
-/* Небольшой стиль для хвостика сообщения (опционально) */
-.chat-bubble {
-    position: relative;
-    border-bottom-left-radius: 0; /* Делаем левый нижний угол острым для эффекта чата */
+
+.modern-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    border: 1px solid #e9ecef;
+    transition: 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    max-width: 700px;
+    width: 100%;
+}
+
+.modern-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.08);
 }

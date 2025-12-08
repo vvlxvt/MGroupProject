@@ -1,259 +1,287 @@
 {% load static %}
-<br>
-<div class="container" id="contacts">
-    <div class="container py-5">
-        <div class="row">
-            <div class="col-lg-6 px-md-3 mx-auto">
-                <div
-                        class="bg-chat p-4 rounded-4 shadow-sm h-100 d-flex flex-column justify-content-between"
-                >
+
+<section id="contacts">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-6">
+                <div class="p-4 p-md-5 h-100 d-flex flex-column">
+
                     <div class="d-flex align-items-center mb-4">
-                        <div class="flex-shrink-0">
-                            <div
-                                    class="bg-white rounded-circle d-flex align-items-center justify-content-center shadow-sm"
-                                    style="width: 48px; height: 48px">
-                                <i class="bi bi-buildings-fill text-accent fs-4"></i>
-                            </div>
-                        </div>
                         <div class="ms-3">
-                            <p class text-indent">
-                            <span class="logo-font">Маляр</span><span class="neopro-bold display-5">Групп</span></p>
-                            <small class="text-muted">На связи с вами</small>
+                            <p class="text-indent mb-0 fs-4">
+                                <span class="logo-font">Маляр</span>
+                                <span class="neopro-bold display-5">Групп</span>
+                                <span class="ms-2">на связи с Вами</span>
+                            </p>
                         </div>
                     </div>
 
-                    <div class="d-flex flex-column gap-3">
-                        <div class="bg-white p-3 rounded-4 chat-bubble shadow-sm w-100">
-                            <p class="mb-0 text-muted">
-                                К этому моменту вы уже узнали многое о компании «МалярГрупп».
+                    <div class="d-flex flex-column gap-3 mb-5">
+                        <div class="p-3 shadow-sm w-100 chat-bubble">
+                            <p class="mb-0 fs-5 fw-semibold text-accent">
+                                К этому моменту вы уже узнали многое о нас.
                             </p>
                         </div>
 
-                        <div
-                                class="bg-white p-3 rounded-4 chat-bubble shadow-sm w-100 border-start border-4 border-warning"
-                        >
+                        <div class="p-3 shadow-sm w-100 border-start border-4 border-warning chat-bubble">
                             <p class="fw-bold mb-0 text-dark">
                                 Но остаётся главный вопрос: <br/>
-                                <span class="text-accent"
-                                >Что именно мы можем сделать для вашего проекта по покраске
-                    и нанесению покрытий?</span
-                                >
+                                <span class="fs-5 fw-semibold text-accent">Что именно мы можем сделать для вашего проекта?</span>
                             </p>
                         </div>
 
-                        <div class="bg-white p-3 rounded-4 chat-bubble shadow-sm w-100">
-                            <p class="mb-2 text-secondary">
-                                Сейчас — лучший момент, чтобы это узнать.
+                        <div class="p-3 shadow-sm w-100 chat-bubble">
+                            <p class="fw-bold mb-0 text-dark">
+                                Расскажите нам о своём проекте.<br/>
+                                <span class="fs-5 fw-semibold text-accent">Мы обсудим детали, предложим оптимальные варианты и
+                                покажем, почему нам доверяют.</span>
                             </p>
-                            <p class="mb-0 text-dark">
-                                Расскажите нам о своём проекте: какие задачи предстоит решить
-                                и каким вы видите идеального подрядчика? Мы обсудим детали,
-                                предложим оптимальные варианты и покажем, почему нам доверяют
-                                по всему региону.
-                            </p>
-                        </div>
-
-                        <div class="ms-2">
-                            <small class="text-muted fst-italic"
-                            >Ожидание вашего ответа...</small
-                            >
                         </div>
                     </div>
 
-                    <div class="mt-4 pt-3 border-top border-secondary-subtle">
-                        <div class="input-group">
-                            <input
-                                    type="text"
-                                    class="form-control bg-white border-0 py-2 shadow-sm rounded-pill"
-                                    placeholder="Расскажите о вашем проекте..."
-                                    aria-label="Message"
-                                    disabled
-                                    style="cursor: pointer"
-                            />
-                            <button
-                                    class="btn btn-primary rounded-circle ms-2 shadow-sm d-flex align-items-center justify-content-center"
-                                    style="width: 40px; height: 40px"
-                                    type="button"
-                            >
-                                <i class="bi bi-send-fill"></i>
+                    <div class="d-flex justify-content-center mb-4 px-0">
+                        <p class="mb-0 fs-4">
+                            Заполните форму, и мы ответим на ваши вопросы
+                        </p>
+                    </div>
+
+                    <form id="contactForm" class="bg-white p-4 shadow-sm" method="post"
+                          enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="telegram_id" value="{{ request.session.user.id }}">
+
+                        <div class="row g-3 mb-3 align-items-center">
+                            <div class="col-12 col-md-7">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="fa-solid fa-at"></i></span>
+                                    <input type="text"
+                                           name="username"
+                                           class="form-control bg-light"
+                                           placeholder="telegram login"
+                                           value="{{ request.session.user.username|default:'' }}"
+                                           readonly
+                                           title="Автоматически из Telegram">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-5 text-md-end d-flex justify-content-md-end justify-content-center">
+                                <div class="tg-login-wrapper">
+                                    <script async src="https://telegram.org/js/telegram-widget.js?22"
+                                            data-telegram-login="mgrup24_bot"
+                                            data-size="large"
+                                            data-radius="7"
+                                            data-auth-url="https://bc9276037b53.ngrok-free.app"
+                                            data-request-access="write">
+                                    </script>
+<!--                                    data-auth-url="https://mgroup-vvlxvt.amvera.io/callback"-->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="fa-solid fa-user-tie"></i></span>
+                                    <input type="text"
+                                           name="first_name"
+                                           class="form-control bg-light text-muted"
+                                           placeholder="Ваше имя"
+                                           value="{{ request.session.user.first_name|default:'' }}"
+                                           readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="fa-solid fa-calendar"></i></span>
+                                    <input type="text"
+                                           name="auth_date"
+                                           class="form-control bg-light text-muted"
+                                           placeholder="Дата аутенфикации"
+                                           value="{{ request.session.user.auth_date|default:'' }}"
+                                           readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="input-group has-validation">
+                                <span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
+                                <input type="email"
+                                       class="form-control"
+                                       id="mail"
+                                       name="email"
+                                       value="{{ user_form.initial.email|default_if_none:'' }}"
+                                       placeholder="Ваш Email (для ответа)">
+                                <div class="invalid-feedback" id="email-error"></div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="input-group has-validation">
+                                <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
+                                <input type="text"
+                                       class="form-control"
+                                       id="city"
+                                       name="city"
+                                       value="{{ user_form.initial.city|default_if_none:'' }}"
+                                       placeholder="Ваш город">
+                                <div class="invalid-feedback" id="city-error"></div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <textarea class="form-control"
+                                      id="message"
+                                      name="question_text"
+                                      rows="4"
+                                      placeholder="Опишите вашу задачу или задайте вопрос..." required></textarea>
+                            <div class="invalid-feedback" id="question_text-error"></div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="attached_photo" class="form-label small text-muted">Прикрепить фото
+                                (необязательно)</label>
+                            <input type="file"
+                                   name="attached_photo"
+                                   class="form-control"
+                                   id="attached_photo">
+                            <div class="invalid-feedback" id="attached_photo-error"></div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" id="submitBtn" class="btn btn-primary py-2 fw-bold shadow-sm">
+                                Отправить сообщение
                             </button>
                         </div>
-                        <small
-                                class="text-muted ps-3 mt-1 d-block"
-                                style="font-size: 0.75rem"
-                        >Нажмите на форму заявки или контакты, чтобы ответить</small
-                        >
-                    </div>
+
+                        <div id="formResponse" class="mt-3" style="display: none;"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center g-4">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="modern-card p-4">
+                    <p class="fst-italic mb-3 fs-5">
+                        «Мы гордимся своей работой, но настоящая гордость приходит, когда мы
+                        видим довольного клиента после завершения проекта».
+                    </p>
+                    <p class="fs-5 fw-semibold text-accent">
+                        Сотрудничая с нами, вы испытаете это чувство на собственном опыте.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-12 d-flex justify-content-center">
+                <div class="modern-card p-4">
+                    <p class="fst-italic mb-3 fs-5">
+                        «Каждый объект — это наша репутация. Поэтому мы подходим к делу так,
+                        как будто делаем для себя».
+                    </p>
+                    <p class="fs-5 fw-semibold text-accent">
+                        Мы ценим ваше доверие и делаем всё, чтобы оправдать ожидания.
+                    </p>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="px-md-5">
-        <form id="contactForm" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="hidden"
-                   name="telegram_id"
-                   value="{{ request.session.user.id }}">
-            <!-- Ник в Telegram -->
-            <div class="d-flex justify-content-between align-items-center gap-1">
-                <div class="input-group data-input w-50">
-                    <span class="input-group-text"><i class="fa-solid fa-at"></i></span>
-                    <label for="username" class="visually-hidden">Ваш telegram login</label>
-                    <input type="text"
-                           name="username"
-                           class="form-control"
-                           placeholder="telegram login"
-                           value="{{ request.session.user.username|default:'' }}"
-                           readonly>
-                </div>
-
-                <div class="tg-login-wrap">
-                    <script async src="https://telegram.org/js/telegram-widget.js?22"
-                            data-telegram-login="mgrup24_bot"
-                            data-size="large"
-                            data-radius="7"
-                            data-auth-url="https://mgroup-vvlxvt.amvera.io/callback"
-                            data-request-access="write">
-                    </script>
-                </div>
-            </div>
-
-            <!-- Имя -->
-            <div class="input-group data-input w-100">
-                <span class="input-group-text"><i class="fa-solid fa-user-tie"></i></span>
-                <label for="first_name" class="visually-hidden">Ваше имя</label>
-                <input type="text"
-                       name="first_name"
-                       class="form-control"
-                       placeholder="Ваше имя"
-                       value="{{ request.session.user.first_name|default:'' }}"
-                       readonly>
-            </div>
-
-            <!-- Дата аутентификации -->
-            <div class="input-group data-input w-100">
-                <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
-                <label for="auth_date" class="visually-hidden">Дата аутенфикации</label>
-                <input type="text"
-                       name="auth_date"
-                       class="form-control"
-                       placeholder="Дата аутенфикации"
-                       value="{{ request.session.user.auth_date|default:'' }}"
-                       readonly>
-            </div>
-            <!-- Email -->
-            <div class="input-group data-input w-100 has-validation">
-                <span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
-                <label for="mail" class="visually-hidden">Ваша почта</label>
-                <input type="email"
-                       class="form-control"
-                       id="mail"
-                       name="email"
-                       value="{{ user_form.initial.email|default_if_none:'' }}"
-                       placeholder="Ваш Email">
-            </div>
-            <div class="invalid-feedback d-none" id="email-error"></div>
-            <!-- Город -->
-            <div class="input-group data-input w-100 has-validation">
-                <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
-                <label for="city" class="visually-hidden">Ваш город</label>
-                <input type="text"
-                       class="form-control"
-                       id="city"
-                       value="{{ user_form.initial.city|default_if_none:'' }}"
-                       name="city"
-                       placeholder="Укажите откуда Вы">
-            </div>
-            <div class="invalid-feedback d-none" id="city-error"></div>
-            <!-- Сообщение -->
-            <div class="data-input w-100">
-                <label for="message" class="visually-hidden">Ваш вопрос</label>
-                <textarea class="form-control"
-                          id="message"
-                          name="question_text"
-                          placeholder="Задайте Ваш вопрос к нам" required></textarea>
-                <div class="invalid-feedback d-none" id="question_text-error"></div>
-            </div>
-            <!-- Фото -->
-            <label for="attached_photo" class="form-label ">Загрузить фото</label>
-            <input type="file"
-                   name="attached_photo"
-                   class="form-control data-input w-100"
-                   id="attached_photo">
-            <div class="invalid-feedback d-none" id="attached_photo-error"></div>
-            <!-- Кнопка -->
-            <div class="mb-3 d-flex justify-content-start">
-                <button type="submit" class="btn button transparent">Отправить сообщение</button>
-            </div>
-        </form>
-    </div>
-
-
-</div>
-<div class="card shadow-sm p-4 industrial-card">
-    <p class="fst-italic mb-3">
-        «Мы гордимся своей работой, но настоящая гордость приходит, когда мы видим довольного клиента после
-        завершения проекта».
-    </p>
-    <p class="fw-bold mb-0">
-        Сотрудничая с нами, вы испытаете это чувство на собственном опыте.
-    </p>
-</div>
-
-<div id="formResponse" class="is-hidden"></div>
+</section>
 
 <script>
-    document.getElementById('contactForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const form = document.getElementById('contactForm');
-        const formData = new FormData(form);
+    document.addEventListener('DOMContentLoaded', function() {
+        const contactForm = document.getElementById('contactForm');
         const formResponse = document.getElementById('formResponse');
+        const submitBtn = document.getElementById('submitBtn');
 
-        clearErrors();
+        if (!contactForm) return;
 
-        fetch("{% url 'job:submit_question' %}", {
-            method: 'POST',
-            body: formData,
-            headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                formResponse.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
-                formResponse.style.display = 'block';
-                location.reload();
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault();
 
-                setTimeout(() => formResponse.style.display = 'none', 3000);
-            } else if (data.error) {
-                displayErrors(data.error);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            formResponse.innerHTML = `<div class="alert alert-danger">Ошибка отправки формы. Попробуйте снова.</div>`;
-            formResponse.style.display = 'block';
+            // UI: Блокируем кнопку, чтобы не жали дважды
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Отправка...';
+
+            const formData = new FormData(contactForm);
+
+            // Очистка старых ошибок
+            clearErrors();
+            formResponse.style.display = 'none';
+
+            fetch("{% url 'job:submit_question' %}", {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    'X-Requested-With': 'XMLHttpRequest' // Хорошая практика для Django
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showSuccess(data.message);
+                    contactForm.reset();
+                    // Опционально: перезагрузка через 2 секунды
+                    setTimeout(() => location.reload(), 2000);
+                } else if (data.error) {
+                    displayErrors(data.error);
+                    showError("Пожалуйста, исправьте ошибки в форме.");
+                } else {
+                    showError("Неизвестная ошибка сервера.");
+                }
+            })
+            .catch(error => {
+                console.error('Network Error:', error);
+                showError("Ошибка сети. Проверьте соединение и попробуйте снова.");
+            })
+            .finally(() => {
+                // Возвращаем кнопку в исходное состояние
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Отправить сообщение';
+            });
         });
 
         function clearErrors() {
             document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
             document.querySelectorAll('.invalid-feedback').forEach(el => {
-                el.classList.add('d-none');
-                el.innerHTML = '';
+                el.style.display = 'none';
+                el.textContent = '';
             });
         }
 
         function displayErrors(errors) {
             for (let field in errors) {
-                const input = document.querySelector(`[name=${field}]`);
+                const input = document.querySelector(`[name="${field}"]`);
                 const errorDiv = document.getElementById(`${field}-error`);
-                if (input) input.classList.add('is-invalid');
+
+                if (input) {
+                    input.classList.add('is-invalid');
+                }
+
                 if (errorDiv && errors[field].length > 0) {
-                    errorDiv.classList.remove('d-none');
-                    errorDiv.innerHTML = errors[field][0].message;
+                    // Django usually sends errors as array of objects [{message: "...", code: "..."}]
+                    // or simple strings depending on serialization. Assuming standard JSON:
+                    let errorMsg = errors[field][0];
+                    if (typeof errorMsg === 'object' && errorMsg.message) {
+                        errorMsg = errorMsg.message;
+                    }
+
+                    errorDiv.textContent = errorMsg;
+                    errorDiv.style.display = 'block';
                 }
             }
+        }
+
+        function showSuccess(msg) {
+            formResponse.className = 'alert alert-success shadow-sm';
+            formResponse.textContent = msg;
+            formResponse.style.display = 'block';
+        }
+
+        function showError(msg) {
+            formResponse.className = 'alert alert-danger shadow-sm';
+            formResponse.textContent = msg;
+            formResponse.style.display = 'block';
         }
     });
 </script>
