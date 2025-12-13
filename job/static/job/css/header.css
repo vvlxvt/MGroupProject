@@ -35,3 +35,12 @@ a.navbar-brand:hover {
   border-left: none;
   height: 30px;
 }
+
+@media (max-width: 992px) {
+    #navbar {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1030; /* выше всего */
+    }
