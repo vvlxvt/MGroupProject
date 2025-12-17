@@ -1,13 +1,20 @@
 /* ================================
    Описывает сетку, контейнеры, отступы
 ================================= */
+body {
+    margin: 0;
+    padding: 40px 0 0 0;
+    overflow-x: hidden;
+}
+
 .container {
     max-width: 1500px;
     margin: 0 auto;
 }
 
 article {
-    margin-bottom: 32px;
+  line-height: 1.6;
+  margin: 100px 0 100px; /* вертикальные отступы между статьями */
 }
 
 @media (max-width: 768px) {

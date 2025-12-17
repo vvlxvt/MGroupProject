@@ -11,17 +11,18 @@
             <img src="{% static 'job/images/IMG_index.webp' %}"
                  alt="Фоновое изображение компании Маляр Групп"
                  class="hero"
-                 loading="eager"> 
+                 loading="eager">
         </picture>
 
-        <div class="position-absolute top-50 start translate-middle-y text-white">
-            <div class="position-relative title-container ">
-                <p class="position-absolute top-0 start-0 logo-font mb-0 z-1">Mаляр</p>
-                <div class="d-flex align-items-center h-100">
-                    <p class="neopro-bold display-1 mb-0 text-indent ps-5">Групп</p>
-                </div>
-                <p class="position-absolute bottom-0 start-0 main-statement z-3 pb-3 d-none d-sm-block">профессиональная
-                    промышленная покраска</p>
+        <div class="hero-title position-absolute top-50 start translate-middle-y text-white">
+            <div class="hero-box">
+
+                <div class="hero-logo font-hero-logo">Маляр</div>
+                <div class="hero-main hero-name font-hero-name">Групп</div>
+                <p class="hero-subtitle font-hero-subtitle d-none d-sm-block">
+                    профессиональная промышленная покраска
+                </p>
+
             </div>
         </div>
     </div>
@@ -50,7 +51,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row mb-4 mb-sm-0">
                         <div class="card shadow-sm text-center h-100 industrial-card">
                             <h3 class="fw-bold text-accent border-bottom border-secondary pb-3">300 000+ М²</h3>
                             <p class="fw-bold px-1">
@@ -91,6 +92,9 @@
                 </div>
             </div>
         </div>
+    </article>
+
+    <article aria-label="Основная информация о наших услугах">
 
         <div class="container px-3 my-3 my-md-5">
             <div class="p-2">
@@ -100,10 +104,8 @@
                 </div>
             </div>
         </div>
-    </article>
 
 
-    <article aria-label="Основная информация о наших услугах">
         <div class="container-fluid py-4">
             <div id="mainCarousel" class="carousel slide" data-bs-ride="false">
                 <div class="carousel-indicators">
@@ -149,62 +151,63 @@
                 </button>
             </div>
         </div>
+    </article>
 
-        <article id="help">
-            <div class="container px-3 my-3 my-md-5">
-                <div class="p-2">
-                    <div class="block fs-5 gradient-title-r text-center text-uppercase fw-bold">
-                        <p>Нужна консультация или расчёт сметы?</p>
-                        <a href="/contacts">Мы поможем!</a>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-
-        <div class="container">
-            <div class="row g-5">
-                <div class="col-12 col-md-10 mx-auto">
-                    {% for post in posts %}
-                    <div class="col mx-auto mb-0">
-                        <div class="card mb-0 flex-md-row {% if forloop.counter|divisibleby:2 %}flex-md-row-reverse{% endif %} border-0">
-                            <!-- Изображение поста -->
-                            <div class="col p-0">
-                                {% if post.photo %}
-                                <img src="{{ post.photo.url }}" alt="фото услуги" loading="lazy">
-                                {% else %}
-                                <img class="custom-image img-fluid"
-                                     src="{% static 'job/images/default-image.jpg' %}"
-                                     alt="фото по умолчанию"
-                                     loading="lazy">
-                                {% endif %}
-                            </div>
-                            <!-- Содержимое карточки -->
-                            <div class="col d-flex flex-column justify-content-center ps-5 pe-1 py-0">
-                                <h3 class="article-title text-center text-sm-start mb-3">
-                                    <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-                                </h3>
-                                {% if post.postarticle_set.all %}
-                                <ul class="list-unstyled">
-                                    {% for post_article in post.postarticle_set.all|dictsort:"number" %}
-                                    <li>
-                                        <span class="info-font">info</span>
-                                        <a href="{% url 'job:article_detail' slug=post_article.article.slug %}">
-                                            {{post_article.article.title }}</a>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                                {% else %}
-                                <p>Нет связанных статей.</p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    {% endfor %}
+    <article id="help">
+        <div class="container px-3 my-3 my-md-5">
+            <div class="p-2">
+                <div class="block fs-5 text-center text-uppercase fw-bold">
+                    <p>Нужна консультация или расчёт сметы?</p>
+                    <a href="/contacts">Мы поможем!</a>
                 </div>
             </div>
         </div>
+    </article>
+
+
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-12 col-md-10 mx-auto">
+                {% for post in posts %}
+                <div class="col mx-auto mb-0">
+                    <div class="card mb-0 flex-md-row {% if forloop.counter|divisibleby:2 %}flex-md-row-reverse{% endif %} border-0">
+                        <!-- Изображение поста -->
+                        <div class="col p-0">
+                            {% if post.photo %}
+                            <img src="{{ post.photo.url }}" alt="фото услуги" loading="lazy">
+                            {% else %}
+                            <img class="custom-image img-fluid"
+                                 src="{% static 'job/images/default-image.jpg' %}"
+                                 alt="фото по умолчанию"
+                                 loading="lazy">
+                            {% endif %}
+                        </div>
+                        <!-- Содержимое карточки -->
+                        <div class="col d-flex flex-column justify-content-center ps-5 pe-1 py-0">
+                            <h3 class="article-title text-center text-sm-start mb-3">
+                                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                            </h3>
+                            {% if post.postarticle_set.all %}
+                            <ul class="list-unstyled">
+                                {% for post_article in post.postarticle_set.all|dictsort:"number" %}
+                                <li>
+                                    <span class="info-font">info</span>
+                                    <a href="{% url 'job:article_detail' slug=post_article.article.slug %}">
+                                        {{post_article.article.title }}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% else %}
+                            <p>Нет связанных статей.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
     </article>
 
     <article aria-label="Основные преимущества работы с нами">

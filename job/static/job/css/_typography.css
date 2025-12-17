@@ -1,0 +1,23 @@
+/* =========================
+   TYPOGRAPHY / FONTS
+   ========================= */
+
+/* Логотип «Маляр» */
+.font-hero-logo {
+  font-family: var(--font-family-logo);
+  font-size: 2rem;
+}
+
+/* Основное название «Групп» */
+.font-hero-name {
+  font-family: var(--font-family-menu);
+  font-size: 2rem;
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* Подзаголовок */
+.font-hero-subtitle {
+  font-family: var(--font-family-base);
+  font-size: 1.5rem;
+}

@@ -1,0 +1,14 @@
+@import url("variable.css");
+@import url("fonts.css");
+@import url("base.css");
+@import url("_typography.css");
+@import url("layout.css");
+@import url("header.css");
+@import url("footer.css");
+@import url("components.css");
+@import url("pages/index.css");
+@import url("pages/article.css");
+@import url("pages/about.css");
+@import url("pages/contacts.css");
+@import url("pages/vacancies.css");
+@import url("bootstrap_overwrite.css");

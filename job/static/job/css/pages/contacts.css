@@ -1,3 +1,8 @@
+section#contacts {
+    background-color: #F1EFEE;
+}
+
+
 .data-input {
   max-width: 400px;
   margin-bottom: 1rem;
@@ -112,14 +117,47 @@
   font-size: 1.2rem;
 }
 
-/* Кастомный цвет акцента, как вы просили */
-.text-accent {
-    color: #fd7e14; /* Оранжевый Bootstrap, замените на свой бренд-цвет */
+#contacts .font-hero-logo, #contacts .font-hero-name {
+  font-size: 4rem;
+  background: linear-gradient(to bottom, #85c1e9, #1abc9c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding: 0 0.2rem 0 0.2rem;
+}
+
+
+#contacts .font-hero-logo {
+  font-size: 5rem;
+  margin-top: 7px;
+}
+
+.chat-stack {
+    display: flex;
+    flex-direction: column;
 }
 
 .chat-bubble {
-    border-radius: 5px;
-    background-color: #f2f2f2;
+    max-width: 90%;
+    border-radius: 20px;
+    background-color: white;
+}
+
+.chat-stack .chat-bubble:nth-child(even) {
+    align-self: flex-end;
+    border-left: none;
+    border-right: 4px solid var(--bs-warning);
+}
+
+.chat-stack .chat-bubble:nth-child(odd) {
+    border-left: 4px solid var(--bs-primary);
+}
+
+@media (max-width: 576px) {
+    .chat-bubble {
+        align-self: center !important;
+        max-width: 100%;
+    }
 }
 
 .modern-card {
