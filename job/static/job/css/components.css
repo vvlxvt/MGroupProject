@@ -106,48 +106,8 @@
     scroll-margin-top: 70px; /* Высота навбара */
 }
 
-/* Button system (compatible with existing markup: "btn button transparent") */
-.btn.button {
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    line-height: 1.25;
-    transition: transform 0.12s ease, opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-}
 
-.btn.button:active {
-    transform: scale(0.98);
-}
 
-/* Outline variant keeps using existing .transparent class */
-.btn.button.transparent {
-    background-color: transparent;
-    border-color: #000;
-}
-
-.btn.button.transparent:hover {
-    background-color: transparent;
-}
-
-/* Стили для черной кнопки */
-.transparent {
-    border: 2px solid black;
-    color: #000;
-}
-
-.transparent:hover {
-    opacity: 1; /* Полностью видимая кнопка при наведении */
-    color: black;
-    border: 2px solid black;
-    transform: scale(1.03);
-}
-
-.transparent:active {
-    opacity: 0.7;
-    background-color: transparent;
-    color: black;
-    border: 2px solid black;
-    transform: scale(0.95);
-}
 
 /* Стиль для разяряженного текста */
 .letter-spaced {
@@ -286,15 +246,6 @@ a.tag:active {
     border-color: #02417A !important;
 }
 
-/* ================================
-   Utility Classes
-================================= */
-.h-55 { height: 55px; }
-.rounded-10 { border-radius: 10px; }
-.text-justify { text-align: justify; }
-.justify-text { text-align: justify; }
-.soft-shadow { text-shadow: 0px 20px 20px #83919C; }
-.letter-spaced { letter-spacing: 5px; }
 
 /* Card component (moved from vacancies.css) */
 .custom-card {
@@ -332,38 +283,6 @@ a.tag:active {
     font-weight: 600;
 }
 
-/* ================================
-   Hero Section Styles
-================================= */
-.hero {
-  background-image: url('/static/job/images/IMG_index.webp');
-  background-size: cover;
-  background-position: center;
-  width: 100%;
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-.hero-img-container {
-  overflow: hidden;
-  margin-bottom: 32px;
-}
-
-@media (max-width: 768px) {
-  .hero-img-container {
-    height: 400px;
-  }
-}
-
-/* ================================
-   Typography Styles
-================================= */
-.logo-font {
-  font-family: var(--font-family-logo);
-  line-height: 1.4;
-  font-size: 4rem;
-}
-
 #landing .logo-font {
   font-size: 8rem;
 }
@@ -399,3 +318,10 @@ a.tag:active {
     font-size: var(--font-size-small);
   }
 }
+
+
+.btn--narrow {
+  max-width: 220px;
+  width: 100%;
+}
+
