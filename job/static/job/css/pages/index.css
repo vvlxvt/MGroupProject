@@ -1,21 +1,20 @@
-/* Page-specific styles for index page */
-article#hero-features p {
-    font-size: var(--font-size-large);
-}
+/* Page-specific styles for index page
+ * NOTE: styles marked with "MOVE:" are candidates to be moved
+ *       into shared CSS files (see STYLE_MAP.md).
+ */
 
-
+/* MOVE: generic hero/slider component → consider components.css (slider/hero section) */
 #landing .card li {
     font-size: var(--font-size-large);
 }
 
-
-/* Ensure no extra side padding forcing overscroll */
+/* Ensure no extra side padding forcing overscroll (main carousel only) */
 #mainCarousel .carousel-item {
   padding-left: 0;
   padding-right: 0;
 }
 
-/* Slide container */
+/* MOVE: slider layout (figure wrapper) → consider components.css (shared carousel/slider) */
 .slide-figure {
   position: relative;
   margin: 0;
@@ -26,7 +25,7 @@ article#hero-features p {
   overflow: hidden; /* ← чтобы overlay и картинка резались одинаково */
 }
 
-/* Image: keep aspect, fully visible in viewport */
+/* MOVE: slider image behaviour → consider components.css (shared carousel/slider) */
 .slide-image {
   display: block;
   width: 100%;
@@ -37,7 +36,7 @@ article#hero-features p {
   object-fit: cover;           /* preserve aspect ratio */
 }
 
-/* Нижняя половина с текстом */
+/* MOVE: caption overlay for sliders → consider components.css (shared carousel/slider) */
 .m-caption {
   position: absolute;
   left: 0;
@@ -64,7 +63,7 @@ article#hero-features p {
 }
 
 
-/* Заголовок */
+/* MOVE: slider caption typography → consider components.css (shared carousel/slider) */
 .m-caption-title {
   font-weight: 800;
   font-size: 28px;
@@ -74,7 +73,7 @@ article#hero-features p {
   /* text-shadow: 0 2px 8px rgba(0,0,0,0.5); */
 }
 
-/* Описание */
+/* MOVE: slider caption typography → consider components.css (shared carousel/slider) */
 .m-caption-text {
   font-weight: 400;
   font-size: 16px;
@@ -86,7 +85,7 @@ article#hero-features p {
 }
 
 
-/* Indicators and controls tuned for visibility on images */
+/* MOVE: Bootstrap carousel indicator overrides → consider bootstrap_overwrite.css */
 /* High specificity selectors to override Bootstrap without !important */
 #mainCarousel.carousel.slide .carousel-indicators {
   position: absolute;
@@ -127,12 +126,13 @@ article#hero-features p {
   background-color: #a0a0a0;
 }
 
+/* MOVE: shared carousel controls styling → consider bootstrap_overwrite.css */
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
 }
 
-/* Responsive adjustments */
+/* MOVE: responsive rules for shared slider component → consider components.css */
 @media (max-width: 992px) {
   .m-caption {
     height: 50%;          /* сохраняем половину картинки */
@@ -207,26 +207,13 @@ article#hero-features p {
     padding-top: 24px;
 }
 
-/* Стилизация самой карточки.
-   Мы переопределяем стандартный белый фон Bootstrap на наш темный.
-*/
+/* Index-only industrial stats cards; keep page-specific while used only on landing */
 .industrial-card {
-    background-color: #f2f2f2 !important; /* !important нужен, чтобы перебить bg-white бутстрапа */
-    /* Добавляем главную фишку дизайна - верхнюю оранжевую рамку */
+    background-color: #f2f2f2 !important; /* Overrides Bootstrap card background */
     border-top: 4px solid var(--color-accent) !important;
-    font-family: 'montserrat';
 }
 
-/* Утилита для оранжевого текста заголовков */
-.text-accent {
-    color: var(--color-accent) !important;
-}
-
-/* ------------------------------------Контейнер hero-box------------------------------------------------------- */
-/* =========================
-   LANDING / HERO
-   ========================= */
-
+/* MOVE: shared hero container (hero-box) → consider components.css or layout.css */
 #landing .hero-box {
   position: relative;
   width: 1100px;
@@ -234,7 +221,7 @@ article#hero-features p {
   background-color: rgba(10, 37, 64, 0.65);
 }
 
-/* Логотип «Маляр» */
+/* MOVE: shared hero logo positioning → consider components.css (hero block) */
 #landing .hero-logo {
   position: absolute;
   top: 0;
@@ -243,7 +230,7 @@ article#hero-features p {
   z-index: 1;
 }
 
-/* Основное название «Групп» */
+/* MOVE: shared hero main title layout → consider components.css (hero block) */
 #landing .hero-main {
   display: flex;
   align-items: center;
@@ -251,16 +238,19 @@ article#hero-features p {
   margin-left: 3rem;
 }
 
+/* MOVE: typography tweaks for hero logo → consider _typography.css */
 #landing .font-hero-logo {
   font-size: 8rem;
   line-height: 1.5;
 }
 
+/* MOVE: shared hero name positioning → consider components.css (hero block) */
 #landing .hero-name {
   margin: 0;
   padding-left: 3rem;
 }
 
+/* MOVE: typography & gradient for hero name → consider _typography.css */
 #landing .font-hero-name {
   font-family: var(--font-family-menu);
   font-size: 5rem;
@@ -271,7 +261,7 @@ article#hero-features p {
   color: transparent;
 }
 
-/* Подзаголовок */
+/* MOVE: shared hero subtitle positioning → consider components.css (hero block) */
 #landing .hero-subtitle {
   position: absolute;
   bottom: 1rem;
@@ -280,7 +270,13 @@ article#hero-features p {
   z-index: 2;
 }
 
+/* MOVE: typography for hero subtitle → consider _typography.css */
 #landing .font-hero-subtitle {
   font-size: 3rem;
+}
+
+/* MOVE: utility max height helper used on multiple carousels → consider components.css (utilities) */
+.max-h-500 {
+  max-height: 500px;
 }
 
