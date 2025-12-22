@@ -2,13 +2,181 @@
  Отвечает за кастомные кнопки, карточки, формы
 ================================= */
 .content-preview strong {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .pagination * {
-    font-weight: normal !important; /* Сброс, если баг "переползает" */
+  font-weight: normal !important; /* Сброс, если баг "переползает" */
 }
 
+.hd_image {
+  width: 100vw;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.yellow-bar {
+  background-color: #31b787;
+  color: white;
+  text-align: center;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: var(--font-size-large);
+  line-height: 1.2;
+  padding: 0.5rem 0;
+  margin-bottom: 3rem; /* mb-5 = 3rem */
+}
+
+@media (max-width: 768px) {
+  .yellow-bar {
+    margin-bottom: 1.5rem;
+  }
+}
+
+a.tag {
+  font-weight: bold;
+  font-size: 0.6rem;
+  color: black;
+  background-color: #f5f5f5; /* Светло-серый фон */
+  border-radius: 50px; /* Овальная форма */
+  padding: 1px 3px;
+  border: 1px solid black;
+  text-decoration: none; /* Отключаем подчеркивание */
+  transition: background-color 0.2s ease-in-out, transform 0.1s;
+  cursor: pointer;
+  display: inline-block; /* Чтобы фон охватывал весь текст */
+}
+
+a.tag:hover {
+  background-color: #e0e0e0; /* Серый фон при наведении */
+  text-decoration: none; /* Подчеркивание не появляется */
+}
+
+a.tag:active {
+  background-color: #d6d6d6; /* Темнее при нажатии */
+  transform: scale(0.98); /* Легкое уменьшение при клике */
+}
+
+.article-title a {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0 0;
+}
+
+.my-pagination .page-link {
+  color: #000 !important;
+  background-color: white !important;
+  border: none;
+  box-shadow: none;
+  text-decoration: none;
+}
+
+.my-pagination .page-link:hover,
+.my-pagination .page-link:focus {
+  color: #000 !important;
+  background-color: white !important;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  box-shadow: none;
+}
+
+.my-pagination .active .page-link {
+  color: #000;
+  text-decoration: underline;
+  text-underline-offset: 5px; /* увеличенный зазор */
+  background-color: white !important;
+  border: none;
+}
+
+/* ================================
+   Gradient Text Styles
+================================= */
+.gradient-title {
+  background: linear-gradient(to left, #31b787, #f91803);
+  background-clip: text;
+  color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-title-r {
+  background: linear-gradient(to right, #31b787, #f91803);
+  background-clip: text;
+  color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.is-hidden {
+  display: none;
+}
+
+/* Global utilities */
+.btn-brand {
+  background-color: #035199 !important;
+  border-color: #035199 !important;
+  color: #fff !important;
+}
+.btn-brand:hover {
+  background-color: #02417a !important;
+  border-color: #02417a !important;
+}
+
+/* Card component (moved from vacancies.css) */
+.custom-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  transition: box-shadow 0.3s ease;
+}
+
+.custom-card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.custom-card-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-card-title {
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.custom-card-icon {
+  width: 64px;
+  height: 64px;
+  margin-right: 0.75rem;
+}
+
+.custom-card-text {
+  font-weight: 600;
+}
+
+.info-font {
+  font-family: var(--font-family-menu);
+  font-size: var(--font-size-x-small);
+  font-weight: var(--font-weight-bold);
+  color: #31b787;
+}
+
+.btn--narrow {
+  max-width: 220px;
+  width: 100%;
+}
+
+/* ================================
+   UNUSED STYLES (commented out)
+================================= */
+
+/* UNUSED: .btn-custom - not used in any templates */
+/*
 .btn-custom {
     padding: var(--spacing-small) var(--spacing-base);
     display: inline-block;
@@ -19,65 +187,46 @@
     color: white;
     border: 1px solid #035199;
     border-radius: 5px;
-    transition: background-color 0.3s ease; /* Плавный переход цвета */
+    transition: background-color 0.3s ease; 
 }
 
 .btn-custom:hover {
-    background-color: #02417A; /* Цвет фона при наведении */
+    background-color: #02417A; 
 }
 
 .btn-custom:active {
-    background-color: #023563; /* Цвет фона при нажатии */
+    background-color: #023563; 
 }
 
 .btn-custom:focus {
-    outline: none; /* Убираем обводку при фокусе */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Тень при фокусе */
+    outline: none; 
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
 }
-/* стиль кнопки submit */
+*/
 
-
-.hd_image {
-  width: 100vw;
-  height: auto;
-  object-fit: contain;
-  display: block;
-}
-
+/* UNUSED: #projects .card img - #projects id not used in templates */
+/*
 #projects .card img {
-    width: 100%; /* Изображение заполняет ширину контейнера */
-    height: 100%; /* Высота подстраивается под ширину */
-    object-fit: cover; /* Масштабируем изображение, обрезая лишнее */
-    object-position: center; /* Центрируем изображение */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
     border-radius: var(--border-radius);
 }
+*/
 
-
-.yellow-bar {
-  background-color: #31B787;
-  color: white;
-  text-align: center;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: var(--font-size-large);
-  line-height: 1.2;
-  padding: 0.5rem 0;
-  margin-bottom: 3rem;              /* mb-5 = 3rem */
-}
-
-@media (max-width: 768px) {
-    .yellow-bar {
-    margin-bottom: 1.5rem;
-    }
-}
-
+/* UNUSED: .yellow-stripe - commented out in base.html */
+/*
 .yellow-stripe {
   background-color: #31B787;
   text-align: center;
   font-weight: var(--font-weight-bold);
   padding: var(--spacing-small) 0;
 }
+*/
 
+/* UNUSED: .page-title - commented out in base.html */
+/*
 .page-title {
   margin: 0;
   color: white;
@@ -87,8 +236,11 @@
   letter-spacing: 3px;
   text-transform: uppercase;
 }
+*/
 
 /* Адаптивность для мобильных устройств */
+/* UNUSED: media query for .page-title */
+/*
 @media (max-width: 768px) {
     .page-title {
   font-family: var(--font-family-base);
@@ -98,101 +250,36 @@
   text-transform: uppercase;
   }
 }
+*/
 
+/* UNUSED: #map - id not used in templates */
+/*
 #map {
     height: 700px;
     width: 100%;
     margin-top: 0;
-    scroll-margin-top: 70px; /* Высота навбара */
+    scroll-margin-top: 70px;
 }
-
-
-
+*/
 
 /* Стиль для разяряженного текста */
+/* UNUSED: .letter-spaced - not used in templates */
+/*
 .letter-spaced {
   letter-spacing: 5px;
 }
+*/
 
-a.tag {
-    font-weight: bold;
-    font-size: 0.6rem;
-    color: black;
-    background-color: #f5f5f5; /* Светло-серый фон */
-    border-radius: 50px; /* Овальная форма */
-    padding: 1px 3px;
-    border: 1px solid black;
-    text-decoration: none; /* Отключаем подчеркивание */
-    transition: background-color 0.2s ease-in-out, transform 0.1s;
-    cursor: pointer;
-    display: inline-block; /* Чтобы фон охватывал весь текст */
-}
-
-a.tag:hover {
-    background-color: #e0e0e0; /* Серый фон при наведении */
-    text-decoration: none; /* Подчеркивание не появляется */
-}
-
-a.tag:active {
-    background-color: #d6d6d6; /* Темнее при нажатии */
-    transform: scale(0.98); /* Легкое уменьшение при клике */
-}
-
+/* UNUSED: .font-cuprum - not used in templates */
+/*
 .font-cuprum {
     font-family:'Cuprum';
 }
-
-.article-title a {
-  font-size: 1.4rem;
-  font-weight: 600;
-  margin: 0 0;
-}
-
-.my-pagination .page-link {
-    color: #000 !important;
-    background-color: white !important;
-    border: none;
-    box-shadow: none;
-    text-decoration: none;
-}
-
-.my-pagination .page-link:hover,
-.my-pagination .page-link:focus {
-    color: #000 !important;
-    background-color: white !important;
-    text-decoration: underline;
-    text-underline-offset: 5px;
-    box-shadow: none;
-}
-
-.my-pagination .active .page-link {
-    color: #000;
-    text-decoration: underline;
-    text-underline-offset: 5px; /* увеличенный зазор */
-    background-color: white !important;
-    border: none;
-}
-
-/* ================================
-   Gradient Text Styles
-================================= */
-.gradient-title {
-  background: linear-gradient(to left, #31B787, #F91803);
-  background-clip: text;
-  color: transparent;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.gradient-title-r {
-  background: linear-gradient(to right, #31B787, #F91803);
-  background-clip: text;
-  color: transparent;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+*/
 
 /* Animated gradient text with CSS custom properties */
+/* UNUSED: .gradient-text and related - not used in templates */
+/*
 @property --color-gradient-start {
   syntax: '<color>';
   inherits: false;
@@ -224,81 +311,33 @@ a.tag:active {
   --color-gradient-start: #FFD700;
   --color-gradient-end: #31B787;
 }
+*/
 
 /* Utilities */
+/* UNUSED: .tg-login-wrap - not used in templates (tg-login-wrapper is used but different class) */
+/*
 .tg-login-wrap {
     max-height: 38px;
     margin-bottom: 2px;
 }
+*/
 
-.is-hidden {
-    display: none;
-}
-
-/* Global utilities */
-.btn-brand {
-    background-color: #035199 !important;
-    border-color: #035199 !important;
-    color: #fff !important;
-}
-.btn-brand:hover {
-    background-color: #02417A !important;
-    border-color: #02417A !important;
-}
-
-
-/* Card component (moved from vacancies.css) */
-.custom-card {
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 1rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-    transition: box-shadow 0.3s ease;
-}
-
-.custom-card:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.custom-card-body {
-    display: flex;
-    flex-direction: column;
-}
-
-.custom-card-title {
-    display: flex;
-    align-items: center;
-    font-size: 1.25rem;
-    font-weight: bold;
-}
-
-.custom-card-icon {
-    width: 64px;
-    height: 64px;
-    margin-right: 0.75rem;
-}
-
-.custom-card-text {
-    font-weight: 600;
-}
-
+/* UNUSED: #landing .logo-font - #landing exists but .logo-font not used within it */
+/*
 #landing .logo-font {
   font-size: 8rem;
 }
+*/
 
-.info-font {
-  font-family: var(--font-family-menu);
-  font-size: var(--font-size-x-small);
-  font-weight: var(--font-weight-bold);
-  color: #31B787;
-}
-
+/* UNUSED: .main-title - not used in templates */
+/*
 .main-title {
   font-size: 12rem;
 }
+*/
 
-
+/* UNUSED: media queries for .main-title and .main-statement - not used */
+/*
 @media (min-width: 576px) and (max-width: 991.98px) {
   .main-title {
     font-size: 80px;
@@ -318,10 +357,4 @@ a.tag:active {
     font-size: var(--font-size-small);
   }
 }
-
-
-.btn--narrow {
-  max-width: 220px;
-  width: 100%;
-}
-
+*/

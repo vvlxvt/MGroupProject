@@ -1,12 +1,99 @@
+/* ================================
+   Contacts Page Styles
+================================= */
+
 section#contacts {
-    background-color: #F1EFEE;
+  background-color: #f1efee;
+  padding: 3rem 0 3rem;
 }
 
 #contacts form {
-    border: 1px solid black;
-    border-radius: 1rem;
+  border: 1px solid black;
+  border-radius: 1rem;
 }
 
+/* Chat Stack and Bubbles */
+.chat-stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-bubble {
+  max-width: 80%;
+  min-height: 100px;
+  border-radius: 1rem;
+  background-color: white;
+  display: flex;
+  align-items: center;
+}
+
+.chat-stack .chat-bubble:nth-child(even) {
+  align-self: flex-end;
+  border-left: none;
+  border-right: 4px solid var(--bs-warning);
+}
+
+.chat-stack .chat-bubble:nth-child(odd) {
+  border-left: 4px solid var(--bs-primary);
+}
+
+@media (max-width: 576px) {
+  .chat-bubble {
+    align-self: center !important;
+    max-width: 100%;
+  }
+}
+
+/* Font Hero Styles */
+#contacts .font-hero-logo,
+#contacts .font-hero-name {
+  font-size: 4rem;
+  background: linear-gradient(to bottom, #85c1e9, #1abc9c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding: 0 0.2rem 0 0.2rem;
+}
+
+#contacts .font-hero-logo {
+  font-size: 5rem;
+  margin-top: 7px;
+}
+
+/* Modern Card */
+.modern-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  border: 1px solid #e9ecef;
+  transition: 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  max-width: 700px;
+  width: 100%;
+}
+
+.modern-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+/* Fallback Image for Map */
+.fallback-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 5;
+}
+
+/* ================================
+   UNUSED STYLES (commented out)
+================================= */
+
+/* UNUSED: .data-input - used in applicant.html, not contacts */
+/*
 .data-input {
   max-width: 400px;
   margin-bottom: 1rem;
@@ -16,14 +103,12 @@ section#contacts {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Общие стили для элементов внутри input-group */
 .data-input .form-control,
 .data-input .input-group-text {
   border: none;
   box-shadow: none;
 }
 
-/* Стили поля */
 .data-input .form-control:not(textarea) {
   background-color: #fff;
   color: #000;
@@ -33,22 +118,18 @@ section#contacts {
   padding: 0.375rem 0.1rem;
 }
 
-
-/* Подсветка при фокусе */
 .data-input .form-control:focus {
   border-color: #0d6efd;
   box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
   outline: none;
 }
 
-/* Подсветка всей группы при фокусе */
 .data-input:focus-within {
   border: 1px solid #0d6efd;
   border-radius: 0.375rem;
   box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
 }
 
-/* Стили иконки */
 .data-input .input-group-text {
   border-right: none;
   border-radius: 0.375rem 0 0 0.375rem;
@@ -63,7 +144,6 @@ section#contacts {
   text-align: center;
 }
 
-/* Текстовые области (textarea) */
 .data-input textarea.form-control {
   width: 100%;
   min-height: 150px;
@@ -77,19 +157,23 @@ section#contacts {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-
 .data-input textarea.form-control:focus {
   border-color: #0d6efd;
   box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
   outline: none;
 }
+*/
 
-/* Секция контактов */
+/* UNUSED: #contacts .visually-hidden - visually-hidden used elsewhere but not in contacts section */
+/*
 #contacts .visually-hidden {
   position: absolute;
   left: -9999px;
 }
+*/
 
+/* UNUSED: #contacts .text-blocks-container - not used in contacts template */
+/*
 #contacts .text-blocks-container {
   width: 100%;
   display: flex;
@@ -97,7 +181,10 @@ section#contacts {
   align-items: center;
   padding: 50px 0;
 }
+*/
 
+/* UNUSED: #contacts .block and related - not used in contacts template */
+/*
 #contacts .block {
   margin-bottom: 1rem;
   padding: 20px;
@@ -120,75 +207,4 @@ section#contacts {
 #contacts .block > p {
   font-size: 1.2rem;
 }
-
-#contacts .font-hero-logo, #contacts .font-hero-name {
-  font-size: 4rem;
-  background: linear-gradient(to bottom, #85c1e9, #1abc9c);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  padding: 0 0.2rem 0 0.2rem;
-}
-
-
-#contacts .font-hero-logo {
-  font-size: 5rem;
-  margin-top: 7px;
-}
-
-.chat-stack {
-    display: flex;
-    flex-direction: column;
-}
-
-.chat-bubble {
-    max-width: 80%;
-    min-height: 100px;
-    border-radius: 1rem;
-    background-color: white;
-    display: flex;
-    align-items: center;
-}
-
-.chat-stack .chat-bubble:nth-child(even) {
-    align-self: flex-end;
-    border-left: none;
-    border-right: 4px solid var(--bs-warning);
-}
-
-.chat-stack .chat-bubble:nth-child(odd) {
-    border-left: 4px solid var(--bs-primary);
-}
-
-@media (max-width: 576px) {
-    .chat-bubble {
-        align-self: center !important;
-        max-width: 100%;
-    }
-}
-
-.modern-card {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(10px);
-    border-radius: 1rem;
-    border: 1px solid #e9ecef;
-    transition: 0.3s ease;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-    max-width: 700px;
-    width: 100%;
-}
-
-.modern-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.08);
-}
-
-.fallback-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 5;
-}
+*/
