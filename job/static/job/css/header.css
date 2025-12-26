@@ -44,3 +44,7 @@ a.navbar-brand:hover {
         right: 0;
         z-index: 1030; /* выше всего */
     }
+    .navbar-collapse.show {
+    padding-bottom: 1rem;
+    }
+}

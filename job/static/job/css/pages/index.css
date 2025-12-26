@@ -280,7 +280,7 @@
 /* Tablet adjustments (768px - 991px) */
 @media (min-width: 768px) and (max-width: 991px) {
   #landing .hero-box {
-    width: 90vw;
+    width: 100vw;
     max-width: 800px;
     height: 250px;
   }

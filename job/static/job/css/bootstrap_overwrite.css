@@ -43,10 +43,17 @@
     color: black;
 }
 
+/* hover только для ссылок в навбаре */
+.nav-link:hover {
+    border-bottom: 3px solid #525252;
+    padding: 0.4rem;
+    text-decoration: none; /* убираем underline */
+}
+
+/* active */
 .nav-link.active,
- .nav-item.active > .nav-link {
-    border: 1px solid #31B787;
-    border-radius: 25px;
+.nav-item.active > .nav-link {
+    border-bottom: 3px solid black;
     padding: 0.4rem;
 }
 
@@ -61,6 +68,8 @@
   overflow: hidden;
   margin-bottom: 1.5rem;
 }
+
+
 
 .card img {
     aspect-ratio: 3 / 2; /* Устанавливаем пропорцию 3:2 */

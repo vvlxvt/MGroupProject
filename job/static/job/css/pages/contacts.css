@@ -21,7 +21,7 @@ section#contacts {
 .chat-bubble {
   max-width: 80%;
   min-height: 100px;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   background-color: white;
   display: flex;
   align-items: center;
@@ -30,11 +30,11 @@ section#contacts {
 .chat-stack .chat-bubble:nth-child(even) {
   align-self: flex-end;
   border-left: none;
-  border-right: 4px solid var(--bs-warning);
+  border-right: 8px solid var(--color-secondary);
 }
 
 .chat-stack .chat-bubble:nth-child(odd) {
-  border-left: 4px solid var(--bs-primary);
+  border-left: 8px solid var(--color-accent);
 }
 
 @media (max-width: 576px) {
@@ -52,12 +52,34 @@ section#contacts {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  padding: 0 0.2rem 0 0.2rem;
+  padding: 0 0.2rem;
 }
 
 #contacts .font-hero-logo {
   font-size: 5rem;
   margin-top: 7px;
+}
+
+/* Tablet (md < 992px) */
+@media (max-width: 991.98px) {
+  #contacts .font-hero-logo {
+    font-size: 3.5rem;
+  }
+
+  #contacts .font-hero-name {
+    font-size: 3rem;
+  }
+}
+
+/* Mobile (sm < 576px) */
+@media (max-width: 575.98px) {
+  #contacts .font-hero-logo {
+    font-size: 2.5rem;
+  }
+
+  #contacts .font-hero-name {
+    font-size: 2rem;
+  }
 }
 
 /* Modern Card */
