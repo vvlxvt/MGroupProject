@@ -20,3 +20,4 @@ Markdown==3.6
 
 boto3==1.38.21
 django-storages==1.14.6
+marshmallow==3.21.1
