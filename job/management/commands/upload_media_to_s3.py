@@ -36,7 +36,12 @@ class Command(BaseCommand):
 
                 try:
                     logger.info(f"Uploading {local_path} as {s3_key}")
-                    s3.upload_file(local_path, bucket_name, s3_key)
+                    s3.upload_file(
+                        local_path,
+                        bucket_name,
+                        s3_key,
+                        ExtraArgs={"ContentType": "image/jpeg"}  # или auto через mimetypes
+                    )
                     self.stdout.write(self.style.SUCCESS(f"Uploaded: {s3_key}"))
                 except (BotoCoreError, ClientError) as e:
                     logger.error(f"Error uploading {s3_key}: {e}")

@@ -3,6 +3,8 @@
  *       into shared CSS files (see STYLE_MAP.md).
  */
 
+
+
 /* MOVE: generic hero/slider component → consider components.css (slider/hero section) */
 #landing .card li {
   font-size: var(--font-size-large);
@@ -281,7 +283,6 @@
 @media (min-width: 768px) and (max-width: 991px) {
   #landing .hero-box {
     width: 100vw;
-    max-width: 800px;
     height: 250px;
   }
 
