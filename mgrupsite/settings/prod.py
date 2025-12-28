@@ -29,14 +29,10 @@ MEDIA_URL = "https://storage.yandexcloud.net/mgroup/"
 INSTALLED_APPS += ["storages"]
 
 STATIC_ROOT = "/data/static"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 STORAGES = {
     "default": {
         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-    },
-    "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
 
