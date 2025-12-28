@@ -1,8 +1,14 @@
-# Python-related
+# ==========================
+# Python
+# ==========================
 __pycache__/
 *.py[cod]
 *$py.class
+*.pyo
+*.pyd
 *.so
+*.env
+*.venv
 
 # Virtual environments
 venv/
@@ -13,34 +19,44 @@ ENV/
 env.bak/
 venv.bak/
 
+# ==========================
 # Django
+# ==========================
 *.log
 *.sqlite3
+db.sqlite3
 db.sqlite3-journal
 local_settings.py
 settings_local.py
 config.json
 
 # Migrations (keep __init__.py)
-*/migrations/*.py
 */migrations/*.pyc
+*/migrations/*.py
 !*/migrations/__init__.py
 
-# Static and media files (if collected separately)
+# Static and media files
 staticfiles/
 static_root/
 collected_static/
 uploads/
+media/
 media/CACHE/
-media/d
-readme_expose.md
 
+# Ignore compiled translations
+*.mo
+*.pot
+
+# ==========================
 # Dependency-related
+# ==========================
 *.egg-info/
 dist/
 build/
 
+# ==========================
 # Development and IDE-related
+# ==========================
 .idea/
 .idea/**/dbnavigator.xml
 .vscode/
@@ -48,46 +64,76 @@ build/
 .spyproject
 .ropeproject
 .ipynb_checkpoints
+*.sublime-project
+*.sublime-workspace
+*.iml
 
+# ==========================
 # Test and coverage reports
+# ==========================
 .tox/
 .nox/
 .coverage
 .coverage.*
 .pytest_cache/
 .hypothesis/
+*.cover
+coverage.xml
+htmlcov/
 
+# ==========================
 # Jupyter Notebook
+# ==========================
 .ipynb_checkpoints
 
+# ==========================
 # Type checkers and static analysis
+# ==========================
 .mypy_cache/
 .dmypy.json
 .pyre/
 .pytype/
 
+# ==========================
 # PyInstaller
+# ==========================
 *.spec
 
+# ==========================
 # Celery
+# ==========================
 celerybeat-schedule
 celerybeat.pid
 
+# ==========================
 # Docker
+# ==========================
+*.pid
+*.sock
 docker-compose.override.yml
+.docker/
+Dockerfile.build
 
-# Logs and cache
+# ==========================
+# Amvera YAML
+# ==========================
+amvera.yml
+*.yml
+
+# ==========================
+# Logs, cache, misc
+# ==========================
 logs/
 debug.log
 *.swp
 *.swo
 *.swn
 .cache
+*.bak
+*.tmp
 
-# Ignore SQLite if using PostgreSQL or another DB
+# ==========================
+# Project-specific
+# ==========================
 mgrupsite/db.sqlite3
-
-# Ignore compiled translations
-*.mo
-*.pot
-
+readme_expose.md
