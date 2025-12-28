@@ -44,9 +44,5 @@ EXPOSE 80
 # --------------------------------------------
 # Run application
 # --------------------------------------------
-CMD ["gunicorn", "mgrupsite.wsgi:application",
-     "--bind", "0.0.0.0:80",
-     "--workers", "3",
-     "--log-level", "info",
-     "--access-logfile", "-",
-     "--error-logfile", "-"]
+CMD ["gunicorn", "mgrupsite.wsgi:application", "--bind", "0.0.0.0:80", "--workers", "3", "--log-level", "info", "--access-logfile", "-", "--error-logfile", "-"]
+
