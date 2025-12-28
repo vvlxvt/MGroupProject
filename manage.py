@@ -9,7 +9,7 @@ def main():
     # Если DJANGO_SETTINGS_MODULE не задана, ставим dev по умолчанию
     os.environ.setdefault(
         "DJANGO_SETTINGS_MODULE",
-        "config.settings.dev"  # dev по умолчанию для локальной разработки
+        "mgrupsite.settings"  # dev по умолчанию для локальной разработки
     )
 
     try:

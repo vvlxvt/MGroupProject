@@ -5,21 +5,20 @@ FROM python:3.12-slim
 # --------------------------------------------
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
+# ENV DJANGO_SETTINGS_MODULE не нужно здесь, его задаст сервер
 
-# --------------------------------------------
-# Working directory
-# --------------------------------------------
 WORKDIR /app
 
 # --------------------------------------------
-# System deps (минимум)
+# System dependencies
 # --------------------------------------------
 RUN apt-get update \
     && apt-get install -y --no-install-recommends gcc \
     && rm -rf /var/lib/apt/lists/*
 
 # --------------------------------------------
-# Python deps
+# Python dependencies
 # --------------------------------------------
 COPY requirements.txt .
 RUN pip install --upgrade pip \
@@ -31,12 +30,17 @@ RUN pip install --upgrade pip \
 COPY . .
 
 # --------------------------------------------
-# Static files (Whitenoise)
+# Проверка импорта Django настроек
+# --------------------------------------------
+RUN python -c "import mgrupsite.settings"
+
+# --------------------------------------------
+# Collect static files
 # --------------------------------------------
 RUN python manage.py collectstatic --noinput
 
 # --------------------------------------------
-# Amvera expects port 80
+# Expose port
 # --------------------------------------------
 EXPOSE 80
 

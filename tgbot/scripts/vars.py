@@ -1,7 +1,5 @@
-from decouple import config
+from mgrupsite.settings.base import TELEGRAM_CHAT_ID, TELEGRAM_BOT_TOKEN
 
-TELEGRAM_BOT_TOKEN = config("TELEGRAM_BOT_TOKEN")
-TELEGRAM_CHAT_ID = config("TELEGRAM_CHAT_ID")
 WEBHOOK_HOST = "https://ae05-94-43-154-7.ngrok-free.app"
 # WEBHOOK_HOST = "https://mgroup-vvlxvt.amvera.io"
 WEBHOOK_PATH = "/webhook"
