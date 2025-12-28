@@ -31,10 +31,15 @@ INSTALLED_APPS += ["storages"]
 STATIC_ROOT = "/data/static"
 
 STORAGES = {
-    "default": {
+    "default": {  # для MEDIA
         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
     },
+    "staticfiles": {  # для статики
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "LOCATION": STATIC_ROOT,
+    },
 }
+
 
 AWS_S3_ENDPOINT_URL = "https://storage.yandexcloud.net"
 AWS_ACCESS_KEY_ID = env("YANDEX_ACCESS_KEY_ID")
