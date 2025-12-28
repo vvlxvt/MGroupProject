@@ -6,7 +6,12 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mgrupsite.settings")
+    # Если DJANGO_SETTINGS_MODULE не задана, ставим dev по умолчанию
+    os.environ.setdefault(
+        "DJANGO_SETTINGS_MODULE",
+        "config.settings.dev"  # dev по умолчанию для локальной разработки
+    )
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -15,6 +20,12 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
+
+    # Проверка: если в продакшене DEBUG=True, выдаём предупреждение
+    if os.environ.get("DJANGO_SETTINGS_MODULE", "").endswith("prod"):
+        if os.environ.get("DEBUG", "False").lower() in ("true", "1", "yes"):
+            raise RuntimeError("DEBUG must be False in production!")
+
     execute_from_command_line(sys.argv)
 
 
