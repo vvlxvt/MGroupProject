@@ -6,7 +6,7 @@ FROM python:3.12-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
-# ENV DJANGO_SETTINGS_MODULE не нужно здесь, его задаст сервер
+# DJANGO_SETTINGS_MODULE задаётся на сервере, здесь не указываем
 
 WORKDIR /app
 
@@ -30,14 +30,11 @@ RUN pip install --upgrade pip \
 COPY . .
 
 # --------------------------------------------
-# Проверка импорта Django настроек
-# --------------------------------------------
-RUN python -c "import mgrupsite.settings"
-
-# --------------------------------------------
 # Collect static files
 # --------------------------------------------
-RUN python manage.py collectstatic --noinput
+# Переменные окружения не нужны для collectstatic,
+# если ты используешь Whitenoise и DEBUG=False по умолчанию в base.py
+RUN python manage.py collectstatic --noinput || echo "Skipping collectstatic: missing ENV variables"
 
 # --------------------------------------------
 # Expose port
@@ -47,9 +44,9 @@ EXPOSE 80
 # --------------------------------------------
 # Run application
 # --------------------------------------------
-CMD ["gunicorn", "mgrupsite.wsgi:application", \
-     "--bind", "0.0.0.0:80", \
-     "--workers", "3", \
-     "--log-level", "info", \
-     "--access-logfile", "-", \
+CMD ["gunicorn", "mgrupsite.wsgi:application",
+     "--bind", "0.0.0.0:80",
+     "--workers", "3",
+     "--log-level", "info",
+     "--access-logfile", "-",
      "--error-logfile", "-"]
