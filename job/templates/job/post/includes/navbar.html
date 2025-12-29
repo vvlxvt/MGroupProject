@@ -1,72 +1,91 @@
 {% load static %}
 <nav id="navbar" class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-        <!-- Mobile logo -->
-        <a class="navbar-brand py-0 ms-2 fs-3 fw-bold"
-           href="{% url 'job:home' %}">Маляр Групп</a>
-        <button class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNav"
-                aria-controls="navbarNav"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
-            <i class="fa-solid fa-bars"></i>
+  <div class="container-fluid">
+
+    <!-- Mobile logo -->
+    <a class="navbar-brand py-0 ms-2 fs-3 fw-bold"
+       href="{% url 'job:home' %}">Маляр Групп</a>
+
+    <button class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="collapse navbar-collapse bg-white" id="navbarNav">
+      <ul class="navbar-nav flex-column flex-lg-row align-items-start align-items-lg-center mx-2 mx-lg-auto">
+
+        {% for key, m in menu.items %}
+        {% if m.submenus %}
+
+        <!-- 🔹 ПУНКТ 1 УРОВНЯ -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle"
+             href="{% url m.url_name %}"
+             role="button"
+             data-bs-toggle="dropdown"
+             data-bs-display="static"
+             aria-expanded="false">
+            {{ m.title }}
+          </a>
+
+          <ul class="dropdown-menu bg-white">
+
+            {% for sub in m.submenus %}
+
+            <!-- 🔹 ПУНКТ 2 УРОВНЯ -->
+            <li>
+              <a class="dropdown-item"
+                 href="{% url sub.url_name %}?category={{ sub.slug }}">
+                {{ sub.title }}
+              </a>
+            </li>
+
+            {% endfor %}
+          </ul>
+        </li>
+
+        {% else %}
+
+        <!-- 🔹 ПУНКТ БЕЗ ПОДМЕНЮ -->
+        <li class="nav-item">
+          <a class="nav-link{% if m.url_name|cut:'job:' == request.resolver_match.url_name %} active{% endif %}"
+             href="{% url m.url_name %}">
+            {{ m.title }}
+          </a>
+        </li>
+
+        {% endif %}
+        {% endfor %}
+
+        <!-- phone -->
+        <li class="nav-item d-sm-none w-100 mt-2">
+          <a class="text-dark fw-bold text-decoration-none ps-2"
+             href="tel:+73912516747">
+            +7 (391) 251 67 47
+          </a>
+        </li>
+
+      </ul>
+
+      <!-- Search -->
+      <form class="input-group search-input ms-lg-3"
+            method="GET"
+            action="{% url 'job:post_list' %}">
+        <input class="form-control"
+               type="search"
+               name="query"
+               placeholder="Поиск">
+        <button class="btn" type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>
         </button>
-        <!-- Collapsible nav -->
-        <div class="collapse navbar-collapse bg-white" id="navbarNav">
-            <ul class="navbar-nav d-flex flex-column flex-lg-row align-items-start align-items-lg-center mx-2 mx-lg-auto justify-content-lg-around w-50 w-lg-50 mb-2 mb-lg-0">
-                {% for key, m in menu.items %}
-                {% if m.submenus %}
-                <li class="nav-item dropdown
-                            {% if m.submenus %}
-                                {% for sub in m.submenus %}
-                                    {% if sub.url_name|cut:'job:' == request.resolver_match.url_name %}
-                                        active
-                                    {% endif %}
-                                {% endfor %}
-                            {% elif m.url_name|cut:'job:' == request.resolver_match.url_name %}
-                                active
-                            {% endif %}
-                        ">
-                    <a class="nav-link dropdown-toggle" href="{% url m.url_name %}" id="navbarDropdown"
-                       role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ m.title }}
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-light bg-white" aria-labelledby="navbarDropdown">
-                        {% for sub in m.submenus %}
-                        <li><a class="dropdown-item"
-                               href="{% url sub.url_name %}?category={{ sub.slug }}">
-                            {{ sub.title }}
-                        </a>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class="nav-link{% if m.url_name|cut:'job:' == request.resolver_match.url_name %} active{% endif %}"
-                       href="{% url m.url_name %}"
-                       aria-current="page">{{ m.title }}</a>
-                </li>
-                {% endif %}
-                {% endfor %}
-                <li class="nav-item d-sm-none w-100 text-start mt-2">
-                    <a class="text-dark fw-bold text-decoration-none ps-2" href="tel:+73912516747">+7 (391) 251 67
-                        47</a>
-                </li>
-            </ul>
-            <!-- Search form -->
-            <form class="input-group search-input" method="GET" action="{% url 'job:post_list' %}">
-                <input class="form-control"
-                       type="search"
-                       name="query"
-                       placeholder="Поиск"
-                       aria-label="Search">
-                <button class="btn d-flex justify-content-center align-items-center" type="submit">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </form>
-        </div>
+      </form>
+
     </div>
+  </div>
 </nav>
+

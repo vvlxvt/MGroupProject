@@ -4,45 +4,27 @@
     background-color: #FFD700;
     border-color: #FFD700;
 }
-
 .navbar {
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 999;
   min-height: 35px;
-  padding: 0 1px 0 1px;
-  transition: top 0.3s ease;     /* Добавлен тип easing для плавности */
-  background-color: white;       /* Подстраховка, если нет класса bg-white */
+  padding: 0 1px;
+  transition: top 0.3s ease;
+  background-color: white;
 }
 
 .navbar.hidden {
   top: -45px;
 }
 
-/* Общий стиль ссылок в dropdown */
-/* При наведении или фокусе */
-.navbar .dropdown-menu .dropdown-item:hover,
-.navbar .dropdown-menu .dropdown-item:focus {
-  background-color: var(--color-accent);
-  color: #f0f0f0;
-}
 
-.nav-item.dropdown:hover .dropdown-menu {
-  display: block;
-  margin-top: 0; /* убрать эффект "прыжка" */
-}
-
-/* При нажатии */
-.navbar .dropdown-menu .dropdown-item:active {
-  background-color: #343A40;
-  color: #FFF;
-}
-
+/* nav links */
 .nav-link {
   color: black;
   padding: 0.4rem;
-  border-bottom: 3px solid transparent; /* место есть всегда */
+  border-bottom: 3px solid transparent;
   box-sizing: border-box;
 }
 
@@ -56,9 +38,83 @@
   border-bottom-color: black;
 }
 
-.dropdown-menu {
-  min-width: 15rem; /* например, больше */
+/* dropdown hover — только desktop */
+@media (min-width: 992px) {
+  .nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+  }
 }
+
+
+/* mobile dropdown */
+@media (max-width: 991.98px) {
+
+  .navbar .dropdown-menu {
+    position: static !important;
+    transform: none !important;
+    inset: auto !important;
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .navbar .dropdown-menu {
+    border: 0;
+    box-shadow: none;
+  }
+
+  .navbar > .container-fluid .dropdown-menu > li > .dropdown-item {
+    padding-left: 1.5rem;
+  }
+
+
+  .dropdown-menu .dropdown-menu .dropdown-item {
+    padding-left: 2.5rem;
+  }
+}
+
+/* dropdown item states */
+.navbar .dropdown-menu .dropdown-item:hover,
+.navbar .dropdown-menu .dropdown-item:focus {
+  color: black;
+}
+
+.navbar .dropdown-menu .dropdown-item:active {
+  background-color: #343A40;
+  color: #FFF;
+}
+
+/* dropdown-item в стиле nav-link на мобильных */
+@media (max-width: 991.98px) {
+
+  .navbar .dropdown-menu .dropdown-item {
+    color: black;
+    padding: 0.4rem;
+    border-bottom: 3px solid transparent; /* underline как у nav-link */
+    box-sizing: border-box;
+    background-color: transparent; /* без фонового цвета */
+    text-decoration: none;
+  }
+
+  .navbar .dropdown-menu .dropdown-item:hover,
+  .navbar .dropdown-menu .dropdown-item:focus {
+    border-bottom-color: #525252; /* underline при hover */
+    color: black;                  /* цвет как у nav-link */
+    background-color: transparent; /* без фонового цвета */
+  }
+
+  .navbar .dropdown-menu .dropdown-item.active {
+    border-bottom-color: black; /* underline как у nav-link.active */
+    color: black;
+    background-color: transparent;
+  }
+
+  /* optional: плавный переход underline */
+  .navbar .dropdown-menu .dropdown-item {
+    transition: border-color 0.2s ease;
+  }
+}
+
 
 .card {
   background: #fff;
