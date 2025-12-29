@@ -31,11 +31,11 @@ INSTALLED_APPS += ["storages"]
 STATIC_ROOT = "/data/static"
 
 STORAGES = {
-    "default": {  # для MEDIA
+    "default": {  # MEDIA на S3
         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
     },
-    "staticfiles": {  # для статики
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    "staticfiles": {  # Локальная статика для WhiteNoise
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
         "LOCATION": STATIC_ROOT,
     },
 }
