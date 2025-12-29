@@ -40,21 +40,20 @@
 }
 
 .nav-link {
-    color: black;
+  color: black;
+  padding: 0.4rem;
+  border-bottom: 3px solid transparent; /* место есть всегда */
+  box-sizing: border-box;
 }
 
-/* hover только для ссылок в навбаре */
 .nav-link:hover {
-    border-bottom: 3px solid #525252;
-    padding: 0.4rem;
-    text-decoration: none; /* убираем underline */
+  border-bottom-color: #525252;
+  text-decoration: none;
 }
 
-/* active */
 .nav-link.active,
 .nav-item.active > .nav-link {
-    border-bottom: 3px solid black;
-    padding: 0.4rem;
+  border-bottom-color: black;
 }
 
 .dropdown-menu {
