@@ -16,6 +16,8 @@ RUN pip install --upgrade pip \
 
 COPY . .
 
+RUN mkdir -p /data/static
+
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
