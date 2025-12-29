@@ -255,9 +255,10 @@ a.tag:active {
 /* UNUSED: #map - id not used in templates */
 
 #map {
-    height: 700px;
     width: 100%;
-    margin-top: 0;
+    height: 67vh;
+    min-height: 280px;
+    max-height: 700px;
     scroll-margin-top: 70px;
 }
 
