@@ -253,14 +253,14 @@ a.tag:active {
 */
 
 /* UNUSED: #map - id not used in templates */
-/*
+
 #map {
     height: 700px;
     width: 100%;
     margin-top: 0;
     scroll-margin-top: 70px;
 }
-*/
+
 
 /* Стиль для разяряженного текста */
 /* UNUSED: .letter-spaced - not used in templates */
