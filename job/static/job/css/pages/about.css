@@ -1,10 +1,18 @@
 #about p {
-    font-size: var(--font-size-base);
+    line-height: 1.8;
+    text-align: justify;
+    text-justify: inter-word; /* улучшает распределение слов */
+    hyphens: auto;
 }
 
-#about .logo-font {
-  font-size: var(--font-size-large);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-accent);
-  vertical-align: baseline;
+#about .font-hero-logo {
+    font-size: 2rem;
+    color: var(--color-accent);
+    line-height: 1;
 }
+
+#about .font-hero-name {
+  font-size: 1.5rem;
+  color: var(--color-accent);
+  line-height: 1;
+  }

@@ -262,6 +262,85 @@ a.tag:active {
     scroll-margin-top: 70px;
 }
 
+/* ---------- Slider / Carousel ---------- */
+
+.slide-figure {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.slide-image {
+  width: 100%;
+  height: 100%;
+  max-height: 100vh;
+  object-fit: cover;
+  object-position: center;
+}
+
+.m-caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 50%;
+  padding: 20px;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8),
+    rgba(0, 0, 0, 0.3),
+    rgba(0, 0, 0, 0)
+  );
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.m-caption-title {
+  font-weight: 800;
+  font-size: 28px;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+.m-caption-text {
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 600px;
+  color: #e5e7eb;
+}
+
+/* ===== Slider responsive ===== */
+
+@media (max-width: 992px) {
+  .m-caption-title {
+    font-size: 24px;
+  }
+
+  .m-caption-text {
+    font-size: 14px;
+    max-width: 90%;
+  }
+
+  .slide-image {
+    max-height: 85vh;
+  }
+}
+
+@media (max-width: 576px) {
+  .m-caption-title {
+    font-size: 20px;
+  }
+
+  .slide-image {
+    max-height: 80vh;
+  }
+}
+
+
 
 /* Стиль для разяряженного текста */
 /* UNUSED: .letter-spaced - not used in templates */

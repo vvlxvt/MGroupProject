@@ -4,15 +4,14 @@
 {% block vacancies %}
 <div class="container my-5">
   <div class="row px-md-5">
-    <div class="col-lg-8 px-md-5 mx-auto">
+    <div class="col-lg-6 px-md-5 mx-auto">
       <h2 class="text-center mb-4">Анкета соискателя</h2>
       {% if success %}
         <div class="alert alert-success" role="alert">Спасибо! Ваша анкета отправлена.</div>
       {% endif %}
 
-      <form method="post" novalidate>
+      <form method="post" class="d-flex flex-column gap-3" novalidate>
         {% csrf_token %}
-
         <div class="d-flex gap-2 flex-column flex-md-row">
           <div class="input-group data-input w-100">
             <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
@@ -84,8 +83,8 @@
         </div>
 
         <div class="mb-3 d-flex justify-content-start gap-2">
-          <button type="submit" class="btn button transparent">Отправить</button>
-          <a href="{% url 'job:vacancies' %}" class="btn btn-outline-secondary">Назад к вакансиям</a>
+          <button type="submit" class="btn btn-bd-primary btn--narrow">Отправить</button>
+          <a href="{% url 'job:vacancies' %}" class="btn btn-bd-primary btn--narrow">Назад к вакансиям</a>
         </div>
       </form>
     </div>
