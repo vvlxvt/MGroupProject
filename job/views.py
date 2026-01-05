@@ -408,3 +408,36 @@ def applicant(request):
         "success": success,
     }
     return render(request, "job/post/applicant.html", context)
+
+from mgrupsite.settings.base import RECAPTCHA_SECRET_KEY
+
+def contact_view(request):
+    if request.method == "POST":
+        token = request.POST.get("recaptcha_token")
+
+        recaptcha_response = requests.post(
+            "https://www.google.com/recaptcha/api/siteverify",
+            data={
+                "secret": RECAPTCHA_SECRET_KEY,
+                "response": token
+            }
+        )
+
+        result = recaptcha_response.json()
+
+        # 🔐 КРИТИЧЕСКАЯ ПРОВЕРКА
+        if not result.get("success"):
+            return JsonResponse({"error": "reCAPTCHA failed"}, status=400)
+
+        if result.get("score", 0) < 0.5:
+            return JsonResponse({"error": "Low reCAPTCHA score"}, status=403)
+
+        if result.get("action") != "contact_form":
+            return JsonResponse({"error": "Invalid action"}, status=400)
+
+        # ✅ ТОЛЬКО ЗДЕСЬ — логика формы
+        # save form / send email / etc.
+
+        return JsonResponse({"success": True})
+
+    return render(request, "contact.html")

@@ -52,6 +52,7 @@
                               enctype="multipart/form-data">
                             {% csrf_token %}
                             <input type="hidden" name="telegram_id" value="{{ request.session.user.id }}">
+                            <input type="hidden" name="g-recaptcha-response" id="recaptcha-token">
 
                             <div class="row g-3 mb-3 align-items-center">
                                 <div class="col-12 col-md-7">
@@ -193,101 +194,159 @@
     </div>
 </section>
 
+
+<script src="https://www.google.com/recaptcha/api.js?render=RECAPTCHA_SITE_KEY"></script>
+
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const contactForm = document.getElementById('contactForm');
-        const formResponse = document.getElementById('formResponse');
-        const submitBtn = document.getElementById('submitBtn');
+document.addEventListener('DOMContentLoaded', function () {
 
-        if (!contactForm) return;
+    // 📌 Форма обратной связи
+    const contactForm = document.getElementById('contactForm');
 
-        contactForm.addEventListener('submit', function(event) {
-            event.preventDefault();
+    // 📌 Блок для вывода сообщений об успехе / ошибке
+    const formResponse = document.getElementById('formResponse');
 
-            // UI: Блокируем кнопку, чтобы не жали дважды
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Отправка...';
+    // 📌 Кнопка отправки формы
+    const submitBtn = document.getElementById('submitBtn');
 
-            const formData = new FormData(contactForm);
+    // Если форма не найдена — выходим (защита от ошибок)
+    if (!contactForm) return;
 
-            // Очистка старых ошибок
-            clearErrors();
-            formResponse.style.display = 'none';
+    // 🔔 Обработчик отправки формы
+    contactForm.addEventListener('submit', function (event) {
 
-            fetch("{% url 'job:submit_question' %}", {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-                    'X-Requested-With': 'XMLHttpRequest' // Хорошая практика для Django
-                }
+        // ⛔ Отменяем стандартную отправку формы (HTML submit)
+        event.preventDefault();
+
+        // 🔒 Блокируем кнопку, чтобы предотвратить двойную отправку
+        submitBtn.disabled = true;
+        submitBtn.innerHTML =
+            '<span class="spinner-border spinner-border-sm me-2"></span>Отправка...';
+
+        // 🧹 Очищаем предыдущие ошибки валидации
+        clearErrors();
+
+        // 🙈 Скрываем блок сообщений
+        formResponse.style.display = 'none';
+
+        // 🔐 1️⃣ Получаем reCAPTCHA v3 token
+        // action используется на сервере для проверки контекста
+        grecaptcha.execute('RECAPTCHA_SITE_KEY', { action: 'contact_form' })
+            .then(function (token) {
+
+                // 📦 2️⃣ Собираем данные формы
+                const formData = new FormData(contactForm);
+
+                // ➕ Добавляем reCAPTCHA token к данным формы
+                formData.append('recaptcha_token', token);
+
+                // 🚀 3️⃣ Отправляем данные формы на сервер через fetch
+                return fetch("{% url 'job:submit_question' %}", {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        // 🔑 CSRF-токен обязателен для Django
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+
+                        // 📎 Django понимает, что это AJAX-запрос
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
             })
             .then(response => response.json())
             .then(data => {
+
+                // ✅ Успешная отправка формы
                 if (data.success) {
                     showSuccess(data.message);
                     contactForm.reset();
-                    // Опционально: перезагрузка через 2 секунды
+
+                    // 🔄 Опционально: перезагружаем страницу через 2 сек
                     setTimeout(() => location.reload(), 2000);
+
+                // ⚠ Ошибки валидации (Django Form errors)
                 } else if (data.error) {
                     displayErrors(data.error);
                     showError("Пожалуйста, исправьте ошибки в форме.");
+
+                // ❓ Неожиданный ответ сервера
                 } else {
                     showError("Неизвестная ошибка сервера.");
                 }
             })
             .catch(error => {
+                // 🌐 Ошибка сети или сервера
                 console.error('Network Error:', error);
                 showError("Ошибка сети. Проверьте соединение и попробуйте снова.");
             })
             .finally(() => {
-                // Возвращаем кнопку в исходное состояние
+                // 🔓 Возвращаем кнопку в активное состояние
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Отправить сообщение';
             });
-        });
+    });
 
-        function clearErrors() {
-            document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
-            document.querySelectorAll('.invalid-feedback').forEach(el => {
+    /* ==========================
+       ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+       ========================== */
+
+    // 🧹 Убираем все ошибки формы
+    function clearErrors() {
+        document.querySelectorAll('.is-invalid')
+            .forEach(el => el.classList.remove('is-invalid'));
+
+        document.querySelectorAll('.invalid-feedback')
+            .forEach(el => {
                 el.style.display = 'none';
                 el.textContent = '';
             });
-        }
+    }
 
-        function displayErrors(errors) {
-            for (let field in errors) {
-                const input = document.querySelector(`[name="${field}"]`);
-                const errorDiv = document.getElementById(`${field}-error`);
+    // ⚠ Показываем ошибки валидации для каждого поля
+    function displayErrors(errors) {
+        for (let field in errors) {
 
-                if (input) {
-                    input.classList.add('is-invalid');
+            // Поле формы
+            const input = document.querySelector(`[name="${field}"]`);
+
+            // Блок ошибки под полем
+            const errorDiv = document.getElementById(`${field}-error`);
+
+            // Подсвечиваем поле
+            if (input) {
+                input.classList.add('is-invalid');
+            }
+
+            // Текст ошибки от Django
+            if (errorDiv && errors[field].length > 0) {
+                let errorMsg = errors[field][0];
+
+                // Django может вернуть объект или строку
+                if (typeof errorMsg === 'object' && errorMsg.message) {
+                    errorMsg = errorMsg.message;
                 }
 
-                if (errorDiv && errors[field].length > 0) {
-                    // Django usually sends errors as array of objects [{message: "...", code: "..."}]
-                    // or simple strings depending on serialization. Assuming standard JSON:
-                    let errorMsg = errors[field][0];
-                    if (typeof errorMsg === 'object' && errorMsg.message) {
-                        errorMsg = errorMsg.message;
-                    }
-
-                    errorDiv.textContent = errorMsg;
-                    errorDiv.style.display = 'block';
-                }
+                errorDiv.textContent = errorMsg;
+                errorDiv.style.display = 'block';
             }
         }
+    }
 
-        function showSuccess(msg) {
-            formResponse.className = 'alert alert-success shadow-sm';
-            formResponse.textContent = msg;
-            formResponse.style.display = 'block';
-        }
+    // ✅ Сообщение об успешной отправке
+    function showSuccess(msg) {
+        formResponse.className = 'alert alert-success shadow-sm';
+        formResponse.textContent = msg;
+        formResponse.style.display = 'block';
+    }
 
-        function showError(msg) {
-            formResponse.className = 'alert alert-danger shadow-sm';
-            formResponse.textContent = msg;
-            formResponse.style.display = 'block';
-        }
-    });
+    // ❌ Сообщение об ошибке
+    function showError(msg) {
+        formResponse.className = 'alert alert-danger shadow-sm';
+        formResponse.textContent = msg;
+        formResponse.style.display = 'block';
+    }
+
+});
 </script>
+
+
