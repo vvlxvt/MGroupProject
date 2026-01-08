@@ -34,9 +34,13 @@ from tgbot.scripts.handlers import router  # noqa: E402
 # -------------------------------------------------------------------
 # Config
 # -------------------------------------------------------------------
-
+TG_SERVER_HOST = "127.0.0.1"
+TG_SERVER_PORT = 8001
 HOST = TG_SERVER_HOST
 PORT = TG_SERVER_PORT
+WEBHOOK_HOST = "https://mgroup-vvlxvt.amvera.io"
+WEBHOOK_PATH = "/webhook"
+WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 
 # -------------------------------------------------------------------
 # Lifespan hooks

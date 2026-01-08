@@ -298,6 +298,7 @@ def contacts(request):
 
     context = {
         "google_maps_api_key": settings.GOOGLE_MAPS_API_KEY,
+        "RECAPTCHA_SITE_KEY": settings.RECAPTCHA_SITE_KEY,
         "title": title,
         "user_form": user_form,
         "q_form": q_form,

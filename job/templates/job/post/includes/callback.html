@@ -195,7 +195,7 @@
 </section>
 
 
-<script src="https://www.google.com/recaptcha/api.js?render=RECAPTCHA_SITE_KEY"></script>
+<script src="https://www.google.com/recaptcha/api.js?render={{ RECAPTCHA_SITE_KEY }}"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // 🔐 1️⃣ Получаем reCAPTCHA v3 token
         // action используется на сервере для проверки контекста
-        grecaptcha.execute('RECAPTCHA_SITE_KEY', { action: 'contact_form' })
+        grecaptcha.execute('{{ RECAPTCHA_SITE_KEY }}', { action: 'contact_form' })
             .then(function (token) {
 
                 // 📦 2️⃣ Собираем данные формы
