@@ -4,27 +4,28 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8 col-xl-6">
+
                 <div class="chat-stack d-flex flex-column gap-4 mb-5">
 
-                    <div class="d-flex align-items-center justify-content-center mb-4 gap-1">
-                        <p class="font-hero-logo">Маляр</p>
-                        <p class="font-hero-name">Групп</p>
-                        <p class="ms-2 fs-3 fw-semibold ps-3">на связи с Вами</p>
+                    <div class="d-flex align-items-center justify-content-center mb-4 gap-1 text-center">
+                        <p class="font-hero-logo mb-0">Маляр</p>
+                        <p class="font-hero-name mb-0">Групп</p>
+                        <p class="ms-2 fs-3 fw-semibold ps-3 mb-0">на связи с Вами</p>
                     </div>
 
                     <div class="d-flex flex-column gap-4 mb-5">
-                        <div class="p-3 shadow-sm w-100 chat-bubble align-items-center">
+
+                        <div class="p-3 shadow-sm w-100 chat-bubble">
                             <p class="mb-0 fs-5 fw-semibold">
-                                К этому моменту вы уже узнали многое о нас. </br>Но остаётся главный вопрос
+                                К этому моменту вы уже узнали многое о нас.<br>
+                                Но остаётся главный вопрос
                             </p>
                         </div>
 
-                        <div class="p-3 shadow-sm w-100 border-start chat-bubble">
-                            <p class="fw-bold mb-0 text-dark">
-                            <div class="fs-5 fw-semibold text-accent">Что именно мы можем сделать для вашего
-                                проекта?
+                        <div class="p-3 shadow-sm w-100 chat-bubble border-start">
+                            <div class="fs-5 fw-semibold text-accent">
+                                Что именно мы можем сделать для вашего проекта?
                             </div>
-                            </p>
                         </div>
 
                         <div class="p-3 shadow-sm w-100 chat-bubble">
@@ -34,159 +35,158 @@
                         </div>
 
                         <div class="p-3 shadow-sm w-100 chat-bubble">
-                            <p class="fw-bold mb-0 text-dark">
-                            <div class="fs-5 fw-semibold text-accent">Мы обсудим детали, предложим оптимальные
-                                варианты и
-                                покажем, почему нам доверяют.
+                            <div class="fs-5 fw-semibold text-accent">
+                                Мы обсудим детали, предложим оптимальные варианты
+                                и покажем, почему нам доверяют.
                             </div>
-                            </p>
                         </div>
+
                     </div>
 
+                    <p class="mb-4 fs-3 fw-semibold text-center">
+                        Заполните форму, и мы ответим на ваши вопросы
+                    </p>
 
-                    <div class="container">
-                        <p class="mb-4 fs-3 fw-semibold text-center">
-                            Заполните форму, и мы ответим на ваши вопросы
-                        </p>
-                        <form id="contactForm" class="bg-white p-4 shadow-sm" method="post"
-                              enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <input type="hidden" name="telegram_id" value="{{ request.session.user.id }}">
-                            <input type="hidden" name="g-recaptcha-response" id="recaptcha-token">
+                    <form id="contactForm"
+                          class="bg-white p-4 shadow-sm"
+                          method="post"
+                          enctype="multipart/form-data">
 
-                            <div class="row g-3 mb-3 align-items-center">
-                                <div class="col-12 col-md-7">
-                                    <div class="input-group">
-                                        <span class="input-group-text bg-light"><i class="fa-solid fa-at"></i></span>
-                                        <input type="text"
-                                               name="username"
-                                               class="form-control bg-light"
-                                               placeholder="telegram login"
-                                               value="{{ request.session.user.username|default:'' }}"
-                                               readonly
-                                               title="Автоматически из Telegram">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-5 text-md-end d-flex justify-content-md-end justify-content-center">
-                                    <div class="tg-login-wrapper">
-                                        <script async src="https://telegram.org/js/telegram-widget.js?22"
-                                                data-telegram-login="mgrup24_bot"
-                                                data-size="large"
-                                                data-radius="7"
-                                                data-auth-url="https://mgroup-vvlxvt.amvera.io/callback"
-                                                data-request-access="write">
-                                        </script>
-                                        <!--                                    data-auth-url="https://mgroup-vvlxvt.amvera.io/callback"-->
-                                    </div>
-                                </div>
-                            </div>
+                        {% csrf_token %}
 
-                            <div class="row g-3 mb-3">
-                                <div class="col-md-6">
-                                    <div class="input-group">
-                                        <span class="input-group-text bg-light"><i
-                                                class="fa-solid fa-user-tie"></i></span>
-                                        <input type="text"
-                                               name="first_name"
-                                               class="form-control bg-light text-muted"
-                                               placeholder="Ваше имя"
-                                               value="{{ request.session.user.first_name|default:'' }}"
-                                               readonly>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="input-group">
-                                        <span class="input-group-text bg-light"><i
-                                                class="fa-solid fa-calendar"></i></span>
-                                        <input type="text"
-                                               name="auth_date"
-                                               class="form-control bg-light text-muted"
-                                               placeholder="Дата аутенфикации"
-                                               value="{{ request.session.user.auth_date|default:'' }}"
-                                               readonly>
-                                    </div>
-                                </div>
-                            </div>
+                        <input type="hidden" name="telegram_id" value="{{ request.session.user.id|default:'' }}">
 
-                            <div class="mb-3">
-                                <div class="input-group has-validation">
-                                    <span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
-                                    <input type="email"
-                                           class="form-control"
-                                           id="mail"
-                                           name="email"
-                                           value="{{ user_form.initial.email|default_if_none:'' }}"
-                                           placeholder="Ваш Email (для ответа)">
-                                    <div class="invalid-feedback" id="email-error"></div>
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <div class="input-group has-validation">
-                                    <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
+                        <!-- Telegram + Login -->
+                        <div class="row g-3 mb-3 align-items-center">
+                            <div class="col-md-7">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light">
+                                        <i class="fa-solid fa-at"></i>
+                                    </span>
                                     <input type="text"
-                                           class="form-control"
-                                           id="city"
-                                           name="city"
-                                           value="{{ user_form.initial.city|default_if_none:'' }}"
-                                           placeholder="Ваш город">
-                                    <div class="invalid-feedback" id="city-error"></div>
+                                           name="username"
+                                           class="form-control bg-light"
+                                           placeholder="telegram login"
+                                           value="{{ request.session.user.username|default:'' }}"
+                                           readonly>
                                 </div>
                             </div>
 
-                            <div class="mb-3">
+                            <div class="col-md-5 d-flex justify-content-center justify-content-md-end">
+                                <button type="button"
+                                        id="tg-login-btn"
+                                        class="btn btn-outline-primary">
+                                    Войти через Telegram
+                                </button>
+                                <div id="tg-widget" class="ms-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- Auth info -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light">
+                                        <i class="fa-solid fa-user-tie"></i>
+                                    </span>
+                                    <input type="text"
+                                           name="first_name"
+                                           class="form-control bg-light"
+                                           value="{{ request.session.user.first_name|default:'' }}"
+                                           readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light">
+                                        <i class="fa-solid fa-calendar"></i>
+                                    </span>
+                                    <input type="text"
+                                           name="auth_date"
+                                           class="form-control bg-light"
+                                           value="{{ request.session.user.auth_date|default:'' }}"
+                                           readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <div class="input-group has-validation">
+                                <span class="input-group-text">
+                                    <i class="fa-regular fa-envelope"></i>
+                                </span>
+                                <input type="email"
+                                       class="form-control"
+                                       name="email"
+                                       placeholder="Ваш Email (для ответа)">
+                                <div class="invalid-feedback" id="email-error"></div>
+                            </div>
+                        </div>
+
+                        <!-- City -->
+                        <div class="mb-3">
+                            <div class="input-group has-validation">
+                                <span class="input-group-text">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </span>
+                                <input type="text"
+                                       class="form-control"
+                                       name="city"
+                                       placeholder="Ваш город">
+                                <div class="invalid-feedback" id="city-error"></div>
+                            </div>
+                        </div>
+
+                        <!-- Message -->
+                        <div class="mb-3">
                             <textarea class="form-control"
-                                      id="message"
                                       name="question_text"
                                       rows="4"
-                                      placeholder="Опишите вашу задачу или задайте вопрос..." required></textarea>
-                                <div class="invalid-feedback" id="question_text-error"></div>
-                            </div>
+                                      placeholder="Опишите вашу задачу или задайте вопрос..."
+                                      required></textarea>
+                            <div class="invalid-feedback" id="question_text-error"></div>
+                        </div>
 
-                            <div class="mb-4">
-                                <label for="attached_photo" class="form-label small text-muted">Прикрепить фото
-                                    (необязательно)</label>
-                                <input type="file"
-                                       name="attached_photo"
-                                       class="form-control"
-                                       id="attached_photo">
-                                <div class="invalid-feedback" id="attached_photo-error"></div>
-                            </div>
+                        <!-- File -->
+                        <div class="mb-4">
+                            <label class="form-label small text-muted">
+                                Прикрепить фото (необязательно)
+                            </label>
+                            <input type="file"
+                                   name="attached_photo"
+                                   class="form-control">
+                            <div class="invalid-feedback" id="attached_photo-error"></div>
+                        </div>
 
-                            <div class="d-grid justify-content-center">
-                                <button type="submit" id="submitBtn" class="btn btn-bd-primary btn--narrow">
-                                    Отправить сообщение
-                                </button>
-                            </div>
+                        <div class="d-grid">
+                            <button type="submit"
+                                    id="submitBtn"
+                                    class="btn btn-bd-primary btn--narrow">
+                                Отправить сообщение
+                            </button>
+                        </div>
 
-                            <div id="formResponse" class="mt-3" style="display: none;"></div>
-                        </form>
-                    </div>
+                        <div id="formResponse"
+                             class="mt-3"
+                             style="display:none;"></div>
+                    </form>
+
                 </div>
             </div>
         </div>
+
 
         <div class="row justify-content-center g-4">
             <div class="col-12 d-flex justify-content-center">
                 <div class="modern-card p-4">
                     <p class="fst-italic mb-3 fs-5">
-                        «Мы гордимся своей работой, но настоящая гордость приходит, когда мы
-                        видим довольного клиента после завершения проекта».
+                        «Мы гордимся своей работой, но настоящая гордость приходит,
+                        когда мы видим довольного клиента»
                     </p>
                     <p class="fs-5 fw-semibold text-accent">
                         Сотрудничая с нами, вы испытаете это чувство на собственном опыте.
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-12 d-flex justify-content-center">
-                <div class="modern-card p-4">
-                    <p class="fst-italic mb-3 fs-5">
-                        «Каждый объект — это наша репутация. Поэтому мы подходим к делу так,
-                        как будто делаем для себя».
-                    </p>
-                    <p class="fs-5 fw-semibold text-accent">
-                        Мы ценим ваше доверие и делаем всё, чтобы оправдать ожидания.
                     </p>
                 </div>
             </div>
@@ -195,158 +195,89 @@
 </section>
 
 
-<script src="https://www.google.com/recaptcha/api.js?render={{ RECAPTCHA_SITE_KEY }}"></script>
-
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
 
-    // 📌 Форма обратной связи
-    const contactForm = document.getElementById('contactForm');
-
-    // 📌 Блок для вывода сообщений об успехе / ошибке
-    const formResponse = document.getElementById('formResponse');
-
-    // 📌 Кнопка отправки формы
+    const form = document.getElementById('contactForm');
     const submitBtn = document.getElementById('submitBtn');
+    const responseBox = document.getElementById('formResponse');
+    const tgBtn = document.getElementById('tg-login-btn');
+    const tgContainer = document.getElementById('tg-widget');
 
-    // Если форма не найдена — выходим (защита от ошибок)
-    if (!contactForm) return;
+    /* Telegram widget lazy load */
+    if (tgBtn) {
+        tgBtn.addEventListener('click', () => {
+            if (document.getElementById('tg-script')) return;
 
-    // 🔔 Обработчик отправки формы
-    contactForm.addEventListener('submit', function (event) {
+            const s = document.createElement('script');
+            s.id = 'tg-script';
+            s.src = 'https://telegram.org/js/telegram-widget.js?22';
+            s.async = true;
+            s.setAttribute('data-telegram-login', 'mgrup24_bot');
+            s.setAttribute('data-size', 'large');
+            s.setAttribute('data-radius', '7');
+            s.setAttribute('data-auth-url', 'https://mgroup-vvlxvt.amvera.io/callback');
+            s.setAttribute('data-request-access', 'write');
 
-        // ⛔ Отменяем стандартную отправку формы (HTML submit)
-        event.preventDefault();
+            tgContainer.appendChild(s);
+            tgBtn.remove();
+        });
+    }
 
-        // 🔒 Блокируем кнопку, чтобы предотвратить двойную отправку
+    function loadRecaptcha() {
+        return new Promise(resolve => {
+            if (window.grecaptcha) return resolve();
+            const s = document.createElement('script');
+            s.src = 'https://www.google.com/recaptcha/api.js?render={{ RECAPTCHA_SITE_KEY }}';
+            s.onload = resolve;
+            document.head.appendChild(s);
+        });
+    }
+
+    form.addEventListener('submit', async e => {
+        e.preventDefault();
+
         submitBtn.disabled = true;
-        submitBtn.innerHTML =
-            '<span class="spinner-border spinner-border-sm me-2"></span>Отправка...';
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Отправка...';
+        responseBox.style.display = 'none';
 
-        // 🧹 Очищаем предыдущие ошибки валидации
-        clearErrors();
+        await loadRecaptcha();
+        const token = await grecaptcha.execute('{{ RECAPTCHA_SITE_KEY }}', { action: 'contact_form' });
 
-        // 🙈 Скрываем блок сообщений
-        formResponse.style.display = 'none';
+        const formData = new FormData(form);
+        formData.append('recaptcha_token', token);
 
-        // 🔐 1️⃣ Получаем reCAPTCHA v3 token
-        // action используется на сервере для проверки контекста
-        grecaptcha.execute('{{ RECAPTCHA_SITE_KEY }}', { action: 'contact_form' })
-            .then(function (token) {
-
-                // 📦 2️⃣ Собираем данные формы
-                const formData = new FormData(contactForm);
-
-                // ➕ Добавляем reCAPTCHA token к данным формы
-                formData.append('recaptcha_token', token);
-
-                // 🚀 3️⃣ Отправляем данные формы на сервер через fetch
-                return fetch("{% url 'job:submit_question' %}", {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        // 🔑 CSRF-токен обязателен для Django
-                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-
-                        // 📎 Django понимает, что это AJAX-запрос
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                });
-            })
-            .then(response => response.json())
-            .then(data => {
-
-                // ✅ Успешная отправка формы
-                if (data.success) {
-                    showSuccess(data.message);
-                    contactForm.reset();
-
-                    // 🔄 Опционально: перезагружаем страницу через 2 сек
-                    setTimeout(() => location.reload(), 2000);
-
-                // ⚠ Ошибки валидации (Django Form errors)
-                } else if (data.error) {
-                    displayErrors(data.error);
-                    showError("Пожалуйста, исправьте ошибки в форме.");
-
-                // ❓ Неожиданный ответ сервера
-                } else {
-                    showError("Неизвестная ошибка сервера.");
+        try {
+            const res = await fetch("{% url 'job:submit_question' %}", {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    'X-Requested-With': 'XMLHttpRequest'
                 }
-            })
-            .catch(error => {
-                // 🌐 Ошибка сети или сервера
-                console.error('Network Error:', error);
-                showError("Ошибка сети. Проверьте соединение и попробуйте снова.");
-            })
-            .finally(() => {
-                // 🔓 Возвращаем кнопку в активное состояние
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Отправить сообщение';
             });
-    });
 
-    /* ==========================
-       ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
-       ========================== */
+            const data = await res.json();
 
-    // 🧹 Убираем все ошибки формы
-    function clearErrors() {
-        document.querySelectorAll('.is-invalid')
-            .forEach(el => el.classList.remove('is-invalid'));
-
-        document.querySelectorAll('.invalid-feedback')
-            .forEach(el => {
-                el.style.display = 'none';
-                el.textContent = '';
-            });
-    }
-
-    // ⚠ Показываем ошибки валидации для каждого поля
-    function displayErrors(errors) {
-        for (let field in errors) {
-
-            // Поле формы
-            const input = document.querySelector(`[name="${field}"]`);
-
-            // Блок ошибки под полем
-            const errorDiv = document.getElementById(`${field}-error`);
-
-            // Подсвечиваем поле
-            if (input) {
-                input.classList.add('is-invalid');
+            if (data.success) {
+                responseBox.className = 'alert alert-success';
+                responseBox.textContent = data.message;
+                responseBox.style.display = 'block';
+                form.style.display = 'none';
+            } else {
+                responseBox.className = 'alert alert-danger';
+                responseBox.textContent = 'Исправьте ошибки формы';
+                responseBox.style.display = 'block';
             }
 
-            // Текст ошибки от Django
-            if (errorDiv && errors[field].length > 0) {
-                let errorMsg = errors[field][0];
-
-                // Django может вернуть объект или строку
-                if (typeof errorMsg === 'object' && errorMsg.message) {
-                    errorMsg = errorMsg.message;
-                }
-
-                errorDiv.textContent = errorMsg;
-                errorDiv.style.display = 'block';
-            }
+        } catch {
+            responseBox.className = 'alert alert-danger';
+            responseBox.textContent = 'Ошибка сети';
+            responseBox.style.display = 'block';
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Отправить сообщение';
         }
-    }
-
-    // ✅ Сообщение об успешной отправке
-    function showSuccess(msg) {
-        formResponse.className = 'alert alert-success shadow-sm';
-        formResponse.textContent = msg;
-        formResponse.style.display = 'block';
-    }
-
-    // ❌ Сообщение об ошибке
-    function showError(msg) {
-        formResponse.className = 'alert alert-danger shadow-sm';
-        formResponse.textContent = msg;
-        formResponse.style.display = 'block';
-    }
-
+    });
 });
 </script>
-
-
