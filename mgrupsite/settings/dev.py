@@ -35,8 +35,7 @@ STORAGES = {
 }
 
 # ================== TELEGRAM ==================
-TONNEL_DOMAIN = "https://mgroup-vvlxvt.amvera.io/callback"
-
+TONNEL_DOMAIN = "https://7c6bd90e92db.ngrok-free.app"
 CSRF_TRUSTED_ORIGINS = [TONNEL_DOMAIN]
 
 WEBHOOK_HOST = TONNEL_DOMAIN
