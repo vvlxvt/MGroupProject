@@ -7,9 +7,6 @@ from aiogram import Bot, Dispatcher
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 from bot_instance import bot
 
-from django.http import JsonResponse
-import hashlib
-import hmac
 
 project_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(project_path)
@@ -37,8 +34,6 @@ async def on_shutdown(bot: Bot) -> None:
 def main() -> None:
     dp = Dispatcher()
     dp.include_router(handlers.router)
-    # dp.startup.register(on_startup)
-    # dp.shutdown.register(on_shutdown)
     app = web.Application()
     webhook_requests_handler = SimpleRequestHandler(dispatcher=dp, bot=bot)
     webhook_requests_handler.register(app, path=WEBHOOK_PATH)

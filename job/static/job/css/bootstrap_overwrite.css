@@ -198,7 +198,7 @@
     height: auto; /* Высота подстраивается под ширину */
     object-fit: cover; /* Масштабируем изображение, обрезая лишнее */
     object-position: center; /* Центрируем изображение */
-    border-radius: var(--border-radius);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
     margin-bottom: 1rem;
 }
 
