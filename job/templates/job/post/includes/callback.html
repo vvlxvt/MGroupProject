@@ -196,102 +196,125 @@
 
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
 
-    const form = document.getElementById('contactForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const responseBox = document.getElementById('formResponse');
-    const tgBtn = document.getElementById('tg-login-btn');
-    const tgContainer = document.getElementById('tg-widget');
+        const form = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const responseBox = document.getElementById('formResponse');
+        const tgBtn = document.getElementById('tg-login-btn');
+        const tgContainer = document.getElementById('tg-widget');
 
-    /* Telegram widget lazy load */
-    if (tgBtn) {
-        tgBtn.addEventListener('click', () => {
-            if (document.getElementById('tg-script')) return;
+        /* Telegram widget lazy load */
+        if (tgBtn) {
+            tgBtn.addEventListener('click', () => {
+                if (document.getElementById('tg-script')) return;
+
+                const s = document.createElement('script');
+                s.id = 'tg-script';
+                s.src = 'https://telegram.org/js/telegram-widget.js?22';
+                s.async = true;
+                s.setAttribute('data-telegram-login', 'mgrup24_bot');
+                s.setAttribute('data-size', 'large');
+                s.setAttribute('data-radius', '7');
+                s.setAttribute('data-auth-url', 'https://b4b2a2c62fb8.ngrok-free.app');
+                s.setAttribute('data-request-access', 'write');
+
+                tgContainer.appendChild(s);
+                tgBtn.remove();
+            });
+        }
+
+
+    function loadRecaptcha() {
+        return new Promise(resolve => {
+            if (window.grecaptcha && window.grecaptcha.execute) {
+                return resolve();
+            }
+
+            if (document.getElementById('recaptcha-script')) {
+                grecaptcha.ready(resolve);
+                return;
+            }
 
             const s = document.createElement('script');
-            s.id = 'tg-script';
-            s.src = 'https://telegram.org/js/telegram-widget.js?22';
+            s.id = 'recaptcha-script';
+            s.src = 'https://www.google.com/recaptcha/api.js?render={{ RECAPTCHA_SITE_KEY }}';
             s.async = true;
-            s.setAttribute('data-telegram-login', 'mgrup24_bot');
-            s.setAttribute('data-size', 'large');
-            s.setAttribute('data-radius', '7');
-            s.setAttribute('data-auth-url', 'https://b4b2a2c62fb8.ngrok-free.app');
-            s.setAttribute('data-request-access', 'write');
-
-            tgContainer.appendChild(s);
-            tgBtn.remove();
+            s.onload = () => grecaptcha.ready(resolve);
+            document.head.appendChild(s);
         });
     }
 
 
-    function loadRecaptcha() {
-    return new Promise(resolve => {
-        if (window.grecaptcha && window.grecaptcha.execute) {
-            return resolve();
-        }
 
-        const s = document.createElement('script');
-        s.src = 'https://www.google.com/recaptcha/api.js?render={{ RECAPTCHA_SITE_KEY }}';
-        s.async = true;
-        s.onload = () => {
-            grecaptcha.ready(resolve);
-        };
-        document.head.appendChild(s);
-    });
-}
+        form.addEventListener('submit', async e => {
+            e.preventDefault();
 
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Отправка...';
+            responseBox.style.display = 'none';
 
-    form.addEventListener('submit', async e => {
-        e.preventDefault();
+            form.querySelectorAll('.is-invalid').forEach(el =>
+                el.classList.remove('is-invalid'));
+            form.querySelectorAll('.invalid-feedback').forEach(el =>
+                el.textContent = '');
 
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Отправка...';
-        responseBox.style.display = 'none';
+            try {
+                await loadRecaptcha();
 
-        try {
-            await loadRecaptcha();
+                const token = await grecaptcha.execute(
+                    '{{ RECAPTCHA_SITE_KEY }}',
+                    { action: 'contact_form' }
+                );
 
-            const token = await grecaptcha.execute(
-                '{{ RECAPTCHA_SITE_KEY }}',
-                { action: 'contact_form' }
-            );
+                const formData = new FormData(form);
+                formData.append('recaptcha_token', token);
 
-            const formData = new FormData(form);
-            formData.append('recaptcha_token', token);
+                const res = await fetch("{% url 'job:submit_question' %}", {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
 
-            const res = await fetch("{% url 'job:submit_question' %}", {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            });
+                const data = await res.json();
 
-            const data = await res.json();
-
-            if (data.success) {
-                responseBox.className = 'alert alert-success';
-                responseBox.textContent = data.message;
-                responseBox.style.display = 'block';
-                form.style.display = 'none';
-            } else {
+                if (data.success) {
+                    responseBox.className = 'alert alert-success';
+                    responseBox.textContent = data.message;
+                    responseBox.style.display = 'block';
+                    form.style.display = 'none';
+                } else {
                 responseBox.className = 'alert alert-danger';
                 responseBox.textContent = 'Исправьте ошибки формы';
                 responseBox.style.display = 'block';
+
+                if (data.error) {
+                    for (const [field, message] of Object.entries(data.error)) {
+                        const input = form.querySelector(`[name="${field}"]`);
+                        const errorBox = document.getElementById(`${field}-error`);
+
+                        if (input) {
+                            input.classList.add('is-invalid');
+                        }
+                        if (errorBox) {
+                            errorBox.textContent = message;
+                        }
+                    }
+                }
+
+            } catch (err) {
+                console.error(err);
+                responseBox.className = 'alert alert-danger';
+                responseBox.textContent = 'Ошибка сети или reCAPTCHA';
+                responseBox.style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Отправить сообщение';
             }
+        });
 
-        } catch (err) {
-            console.error(err);
-            responseBox.className = 'alert alert-danger';
-            responseBox.textContent = 'Ошибка сети или reCAPTCHA';
-            responseBox.style.display = 'block';
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Отправить сообщение';
-        }
     });
-
-});
 </script>
