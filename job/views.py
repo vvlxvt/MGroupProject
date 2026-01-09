@@ -359,21 +359,22 @@ def submit_question(request):
 
     if q_form.is_valid():
         telegram_id = request.POST.get("telegram_id")
+
         try:
             user = UserProfile.objects.get(telegram_id=telegram_id)
         except UserProfile.DoesNotExist:
             return JsonResponse(
-                {"success": False, "error": "Пользователь не найден!"}, status=404
+                {"success": False, "errors": {"__all__": "Пользователь не найден"}},
+                status=404
             )
 
-        # Сохраняем вопрос
         question = q_form.save(commit=False)
         question.user = user
         question.save()
 
-        # Обновляем email и city, если переданы
         email = request.POST.get("email")
         city = request.POST.get("city")
+
         if email and email != user.email:
             user.email = email
         if city and city != user.city:
@@ -381,9 +382,20 @@ def submit_question(request):
         user.save()
 
         send_telegram_message(question)
-        return JsonResponse({"success": True, "message": "Вопрос успешно отправлен!"})
 
-    return JsonResponse({"success": False, "error": q_form.errors})
+        return JsonResponse(
+            {"success": True, "message": "Вопрос успешно отправлен!"}
+        )
+
+    errors = {
+        field: error_list[0]
+        for field, error_list in q_form.errors.items()
+    }
+
+    return JsonResponse(
+        {"success": False, "errors": errors},
+        status=400
+    )
 
 
 def vacancies(request):

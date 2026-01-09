@@ -279,6 +279,10 @@
                     }
                 });
 
+                if (!res.ok) {
+                    throw new Error(`HTTP error ${res.status}`);
+                }
+
                 const data = await res.json();
 
                 if (data.success) {
@@ -291,20 +295,19 @@
                 responseBox.textContent = 'Исправьте ошибки формы';
                 responseBox.style.display = 'block';
 
-                if (data.error) {
-                    for (const [field, message] of Object.entries(data.error)) {
+                if (data.errors.__all__) {
+                    responseBox.textContent = data.errors.__all__;
+                }
+
+                if (data.errors) {
+                    for (const [field, message] of Object.entries(data.errors)) {
                         const input = form.querySelector(`[name="${field}"]`);
                         const errorBox = document.getElementById(`${field}-error`);
 
-                        if (input) {
-                            input.classList.add('is-invalid');
-                        }
-                        if (errorBox) {
-                            errorBox.textContent = message;
-                        }
+                        if (input) input.classList.add('is-invalid');
+                        if (errorBox) errorBox.textContent = message;
                     }
                 }
-
             } catch (err) {
                 console.error(err);
                 responseBox.className = 'alert alert-danger';
