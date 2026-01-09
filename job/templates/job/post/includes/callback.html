@@ -224,15 +224,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+
     function loadRecaptcha() {
-        return new Promise(resolve => {
-            if (window.grecaptcha) return resolve();
-            const s = document.createElement('script');
-            s.src = 'https://www.google.com/recaptcha/api.js?render={{ RECAPTCHA_SITE_KEY }}';
-            s.onload = resolve;
-            document.head.appendChild(s);
-        });
-    }
+    return new Promise(resolve => {
+        if (window.grecaptcha && window.grecaptcha.execute) {
+            return resolve();
+        }
+
+        const s = document.createElement('script');
+        s.src = 'https://www.google.com/recaptcha/api.js?render={{ RECAPTCHA_SITE_KEY }}';
+        s.async = true;
+        s.onload = () => {
+            grecaptcha.ready(resolve);
+        };
+        document.head.appendChild(s);
+    });
+}
+
 
     form.addEventListener('submit', async e => {
         e.preventDefault();
@@ -241,13 +249,17 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Отправка...';
         responseBox.style.display = 'none';
 
-        await loadRecaptcha();
-        const token = await grecaptcha.execute('{{ RECAPTCHA_SITE_KEY }}', { action: 'contact_form' });
-
-        const formData = new FormData(form);
-        formData.append('recaptcha_token', token);
-
         try {
+            await loadRecaptcha();
+
+            const token = await grecaptcha.execute(
+                '{{ RECAPTCHA_SITE_KEY }}',
+                { action: 'contact_form' }
+            );
+
+            const formData = new FormData(form);
+            formData.append('recaptcha_token', token);
+
             const res = await fetch("{% url 'job:submit_question' %}", {
                 method: 'POST',
                 body: formData,
@@ -270,14 +282,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 responseBox.style.display = 'block';
             }
 
-        } catch {
+        } catch (err) {
+            console.error(err);
             responseBox.className = 'alert alert-danger';
-            responseBox.textContent = 'Ошибка сети';
+            responseBox.textContent = 'Ошибка сети или reCAPTCHA';
             responseBox.style.display = 'block';
         } finally {
             submitBtn.disabled = false;
             submitBtn.textContent = 'Отправить сообщение';
         }
     });
+
 });
 </script>
