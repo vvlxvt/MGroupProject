@@ -260,63 +260,65 @@
                 el.textContent = '');
 
             try {
-                await loadRecaptcha();
+    await loadRecaptcha();
 
-                const token = await grecaptcha.execute(
-                    '{{ RECAPTCHA_SITE_KEY }}',
-                    { action: 'contact_form' }
-                );
+    const token = await grecaptcha.execute(
+        '{{ RECAPTCHA_SITE_KEY }}',
+        { action: 'contact_form' }
+    );
 
-                const formData = new FormData(form);
-                formData.append('recaptcha_token', token);
+    const formData = new FormData(form);
+    formData.append('recaptcha_token', token);
 
-                const res = await fetch("{% url 'job:submit_question' %}", {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                });
+    const res = await fetch("{% url 'job:submit_question' %}", {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    });
 
-                if (!res.ok) {
-                    throw new Error(`HTTP error ${res.status}`);
-                }
+    if (!res.ok) {
+        throw new Error(`HTTP error ${res.status}`);
+    }
 
-                const data = await res.json();
+    const data = await res.json();
 
-                if (data.success) {
-                    responseBox.className = 'alert alert-success';
-                    responseBox.textContent = data.message;
-                    responseBox.style.display = 'block';
-                    form.style.display = 'none';
-                } else {
-                responseBox.className = 'alert alert-danger';
-                responseBox.textContent = 'Исправьте ошибки формы';
-                responseBox.style.display = 'block';
+    if (data.success) {
+        responseBox.className = 'alert alert-success';
+        responseBox.textContent = data.message;
+        responseBox.style.display = 'block';
+        form.style.display = 'none';
+    } else {
+        responseBox.className = 'alert alert-danger';
+        responseBox.textContent = 'Исправьте ошибки формы';
+        responseBox.style.display = 'block';
 
-                if (data.errors.__all__) {
-                    responseBox.textContent = data.errors.__all__;
-                }
+        if (data.errors.__all__) {
+            responseBox.textContent = data.errors.__all__;
+        }
 
-                if (data.errors) {
-                    for (const [field, message] of Object.entries(data.errors)) {
-                        const input = form.querySelector(`[name="${field}"]`);
-                        const errorBox = document.getElementById(`${field}-error`);
+        if (data.errors) {
+            for (const [field, message] of Object.entries(data.errors)) {
+                const input = form.querySelector(`[name="${field}"]`);
+                const errorBox = document.getElementById(`${field}-error`);
 
-                        if (input) input.classList.add('is-invalid');
-                        if (errorBox) errorBox.textContent = message;
-                    }
-                }
-            } catch (err) {
-                console.error(err);
-                responseBox.className = 'alert alert-danger';
-                responseBox.textContent = 'Ошибка сети или reCAPTCHA';
-                responseBox.style.display = 'block';
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Отправить сообщение';
+                if (input) input.classList.add('is-invalid');
+                if (errorBox) errorBox.textContent = message;
             }
+        }
+    }
+} catch (err) {
+    console.error(err);
+    responseBox.className = 'alert alert-danger';
+    responseBox.textContent = 'Ошибка сети или reCAPTCHA';
+    responseBox.style.display = 'block';
+} finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Отправить сообщение';
+}
+
         });
 
     });
