@@ -286,12 +286,14 @@
 
     const data = await res.json();
 
-    if (data.success) {
-        responseBox.className = 'alert alert-success';
-        responseBox.textContent = data.message;
-        responseBox.style.display = 'block';
-        form.style.display = 'none';
-    } else {
+        if (data.success) {
+            responseBox.className = 'alert alert-success';
+            responseBox.textContent = data.message;
+            responseBox.style.display = 'block';
+
+            form.reset();          // очистить поля
+            submitBtn.disabled = false;
+        } else {
         responseBox.className = 'alert alert-danger';
         responseBox.textContent = 'Исправьте ошибки формы';
         responseBox.style.display = 'block';
