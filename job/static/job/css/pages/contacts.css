@@ -7,6 +7,35 @@ section#contacts {
   padding: 3rem 0 3rem;
 }
 
+
+#contacts .font-hero-name {
+  font-size: 3rem;
+  }
+
+#contacts .font-hero-subtitle {
+  font-size: 2rem;
+  white-space: nowrap;
+  margin: 0.8em 0 0 0.4em;
+}
+
+@media (max-width: 576px) {
+
+  #contacts .font-hero-name {
+    font-size: 6em;
+  }
+
+  #contacts .font-hero-subtitle {
+    font-size: 1.3rem;
+    line-height: 1;
+    margin: 0.8em 0 0 0.4em;
+    white-space: normal;
+  }
+
+}
+  section#contacts {
+  padding: 0;
+}
+
 #contacts form {
   border: 1px solid black;
   border-radius: 1rem;
