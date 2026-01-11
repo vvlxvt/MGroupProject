@@ -2,7 +2,6 @@
   width: min(90vw, 1100px);
   aspect-ratio: 11 / 3;
   background-color: rgba(10, 37, 64, 0.65);
-
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -14,7 +13,7 @@
   top: 1rem;
   left: 1rem;
   flex-direction: column;
-  align-items: flex-start; /* ← в начало */
+  align-items: flex-start;
   font-size: clamp(0.5rem, 1.2vw, 1rem);
 }
 
@@ -23,10 +22,10 @@
   font-size: 8em;
   line-height: 1.1;
   position: absolute;
+  color: #F7F8F3;
   top: 0;
   left: 0;
   z-index: 2;
-  white-space: nowrap;
 }
 
 /* Групп */
@@ -36,9 +35,7 @@
   top: 0.55em;
   left: 0;
   z-index: 1;
-
   text-indent: 0.4em;
-
   background: linear-gradient(to bottom, #85c1e9, #1abc9c);
   background-clip: text;
   -webkit-background-clip: text;
@@ -49,7 +46,8 @@
 #landing .font-hero-subtitle {
   font-size: 3em;
   margin-top: 3.5em;
-  text-align: left; /* ← важно */
+  line-height: 2;
+  text-align: left;
   white-space: nowrap;
 }
 
@@ -57,7 +55,10 @@
 @media (max-width: 576px) {
   #landing .font-hero-subtitle {
     font-size: 1.3rem;
-    line-height: 2;
+    line-height: 1;
+    padding-top: 1rem;
+    white-space: pre-wrap;
+    letter-spacing: -0.03em;
   }
 }
 
