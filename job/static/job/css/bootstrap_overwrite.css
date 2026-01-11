@@ -59,11 +59,10 @@
   }
 }
 
-
-
 .btn-primary {
     background-color: #FFD700;
     border-color: #FFD700;
+
 }
 .navbar {
   position: fixed;
@@ -78,6 +77,10 @@
 
 .navbar.hidden {
   top: -45px;
+}
+
+.navbar {
+    --bs-navbar-toggler-focus-width: 0.15rem; /* works only in newer BS builds */
 }
 
 
@@ -179,6 +182,8 @@
   .navbar .dropdown-menu .dropdown-item {
     transition: border-color 0.2s ease;
   }
+
+
 }
 
 

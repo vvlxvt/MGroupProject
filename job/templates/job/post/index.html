@@ -11,18 +11,18 @@
             <img src="{% static 'job/images/IMG_index.webp' %}"
                  alt="Фоновое изображение компании Маляр Групп"
                  class="hero"
+                 width="1920"
+                 height="1080"
+                 fetchpriority="high"
+                 decoding="async"
                  loading="eager">
         </picture>
 
-        <div class="hero-title position-absolute top-50 start translate-middle-y text-white">
-            <div class="hero-box">
-
-                <div class="hero-logo font-hero-logo">Маляр</div>
-                <div class="hero-main hero-name font-hero-name">Групп</div>
-                <p class="hero-subtitle font-hero-subtitle">
-                    профессиональная промышленная покраска
-                </p>
-
+        <div class="hero-box position-absolute top-50 start translate-middle-y text-white">
+            <div class="hero-logo">
+                <span class="font-hero-logo">Маляр</span>
+                <span class="font-hero-name">Групп</span>
+                <p class="font-hero-subtitle">профессиональная промышленная покраска</p>
             </div>
         </div>
     </div>
