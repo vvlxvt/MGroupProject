@@ -11,7 +11,6 @@ from django.http import HttpResponsePermanentRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.timezone import make_aware
-from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.views.generic import DetailView, ListView, TemplateView
 from taggit.models import Tag
 
@@ -20,6 +19,9 @@ from .models import Article, Category, Post, Project, UserProfile, UserQuestion
 from .utils import (DataMixin, advantages, chunk_list, partners,
                     save_user_photo, send_telegram_message,
                     verify_telegram_auth)
+
+from django.http import JsonResponse
+from django.core.exceptions import RequestDataTooBig
 
 
 class DynamicPostListView(DataMixin, ListView):
@@ -355,47 +357,59 @@ def telegram_auth_view(request):
 @csrf_protect
 @require_POST
 def submit_question(request):
-    q_form = UserQuestionForm(request.POST, request.FILES)
+    try:
+        q_form = UserQuestionForm(request.POST, request.FILES)
 
-    if q_form.is_valid():
-        telegram_id = request.POST.get("telegram_id")
+        if q_form.is_valid():
+            telegram_id = request.POST.get("telegram_id")
 
-        try:
-            user = UserProfile.objects.get(telegram_id=telegram_id)
-        except UserProfile.DoesNotExist:
+            try:
+                user = UserProfile.objects.get(telegram_id=telegram_id)
+            except UserProfile.DoesNotExist:
+                return JsonResponse(
+                    {"success": False, "errors": {"__all__": "Пользователь не найден"}},
+                    status=404
+                )
+
+            question = q_form.save(commit=False)
+            question.user = user
+            question.save()
+
+            email = request.POST.get("email")
+            city = request.POST.get("city")
+
+            if email and email != user.email:
+                user.email = email
+            if city and city != user.city:
+                user.city = city
+            user.save()
+
+            send_telegram_message(question)
+
             return JsonResponse(
-                {"success": False, "errors": {"__all__": "Пользователь не найден"}},
-                status=404
+                {"success": True, "message": "Вопрос успешно отправлен!"}
             )
 
-        question = q_form.save(commit=False)
-        question.user = user
-        question.save()
-
-        email = request.POST.get("email")
-        city = request.POST.get("city")
-
-        if email and email != user.email:
-            user.email = email
-        if city and city != user.city:
-            user.city = city
-        user.save()
-
-        send_telegram_message(question)
+        errors = {
+            field: error_list[0]
+            for field, error_list in q_form.errors.items()
+        }
 
         return JsonResponse(
-            {"success": True, "message": "Вопрос успешно отправлен!"}
+            {"success": False, "errors": errors},
+            status=400
         )
 
-    errors = {
-        field: error_list[0]
-        for field, error_list in q_form.errors.items()
-    }
-
-    return JsonResponse(
-        {"success": False, "errors": errors},
-        status=400
-    )
+    except RequestDataTooBig:
+        return JsonResponse(
+            {
+                "success": False,
+                "errors": {
+                    "attached_photo": "Файл слишком большой. Максимум 6 MB."
+                }
+            },
+            status=400
+        )
 
 
 def vacancies(request):

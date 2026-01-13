@@ -202,6 +202,37 @@
         const form = document.getElementById('contactForm');
         const submitBtn = document.getElementById('submitBtn');
         const responseBox = document.getElementById('formResponse');
+
+        // ===== Client-side file validation =====
+const fileInput = form.querySelector('input[name="attached_photo"]');
+const fileError = document.getElementById('attached_photo-error');
+const MAX_FILE_SIZE = 6 * 1024 * 1024; // 6 MB
+
+if (fileInput) {
+    fileInput.addEventListener('change', () => {
+        fileError.textContent = '';
+        fileInput.classList.remove('is-invalid');
+
+        const file = fileInput.files[0];
+        if (!file) return;
+
+        // size check
+        if (file.size > MAX_FILE_SIZE) {
+            fileError.textContent = 'Файл слишком большой. Максимум 6 MB.';
+            fileInput.classList.add('is-invalid');
+            fileInput.value = '';
+            return;
+        }
+
+        // type check
+        if (!['image/jpeg', 'image/png'].includes(file.type)) {
+            fileError.textContent = 'Разрешены только JPG и PNG.';
+            fileInput.classList.add('is-invalid');
+            fileInput.value = '';
+        }
+    });
+}
+
         const tgBtn = document.getElementById('tg-login-btn');
         const tgContainer = document.getElementById('tg-widget');
 
@@ -294,11 +325,23 @@
             responseBox.textContent = data.message;
             responseBox.style.display = 'block';
             form.reset();
+
         } else {
-            responseBox.className = 'alert alert-danger';
-            responseBox.textContent = 'Исправьте ошибки формы';
-            responseBox.style.display = 'block';
-        }
+
+            // ===== show file error if exists =====
+            if (data.errors?.attached_photo) {
+                const input = form.querySelector('[name="attached_photo"]');
+                const error = document.getElementById('attached_photo-error');
+
+                input.classList.add('is-invalid');
+                error.textContent = data.errors.attached_photo;
+            }
+
+    responseBox.className = 'alert alert-danger';
+    responseBox.textContent = 'Исправьте ошибки формы';
+    responseBox.style.display = 'block';
+}
+
 
     } catch (err) {
         console.error(err);
