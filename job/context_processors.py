@@ -20,8 +20,8 @@ def menu_context(request):
         },
         "articles": {"title": "Статьи", "url_name": f"{namespace}:article_list"},
         "projects": {"title": "Проекты", "url_name": f"{namespace}:projects"},
-        "contacts": {"title": "Контакты", "url_name": f"{namespace}:contacts"},
         "calculator": {"title": "Вакансии", "url_name": f"{namespace}:vacancies"},
+        "contacts": {"title": "Контакты", "url_name": f"{namespace}:contacts"},
     }
     return {"menu": menu, "facemenu": menu["services"].get("submenus", [])}
 

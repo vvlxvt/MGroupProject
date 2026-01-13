@@ -109,7 +109,6 @@ RECAPTCHA_SITE_KEY = env("RECAPTCHA_SITE_KEY")
 
 # ================== ПРОЧЕЕ ==================
 INTERNAL_IPS = env.list("INTERNAL_IPS", default=["127.0.0.1"])
-MAX_UPLOAD_SIZE = 10 * 1024 * 1024
 
 THUMBNAIL_ALIASES = {
     "": {"admin_thumb": {"size": (100, 100), "crop": True}},

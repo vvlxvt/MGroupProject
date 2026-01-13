@@ -88,6 +88,7 @@
 .nav-link {
   color: black;
   padding: 0.4rem;
+  font-weight: 400;
   border-bottom: 3px solid transparent;
   box-sizing: border-box;
 }
