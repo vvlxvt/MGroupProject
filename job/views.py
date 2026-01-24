@@ -1,13 +1,12 @@
 import json
 from datetime import datetime
 
-import requests
 from django.conf import settings
 from django.contrib.postgres.search import (SearchQuery, SearchVector,
                                             TrigramSimilarity)
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Count, Q
-from django.http import HttpResponsePermanentRedirect, JsonResponse
+from django.http import HttpResponsePermanentRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.timezone import make_aware
@@ -18,10 +17,10 @@ from .forms import UserProfileForm, UserQuestionForm, ApplicantProfileForm
 from .models import Article, Category, Post, Project, UserProfile, UserQuestion
 from .utils import (DataMixin, advantages, chunk_list, partners,
                     save_user_photo, send_telegram_message,
-                    verify_telegram_auth)
+                    verify_telegram_auth, verify_recaptcha)
 
 from django.http import JsonResponse
-from django.core.exceptions import RequestDataTooBig
+from django.core.exceptions import PermissionDenied, RequestDataTooBig
 
 
 class DynamicPostListView(DataMixin, ListView):
@@ -274,6 +273,10 @@ def page_not_found(request, exception):
     return render(request, "404.html", status=404)
 
 
+def page_not_found(request, exception):
+    return render(request, "404.html", status=404)
+
+
 def contacts(request):
     title = "Напишите нам Ваши вопросы и мы постараемся помочь"
 
@@ -358,46 +361,52 @@ def telegram_auth_view(request):
 @require_POST
 def submit_question(request):
     try:
-        q_form = UserQuestionForm(request.POST, request.FILES)
+        # reCAPTCHA
+        verify_recaptcha(
+            token=request.POST.get("recaptcha_token"),
+            action="contact_form",
+        )
 
-        if q_form.is_valid():
-            telegram_id = request.POST.get("telegram_id")
+        form = UserQuestionForm(request.POST, request.FILES)
 
-            try:
-                user = UserProfile.objects.get(telegram_id=telegram_id)
-            except UserProfile.DoesNotExist:
-                return JsonResponse(
-                    {"success": False, "errors": {"__all__": "Пользователь не найден"}},
-                    status=404
-                )
-
-            question = q_form.save(commit=False)
-            question.user = user
-            question.save()
-
-            email = request.POST.get("email")
-            city = request.POST.get("city")
-
-            if email and email != user.email:
-                user.email = email
-            if city and city != user.city:
-                user.city = city
-            user.save()
-
-            send_telegram_message(question)
-
+        if not form.is_valid():
             return JsonResponse(
-                {"success": True, "message": "Вопрос успешно отправлен!"}
+                {
+                    "success": False,
+                    "errors": {
+                        field: errors[0]
+                        for field, errors in form.errors.items()
+                    }
+                },
+                status=400
             )
 
-        errors = {
-            field: error_list[0]
-            for field, error_list in q_form.errors.items()
-        }
+        user = UserProfile.objects.filter(
+            telegram_id=request.POST.get("telegram_id")
+        ).first()
+
+        if not user:
+            return JsonResponse(
+                {"success": False, "errors": {"__all__": "Пользователь не найден"}},
+                status=404
+            )
+
+        question = form.save(commit=False)
+        question.user = user
+        question.save()
+
+        _update_user_profile(user, request.POST)
+
+        send_telegram_message(question)
 
         return JsonResponse(
-            {"success": False, "errors": errors},
-            status=400
+            {"success": True, "message": "Вопрос успешно отправлен!"}
+        )
+
+    except PermissionDenied as e:
+        return JsonResponse(
+            {"success": False, "errors": {"__all__": str(e)}},
+            status=403
         )
 
     except RequestDataTooBig:
@@ -410,6 +419,23 @@ def submit_question(request):
             },
             status=400
         )
+
+def _update_user_profile(user, data):
+    updated = False
+
+    email = data.get("email")
+    city = data.get("city")
+
+    if email and email != user.email:
+        user.email = email
+        updated = True
+
+    if city and city != user.city:
+        user.city = city
+        updated = True
+
+    if updated:
+        user.save(update_fields=["email", "city"])
 
 
 def vacancies(request):
@@ -436,35 +462,4 @@ def applicant(request):
     }
     return render(request, "job/post/applicant.html", context)
 
-from mgrupsite.settings.base import RECAPTCHA_SECRET_KEY
 
-def contact_view(request):
-    if request.method == "POST":
-        token = request.POST.get("recaptcha_token")
-
-        recaptcha_response = requests.post(
-            "https://www.google.com/recaptcha/api/siteverify",
-            data={
-                "secret": RECAPTCHA_SECRET_KEY,
-                "response": token
-            }
-        )
-
-        result = recaptcha_response.json()
-
-        # 🔐 КРИТИЧЕСКАЯ ПРОВЕРКА
-        if not result.get("success"):
-            return JsonResponse({"error": "reCAPTCHA failed"}, status=400)
-
-        if result.get("score", 0) < 0.5:
-            return JsonResponse({"error": "Low reCAPTCHA score"}, status=403)
-
-        if result.get("action") != "contact_form":
-            return JsonResponse({"error": "Invalid action"}, status=400)
-
-        # ✅ ТОЛЬКО ЗДЕСЬ — логика формы
-        # save form / send email / etc.
-
-        return JsonResponse({"success": True})
-
-    return render(request, "contact.html")

@@ -35,7 +35,7 @@ STORAGES = {
 }
 
 # ================== TELEGRAM ==================
-TONNEL_DOMAIN = "https://b4b2a2c62fb8.ngrok-free.app"
+TONNEL_DOMAIN = "https://2124cd0d2925.ngrok-free.app"
 CSRF_TRUSTED_ORIGINS = [TONNEL_DOMAIN]
 
 WEBHOOK_HOST = TONNEL_DOMAIN

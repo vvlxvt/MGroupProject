@@ -9,7 +9,7 @@ from itertools import zip_longest
 import requests
 from django.conf import settings
 from django.core.files.base import ContentFile
-
+from django.core.exceptions import PermissionDenied
 
 class DataMixin:
     paginate_by = 6
@@ -201,3 +201,32 @@ def send_telegram_message(question):
     except Exception as e:
         logger.error(f"Ошибка при отправке в Telegram: {e}")
         return False
+
+
+def verify_recaptcha(token: str, action: str, min_score: float = 0.5):
+    if not token:
+        raise PermissionDenied("Missing reCAPTCHA token")
+
+    response = requests.post(
+        "https://www.google.com/recaptcha/api/siteverify",
+        data={
+            "secret": settings.RECAPTCHA_SECRET_KEY,
+            "response": token,
+        },
+        timeout=5,
+    )
+
+    result = response.json()
+    print(result)
+
+    if not result.get("success"):
+        raise PermissionDenied("reCAPTCHA verification failed")
+
+    if result.get("action") != action:
+        raise PermissionDenied("Invalid reCAPTCHA action")
+
+    if result.get("score", 0) < min_score:
+        raise PermissionDenied("Low reCAPTCHA score")
+
+    if result.get("hostname") not in settings.ALLOWED_RECAPTCHA_HOSTS:
+        raise PermissionDenied("Invalid hostname")

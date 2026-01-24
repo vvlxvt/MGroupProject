@@ -106,6 +106,7 @@ TELEGRAM_CHAT_ID = env("TELEGRAM_CHAT_ID")
 GOOGLE_MAPS_API_KEY = env("GOOGLE_MAPS_API_KEY")
 RECAPTCHA_SECRET_KEY = env("RECAPTCHA_SECRET_KEY")
 RECAPTCHA_SITE_KEY = env("RECAPTCHA_SITE_KEY")
+ALLOWED_RECAPTCHA_HOSTS = ["mgroup-vvlxvt.amvera.io"]
 
 # ================== ПРОЧЕЕ ==================
 INTERNAL_IPS = env.list("INTERNAL_IPS", default=["127.0.0.1"])
