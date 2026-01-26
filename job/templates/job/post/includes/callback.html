@@ -6,9 +6,9 @@
             <div class="col-lg-8 col-xl-6">
 
                 <div class="d-flex justify-content-center align-items-center">
-                        <span class="font-hero-logo">Маляр</span>
-                        <span class="font-hero-name">Групп</span>
-                        <span class="font-hero-subtitle">на связи с Вами</span>
+                    <span class="font-hero-logo">Маляр</span>
+                    <span class="font-hero-name">Групп</span>
+                    <span class="font-hero-subtitle">на связи с Вами</span>
                 </div>
 
 
@@ -112,30 +112,30 @@
                             </div>
                         </div>
 
-                        <!-- Email -->
                         <div class="mb-3">
                             <div class="input-group has-validation">
-                                <span class="input-group-text">
-                                    <i class="fa-regular fa-envelope"></i>
-                                </span>
+                            <span class="input-group-text">
+                                <i class="fa-regular fa-envelope"></i>
+                            </span>
                                 <input type="email"
                                        class="form-control"
                                        name="email"
-                                       placeholder="Ваш Email (для ответа)">
+                                       placeholder="Ваш Email (для ответа)"
+                                       value="{{ request.session.user.email|default:'' }}">
                                 <div class="invalid-feedback" id="email-error"></div>
                             </div>
                         </div>
 
-                        <!-- City -->
                         <div class="mb-3">
                             <div class="input-group has-validation">
-                                <span class="input-group-text">
-                                    <i class="fa-solid fa-location-dot"></i>
-                                </span>
+                            <span class="input-group-text">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </span>
                                 <input type="text"
                                        class="form-control"
                                        name="city"
-                                       placeholder="Ваш город">
+                                       placeholder="Ваш город"
+                                       value="{{ request.session.user.city|default:'' }}">
                                 <div class="invalid-feedback" id="city-error"></div>
                             </div>
                         </div>

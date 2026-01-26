@@ -395,7 +395,7 @@ def submit_question(request):
         question.user = user
         question.save()
 
-        _update_user_profile(user, request.POST)
+        _update_user_profile(user, request.POST, request)
 
         send_telegram_message(question)
 
@@ -420,9 +420,8 @@ def submit_question(request):
             status=400
         )
 
-def _update_user_profile(user, data):
+def _update_user_profile(user, data, request=None): # Добавим request
     updated = False
-
     email = data.get("email")
     city = data.get("city")
 
@@ -436,6 +435,12 @@ def _update_user_profile(user, data):
 
     if updated:
         user.save(update_fields=["email", "city"])
+        # Обновляем данные в сессии, чтобы при перезагрузке формы они были актуальны
+        if request and "user" in request.session:
+            user_session = request.session["user"]
+            user_session["email"] = user.email
+            user_session["city"] = user.city
+            request.session.modified = True
 
 
 def vacancies(request):
