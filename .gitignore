@@ -30,10 +30,8 @@ local_settings.py
 settings_local.py
 config.json
 
-# Migrations (keep __init__.py)
-*/migrations/*.pyc
-*/migrations/*.py
-!*/migrations/__init__.py
+# Django migrations are source code and must be committed.
+# Compiled migration artifacts are already covered by __pycache__/ and *.py[cod].
 
 # Static and media files
 staticfiles/
