@@ -5,7 +5,7 @@
 /* Navigation base styles */
 nav {
     font-family: var(--font-family-menu);
-    color: black !important;
+    color: black;
 }
 
 a.navbar-brand:hover {
@@ -68,7 +68,6 @@ a.navbar-brand:hover {
 
 @media (max-width: 992px) {
     #navbar {
-        position: fixed !important;
         top: 0;
         left: 0;
         right: 0;

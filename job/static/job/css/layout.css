@@ -41,7 +41,7 @@ section {
 }
 
 .content-section--muted {
-  background-color: #f8f9fa;
+  background-color: var(--color-surface-muted);
 }
 
 .content-section--offset {

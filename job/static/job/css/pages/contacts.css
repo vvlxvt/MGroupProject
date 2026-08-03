@@ -71,18 +71,15 @@ section#contacts {
   border-left: 8px solid var(--color-accent);
 }
 
-@media (max-width: 576px) {
-  .chat-bubble {
-    align-self: center !important;
-    max-width: 100%;
-  }
-}
-
 /* Font Hero Styles */
 #contacts .font-hero-logo,
 #contacts .font-hero-name {
   font-size: 4rem;
-  background: linear-gradient(to bottom, #85c1e9, #1abc9c);
+  background: linear-gradient(
+    to bottom,
+    var(--color-logo-gradient-start),
+    var(--color-logo-gradient-end)
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -201,8 +198,8 @@ section#contacts {
   margin-bottom: 3rem;
 }
 
-.chat-bubble--bordered {
-  border-left: var(--bs-border-width) solid var(--bs-border-color) !important;
+.chat-stack .chat-bubble.chat-bubble--bordered {
+  border-left: var(--bs-border-width) solid var(--bs-border-color);
 }
 
 .chat-bubble__text,
@@ -240,7 +237,7 @@ section#contacts {
 }
 
 .contact-form__readonly {
-  background-color: #f8f9fa;
+  background-color: var(--color-surface-muted);
 }
 
 .contact-form__login {

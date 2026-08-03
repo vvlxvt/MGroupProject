@@ -5,6 +5,13 @@
   /* Цветовая палитра */
   --color-secondary: #FFD700; /* golden*/
   --color-accent: #31B787; /* dark mint */
+  --color-brand-blue: #035199;
+  --color-brand-blue-hover: #02417a;
+  --color-surface-muted: #f8f9fa;
+  --color-surface-feature: #f2f2f2;
+  --color-gradient-warm: #f91803;
+  --color-logo-gradient-start: #85c1e9;
+  --color-logo-gradient-end: #1abc9c;
   --ind-card-bg: #2c3e50; /* Темно-синий/серый фон карточки */
   --ind-accent: #e67e22;  /* Оранжевый акцент */
 

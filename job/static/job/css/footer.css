@@ -4,7 +4,7 @@ footer {
     background-repeat: no-repeat;
     background-size: cover;
     font-size: var(--font-size-base);
-    background-color: #31B787;
+    background-color: var(--color-accent);
     padding: 20px 0;
 }
 
