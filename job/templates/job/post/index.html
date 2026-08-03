@@ -3,7 +3,7 @@
 {% block meta_description %}{{ meta_description }}{% endblock %}
 {% block landing %}
 <section id="landing" aria-label="Презентация компании">
-    <div class="hero-img-container position-relative mb-0 mb-sm-5">
+    <div class="hero-img-container landing-hero">
 
         <picture>
             <source media="(max-width: 768px)"
@@ -18,7 +18,7 @@
                  loading="eager">
         </picture>
 
-        <div class="hero-box position-absolute top-50 start translate-middle-y text-white">
+        <div class="hero-box">
             <div class="hero-logo">
                 <span class="font-hero-logo">Маляр</span>
                 <span class="font-hero-name">Групп</span>
@@ -29,10 +29,10 @@
 
 
     <article id="hero-features" aria-label="Основная информация о компании">
-        <div class="container px-3 px-md-4 px-lg-5">
-            <div class="row justify-content-center p-2 p-md-3">
-                <div class="col-12 col-md-6 p-2 p-md-3">
-                    <div class="block gradient-title-r text-center text-uppercase fw-bold">
+        <div class="container landing-container">
+            <div class="row justify-content-center hero-intro-row">
+                <div class="col-12 col-md-6 hero-intro-column">
+                    <div class="block gradient-title-r hero-statement">
                         <p><strong>Маляр Групп</strong> — подрядчик по промышленной и коммерческой покраске в Сибирском
                             регионе</p>
                         <p>Предлагаем комплексный подход — от подбора материалов до выполнения работ.</p>
@@ -42,40 +42,40 @@
         </div>
 
 
-        <div class="container py-2 py-md-3 py-lg-5">
-            <div class="row justify-content-evenly row d-flex align-items-stretch g-1 g-md-3">
+        <div class="container feature-grid-container">
+            <div class="row feature-grid g-1 g-md-3">
 
                 <!-- LEFT COLUMN (2 cards) -->
-                <div class="col-12 col-md-4 col-lg-3 d-flex flex-column gap-1">
-                    <div class="card shadow-sm text-center industrial-card h-100 p-3 p-md-4">
-                        <h3 class="fw-bold text-accent border-bottom border-secondary pb-2 pb-md-3 mb-2 mb-md-3">
+                <div class="col-12 col-md-4 col-lg-3 feature-stack feature-stack--compact">
+                    <div class="card industrial-card feature-card feature-card--fill feature-card--centered">
+                        <h3 class="feature-card__title">
                             10+ ЛЕТ ОПЫТА
                         </h3>
-                        <p class="fw-bold px-1 px-md-2 mb-0">
+                        <p class="feature-card__summary">
                             Работаем в промышленной и коммерческой покраске по всему Сибирскому региону.
                         </p>
                     </div>
 
-                    <div class="card shadow-sm text-center industrial-card h-100 p-3 p-md-4">
-                        <h3 class="fw-bold text-accent border-bottom border-secondary pb-2 pb-md-3 mb-2 mb-md-3">
+                    <div class="card industrial-card feature-card feature-card--fill feature-card--centered">
+                        <h3 class="feature-card__title">
                             300 000+ М²
                         </h3>
-                        <p class="fw-bold px-1 px-md-2 mb-0">
+                        <p class="feature-card__summary">
                             Окрашенных поверхностей — подтверждение качества и стабильной работы.
                         </p>
                     </div>
                 </div>
 
                 <!-- CENTER COLUMN -->
-                <div class="col-12 col-md-8 col-lg-4 d-flex flex-column gap-3">
-                    <div class="card shadow-sm p-3 p-md-4 industrial-card h-100">
-                        <h3 class="fw-bold text-accent text-center border-bottom border-secondary pb-2 pb-md-3 mb-2 mb-md-3">
+                <div class="col-12 col-md-8 col-lg-4 feature-stack">
+                    <div class="card industrial-card feature-card feature-card--fill">
+                        <h3 class="feature-card__title">
                             ГДЕ МЫ РАБОТАЕМ
                         </h3>
-                        <p class="fs-6 fw-bold mb-2 mb-md-3">
+                        <p class="feature-card__lead">
                             Выполняем проектные работы любой сложности, включая:
                         </p>
-                        <ul class="mb-0">
+                        <ul class="feature-card__list">
                             <li>трубопроводы, резервуары, ВЛ, блоки буровых установок;</li>
                             <li>фасады промышленных и коммерческих зданий;</li>
                             <li>внутреннюю покраску складов, ангаров и производственных помещений;</li>
@@ -84,14 +84,14 @@
                     </div>
 
                     <!-- visible only md -->
-                    <div class="card d-none d-md-block d-lg-none shadow-sm p-3 p-md-4 industrial-card h-100">
-                        <h3 class="fw-bold text-accent text-center border-bottom border-secondary pb-2 pb-md-3 mb-2">
+                    <div class="card d-none d-md-block d-lg-none industrial-card feature-card feature-card--fill">
+                        <h3 class="feature-card__title feature-card__title--compact-md">
                             КАЧЕСТВО И НАДЕЖНОСТЬ
                         </h3>
-                        <p class="fs-6 fw-bold mb-2 mb-md-3">
+                        <p class="feature-card__lead">
                             Обеспечиваем долговечность и прочную защиту покрытий благодаря:
                         </p>
-                        <ul class="mb-0">
+                        <ul class="feature-card__list">
                             <li>современным методам подготовки поверхности;</li>
                             <li>точному контролю процесса нанесения покрытий;</li>
                             <li>использованию профессионального оборудования;</li>
@@ -102,14 +102,14 @@
 
                 <!-- RIGHT COLUMN (desktop only) -->
                 <div class="col-12 col-lg-4 d-flex d-md-none d-lg-flex">
-                    <div class="card shadow-sm p-3 p-md-4 industrial-card w-100">
-                        <h3 class="fw-bold text-accent text-center border-bottom border-secondary pb-2 pb-md-3 mb-2 mb-md-3">
+                    <div class="card industrial-card feature-card feature-card--wide">
+                        <h3 class="feature-card__title">
                             КАЧЕСТВО И НАДЕЖНОСТЬ
                         </h3>
-                        <p class="fs-6 fw-bold mb-2 mb-md-3">
+                        <p class="feature-card__lead">
                             Обеспечиваем долговечность и прочную защиту покрытий благодаря:
                         </p>
-                        <ul class="mb-0">
+                        <ul class="feature-card__list">
                             <li>современным методам подготовки поверхности;</li>
                             <li>точному контролю процесса нанесения покрытий;</li>
                             <li>использованию профессионального оборудования;</li>
@@ -123,19 +123,19 @@
 
     </article>
 
-    <article aria-label="Основная информация о наших услугах" class="mb-3 mb-md-4 mb-lg-5">
+    <article aria-label="Основная информация о наших услугах" class="landing-section">
 
-        <div class="container px-3 px-md-4 px-lg-5 mb-3 mb-md-4 mb-lg-5">
-            <div class="p-2 p-md-3">
-                <div class="block fs-4 gradient-title-r text-center text-uppercase fw-bold">
-                    <p class="fs-4 mb-3 mb-md-4 gradient-title text-uppercase fw-bold">
+        <div class="container landing-container landing-section__header">
+            <div class="landing-section__inner">
+                <div class="block gradient-title-r landing-callout">
+                    <p class="gradient-title landing-callout__text">
                         Ознакомьтесь с услугами компании, чтобы выбрать решение под ваш проект </p>
                 </div>
             </div>
         </div>
 
 
-        <div class="container-fluid py-2 py-md-3 py-lg-4 d-none d-md-block">
+        <div class="container-fluid services-carousel-shell d-none d-md-block">
             <div id="mainCarousel" class="carousel slide" data-bs-ride="false">
                 <div class="carousel-indicators">
                     {% for post in posts %}
@@ -149,19 +149,27 @@
                     {% endfor %}
                 </div>
 
+                <div class="carousel-caption-layer" aria-live="polite">
+                    {% for post in posts %}
+                    <div class="m-caption{% if forloop.first %} m-caption--active{% endif %}"
+                         data-caption-index="{{ forloop.counter0 }}"
+                         aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}">
+                        <h3>
+                            <a class="m-caption-title"
+                               href="{{ post.get_absolute_url }}"
+                               tabindex="{% if forloop.first %}0{% else %}-1{% endif %}">
+                                {{ post.title }}
+                            </a>
+                        </h3>
+                        <p class="m-caption-text">Some representative placeholder content for the first slide.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+
                 <div class="carousel-inner">
                     {% for post in posts %}
                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
                         <figure class="slide-figure">
-                            <figcaption class="m-caption">
-                                <h3>
-                                    <a class="m-caption-title" href="{{ post.get_absolute_url }}">
-                                        {{ post.title }}
-                                    </a>
-                                </h3>
-                                <p class="m-caption-text">Some representative placeholder content for the first
-                                    slide.</p>
-                            </figcaption>
                             {% if post.photo %}
                             <img src="{{ post.photo.url }}" class="slide-image" alt="Photo of service type">
                             {% endif %}
@@ -182,11 +190,11 @@
         </div>
     </article>
 
-    <article id="help" class="mb-3 mb-md-4 mb-lg-5 d-none d-md-block">
-        <div class="container px-3 px-md-4 px-lg-5 my-3 my-md-4 my-lg-5">
-            <div class="p-2 p-md-3">
-                <div class="block fs-4 gradient-title-r text-center text-uppercase fw-bold">
-                    <p class="mb-2 mb-md-3">Нужна консультация или расчёт сметы?</p>
+    <article id="help" class="landing-section d-none d-md-block">
+        <div class="container landing-container help-container">
+            <div class="landing-section__inner">
+                <div class="block gradient-title-r landing-callout">
+                    <p class="landing-callout__text landing-callout__text--compact">Нужна консультация или расчёт сметы?</p>
                     <a class="gradient-title-r" href="/contacts">Мы поможем!</a>
                 </div>
             </div>
@@ -194,14 +202,14 @@
     </article>
 
 
-    <div class="container px-3 px-md-4 px-lg-5">
+    <div class="container landing-container">
         <div class="row g-3 g-md-4 g-lg-5">
-            <div class="col-12 col-md-10 mx-auto">
+            <div class="col-12 col-md-10 services-list__column">
                 {% for post in posts %}
-                <div class="col mx-auto mb-0">
-                    <div class="card mb-0 flex-md-row {% if forloop.counter|divisibleby:2 %}flex-md-row-reverse{% endif %} border-0">
+                <div class="col service-card-item">
+                    <div class="card service-card{% if forloop.counter|divisibleby:2 %} service-card--reverse{% endif %}">
                         <!-- Изображение поста -->
-                        <div class="col p-0">
+                        <div class="col service-card__media">
                             {% if post.photo %}
                             <img src="{{ post.photo.url }}" alt="фото услуги" loading="lazy">
                             {% else %}
@@ -212,8 +220,8 @@
                             {% endif %}
                         </div>
                         <!-- Содержимое карточки -->
-                        <div class="col d-flex flex-column justify-content-center ps-3 ps-md-4 ps-lg-5 pe-2 pe-md-3 py-2 py-md-3">
-                            <h3 class="article-title text-center text-sm-start mb-2 mb-md-3">
+                        <div class="col service-card__content">
+                            <h3 class="article-title service-card__title">
                                 <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
                             </h3>
                             {% if post.postarticle_set.all %}
@@ -239,32 +247,32 @@
     </div>
     </article>
 
-    <article id="help2" class="mb-3 mb-md-4 mb-lg-5 d-block d-md-none">
-        <div class="container px-3 px-md-4 px-lg-5 my-3 my-md-4 my-lg-5">
-            <div class="p-2 p-md-3">
-                <div class="block fs-4 gradient-title-r text-center text-uppercase fw-bold">
-                    <p class="mb-2 mb-md-3">Нужна консультация или расчёт сметы?</p>
+    <article id="help2" class="landing-section d-block d-md-none">
+        <div class="container landing-container help-container">
+            <div class="landing-section__inner">
+                <div class="block gradient-title-r landing-callout">
+                    <p class="landing-callout__text landing-callout__text--compact">Нужна консультация или расчёт сметы?</p>
                     <a class="gradient-title-r" href="/contacts">Мы поможем!</a>
                 </div>
             </div>
         </div>
     </article>
 
-    <article aria-label="Основные преимущества работы с нами" class="mb-3 mb-md-4 mb-lg-5">
+    <article aria-label="Основные преимущества работы с нами" class="landing-section">
         <h2 class="yellow-bar">ПРЕИМУЩЕСТВА РАБОТЫ С НАМИ</h2>
-        <div class="container py-2 py-md-3 py-lg-4 px-3 px-md-4 px-lg-5 mb-3 mb-md-4 mb-lg-5">
+        <div class="container landing-content">
             <div class="row g-2 g-md-3 g-lg-4">
                 {% for key, value in advantages.items %}
                 <div class="col-md-6 col-lg-4">
-                    <div class="p-3 p-md-4 bg-light text-center rounded shadow-sm position-relative">
+                    <div class="advantage-card">
                         <img src="{{ value.icon }}"
                              alt="изображение преимущества"
-                             class="position-absolute center-0 start-0 m-2 opacity-50 blend-multiply"
+                             class="advantage-card__icon"
                              width="64">
                         <div class="row">
                             <div class="col-2"></div>
                             <div class="col-10">
-                                <strong class="text-uppercase">{{ value.title }}</strong>
+                                <strong class="advantage-card__title">{{ value.title }}</strong>
                                 <br>
                                 {{ value.content }}
                             </div>
@@ -275,30 +283,30 @@
             </div>
         </div>
     </article>
-    <article aria-label="Список выполненных нами проектов по покраске" class="mb-3 mb-md-4 mb-lg-5">
+    <article aria-label="Список выполненных нами проектов по покраске" class="landing-section">
         <h2 class="yellow-bar">НАШИ ПРОЕКТЫ</h2>
         <!-- КАРУСЕЛЬ ДЛЯ БОЛЬШИХ ЭКРАНОВ -->
         <div id="carouselLg"
              class="carousel slide d-none d-lg-block"
              data-bs-ride="carousel">
-            <div class="container py-2 py-md-3 py-lg-4 px-3 px-md-4 px-lg-5 mb-3 mb-md-4 mb-lg-5 max-h-500">
+            <div class="container project-carousel__content project-carousel__content--spaced">
                 <div class="carousel-inner">
                     {% for group in grouped_projects.lg %}
                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
                         <div class="row g-2 g-md-3 g-lg-4">
                             {% for project in group %}
                             <div class="col-lg-4">
-                                <div class="card rounded shadow-sm">
+                                <div class="card project-card">
                                     {% with project.photos.first as photo %}
-                                    <div class="ratio ratio-16x9 overflow-hidden rounded-top">
+                                    <div class="ratio ratio-16x9 project-card__media">
                                         <img src="{{ photo.image.url }}"
                                              class="img-fluid object-fit-cover w-100 h-100"
                                              alt="фото проекта"
                                              loading="lazy">
                                     </div>
                                     {% endwith %}
-                                    <div class="card-body text-center p-2 p-md-3">
-                                        <h6 class="card-title m-0">
+                                    <div class="card-body project-card__body">
+                                        <h6 class="card-title project-card__title">
                                             <a href="{{ project.get_absolute_url }}">{{ project.title }}</a>
                                         </h6>
                                     </div>
@@ -315,14 +323,14 @@
                     type="button"
                     data-bs-target="#carouselLg"
                     data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon bg-warning rounded-circle p-3"
+                    <span class="carousel-control-prev-icon project-carousel__control-icon"
                           aria-hidden="true"></span> <span class="visually-hidden">Предыдущий</span>
             </button>
             <button class="carousel-control-next"
                     type="button"
                     data-bs-target="#carouselLg"
                     data-bs-slide="next">
-                    <span class="carousel-control-next-icon bg-warning rounded-circle p-3"
+                    <span class="carousel-control-next-icon project-carousel__control-icon"
                           aria-hidden="true"></span> <span class="visually-hidden">Следующий</span>
             </button>
         </div>
@@ -330,24 +338,24 @@
         <div id="carouselMd"
              class="carousel slide d-none d-md-block d-lg-none"
              data-bs-ride="carousel">
-            <div class="container py-2 py-md-3 py-lg-4 px-3 px-md-4 px-lg-5 mb-3 mb-md-4 mb-lg-5 max-h-500">
+            <div class="container project-carousel__content project-carousel__content--spaced">
                 <div class="carousel-inner">
                     {% for group in grouped_projects.md %}
                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
                         <div class="row g-2 g-md-3 g-lg-4">
                             {% for project in group %}
                             <div class="col-md-6">
-                                <div class="card rounded shadow-sm">
+                                <div class="card project-card">
                                     {% with project.photos.first as photo %}
-                                    <div class="ratio ratio-16x9 overflow-hidden rounded-top">
+                                    <div class="ratio ratio-16x9 project-card__media">
                                         <img src="{{ photo.image.url }}"
                                              class="img-fluid object-fit-cover w-100 h-100"
                                              alt="Project Image"
                                              loading="lazy">
                                     </div>
                                     {% endwith %}
-                                    <div class="card-body text-center p-2 p-md-3">
-                                        <h6 class="card-title m-0">
+                                    <div class="card-body project-card__body">
+                                        <h6 class="card-title project-card__title">
                                             <a href="{{ project.get_absolute_url }}">{{ project.title }}</a>
                                         </h6>
                                     </div>
@@ -364,14 +372,14 @@
                     type="button"
                     data-bs-target="#carouselMd"
                     data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon bg-warning rounded-circle p-3"
+                    <span class="carousel-control-prev-icon project-carousel__control-icon"
                           aria-hidden="true"></span> <span class="visually-hidden">Предыдущий</span>
             </button>
             <button class="carousel-control-next"
                     type="button"
                     data-bs-target="#carouselMd"
                     data-bs-slide="next">
-                    <span class="carousel-control-next-icon bg-warning rounded-circle p-3"
+                    <span class="carousel-control-next-icon project-carousel__control-icon"
                           aria-hidden="true"></span> <span class="visually-hidden">Следующий</span>
             </button>
         </div>
@@ -379,24 +387,24 @@
         <div id="carouselSm"
              class="carousel slide d-block d-md-none"
              data-bs-ride="carousel">
-            <div class="container px-3 px-md-4 px-lg-5 py-2 py-md-3 max-h-500">
+            <div class="container project-carousel__content">
                 <div class="carousel-inner">
                     {% for group in grouped_projects.sm %}
                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
                         <div class="row g-2 g-md-3">
                             {% for project in group %}
                             <div class="col-12">
-                                <div class="card rounded shadow-sm">
+                                <div class="card project-card">
                                     {% with project.photos.first as photo %}
-                                    <div class="ratio ratio-16x9 overflow-hidden rounded-top">
+                                    <div class="ratio ratio-16x9 project-card__media">
                                         <img src="{{ photo.image.url }}"
                                              class="img-fluid object-fit-cover w-100 h-100"
                                              alt="Project Image"
                                              loading="lazy">
                                     </div>
                                     {% endwith %}
-                                    <div class="card-body text-center p-2 p-md-3">
-                                        <h6 class="card-title m-0">
+                                    <div class="card-body project-card__body">
+                                        <h6 class="card-title project-card__title">
                                             <a href="{{ project.get_absolute_url }}">{{ project.title }}</a>
                                         </h6>
                                     </div>
@@ -413,31 +421,31 @@
                     type="button"
                     data-bs-target="#carouselSm"
                     data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon bg-warning rounded-circle p-3"
+                    <span class="carousel-control-prev-icon project-carousel__control-icon"
                           aria-hidden="true"></span> <span class="visually-hidden">Предыдущий</span>
             </button>
             <button class="carousel-control-next"
                     type="button"
                     data-bs-target="#carouselSm"
                     data-bs-slide="next">
-                    <span class="carousel-control-next-icon bg-warning rounded-circle p-3"
+                    <span class="carousel-control-next-icon project-carousel__control-icon"
                           aria-hidden="true"></span> <span class="visually-hidden">Следующий</span>
             </button>
         </div>
     </article>
-    <article aria-label="Список наших крупных партнеров и заказчиков" class="mb-3 mb-md-4 mb-lg-5">
+    <article aria-label="Список наших крупных партнеров и заказчиков" class="landing-section">
         <div class="yellow-bar">ПАРТНЕРЫ И ЗАКАЗЧИКИ</div>
-        <div class="container py-2 py-md-3 py-lg-4 px-3 px-md-4 px-lg-5 min-h-300">
-            <div class="row g-2 g-md-3 g-lg-4 h-100">
+        <div class="container partners-content">
+            <div class="row g-2 g-md-3 g-lg-4 partners-grid">
                 {% for key, value in partners.items %}
                 <div class="col-6 col-md-3">
-                    <div class="p-2 p-md-3 p-lg-4 text-center d-flex flex-column align-items-center justify-content-center h-100 flex-grow-1">
+                    <div class="partner-card">
                         <img src="{{ value }}"
                              alt="Иконка"
                              width="70"
                              loading="lazy"
-                             class="mb-2 mb-md-3 d-none d-sm-block">
-                        <p class="mb-0 fs-4">{{ key }}</p>
+                             class="partner-card__logo">
+                        <p class="partner-card__name">{{ key }}</p>
                     </div>
                 </div>
                 {% endfor %}
@@ -450,6 +458,22 @@
     (function() {
       const carouselEl = document.getElementById('mainCarousel');
       const slides = carouselEl ? carouselEl.querySelectorAll('.carousel-item') : [];
+      const captions = carouselEl ? carouselEl.querySelectorAll('[data-caption-index]') : [];
+
+      function showCaption(index) {
+        captions.forEach((caption, captionIndex) => {
+          const isActive = captionIndex === index;
+          const link = caption.querySelector('.m-caption-title');
+          caption.classList.toggle('m-caption--active', isActive);
+          caption.setAttribute('aria-hidden', String(!isActive));
+          if (link) link.tabIndex = isActive ? 0 : -1;
+        });
+      }
+
+      if (carouselEl) {
+        carouselEl.addEventListener('slide.bs.carousel', event => showCaption(event.to));
+      }
+
       function computePad(imgWidth) {
         const vw = window.innerWidth;
         return Math.max((vw - imgWidth) / 2, 0);
