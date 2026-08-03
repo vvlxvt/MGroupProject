@@ -5,7 +5,7 @@
 {% block title %}<title>{{ post.title }}</title>{% endblock %}
 {% block services %}
     <div class="container content-section content-section--offset">
-        <div class="row justify-content-center">
+        <div class="row content-row--centered">
             <div class="col-lg-8 mx-auto">
                 <div class="card service-detail__card">
                     {% if post.photo %}
@@ -19,7 +19,7 @@
                         <article class="card-text service-detail__body">{{ post.body|markdown|safe }}.</article>
                         <hr>
                         <p class="service-detail__meta">
-                            <small class="text-muted">Опубликовано: {{ post.publish }} {{ post.author }}</small>
+                            <small class="publication-meta">Опубликовано: {{ post.publish }} {{ post.author }}</small>
                         </p>
                         <div class="card-footer">
                             <ul>

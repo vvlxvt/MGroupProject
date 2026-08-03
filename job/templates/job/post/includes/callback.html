@@ -2,7 +2,7 @@
 
 <section id="contacts">
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row contact-centered-row">
             <div class="col-lg-8 col-xl-6">
 
                 <div class="contact-hero">
@@ -14,7 +14,7 @@
 
                 <div class="chat-stack">
 
-                    <div class="contact-intro d-none d-md-flex">
+                    <div class="contact-intro">
 
                         <div class="chat-bubble">
                             <p class="chat-bubble__text">
@@ -23,7 +23,7 @@
                             </p>
                         </div>
 
-                        <div class="chat-bubble border-start">
+                        <div class="chat-bubble chat-bubble--bordered">
                             <div class="chat-bubble__accent">
                                 Что именно мы можем сделать для вашего проекта?
                             </div>
@@ -58,7 +58,7 @@
                         <input type="hidden" name="telegram_id" value="{{ request.session.user.id|default:'' }}">
 
                         <!-- Telegram + Login -->
-                        <div class="row g-3 align-items-center contact-form__row">
+                        <div class="row g-3 contact-form__row contact-form__row--aligned">
                             <div class="col-md-7">
                                 <div class="input-group">
                                     <span class="input-group-text contact-form__readonly">
@@ -177,7 +177,7 @@
         </div>
 
 
-        <div class="row justify-content-center g-4">
+        <div class="row g-4 contact-centered-row">
             <div class="col-12 contact-testimonial">
                 <div class="modern-card">
                     <p class="contact-testimonial__quote">
@@ -279,7 +279,7 @@ if (fileInput) {
     e.preventDefault();
 
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Отправка...';
+    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm contact-form__spinner"></span>Отправка...';
 
     const csrfToken = document.querySelector(
         'input[name=csrfmiddlewaretoken]'

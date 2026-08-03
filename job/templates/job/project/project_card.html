@@ -6,12 +6,12 @@
                 <img src="{{ photo.image.url }}"
                      alt="Фото выбранного объекта"
                      loading="lazy"
-                     class="img-fluid">
+                     class="project-card__image">
             {% endwith %}
         {% else %}
             <img src="{% static 'job/images/plug_image_bw.jpg' %}"
                  alt="чб фото объекта"
-                 class="w-auto">
+                 class="project-card__fallback-image">
         {% endif %}
     </div>
     <div class="card-body">

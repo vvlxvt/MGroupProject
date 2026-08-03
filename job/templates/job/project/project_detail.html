@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}<title>{{ page_title }}</title>{% endblock %}
 {% block projects %}
-    <div class="row justify-content-center align-items-center">
+    <div class="row content-row--centered content-row--aligned">
         <div class="col-12 col-md-6">
             <div class="container project-detail" id="project">
                 <article>
@@ -11,7 +11,7 @@
                 <div class="project-gallery">
                     {% for photo in project.photos.all %}
                         <div class="project-gallery__item">
-                            <img class="img-fluid clickable-image"
+                            <img class="project-gallery__image clickable-image"
                                  src="{{ photo.image.url }}"
                                  alt="{{ photo.alt|default:'Фотография проекта' }}"
                                  width="{{ photo.image.width }}"
@@ -29,13 +29,13 @@
                              aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-fullscreen">
                                 <div class="modal-content">
-                                    <div class="modal-header bg-dark border-0">
+                                    <div class="modal-header project-modal__header">
                                         <button type="button"
-                                                class="btn-close btn-close-white ms-auto"
+                                                class="btn-close btn-close-white project-modal__close"
                                                 data-bs-dismiss="modal"
                                                 aria-label="Закрыть"></button>
                                     </div>
-                                    <div class="modal-body p-0">
+                                    <div class="modal-body project-modal__body">
                                         <img src="{{ photo.image.url }}" class="hd_image" alt="Project Image">
                                     </div>
                                 </div>

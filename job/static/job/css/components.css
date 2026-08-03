@@ -5,6 +5,18 @@
   font-weight: bold;
 }
 
+.publication-meta {
+  color: var(--bs-secondary-color);
+}
+
+.content-row--centered {
+  justify-content: center;
+}
+
+.content-row--aligned {
+  align-items: center;
+}
+
 .pagination * {
   font-weight: normal !important; /* Сброс, если баг "переползает" */
 }
