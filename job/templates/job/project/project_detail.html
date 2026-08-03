@@ -4,13 +4,13 @@
 {% block projects %}
     <div class="row justify-content-center align-items-center">
         <div class="col-12 col-md-6">
-            <div class="container mt-4" id="project">
+            <div class="container project-detail" id="project">
                 <article>
-                    <h2 class="text-center">{{ project.body }}</h2>
+                    <h2 class="project-detail__title">{{ project.body }}</h2>
                 </article>
-                <div class="d-flex flex-column align-items-center mt-3 gap-3">
+                <div class="project-gallery">
                     {% for photo in project.photos.all %}
-                        <div class="w-100">
+                        <div class="project-gallery__item">
                             <img class="img-fluid clickable-image"
                                  src="{{ photo.image.url }}"
                                  alt="{{ photo.alt|default:'Фотография проекта' }}"

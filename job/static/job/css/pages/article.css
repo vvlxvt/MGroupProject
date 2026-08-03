@@ -16,3 +16,16 @@
 .list-group-item.active a {
     text-decoration: none;
 }
+
+.article-detail__sidebar {
+  background-color: #f8f9fa;
+}
+
+.article-detail__body {
+  padding-right: 1rem;
+  padding-left: 1rem;
+}
+
+.article-detail__footer {
+  margin-bottom: 1rem;
+}

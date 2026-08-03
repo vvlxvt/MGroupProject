@@ -2,12 +2,12 @@
 {% load static %}
 {% block meta_description %}{{ meta_description }}{% endblock %}
 {% block articles %}
-    <div class="container py-3 mt-4">
+    <div class="container content-section content-section--offset">
         <div class="row justify-content-center">
-            <div class="col-lg-4 bg-light">
+            <div class="col-lg-4 article-detail__sidebar">
                 <ul class="list-unstyled">
                     {% for article in articles %}
-                        <li class="list-group-item mb-0 {% if article == object %}active{% endif %}">
+                        <li class="list-group-item {% if article == object %}active{% endif %}">
                             <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
                         </li>
                     {% endfor %}
@@ -22,8 +22,8 @@
                          width="{{ article.photo.width }}"
                          height="{{ article.photo.height }}">
                     <div class="card-body">
-                        <p class="card-text px-3">{{ article.body|safe }}.</p>
-                        <div class="card-footer mb-3">
+                        <p class="card-text article-detail__body">{{ article.body|safe }}.</p>
+                        <div class="card-footer article-detail__footer">
                             <small class="text-muted">Опубликовано: {{ article.publish }}</small>
                         </div>
                         <a href="{{ request.META.HTTP_REFERER|default:'#' }}"

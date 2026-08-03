@@ -60,15 +60,16 @@
         </li>
 
         {% endif %}
-        {% endfor %}
 
-        <!-- phone -->
-        <li class="nav-item d-sm-none w-100 mt-2">
-          <a class="text-dark fw-bold text-decoration-none ps-2"
+        {% if key == "contacts" %}
+        <li class="nav-item d-lg-none w-100">
+          <a class="nav-link fw-bold"
              href="tel:+73912516747">
             +7 (391) 251 67 47
           </a>
         </li>
+        {% endif %}
+        {% endfor %}
 
       </ul>
 

@@ -31,5 +31,4 @@ The import order is part of the current UI and must not be changed casually.
 ## Known issues to address incrementally
 
 - Responsive rules are distributed across six files.
-- `bootstrap_overrides.css` also owns project-specific navbar and form rules.
 - Several custom properties are used without local declarations and currently fall back to Bootstrap or inherited values.

@@ -4,12 +4,12 @@
 {% load h2_del_filter %}
 {% block meta_description %}{{ meta_description }}{% endblock %}
 {% block services %}
-    <section id="services" aria-label="Наши услуги" class="bg-white py-3 mt-4">
+    <section id="services" aria-label="Наши услуги" class="content-section content-section--white content-section--offset">
         <div class="container">
-            <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
+            <div class="row card-list g-4 justify-content-center">
                 {% for post in posts %}
-                    <div class="col">
-                        <div class="card h-100">
+                    <div class="card-list__item card-list__item--gutter-only">
+                        <div class="card card-list__card">
                             {% if post.photo %}
                                 <img src="{{ post.photo.url }}" alt="фото услуги">
                             {% else %}
@@ -20,17 +20,17 @@
                                 </div>
                             {% endif %}
                             <div class="card-body">
-                                <div class="container mb-2" style="height:50px">
-                                    <h2 class="d-flex justify-content-center align-items-center text-center fs-5">
+                                <div class="container card-list__title-wrap card-list__title-wrap--fixed">
+                                    <h2 class="card-list__title card-list__title--centered">
                                         <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
                                     </h2>
                                 </div>
-                                <div class="d-flex flex-wrap gap-1 align-items-center justify-content-center mb-3">
+                                <div class="card-list__tags">
                                     {% for tag in post.tags.all %}
                                         <a href="{% url 'job:post_list' %}?tag={{ tag.slug }}" class="tag">{{ tag.name }}</a>
                                     {% endfor %}
                                 </div>
-                                <div class="card-text content-preview mt-2">
+                                <div class="card-text content-preview card-list__preview">
                                     {{ post.body|remove_first_h2|safe|truncatewords:30 }}
                                 </div>
                             </div>

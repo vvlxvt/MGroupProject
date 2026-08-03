@@ -30,3 +30,20 @@ main {
 section {
   margin-bottom: 3rem;
 }
+
+.content-section {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.content-section--white {
+  background-color: #fff;
+}
+
+.content-section--muted {
+  background-color: #f8f9fa;
+}
+
+.content-section--offset {
+  margin-top: 1.5rem;
+}

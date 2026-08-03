@@ -1,0 +1,19 @@
+/* ================================
+   Post pages
+================================= */
+
+.service-detail__card {
+  margin-bottom: 1.5rem;
+}
+
+.service-detail__body {
+  margin-bottom: 0;
+}
+
+.service-detail__meta {
+  text-align: right;
+}
+
+.tag-results {
+  margin-top: 3rem;
+}

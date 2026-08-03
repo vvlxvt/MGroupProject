@@ -3,12 +3,12 @@
 <title>{{ page_title }}</title>
 {% block meta_description %}{{ meta_description }}{% endblock %}
 {% block articles %}
-    <section id="articles" class="bg-white py-3 mt-4">
+    <section id="articles" class="content-section content-section--white content-section--offset">
         <div class="container">
-            <div class="row justify-content-center">
+            <div class="row card-list justify-content-center">
                 {% for article in page_obj %}
-                    <div class="col-12 col-sm-6 col-md-4 mb-4">
-                        <div class="card h-100">
+                    <div class="card-list__item card-list__item--sm-2">
+                        <div class="card card-list__card">
                             {% if article.photo %}
                                 <img src="{{ article.photo.url }}" alt="картинка к статье"
                                      width="{{ article.photo.width }}"
@@ -23,8 +23,8 @@
                                 </p>
                             {% endif %}
                             <div class="card-body">
-                                <div class="container mb-2" style="min-height:50px">
-                                    <h5 class="article-title text-center mb-2">
+                                <div class="container card-list__title-wrap">
+                                    <h5 class="article-title card-list__title">
                                         <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
                                     </h5>
                                 </div>
