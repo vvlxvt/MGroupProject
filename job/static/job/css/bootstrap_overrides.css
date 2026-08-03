@@ -1,0 +1,135 @@
+/* ================================
+   Bootstrap overrides
+================================= */
+
+.btn-primary {
+  background-color: #FFD700;
+  border-color: #FFD700;
+}
+
+/* Navbar and navigation */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+  min-height: 35px;
+  padding: 0 1px;
+  transition: top 0.3s ease;
+  background-color: white;
+  --bs-navbar-toggler-focus-width: 0.15rem; /* works only in newer BS builds */
+}
+
+.navbar.hidden {
+  top: -45px;
+}
+
+/* Nav links */
+.nav-link {
+  color: black;
+  padding: 0.4rem;
+  font-weight: 400;
+  border-bottom: 3px solid transparent;
+  box-sizing: border-box;
+}
+
+.nav-link:hover {
+  border-bottom-color: #525252;
+  text-decoration: none;
+}
+
+.nav-link.active,
+.nav-item.active > .nav-link {
+  border-bottom-color: black;
+}
+
+/* Dropdown hover — desktop only */
+@media (min-width: 992px) {
+  .nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+  }
+}
+
+/* Mobile dropdown */
+@media (max-width: 991.98px) {
+  .navbar .dropdown-menu {
+    position: static !important;
+    transform: none !important;
+    inset: auto !important;
+    width: 100%;
+    min-width: 100%;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .navbar > .container-fluid .dropdown-menu > li > .dropdown-item {
+    padding-left: 1.5rem;
+  }
+  .dropdown-menu .dropdown-menu .dropdown-item {
+    padding-left: 2.5rem;
+  }
+}
+
+/* Dropdown item states */
+.navbar .dropdown-menu .dropdown-item:hover,
+.navbar .dropdown-menu .dropdown-item:focus {
+  color: black;
+}
+
+.navbar .dropdown-menu .dropdown-item:active {
+  background-color: #343A40;
+  color: #FFF;
+}
+
+.navbar .nav-link {
+  display: flex;
+  align-items: center;
+}
+
+/* Nav-link-like dropdown items on mobile */
+@media (max-width: 991.98px) {
+  .navbar .dropdown-menu .dropdown-item {
+    color: black;
+    padding: 0.4rem;
+    border-bottom: 3px solid transparent;
+    box-sizing: border-box;
+    background-color: transparent;
+    text-decoration: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .navbar .dropdown-menu .dropdown-item:hover,
+  .navbar .dropdown-menu .dropdown-item:focus {
+    border-bottom-color: #525252;
+    color: black;
+    background-color: transparent;
+  }
+
+  .navbar .dropdown-menu .dropdown-item.active {
+    border-bottom-color: black;
+    color: black;
+    background-color: transparent;
+  }
+}
+
+/* Input groups */
+.input-group:focus-within {
+  border: 1px solid #0d6efd;
+  border-radius: 0.375rem;
+  box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
+}
+
+.input-group {
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+  overflow: hidden;
+}
+
+.input-group .form-control,
+.input-group .input-group-text {
+  border: none;
+  box-shadow: none;
+}
+
+

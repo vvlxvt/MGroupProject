@@ -123,7 +123,47 @@ a.tag:active {
   border-color: #02417a !important;
 }
 
-/* Card component (moved from vacancies.css) */
+.btn-bd-primary {
+  --bs-btn-font-weight: 600;
+  --bs-btn-color: var(--bs-dark);
+  --bs-btn-bg: var(--bd-violet-bg);
+  --bs-btn-border-color: var(--bs-dark);
+
+  --bs-btn-hover-color: var(--bs-black);
+  --bs-btn-hover-bg: #e0e0e0;
+  --bs-btn-hover-border-color: var(--bs-black);
+
+  --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+
+  --bs-btn-active-color: var(--bs-btn-hover-color);
+  --bs-btn-active-bg: #c4c4c4;
+  --bs-btn-active-border-color: var(--bs-black);
+}
+
+/* Cards */
+.card {
+  background: #fff;
+  border: var(--border-width) solid #ddd;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.card img {
+  aspect-ratio: 3 / 2;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: center;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  margin-bottom: 1rem;
+}
+
+.card-body {
+  padding: var(--spacing-base);
+}
+
+/* Custom card component (moved from vacancies.css) */
 .custom-card {
   background-color: #ffffff;
   border: 1px solid #e0e0e0;
@@ -171,88 +211,7 @@ a.tag:active {
   width: 100%;
 }
 
-/* ================================
-   UNUSED STYLES (commented out)
-================================= */
-
-/* UNUSED: .btn-custom - not used in any templates */
-/*
-.btn-custom {
-    padding: var(--spacing-small) var(--spacing-base);
-    display: inline-block;
-    text-decoration: none;
-    font-size: var(--font-size-base);
-    cursor: pointer;
-    background-color: #035199;
-    color: white;
-    border: 1px solid #035199;
-    border-radius: 5px;
-    transition: background-color 0.3s ease; 
-}
-
-.btn-custom:hover {
-    background-color: #02417A; 
-}
-
-.btn-custom:active {
-    background-color: #023563; 
-}
-
-.btn-custom:focus {
-    outline: none; 
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
-}
-*/
-
-/* UNUSED: #projects .card img - #projects id not used in templates */
-/*
-#projects .card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    border-radius: var(--border-radius);
-}
-*/
-
-/* UNUSED: .yellow-stripe - commented out in base.html */
-/*
-.yellow-stripe {
-  background-color: #31B787;
-  text-align: center;
-  font-weight: var(--font-weight-bold);
-  padding: var(--spacing-small) 0;
-}
-*/
-
-/* UNUSED: .page-title - commented out in base.html */
-/*
-.page-title {
-  margin: 0;
-  color: white;
-  font-family: var(--font-family-base);
-  font-size: var(--font-size-large);
-  font-weight: var(--font-weight-bold);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-}
-*/
-
-/* Адаптивность для мобильных устройств */
-/* UNUSED: media query for .page-title */
-/*
-@media (max-width: 768px) {
-    .page-title {
-  font-family: var(--font-family-base);
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-normal);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  }
-}
-*/
-
-/* UNUSED: #map - id not used in templates */
+/* Project map */
 
 #map {
     width: 100%;
@@ -339,102 +298,3 @@ a.tag:active {
     max-height: 80vh;
   }
 }
-
-
-
-/* Стиль для разяряженного текста */
-/* UNUSED: .letter-spaced - not used in templates */
-/*
-.letter-spaced {
-  letter-spacing: 5px;
-}
-*/
-
-/* UNUSED: .font-cuprum - not used in templates */
-/*
-.font-cuprum {
-    font-family:'Cuprum';
-}
-*/
-
-/* Animated gradient text with CSS custom properties */
-/* UNUSED: .gradient-text and related - not used in templates */
-/*
-@property --color-gradient-start {
-  syntax: '<color>';
-  inherits: false;
-  initial-value: #F5BF0C;
-}
-
-@property --color-gradient-end {
-  syntax: '<color>';
-  inherits: false;
-  initial-value: #FD1B03;
-}
-
-.gradient-text {
-  background-image: linear-gradient(
-    90deg,
-    var(--color-gradient-start),
-    var(--color-gradient-end)
-  );
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  transition:
-    --color-gradient-start 1s,
-    --color-gradient-end 1s;
-}
-
-.gradient-text:hover {
-  --color-gradient-start: #FFD700;
-  --color-gradient-end: #31B787;
-}
-*/
-
-/* Utilities */
-/* UNUSED: .tg-login-wrap - not used in templates (tg-login-wrapper is used but different class) */
-/*
-.tg-login-wrap {
-    max-height: 38px;
-    margin-bottom: 2px;
-}
-*/
-
-/* UNUSED: #landing .logo-font - #landing exists but .logo-font not used within it */
-/*
-#landing .logo-font {
-  font-size: 8rem;
-}
-*/
-
-/* UNUSED: .main-title - not used in templates */
-/*
-.main-title {
-  font-size: 12rem;
-}
-*/
-
-/* UNUSED: media queries for .main-title and .main-statement - not used */
-/*
-@media (min-width: 576px) and (max-width: 991.98px) {
-  .main-title {
-    font-size: 80px;
-  }
-
-  .main-statement {
-    font-size: var(--font-size-base);
-  }
-}
-
-@media (max-width: 575.98px) {
-  .main-title {
-    font-size: 64px;
-  }
-
-  .main-statement {
-    font-size: var(--font-size-small);
-  }
-}
-*/
