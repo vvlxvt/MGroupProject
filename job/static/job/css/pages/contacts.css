@@ -45,13 +45,18 @@ section#contacts {
 .chat-stack {
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
 }
 
 .chat-bubble {
+  width: 100%;
   max-width: 80%;
   min-height: 100px;
+  padding: 1rem;
   border-radius: 0.5rem;
   background-color: white;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
   display: flex;
   align-items: center;
 }
@@ -121,6 +126,7 @@ section#contacts {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
   max-width: 700px;
   width: 100%;
+  padding: 1.5rem;
 }
 
 .modern-card:hover {
@@ -137,4 +143,153 @@ section#contacts {
   height: 100%;
   object-fit: cover;
   z-index: 5;
+}
+
+.contacts-info {
+  margin-bottom: 3rem;
+}
+
+.contacts-info__row {
+  justify-content: space-around;
+}
+
+.contacts-map {
+  position: relative;
+  overflow: hidden;
+}
+
+.contacts-map__frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.contacts-details {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.contacts-details__title {
+  text-transform: uppercase;
+}
+
+.contacts-details__item {
+  font-size: 1.5rem;
+}
+
+.contacts-details__item--strong {
+  font-weight: 700;
+}
+
+.contact-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-intro {
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.chat-bubble__text,
+.chat-bubble__accent {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.chat-bubble__text {
+  margin-bottom: 0;
+}
+
+.chat-bubble__accent {
+  color: var(--color-accent);
+}
+
+.contact-prompt {
+  margin: 0;
+  text-align: center;
+}
+
+.contact-form {
+  padding: 1.5rem;
+  background-color: #fff;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.contact-form__row,
+.contact-form__field {
+  margin-bottom: 1rem;
+}
+
+.contact-form__readonly {
+  background-color: #f8f9fa;
+}
+
+.contact-form__login {
+  display: flex;
+  justify-content: center;
+}
+
+.contact-form__widget {
+  margin-left: 0.5rem;
+}
+
+.contact-form__field--file {
+  margin-bottom: 1.5rem;
+}
+
+.contact-form__file-label {
+  font-size: 0.875em;
+  color: #6c757d;
+}
+
+.contact-form__submit {
+  display: grid;
+}
+
+.contact-form__response {
+  display: none;
+  margin-top: 1rem;
+}
+
+.contact-testimonial {
+  display: flex;
+  justify-content: center;
+}
+
+.contact-testimonial__quote {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-style: italic;
+}
+
+.contact-testimonial__text {
+  color: var(--color-accent);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+@media (min-width: 576px) {
+  .contact-prompt {
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .contacts-info__row {
+    justify-content: center;
+  }
+
+  .contacts-details {
+    margin-top: 3rem;
+  }
+
+  .contact-form__login {
+    justify-content: flex-end;
+  }
 }

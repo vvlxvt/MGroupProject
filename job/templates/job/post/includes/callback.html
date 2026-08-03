@@ -5,38 +5,38 @@
         <div class="row justify-content-center">
             <div class="col-lg-8 col-xl-6">
 
-                <div class="d-flex justify-content-center align-items-center">
+                <div class="contact-hero">
                     <span class="font-hero-logo">Маляр</span>
                     <span class="font-hero-name">Групп</span>
                     <span class="font-hero-subtitle">на связи с Вами</span>
                 </div>
 
 
-                <div class="chat-stack d-flex flex-column gap-4 mb-5">
+                <div class="chat-stack">
 
-                    <div class="d-flex flex-column gap-4 mb-5 d-none d-md-flex">
+                    <div class="contact-intro d-none d-md-flex">
 
-                        <div class="p-3 shadow-sm w-100 chat-bubble">
-                            <p class="mb-0 fs-5 fw-semibold">
+                        <div class="chat-bubble">
+                            <p class="chat-bubble__text">
                                 К этому моменту вы уже узнали многое о нас.<br>
                                 Но остаётся главный вопрос
                             </p>
                         </div>
 
-                        <div class="p-3 shadow-sm w-100 chat-bubble border-start">
-                            <div class="fs-5 fw-semibold text-accent">
+                        <div class="chat-bubble border-start">
+                            <div class="chat-bubble__accent">
                                 Что именно мы можем сделать для вашего проекта?
                             </div>
                         </div>
 
-                        <div class="p-3 shadow-sm w-100 chat-bubble">
-                            <p class="mb-0 fs-5 fw-semibold">
+                        <div class="chat-bubble">
+                            <p class="chat-bubble__text">
                                 Расскажите нам о своём проекте.
                             </p>
                         </div>
 
-                        <div class="p-3 shadow-sm w-100 chat-bubble">
-                            <div class="fs-5 fw-semibold text-accent">
+                        <div class="chat-bubble">
+                            <div class="chat-bubble__accent">
                                 Мы обсудим детали, предложим оптимальные варианты
                                 и покажем, почему нам доверяют.
                             </div>
@@ -44,12 +44,12 @@
 
                     </div>
 
-                    <p class="font-hero-subtitle m-0 mb-sm-4 text-center">
+                    <p class="font-hero-subtitle contact-prompt">
                         Заполните форму, и мы ответим на ваши вопросы
                     </p>
 
                     <form id="contactForm"
-                          class="bg-white p-4 shadow-sm"
+                          class="contact-form"
                           method="post"
                           enctype="multipart/form-data">
 
@@ -58,41 +58,41 @@
                         <input type="hidden" name="telegram_id" value="{{ request.session.user.id|default:'' }}">
 
                         <!-- Telegram + Login -->
-                        <div class="row g-3 mb-3 align-items-center">
+                        <div class="row g-3 align-items-center contact-form__row">
                             <div class="col-md-7">
                                 <div class="input-group">
-                                    <span class="input-group-text bg-light">
+                                    <span class="input-group-text contact-form__readonly">
                                         <i class="fa-solid fa-at"></i>
                                     </span>
                                     <input type="text"
                                            name="username"
-                                           class="form-control bg-light"
+                                           class="form-control contact-form__readonly"
                                            placeholder="telegram login"
                                            value="{{ request.session.user.username|default:'' }}"
                                            readonly>
                                 </div>
                             </div>
 
-                            <div class="col-md-5 d-flex justify-content-center justify-content-md-end">
+                            <div class="col-md-5 contact-form__login">
                                 <button type="button"
                                         id="tg-login-btn"
                                         class="btn btn-outline-primary">
                                     Войти через Telegram
                                 </button>
-                                <div id="tg-widget" class="ms-2"></div>
+                                <div id="tg-widget" class="contact-form__widget"></div>
                             </div>
                         </div>
 
                         <!-- Auth info -->
-                        <div class="row g-3 mb-3">
+                        <div class="row g-3 contact-form__row">
                             <div class="col-md-6">
                                 <div class="input-group">
-                                    <span class="input-group-text bg-light">
+                                    <span class="input-group-text contact-form__readonly">
                                         <i class="fa-solid fa-user-tie"></i>
                                     </span>
                                     <input type="text"
                                            name="first_name"
-                                           class="form-control bg-light"
+                                           class="form-control contact-form__readonly"
                                            value="{{ request.session.user.first_name|default:'' }}"
                                            readonly>
                                 </div>
@@ -100,19 +100,19 @@
 
                             <div class="col-md-6">
                                 <div class="input-group">
-                                    <span class="input-group-text bg-light">
+                                    <span class="input-group-text contact-form__readonly">
                                         <i class="fa-solid fa-calendar"></i>
                                     </span>
                                     <input type="text"
                                            name="auth_date"
-                                           class="form-control bg-light"
+                                           class="form-control contact-form__readonly"
                                            value="{{ request.session.user.auth_date|default:'' }}"
                                            readonly>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="contact-form__field">
                             <div class="input-group has-validation">
                             <span class="input-group-text">
                                 <i class="fa-regular fa-envelope"></i>
@@ -126,7 +126,7 @@
                             </div>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="contact-form__field">
                             <div class="input-group has-validation">
                             <span class="input-group-text">
                                 <i class="fa-solid fa-location-dot"></i>
@@ -141,7 +141,7 @@
                         </div>
 
                         <!-- Message -->
-                        <div class="mb-3">
+                        <div class="contact-form__field">
                             <textarea class="form-control"
                                       name="question_text"
                                       rows="4"
@@ -151,8 +151,8 @@
                         </div>
 
                         <!-- File -->
-                        <div class="mb-4">
-                            <label class="form-label small text-muted">
+                        <div class="contact-form__field--file">
+                            <label class="form-label contact-form__file-label">
                                 Прикрепить фото (необязательно)
                             </label>
                             <input type="file"
@@ -161,7 +161,7 @@
                             <div class="invalid-feedback" id="attached_photo-error"></div>
                         </div>
 
-                        <div class="d-grid">
+                        <div class="contact-form__submit">
                             <button type="submit"
                                     id="submitBtn"
                                     class="btn btn-bd-primary btn--narrow">
@@ -169,9 +169,7 @@
                             </button>
                         </div>
 
-                        <div id="formResponse"
-                             class="mt-3"
-                             style="display:none;"></div>
+                        <div id="formResponse" class="contact-form__response"></div>
                     </form>
 
                 </div>
@@ -180,13 +178,13 @@
 
 
         <div class="row justify-content-center g-4">
-            <div class="col-12 d-flex justify-content-center">
-                <div class="modern-card p-4">
-                    <p class="fst-italic mb-3 fs-5">
+            <div class="col-12 contact-testimonial">
+                <div class="modern-card">
+                    <p class="contact-testimonial__quote">
                         «Мы гордимся своей работой, но настоящая гордость приходит,
                         когда мы видим довольного клиента»
                     </p>
-                    <p class="fs-5 fw-semibold text-accent">
+                    <p class="contact-testimonial__text">
                         Сотрудничая с нами, вы испытаете это чувство на собственном опыте.
                     </p>
                 </div>

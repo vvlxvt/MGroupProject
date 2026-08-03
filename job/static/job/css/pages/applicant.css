@@ -1,0 +1,58 @@
+/* ================================
+   Applicant form
+================================= */
+
+.applicant-page {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.applicant-column {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.applicant-title {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.applicant-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.applicant-form__row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.applicant-form__field {
+  width: 100%;
+}
+
+.applicant-form__check {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.applicant-form__actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .applicant-row,
+  .applicant-column {
+    padding-right: 3rem;
+    padding-left: 3rem;
+  }
+
+  .applicant-form__row {
+    flex-direction: row;
+  }
+}

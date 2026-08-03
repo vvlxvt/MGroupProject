@@ -1,0 +1,30 @@
+/* ================================
+   Vacancies page
+================================= */
+
+.vacancies-title {
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.vacancies-grid {
+  margin-right: 0.25rem;
+  margin-left: 0.25rem;
+}
+
+.vacancies-column--spaced {
+  margin-bottom: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .vacancies-title {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .vacancies-grid {
+    margin-right: 3rem;
+    margin-left: 3rem;
+  }
+}

@@ -3,17 +3,17 @@
 {% block meta_description %}{{ meta_description }}{% endblock %}
 {% block contact %}
 {% include "job/post/includes/callback.html" %}
-<div class="container mb-5">
-    <div class="row justify-content-around justify-content-md-center">
+<div class="container contacts-info">
+    <div class="row contacts-info__row">
 
         <!-- ЛЕВЫЙ СТОЛБЕЦ: карта / заглушка -->
         <div class="col-12 col-lg-5">
-            <div class="ratio ratio-16x9 rounded-10 overflow-hidden position-relative">
+            <div class="ratio ratio-16x9 contacts-map">
 
                 <iframe
                         id="mapFrame"
                         src="https://www.google.com/maps/embed/v1/place?key={{ google_maps_api_key }}&q=МАЛЯР+ГРУПП,Krasnoyarsk+Russia"
-                        class="border-0 w-100 h-100 position-absolute top-0 start-0"
+                        class="contacts-map__frame"
                         loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
@@ -26,16 +26,16 @@
         </div>
 
         <!-- ПРАВЫЙ СТОЛБЕЦ: контакты -->
-        <div class="col-12 col-lg-5 text-center mt-2 mt-md-5">
-            <h3 class="text-uppercase">наш адрес и контакты</h3>
+        <div class="col-12 col-lg-5 contacts-details">
+            <h3 class="contacts-details__title">наш адрес и контакты</h3>
 
             <ul class="list-unstyled">
-                <li class="fs-4">660011 , Россия, Красноярский край,</li>
-                <li class="fs-4">г.Красноярск ул. Кипрейная, д. 11</li>
-                <li class="fs-4 fw-bold">
+                <li class="contacts-details__item">660011 , Россия, Красноярский край,</li>
+                <li class="contacts-details__item">г.Красноярск ул. Кипрейная, д. 11</li>
+                <li class="contacts-details__item contacts-details__item--strong">
                     <a href="tel:+73912516747">+7 (391) 251-67-47</a>
                 </li>
-                <li class="fs-4">
+                <li class="contacts-details__item">
                     <a href="mailto:mgrup24@mail.ru">mgrup24@mail.ru</a>
                 </li>
             </ul>
