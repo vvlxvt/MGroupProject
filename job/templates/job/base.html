@@ -30,21 +30,6 @@
     <header>
         {% include "job/post/includes/navbar.html" %}
     </header>
-    <!--            <div class="d-none d-sm-block yellow-stripe">-->
-    <!--                {% block page_title %}-->
-    <!--                    <h1 class="page-title">-->
-    <!--                        {% if request.path == '/' %}-->
-    <!--                            Промышленная покраска, антикоррозийная защита, теплоизоляция-->
-    <!--                        {% else %}-->
-    <!--                            {% if page_obj and page_obj.number > 1 %}-->
-    <!--                                {{ title }} <span class="fs-6">– страница {{ page_obj.number }}</span>-->
-    <!--                            {% else %}-->
-    <!--                                {{ title }}-->
-    <!--                            {% endif %}-->
-    <!--                        {% endif %}-->
-    <!--                    </h1>-->
-    <!--                {% endblock %}-->
-    <!--            </div>-->
     {% block http404 %}{% endblock %}
     {% block http500 %}{% endblock %}
     {% block landing %}{% endblock %}
@@ -186,29 +171,6 @@
       prevScrollPos = currentScrollPos;
     });
 </script>
-<!--<script>-->
-<!--    &lt;!&ndash;Сохраняем позицию скролла перед переходом&ndash;&gt;-->
-<!--            document.addEventListener('DOMContentLoaded', function() {-->
-<!--                const links = document.querySelectorAll('.pagination a');-->
-<!--                links.forEach(link => {-->
-<!--                    link.addEventListener('click', function(event) {-->
-<!--                        event.preventDefault(); // Предотвращаем стандартное поведение ссылки-->
-<!--    &lt;!&ndash;Сохраняем текущую позицию скролла в localStorage&ndash;&gt;-->
-<!--                        localStorage.setItem('scrollPosition', window.scrollY);-->
-<!--                        // Переходим по новому URL-->
-<!--                        window.location.href = this.href;-->
-<!--                    });-->
-<!--                });-->
-<!--    &lt;!&ndash;Восстанавливаем позицию скролла после загрузки страницы&ndash;&gt;-->
-<!--                window.addEventListener('load', function() {-->
-<!--                    const scrollPosition = localStorage.getItem('scrollPosition');-->
-<!--                    if (scrollPosition !== null) {-->
-<!--                        window.scrollTo(0, parseInt(scrollPosition));-->
-<!--                        localStorage.removeItem('scrollPosition'); // Удаляем сохраненную позицию после восстановления-->
-<!--                    }-->
-<!--                });-->
-<!--            });-->
-<!--</script>-->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Находим все элементы с классом .nav-link.dropdown-toggle

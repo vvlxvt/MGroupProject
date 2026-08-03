@@ -13,8 +13,38 @@ a.navbar-brand:hover {
     color: var(--color-accent);
 }
 
+.site-brand {
+  margin-left: 0.5rem;
+  padding-top: 0;
+  padding-bottom: 0;
+  font-size: calc(1.3rem + 0.6vw);
+  font-weight: 700;
+}
+
+.navbar-panel,
+.navbar-submenu {
+  background-color: #fff;
+}
+
+.mobile-phone {
+  width: 100%;
+}
+
+.mobile-phone__link {
+  font-weight: 700;
+}
+
 .navbar-nav {
   align-items: center;
+}
+
+.navbar-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
 }
 
 /* Search input in navbar */
@@ -47,6 +77,12 @@ a.navbar-brand:hover {
     .navbar-collapse.show {
     padding-bottom: 1rem;
     }
+}
+
+@media (min-width: 768px) {
+  .navbar-menu {
+    justify-content: space-evenly;
+  }
 }
 
 /* Navbar and navigation */
@@ -100,9 +136,30 @@ a.navbar-brand:hover {
 }
 
 @media (min-width: 992px) {
+  .navbar-menu {
+    flex-direction: row;
+    align-items: center;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .mobile-phone {
+    display: none;
+  }
+
+  #navbarNav .search-input {
+    margin-left: 1rem;
+  }
+
   .nav-item.dropdown:hover .dropdown-menu {
     display: block;
     margin-top: 0;
+  }
+}
+
+@media (min-width: 1200px) {
+  .site-brand {
+    font-size: 1.75rem;
   }
 }
 

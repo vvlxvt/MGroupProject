@@ -3,7 +3,7 @@
   <div class="container-fluid">
 
     <!-- Mobile logo -->
-    <a class="navbar-brand py-0 ms-2 fs-3 fw-bold"
+    <a class="navbar-brand site-brand"
        href="{% url 'job:home' %}">Маляр Групп</a>
 
     <button class="navbar-toggler"
@@ -16,8 +16,8 @@
       <i class="fa-solid fa-bars"></i>
     </button>
 
-    <div class="collapse navbar-collapse bg-white" id="navbarNav">
-      <ul class="navbar-nav flex-column flex-lg-row align-items-start align-items-lg-center w-100 justify-content-md-evenly mx-2 mx-lg-auto">
+    <div class="collapse navbar-collapse navbar-panel" id="navbarNav">
+      <ul class="navbar-nav navbar-menu">
 
         {% for key, m in menu.items %}
         {% if m.submenus %}
@@ -33,7 +33,7 @@
             {{ m.title }}
           </a>
 
-          <ul class="dropdown-menu bg-white">
+          <ul class="dropdown-menu navbar-submenu">
 
             {% for sub in m.submenus %}
 
@@ -62,8 +62,8 @@
         {% endif %}
 
         {% if key == "contacts" %}
-        <li class="nav-item d-lg-none w-100">
-          <a class="nav-link fw-bold"
+        <li class="nav-item mobile-phone">
+          <a class="nav-link mobile-phone__link"
              href="tel:+73912516747">
             +7 (391) 251 67 47
           </a>
@@ -74,7 +74,7 @@
       </ul>
 
       <!-- Search -->
-      <form class="input-group search-input ms-lg-3"
+      <form class="input-group search-input"
             method="GET"
             action="{% url 'job:post_list' %}">
         <input class="form-control"
