@@ -60,6 +60,7 @@ footer h5 {
 }
 
 .footer-section {
+  font-family: var(--font-family-menu);
   padding: 1rem;
   text-align: center;
 }
