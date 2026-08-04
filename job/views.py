@@ -17,7 +17,7 @@ from taggit.models import Tag
 from .forms import UserProfileForm, UserQuestionForm, ApplicantProfileForm
 from .models import Article, Category, Photo, Post, Project, UserProfile, UserQuestion
 from .utils import (DataMixin, advantages, chunk_list, partners,
-                    save_user_photo, send_telegram_message,
+                    ExternalServiceUnavailable,
                     verify_telegram_auth, verify_recaptcha)
 
 from django.http import JsonResponse
@@ -346,8 +346,6 @@ def telegram_auth_view(request):
         },
     )
 
-    save_user_photo(user)
-
     # Сохраняем в сессию
     request.session["user"] = {
         "id": user.telegram_id,
@@ -402,29 +400,13 @@ def submit_question(request):
 
         _update_user_profile(user, request.POST, request)
 
-        telegram_sent = send_telegram_message(question)
-        question.telegram_status = (
-            UserQuestion.DeliveryStatus.SENT
-            if telegram_sent
-            else UserQuestion.DeliveryStatus.FAILED
-        )
-        question.save(update_fields=["telegram_status"])
-
-        if not telegram_sent:
-            return JsonResponse(
-                {
-                    "success": False,
-                    "saved": True,
-                    "message": (
-                        "Вопрос сохранён, но уведомление временно не доставлено. "
-                        "Мы увидим его в системе."
-                    ),
-                },
-                status=503,
-            )
-
         return JsonResponse(
-            {"success": True, "message": "Вопрос успешно отправлен!"}
+            {
+                "success": True,
+                "queued": True,
+                "message": "Вопрос принят и будет отправлен специалисту.",
+            },
+            status=202,
         )
 
     except PermissionDenied as e:
@@ -442,6 +424,15 @@ def submit_question(request):
                 }
             },
             status=400
+        )
+
+    except ExternalServiceUnavailable:
+        return JsonResponse(
+            {
+                "success": False,
+                "message": "Сервис проверки временно недоступен. Попробуйте позже.",
+            },
+            status=503,
         )
 
 def _update_user_profile(user, data, request=None): # Добавим request

@@ -1,6 +1,5 @@
 import hashlib
 import hmac
-import json
 import logging
 import time
 import urllib
@@ -8,7 +7,6 @@ from itertools import zip_longest
 
 import requests
 from django.conf import settings
-from django.core.files.base import ContentFile
 from django.core.exceptions import PermissionDenied
 
 class DataMixin:
@@ -75,6 +73,11 @@ def chunk_list(lst, size):
 
 
 bot_token = settings.TELEGRAM_BOT_TOKEN
+external_request_timeout = settings.EXTERNAL_REQUEST_TIMEOUT
+
+
+class ExternalServiceUnavailable(Exception):
+    pass
 
 
 def verify_telegram_auth(data):
@@ -95,57 +98,6 @@ def verify_telegram_auth(data):
     else:
         print("✅ Данные актуальны!")
     return calculated_hash == hash_check
-
-
-def get_user_photo_id(telegram_id):
-    """Получает file_id аватара пользователя"""
-    url = f"https://api.telegram.org/bot{bot_token}/getUserProfilePhotos"
-    params = {"user_id": telegram_id, "limit": 1}
-
-    response = requests.get(url, params=params).json()
-    print(json.dumps(response, indent=4, ensure_ascii=False))
-
-    if response["ok"] and response["result"]["total_count"] > 0:
-        return response["result"]["photos"][0][-1][
-            "file_id"
-        ]  # Берём фото максимального размера
-    return None
-
-
-def download_user_photo(file_id):
-    """Скачивает фото пользователя с Telegram"""
-    url = f"https://api.telegram.org/bot{bot_token}/getFile"
-    response = requests.get(url, params={"file_id": file_id}).json()
-
-    if response["ok"]:
-        file_path = response["result"]["file_path"]
-        photo_url = f"https://api.telegram.org/file/bot{bot_token}/{file_path}"
-        return photo_url  # Это рабочая ссылка на файл!
-    return None
-
-
-def save_user_photo(user):
-    """Получает и сохраняет фото пользователя"""
-    file_id = get_user_photo_id(user.telegram_id)
-    if not file_id:
-        print("⚠ Фото отсутствует")
-        return
-
-    photo_url = download_user_photo(file_id)
-    if not photo_url:
-        print("❌ Не удалось получить ссылку на фото")
-        return
-
-    try:
-        response = requests.get(photo_url, stream=True)
-        if response.status_code == 200:
-            file_name = f"telegram_photos/{user.telegram_id}.jpg"
-            user.photo.save(file_name, ContentFile(response.content), save=True)
-            print(f"✅ Фото {file_name} успешно сохранено")
-        else:
-            print(f"❌ Ошибка загрузки фото: {response.status_code}")
-    except requests.RequestException as e:
-        print(f"❌ Ошибка при запросе к {photo_url}: {e}")
 
 
 logger = logging.getLogger(__name__)
@@ -184,6 +136,7 @@ def send_telegram_message(question):
                         "parse_mode": "HTML",
                     },
                     files=files,
+                    timeout=external_request_timeout,
                 )
         else:
             response = requests.post(
@@ -193,6 +146,7 @@ def send_telegram_message(question):
                     "text": caption,
                     "parse_mode": "HTML",
                 },
+                timeout=external_request_timeout,
             )
 
         response.raise_for_status()
@@ -207,17 +161,20 @@ def verify_recaptcha(token: str, action: str, min_score: float = 0.5):
     if not token:
         raise PermissionDenied("Missing reCAPTCHA token")
 
-    response = requests.post(
-        "https://www.google.com/recaptcha/api/siteverify",
-        data={
-            "secret": settings.RECAPTCHA_SECRET_KEY,
-            "response": token,
-        },
-        timeout=5,
-    )
-
-    result = response.json()
-    print(result)
+    try:
+        response = requests.post(
+            "https://www.google.com/recaptcha/api/siteverify",
+            data={
+                "secret": settings.RECAPTCHA_SECRET_KEY,
+                "response": token,
+            },
+            timeout=external_request_timeout,
+        )
+        response.raise_for_status()
+        result = response.json()
+    except (requests.RequestException, ValueError) as exc:
+        logger.warning("reCAPTCHA service is unavailable: %s", exc)
+        raise ExternalServiceUnavailable from exc
 
     if not result.get("success"):
         raise PermissionDenied("reCAPTCHA verification failed")

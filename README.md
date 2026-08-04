@@ -43,6 +43,23 @@ A Django-based website that powers a content-driven company site with a services
 ## Notes
 - Environment variables are required for secrets and external services (e.g., `SECRET_KEY`, `DB_*`, `TELEGRAM_*`, `GOOGLE_MAPS_API_KEY`).
 - Media is stored locally by default; static files are collected into `staticfiles/`.
+
+## Telegram notification worker
+
+Contact questions are saved during the web request and delivered to Telegram by
+a separate worker. Run this command continuously through a scheduler or worker
+service:
+
+```bash
+python manage.py process_question_notifications --limit 50
+```
+
+To retry notifications previously marked as failed:
+
+```bash
+python manage.py process_question_notifications --limit 50 --retry-failed
+```
+
 # Temporary UI assets
 
 The experimental hero image `hero-features-placeholder.jpg` is based on

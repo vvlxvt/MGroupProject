@@ -113,6 +113,7 @@ RECAPTCHA_SITE_KEY = env(
     default=env("RECAPTCHA_PUBLIC_KEY", default=""),
 )
 ALLOWED_RECAPTCHA_HOSTS = ["mgroup-vvlxvt.amvera.io"]
+EXTERNAL_REQUEST_TIMEOUT = 10
 
 # ================== ПРОЧЕЕ ==================
 INTERNAL_IPS = env.list("INTERNAL_IPS", default=["127.0.0.1"])

@@ -2,6 +2,7 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from django.contrib.auth.models import User
+from django.core.management import call_command
 from django.db import IntegrityError, connection, transaction
 from django.test import RequestFactory, SimpleTestCase, TestCase
 from django.test.utils import CaptureQueriesContext
@@ -19,6 +20,7 @@ from .models import (
     upload_to,
 )
 from .utils import chunk_list
+from .utils import ExternalServiceUnavailable
 from .views import page_not_found
 
 
@@ -222,14 +224,8 @@ class SubmitQuestionDeliveryTests(TestCase):
             username="customer",
         )
 
-    def submit_question(self, telegram_result):
-        with (
-            patch("job.views.verify_recaptcha"),
-            patch(
-                "job.views.send_telegram_message",
-                return_value=telegram_result,
-            ),
-        ):
+    def submit_question(self):
+        with patch("job.views.verify_recaptcha"):
             return self.client.post(
                 reverse("job:submit_question"),
                 {
@@ -239,26 +235,71 @@ class SubmitQuestionDeliveryTests(TestCase):
                 },
             )
 
-    def test_successful_delivery_is_recorded(self):
-        response = self.submit_question(telegram_result=True)
+    def test_question_is_queued_without_synchronous_telegram_request(self):
+        with patch("job.utils.requests.post") as telegram_request:
+            response = self.submit_question()
         question = UserQuestion.objects.get()
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 202)
         self.assertTrue(response.json()["success"])
+        telegram_request.assert_not_called()
         self.assertEqual(
             question.telegram_status,
+            UserQuestion.DeliveryStatus.PENDING,
+        )
+
+    def test_unavailable_recaptcha_returns_service_unavailable(self):
+        with patch(
+            "job.views.verify_recaptcha",
+            side_effect=ExternalServiceUnavailable,
+        ):
+            response = self.client.post(
+                reverse("job:submit_question"),
+                {
+                    "telegram_id": self.user.telegram_id,
+                    "question_text": "Нужна консультация по проекту",
+                    "recaptcha_token": "test-token",
+                },
+            )
+
+        self.assertEqual(response.status_code, 503)
+        self.assertFalse(response.json()["success"])
+        self.assertFalse(UserQuestion.objects.exists())
+
+
+class ProcessQuestionNotificationsTests(TestCase):
+    def setUp(self):
+        user = UserProfile.objects.create(
+            telegram_id=654321,
+            username="queued-customer",
+        )
+        self.question = UserQuestion.objects.create(
+            user=user,
+            question_text="Вопрос для фоновой отправки",
+        )
+
+    def test_worker_marks_successful_delivery_as_sent(self):
+        with patch(
+            "job.management.commands.process_question_notifications.send_telegram_message",
+            return_value=True,
+        ):
+            call_command("process_question_notifications")
+
+        self.question.refresh_from_db()
+        self.assertEqual(
+            self.question.telegram_status,
             UserQuestion.DeliveryStatus.SENT,
         )
 
-    def test_failed_delivery_is_reported_and_question_is_preserved(self):
-        response = self.submit_question(telegram_result=False)
-        payload = response.json()
-        question = UserQuestion.objects.get()
+    def test_worker_marks_failed_delivery_as_failed(self):
+        with patch(
+            "job.management.commands.process_question_notifications.send_telegram_message",
+            return_value=False,
+        ):
+            call_command("process_question_notifications")
 
-        self.assertEqual(response.status_code, 503)
-        self.assertFalse(payload["success"])
-        self.assertTrue(payload["saved"])
+        self.question.refresh_from_db()
         self.assertEqual(
-            question.telegram_status,
+            self.question.telegram_status,
             UserQuestion.DeliveryStatus.FAILED,
         )
