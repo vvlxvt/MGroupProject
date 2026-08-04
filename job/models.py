@@ -28,7 +28,7 @@ class Post(models.Model):
         PUBLISHED = "PB", "Published"
 
     title = models.CharField(max_length=250)
-    slug = models.SlugField(max_length=250, unique_for_date="publish")
+    slug = models.SlugField(max_length=250, unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="job_posts")
     body = RichTextField()
     publish = models.DateTimeField(default=timezone.now)
@@ -86,7 +86,7 @@ class UploadFiles(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=250)
-    slug = models.SlugField(max_length=250, unique_for_date="publish")
+    slug = models.SlugField(max_length=250, unique=True)
     body = RichTextField()
     publish = models.DateTimeField(default=timezone.now)
     objects = models.Manager()
@@ -116,7 +116,7 @@ class PostArticle(models.Model):
 
 class Project(models.Model):
     title = models.CharField(max_length=250)
-    slug = models.SlugField(max_length=250, unique_for_date="publish")
+    slug = models.SlugField(max_length=250, unique=True)
     body = models.TextField()
     lat = models.FloatField(
         null=True,

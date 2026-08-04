@@ -1,7 +1,7 @@
 from types import SimpleNamespace
 
 from django.contrib.auth.models import User
-from django.db import connection
+from django.db import IntegrityError, connection, transaction
 from django.test import RequestFactory, SimpleTestCase, TestCase
 from django.test.utils import CaptureQueriesContext
 from django.urls import get_resolver, reverse
@@ -165,3 +165,48 @@ class ServiceListQueryTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(count_queries), 1)
+
+
+class ContentSlugUniquenessTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.author = User.objects.create_user(username="slug-author")
+        cls.category = Category.objects.create(
+            name="Защита",
+            slug="protection",
+        )
+
+    def assert_duplicate_slug_is_rejected(self, create_object):
+        create_object()
+        with self.assertRaises(IntegrityError):
+            with transaction.atomic():
+                create_object()
+
+    def test_post_slug_is_globally_unique(self):
+        self.assert_duplicate_slug_is_rejected(
+            lambda: Post.objects.create(
+                title="Услуга",
+                slug="shared-service",
+                author=self.author,
+                body="Описание",
+                cat=self.category,
+            )
+        )
+
+    def test_article_slug_is_globally_unique(self):
+        self.assert_duplicate_slug_is_rejected(
+            lambda: Article.objects.create(
+                title="Статья",
+                slug="shared-article",
+                body="Текст",
+            )
+        )
+
+    def test_project_slug_is_globally_unique(self):
+        self.assert_duplicate_slug_is_rejected(
+            lambda: Project.objects.create(
+                title="Проект",
+                slug="shared-project",
+                body="Описание",
+            )
+        )
