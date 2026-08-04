@@ -49,7 +49,7 @@ a.navbar-brand:hover {
 
 /* Search input in navbar */
 .navbar-panel .search-input {
-  max-width: 300px;
+  max-width: 250px;
   line-height: 1;
 }
 

@@ -334,7 +334,7 @@ a.gradient-title-r:hover::after {
 .m-caption {
   position: absolute;
   inset: auto 0 0 0;
-  height: 50%;
+  height: 35%;
   padding: 20px;
   background: linear-gradient(
     to top,
@@ -351,7 +351,8 @@ a.gradient-title-r:hover::after {
 }
 
 .m-caption-title {
-  font-weight: 800;
+  font-weight: 600;
+  text-transform: uppercase;
   font-size: 28px;
   line-height: 1.1;
   margin-bottom: 12px;
