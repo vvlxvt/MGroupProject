@@ -43,28 +43,20 @@ footer h5 {
     transform: scale(1.2);
 }
 
-.footer-icons a:nth-child(1) i:hover {
-    color: #3b5998; /* Facebook синий */
-}
-
-.footer-icons a:nth-child(2) i:hover {
-    color: #FF0000; /* YouTube красный */
-}
-
-.footer-icons a:nth-child(3) i:hover {
-    color: #E1306C; /* Instagram розовый */
-    }
-
-.footer-icons a:nth-child(4) i:hover {
-    color: 	#24A1DE; /* telegram blue */
-    }
-
 .youtube-icon {
+  color: #ff0000;
+}
+
+.footer-icons .youtube-icon:hover {
   color: #ff0000;
 }
 
 .telegram-icon {
   color: #74C0FC;
+}
+
+.footer-icons .telegram-icon:hover {
+  color: #24A1DE;
 }
 
 .footer-section {
@@ -96,6 +88,21 @@ footer h5 {
   color: inherit;
   font-size: 1.25rem;
   text-decoration: none;
+}
+
+@media (min-width: 992px) {
+  .footer-group {
+    display: contents;
+  }
+
+  .footer-column {
+    flex: 1 0 0%;
+    width: 100%;
+    max-width: 100%;
+    padding-right: calc(var(--bs-gutter-x) * 0.5);
+    padding-left: calc(var(--bs-gutter-x) * 0.5);
+    margin-top: var(--bs-gutter-y);
+  }
 }
 
 @media (min-width: 1200px) {

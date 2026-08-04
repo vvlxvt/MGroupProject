@@ -57,17 +57,19 @@
             </div>
 
             <!-- Блок 2 -->
-            <div class="col-12 col-md-4 col-lg">
-                <div class="footer-section footer-section--spaced">
-                    <h5 class="footer-title">Информация</h5>
-                    <hr class="footer-divider">
-                    <p class="footer-item"><a href="{% url 'job:about' %}">О компании</a></p>
-                    <p class="footer-item"><a href="{% url 'job:vacancies' %}">Вакансии</a></p>
-                    <p class="footer-item"><a href="{% static 'job/images/company-details-mgrup24.pdf' %}" target="_blank"
-                                      rel="noopener noreferrer">Реквизиты</a>
-                    </p>
+            <div class="col-12 col-md-4 footer-group">
+                <div class="footer-column">
+                    <div class="footer-section footer-section--spaced">
+                        <h5 class="footer-title">Информация</h5>
+                        <hr class="footer-divider">
+                        <p class="footer-item"><a href="{% url 'job:about' %}">О компании</a></p>
+                        <p class="footer-item"><a href="{% url 'job:vacancies' %}">Вакансии</a></p>
+                        <p class="footer-item"><a href="{% static 'job/images/company-details-mgrup24.pdf' %}" target="_blank"
+                                          rel="noopener noreferrer">Реквизиты</a>
+                        </p>
+                    </div>
                 </div>
-                <div class="col-12 d-lg-none">
+                <div class="footer-column">
                     <div class="footer-section">
                         <h5 class="footer-title">Время работы</h5>
                         <hr class="footer-divider">
@@ -79,26 +81,17 @@
             </div>
 
             <!-- Блок 3 -->
-            <div class="d-none d-lg-block col-lg">
-                <div class="footer-section">
-                    <h5 class="footer-title">Время работы</h5>
-                    <hr class="footer-divider">
-                    <p class="footer-item">пн-пт: 09:00 - 18:00</p>
-                    <p class="footer-item">сб-вс: выходной</p>
-                    <p class="footer-item">без перерыва</p>
+            <div class="col-12 col-md-4 footer-group">
+                <div class="footer-column">
+                    <div class="footer-section footer-section--spaced">
+                        <h5 class="footer-title">Наш адрес</h5>
+                        <hr class="footer-divider">
+                        <p class="footer-item">660011, Россия</p>
+                        <p class="footer-item">Красноярский край, г.Красноярск</p>
+                        <p class="footer-item">ул. Кипрейная, д. 11</p>
+                    </div>
                 </div>
-            </div>
-
-            <!-- Блок 4 -->
-            <div class="col-12 col-md-4 col-lg">
-                <div class="footer-section footer-section--spaced">
-                    <h5 class="footer-title">Наш адрес</h5>
-                    <hr class="footer-divider">
-                    <p class="footer-item">660011, Россия</p>
-                    <p class="footer-item">Красноярский край, г.Красноярск</p>
-                    <p class="footer-item">ул. Кипрейная, д. 11</p>
-                </div>
-                <div class="col-12 d-lg-none">
+                <div class="footer-column">
                     <div class="footer-section">
                         <h5 class="footer-title">Мы в сети</h5>
                         <hr class="footer-divider">
@@ -116,28 +109,6 @@
                                 <i class="fab fa-telegram fa-lg telegram-icon"></i>
                             </a>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Блок 5 -->
-            <div class="d-none d-lg-block col-lg">
-                <div class="footer-section">
-                    <h5 class="footer-title">Мы в сети</h5>
-                    <hr class="footer-divider">
-                    <div class="footer-icons footer-social">
-                        <a href="#"
-                           aria-label="YouTube"
-                           target="_blank"
-                           rel="noopener noreferrer">
-                            <i class="fab fa-youtube fa-xl youtube-icon"></i>
-                        </a>
-                        <a href="{% url 'job:contacts' %}"
-                           aria-label="Telegram"
-                           target="_blank"
-                           rel="noopener noreferrer">
-                            <i class="fab fa-telegram fa-lg telegram-icon"></i>
-                        </a>
                     </div>
                 </div>
             </div>
