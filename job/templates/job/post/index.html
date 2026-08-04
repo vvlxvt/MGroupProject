@@ -300,7 +300,7 @@
                             {% for project in group %}
                             <div class="col-lg-4">
                                 <div class="card project-card">
-                                    {% with project.photos.first as photo %}
+                                    {% with project.cover_photos.0 as photo %}
                                     <div class="ratio ratio-16x9 project-card__media">
                                         <img src="{{ photo.image.url }}"
                                              class="project-card__image"
@@ -349,7 +349,7 @@
                             {% for project in group %}
                             <div class="col-md-6">
                                 <div class="card project-card">
-                                    {% with project.photos.first as photo %}
+                                    {% with project.cover_photos.0 as photo %}
                                     <div class="ratio ratio-16x9 project-card__media">
                                         <img src="{{ photo.image.url }}"
                                              class="project-card__image"
@@ -398,7 +398,7 @@
                             {% for project in group %}
                             <div class="col-12">
                                 <div class="card project-card">
-                                    {% with project.photos.first as photo %}
+                                    {% with project.cover_photos.0 as photo %}
                                     <div class="ratio ratio-16x9 project-card__media">
                                         <img src="{{ photo.image.url }}"
                                              class="project-card__image"

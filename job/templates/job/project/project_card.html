@@ -1,18 +1,18 @@
 {% load static %}
 <div class="card">
     <div class="card-img-top">
-        {% if project.photos %}
-            {% with project.photos.first as photo %}
+        {% with project.cover_photos.0 as photo %}
+        {% if photo %}
                 <img src="{{ photo.image.url }}"
                      alt="Фото выбранного объекта"
                      loading="lazy"
                      class="project-card__image">
-            {% endwith %}
         {% else %}
             <img src="{% static 'job/images/plug_image_bw.jpg' %}"
                  alt="чб фото объекта"
                  class="project-card__fallback-image">
         {% endif %}
+        {% endwith %}
     </div>
     <div class="card-body">
         <h5 class="card-title">{{ project.title }}</h5>

@@ -15,12 +15,19 @@
             </div>
             <div class="col-lg-8">
                 <div class="card">
+                    {% if article.photo %}
                     <img src="{{ article.photo.url }}"
                          class="card-img-top img-fluid"
                          alt="картинка к статье"
                          loading="lazy"
                          width="{{ article.photo.width }}"
                          height="{{ article.photo.height }}">
+                    {% else %}
+                    <img src="{% static 'job/images/default-image.jpg' %}"
+                         class="card-img-top img-fluid"
+                         alt="картинка по умолчанию"
+                         loading="lazy">
+                    {% endif %}
                     <div class="card-body">
                         <p class="card-text article-detail__body">{{ article.body|safe }}.</p>
                         <div class="card-footer article-detail__footer">

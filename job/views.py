@@ -5,7 +5,7 @@ from django.conf import settings
 from django.contrib.postgres.search import (SearchQuery, SearchVector,
                                             TrigramSimilarity)
 from django.core.serializers.json import DjangoJSONEncoder
-from django.db.models import Count, Q
+from django.db.models import Count, Prefetch, Q
 from django.http import HttpResponseNotFound, HttpResponsePermanentRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
@@ -15,7 +15,7 @@ from django.views.generic import DetailView, ListView, TemplateView
 from taggit.models import Tag
 
 from .forms import UserProfileForm, UserQuestionForm, ApplicantProfileForm
-from .models import Article, Category, Post, Project, UserProfile, UserQuestion
+from .models import Article, Category, Photo, Post, Project, UserProfile, UserQuestion
 from .utils import (DataMixin, advantages, chunk_list, partners,
                     save_user_photo, send_telegram_message,
                     verify_telegram_auth, verify_recaptcha)
@@ -43,8 +43,6 @@ class DynamicPostListView(DataMixin, ListView):
         cat_slug = self.request.GET.get("category")
         if cat_slug:
             queryset = queryset.filter(cat__slug=cat_slug)
-
-            print(queryset)
 
         # Фильтрация по тегу
         tag_slug = self.request.GET.get("tag")
@@ -76,10 +74,6 @@ class DynamicPostListView(DataMixin, ListView):
         tag_slug = self.request.GET.get("tag")
         query = self.request.GET.get("query")
 
-        # Добавляем категории и теги в контекст
-        context["categories"] = Category.objects.all()
-        context["tags"] = Tag.objects.all()
-
         # Устанавливаем заголовок и мета-описание
         if cat_slug:
             category = Category.objects.filter(slug=cat_slug).first()
@@ -107,13 +101,15 @@ class DynamicPostListView(DataMixin, ListView):
         return context
 
     def get(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
+        self.object_list = self.get_queryset()
+        context = self.get_context_data()
+        paginator = context.get("paginator")
 
-        if queryset.count() == 1:
-            post = queryset.first()
+        if paginator and paginator.count == 1:
+            post = context["object_list"][0]
             return redirect("job:post_detail", slug=post.slug)
 
-        return super().get(request, *args, **kwargs)
+        return self.render_to_response(context)
 
 
 class AboutView(DataMixin, TemplateView):
@@ -173,13 +169,13 @@ class ArticleDetailView(DetailView):
     context_object_name = "article"
 
     def get_queryset(self):
-        return Article.objects.only("title")
+        return Article.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = self.object.title
         context["meta_description"] = f"Cтатья о {self.object.title}"
-        context["articles"] = Article.objects.only("title")
+        context["articles"] = Article.objects.only("id", "title", "slug")
         return context
 
 
@@ -223,6 +219,9 @@ class ProjectCardView(DetailView):
     template_name = "job/project/project_card.html"  # нужно в кавычках
     context_object_name = "project"
 
+    def get_queryset(self):
+        return with_project_cover(Project.objects.all())
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["id"] = self.object.id
@@ -250,7 +249,7 @@ def home(request):
     posts = Post.published.prefetch_related("postarticle_set__article").all()
     title = "Промышленная покраска, антикоррозийная защита, теплоизоляция | Маляр Групп"
     meta_description = "Комплексные услуги: промышленная покраска, антикоррозийная защита, пескоструй, теплоизоляция. Работаем по всей Сибири. Маляр Групп."
-    projects = Project.objects.only("title", "slug")
+    projects = with_project_cover(Project.objects.only("title", "slug"))
     grouped_projects = {
         "lg": chunk_list(list(projects), 3),  # По 3 для больших экранов
         "md": chunk_list(list(projects), 2),  # По 2 для средних экранов
@@ -268,6 +267,13 @@ def home(request):
     }
 
     return render(request, "job/post/index.html", context)
+
+
+def with_project_cover(queryset):
+    cover_photo = Photo.objects.only("project_id", "image").order_by("pk")[:1]
+    return queryset.prefetch_related(
+        Prefetch("photos", queryset=cover_photo, to_attr="cover_photos")
+    )
 
 
 def page_not_found(request, exception):
