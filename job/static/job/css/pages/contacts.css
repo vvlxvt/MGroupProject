@@ -2,17 +2,17 @@
    Contacts Page Styles
 ================================= */
 
-section#contacts {
+.contact-section {
   background-color: #f1efee;
   padding: 3rem 0 3rem;
 }
 
 
-#contacts .font-hero-name {
+.contact-section .font-hero-name {
   font-size: 3rem;
   }
 
-#contacts .font-hero-subtitle {
+.contact-section .font-hero-subtitle {
   font-size: 2rem;
   white-space: nowrap;
   margin: 0.8em 0 0 0.4em;
@@ -20,11 +20,11 @@ section#contacts {
 
 @media (max-width: 576px) {
 
-  #contacts .font-hero-name {
+  .contact-section .font-hero-name {
     font-size: 6em;
   }
 
-  #contacts .font-hero-subtitle {
+  .contact-section .font-hero-subtitle {
     font-size: 1.3rem;
     line-height: 1;
     margin: 0.8em 0 0 0.4em;
@@ -32,11 +32,11 @@ section#contacts {
   }
 }
 
-  section#contacts {
+.contact-section {
   padding: 0;
 }
 
-#contacts form {
+.contact-section form {
   border: 1px solid black;
   border-radius: 1rem;
 }
@@ -72,8 +72,8 @@ section#contacts {
 }
 
 /* Font Hero Styles */
-#contacts .font-hero-logo,
-#contacts .font-hero-name {
+.contact-section .font-hero-logo,
+.contact-section .font-hero-name {
   font-size: 4rem;
   background: linear-gradient(
     to bottom,
@@ -86,29 +86,29 @@ section#contacts {
   padding: 0 0.2rem;
 }
 
-#contacts .font-hero-logo {
+.contact-section .font-hero-logo {
   font-size: 5rem;
   margin-top: 7px;
 }
 
 /* Tablet (md < 992px) */
 @media (max-width: 991.98px) {
-  #contacts .font-hero-logo {
+  .contact-section .font-hero-logo {
     font-size: 3.5rem;
   }
 
-  #contacts .font-hero-name {
+  .contact-section .font-hero-name {
     font-size: 3rem;
   }
 }
 
 /* Mobile (sm < 576px) */
 @media (max-width: 575.98px) {
-  #contacts .font-hero-logo {
+  .contact-section .font-hero-logo {
     font-size: 2.5rem;
   }
 
-  #contacts .font-hero-name {
+  .contact-section .font-hero-name {
     font-size: 2rem;
   }
 }

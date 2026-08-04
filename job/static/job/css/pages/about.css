@@ -1,17 +1,17 @@
-#about p {
+.about-layout p {
     line-height: 1.8;
     text-align: justify;
     text-justify: inter-word; /* улучшает распределение слов */
     hyphens: auto;
 }
 
-#about .font-hero-logo {
+.about-layout .font-hero-logo {
     font-size: 2rem;
     color: var(--color-accent);
     line-height: 1;
 }
 
-#about .font-hero-name {
+.about-layout .font-hero-name {
   font-size: 1.5rem;
   color: var(--color-accent);
   line-height: 1;

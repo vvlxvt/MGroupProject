@@ -315,16 +315,6 @@ a.gradient-title-r:hover::after {
   width: 100%;
 }
 
-/* Project map */
-
-#map {
-    width: 100%;
-    height: 67vh;
-    min-height: 280px;
-    max-height: 700px;
-    scroll-margin-top: 70px;
-}
-
 /* ---------- Slider / Carousel ---------- */
 
 .slide-figure {

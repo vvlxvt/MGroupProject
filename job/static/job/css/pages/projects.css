@@ -41,7 +41,12 @@
 }
 
 .project-list__map {
+  width: 100%;
+  height: 67vh;
+  min-height: 280px;
+  max-height: 700px;
   border-radius: 0.25rem;
+  scroll-margin-top: 70px;
 }
 
 .project-list__map-column {

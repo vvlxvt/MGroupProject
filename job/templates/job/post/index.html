@@ -2,7 +2,7 @@
 {% load static %}
 {% block meta_description %}{{ meta_description }}{% endblock %}
 {% block landing %}
-<section id="landing" aria-label="Презентация компании">
+<section id="landing" class="landing-page" aria-label="Презентация компании">
     <div class="hero-img-container landing-hero">
 
         <picture>
@@ -28,7 +28,7 @@
     </div>
 
 
-    <article id="hero-features" aria-label="Основная информация о компании">
+    <article id="hero-features" class="feature-section" aria-label="Основная информация о компании">
         <div class="container landing-container">
             <div class="row content-row--centered hero-intro-row">
                 <div class="col-12 col-md-6 hero-intro-column">
@@ -136,7 +136,7 @@
 
 
         <div class="container-fluid services-carousel-shell d-none d-md-block">
-            <div id="mainCarousel" class="carousel slide" data-bs-ride="false">
+            <div id="mainCarousel" class="carousel slide main-carousel" data-bs-ride="false">
                 <div class="carousel-indicators">
                     {% for post in posts %}
                     <button type="button"
