@@ -8,7 +8,6 @@ body {
 }
 
 
-
 /* Заголовки */
 article h1,
 article h2,
@@ -114,8 +113,4 @@ img {
     max-width: 100%;
     height: auto;
     overflow: hidden;
-}
-
-.text-accent {
-    color: #fd7e14; /* Оранжевый Bootstrap, замените на свой бренд-цвет */
 }

@@ -19,6 +19,3 @@
 @import url("pages/posts.css");
 @import url("pages/vacancies.css");
 @import url("pages/applicant.css");
-
-/* Loaded last intentionally: these rules override Bootstrap defaults. */
-@import url("bootstrap_overrides.css");

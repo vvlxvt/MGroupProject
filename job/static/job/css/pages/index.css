@@ -615,29 +615,6 @@
   filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
 }
 
-.carousel-caption {
-  position: absolute;
-  bottom: 80px;
-  left: 60px;
-  text-align: left;
-  background: transparent;
-  padding: 20px 30px;
-}
-
-.carousel .carousel-caption h5 {
-  font-size: 2rem;
-  color: white;
-  font-weight: 700;
-  margin-bottom: 15px;
-}
-
-.carousel .carousel-caption p {
-  font-size: 1.5rem;
-  line-height: 1.4;
-  margin: 0;
-  color: white;
-}
-
 @media (max-width: 576px) {
   #mainCarousel .carousel-indicators {
     bottom: 3%;
