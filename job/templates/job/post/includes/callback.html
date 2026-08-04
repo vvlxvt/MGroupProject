@@ -324,6 +324,11 @@ if (fileInput) {
             responseBox.style.display = 'block';
             form.reset();
 
+        } else if (data.saved) {
+            responseBox.className = 'alert alert-warning';
+            responseBox.textContent = data.message;
+            responseBox.style.display = 'block';
+            form.reset();
         } else {
 
             // ===== show file error if exists =====
@@ -336,7 +341,7 @@ if (fileInput) {
             }
 
     responseBox.className = 'alert alert-danger';
-    responseBox.textContent = 'Исправьте ошибки формы';
+    responseBox.textContent = data.message || data.errors?.__all__ || 'Исправьте ошибки формы';
     responseBox.style.display = 'block';
 }
 

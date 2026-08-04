@@ -402,7 +402,26 @@ def submit_question(request):
 
         _update_user_profile(user, request.POST, request)
 
-        send_telegram_message(question)
+        telegram_sent = send_telegram_message(question)
+        question.telegram_status = (
+            UserQuestion.DeliveryStatus.SENT
+            if telegram_sent
+            else UserQuestion.DeliveryStatus.FAILED
+        )
+        question.save(update_fields=["telegram_status"])
+
+        if not telegram_sent:
+            return JsonResponse(
+                {
+                    "success": False,
+                    "saved": True,
+                    "message": (
+                        "Вопрос сохранён, но уведомление временно не доставлено. "
+                        "Мы увидим его в системе."
+                    ),
+                },
+                status=503,
+            )
 
         return JsonResponse(
             {"success": True, "message": "Вопрос успешно отправлен!"}

@@ -187,10 +187,21 @@ class UserProfile(models.Model):
 
 
 class UserQuestion(models.Model):
+    class DeliveryStatus(models.TextChoices):
+        PENDING = "pending", "Ожидает отправки"
+        SENT = "sent", "Отправлено"
+        FAILED = "failed", "Ошибка отправки"
+
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     question_text = models.TextField()
     attached_photo = models.ImageField(upload_to="photo_upload/", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    telegram_status = models.CharField(
+        max_length=10,
+        choices=DeliveryStatus.choices,
+        default=DeliveryStatus.PENDING,
+        db_index=True,
+    )
 
     def __str__(self):
         return f"Question from {self.user.username or self.user.telegram_id}"

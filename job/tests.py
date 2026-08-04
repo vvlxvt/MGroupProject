@@ -1,4 +1,5 @@
 from types import SimpleNamespace
+from unittest.mock import patch
 
 from django.contrib.auth.models import User
 from django.db import IntegrityError, connection, transaction
@@ -12,6 +13,8 @@ from .models import (
     Photo,
     Post,
     Project,
+    UserProfile,
+    UserQuestion,
     photo_upload_to,
     upload_to,
 )
@@ -209,4 +212,53 @@ class ContentSlugUniquenessTests(TestCase):
                 slug="shared-project",
                 body="Описание",
             )
+        )
+
+
+class SubmitQuestionDeliveryTests(TestCase):
+    def setUp(self):
+        self.user = UserProfile.objects.create(
+            telegram_id=123456,
+            username="customer",
+        )
+
+    def submit_question(self, telegram_result):
+        with (
+            patch("job.views.verify_recaptcha"),
+            patch(
+                "job.views.send_telegram_message",
+                return_value=telegram_result,
+            ),
+        ):
+            return self.client.post(
+                reverse("job:submit_question"),
+                {
+                    "telegram_id": self.user.telegram_id,
+                    "question_text": "Нужна консультация по проекту",
+                    "recaptcha_token": "test-token",
+                },
+            )
+
+    def test_successful_delivery_is_recorded(self):
+        response = self.submit_question(telegram_result=True)
+        question = UserQuestion.objects.get()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.json()["success"])
+        self.assertEqual(
+            question.telegram_status,
+            UserQuestion.DeliveryStatus.SENT,
+        )
+
+    def test_failed_delivery_is_reported_and_question_is_preserved(self):
+        response = self.submit_question(telegram_result=False)
+        payload = response.json()
+        question = UserQuestion.objects.get()
+
+        self.assertEqual(response.status_code, 503)
+        self.assertFalse(payload["success"])
+        self.assertTrue(payload["saved"])
+        self.assertEqual(
+            question.telegram_status,
+            UserQuestion.DeliveryStatus.FAILED,
         )

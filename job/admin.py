@@ -149,8 +149,9 @@ class ContactAdmin(admin.ModelAdmin):
 
 @admin.register(UserQuestion)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ["user", "question_text", "thumbnail"]
-    ordering = ["user"]
+    list_display = ["user", "question_text", "telegram_status", "created_at", "thumbnail"]
+    list_filter = ["telegram_status", "created_at"]
+    ordering = ["-created_at"]
 
     def thumbnail(self, obj):
         if obj.attached_photo:
