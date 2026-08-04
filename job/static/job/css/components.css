@@ -151,14 +151,12 @@ a.gradient-title-r:hover::after {
 .btn-bd-primary {
   --bs-btn-font-weight: 600;
   --bs-btn-color: var(--bs-dark);
-  --bs-btn-bg: var(--bd-violet-bg);
+  --bs-btn-bg: transparent;
   --bs-btn-border-color: var(--bs-dark);
 
   --bs-btn-hover-color: var(--bs-black);
   --bs-btn-hover-bg: #e0e0e0;
   --bs-btn-hover-border-color: var(--bs-black);
-
-  --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
 
   --bs-btn-active-color: var(--bs-btn-hover-color);
   --bs-btn-active-bg: #c4c4c4;

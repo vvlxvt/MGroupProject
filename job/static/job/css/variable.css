@@ -3,6 +3,9 @@
 ================================= */
 :root {
   /* Цветовая палитра */
+  --color-text: var(--bs-body-color);
+  --color-background: var(--bs-body-bg);
+  --color-primary: var(--bs-body-color);
   --color-secondary: #FFD700; /* golden*/
   --color-accent: #31B787; /* dark mint */
   --color-surface-muted: #f8f9fa;
@@ -15,7 +18,6 @@
   --font-family-base: 'Segoe UI',sans-serif,Arial; /* Основной шрифт */
   --font-family-logo: 'LegendeC',sans-serif,Arial;
   --font-family-menu: 'NeoSansPro',sans-serif,Arial;
-  --font-family-heading: 'Cuprum',sans-serif,Arial;/* Шрифт для заголовков */
 
 
 /* Базовый размер шрифта */
@@ -27,8 +29,6 @@
 
     /* Большие размеры */
     --font-size-large: 1.25rem; /* 20px */
-    --font-size-x-large: 1.5rem; /* 24px */
-    --font-size-xx-large: 2rem; /* 32px */
 
     /* Заголовки */
     --font-size-h1: 2rem; /* 32px */
@@ -39,20 +39,12 @@
     --font-size-h6: 1rem; /* 16px */
 
     --font-weight-bold: 700; /* Толщина шрифта для bold */
-    --font-weight-normal: 400; /* Обычная толщина */
-    --font-weight-light: 300; /* Легкая толщина */
 
   /* Отступы */
-    --spacing-small: 0.5rem;
     --spacing-base: 1rem;
-    --spacing-large: 2rem;
 
   /* Границы */
   --border-radius: 8px; /* Радиус закругления */
   --border-width: 1px;
 
-
-  /* Максимальные размеры */
-  --max-width-container: 1920px;
-  --min-width-container: 360px;
 }
