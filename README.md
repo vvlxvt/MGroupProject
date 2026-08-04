@@ -43,3 +43,8 @@ A Django-based website that powers a content-driven company site with a services
 ## Notes
 - Environment variables are required for secrets and external services (e.g., `SECRET_KEY`, `DB_*`, `TELEGRAM_*`, `GOOGLE_MAPS_API_KEY`).
 - Media is stored locally by default; static files are collected into `staticfiles/`.
+# Temporary UI assets
+
+The experimental hero image `hero-features-placeholder.jpg` is based on
+“Ouvriers sur un chantier de construction” by Minette Lontsie, licensed under
+CC BY-SA 4.0. Source: https://commons.wikimedia.org/wiki/File:Ouvriers_sur_un_chantier_de_construction.jpg
