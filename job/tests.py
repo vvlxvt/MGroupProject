@@ -1,9 +1,11 @@
 from types import SimpleNamespace
 
-from django.test import SimpleTestCase
+from django.test import RequestFactory, SimpleTestCase
+from django.urls import get_resolver
 
 from .models import photo_upload_to, upload_to
 from .utils import chunk_list
+from .views import page_not_found
 
 
 class UploadPathTests(SimpleTestCase):
@@ -41,4 +43,25 @@ class ChunkListTests(SimpleTestCase):
         self.assertEqual(
             chunk_list([1, 2, 3], 2),
             [(1, 2), (3, None)],
+        )
+
+
+class NotFoundPageTests(SimpleTestCase):
+    def setUp(self):
+        self.request = RequestFactory().get("/__missing-page__/")
+
+    def test_handler_renders_custom_404_template(self):
+        response = page_not_found(self.request, exception=Exception("Not found"))
+        html = response.content.decode()
+
+        self.assertEqual(response.status_code, 404)
+        self.assertIn("<title>Ошибка 404 — Страница не найдена</title>", html)
+        self.assertIn('<meta name="robots" content="noindex, nofollow">', html)
+        self.assertNotIn('rel="canonical"', html)
+        self.assertEqual(html.count('class="error-code'), 1)
+
+    def test_custom_handler_is_registered(self):
+        self.assertEqual(
+            get_resolver().urlconf_module.handler404,
+            "job.views.page_not_found",
         )

@@ -6,8 +6,9 @@ from django.contrib.postgres.search import (SearchQuery, SearchVector,
                                             TrigramSimilarity)
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Count, Q
-from django.http import HttpResponsePermanentRedirect
+from django.http import HttpResponseNotFound, HttpResponsePermanentRedirect
 from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.timezone import make_aware
 from django.views.generic import DetailView, ListView, TemplateView
@@ -270,11 +271,9 @@ def home(request):
 
 
 def page_not_found(request, exception):
-    return render(request, "404.html", status=404)
-
-
-def page_not_found(request, exception):
-    return render(request, "404.html", status=404)
+    context = {"title": "Ошибка 404 — Страница не найдена"}
+    content = render_to_string("404.html", context)
+    return HttpResponseNotFound(content)
 
 
 def contacts(request):

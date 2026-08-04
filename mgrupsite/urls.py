@@ -6,7 +6,6 @@ from django.urls import include, path
 from django.views.generic import TemplateView
 
 from job.sitemaps import article_sitemap, post_sitemap, project_sitemap
-from job.views import page_not_found
 
 sitemaps_dict = {
     "post": post_sitemap,
@@ -17,7 +16,6 @@ sitemaps_dict = {
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("test404/", page_not_found, name="test_404"),
     path("", include("job.urls", namespace="job")),
     # path('__debug__/', include('debug_toolbar.urls')),
     path(
