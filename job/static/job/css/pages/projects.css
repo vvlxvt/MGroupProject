@@ -27,17 +27,25 @@
   height: auto;
 }
 
-.project-modal__header {
-  border: 0;
-  background-color: #212529;
-}
-
-.project-modal__close {
-  margin-left: auto;
-}
-
 .project-modal__body {
   padding: 0;
+}
+
+.project-modal__image-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background-color: #212529;
+  cursor: zoom-out;
+}
+
+.project-modal__image-button:focus-visible {
+  outline: 3px solid var(--color-secondary);
+  outline-offset: -3px;
 }
 
 .project-list__map {

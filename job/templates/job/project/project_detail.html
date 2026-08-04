@@ -25,18 +25,19 @@
                         <div class="modal fade"
                              id="imageModal{{ forloop.counter }}"
                              tabindex="-1"
-                             aria-labelledby="exampleModalLabel"
+                             aria-label="Просмотр фотографии проекта"
                              aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-fullscreen">
                                 <div class="modal-content">
-                                    <div class="modal-header project-modal__header">
-                                        <button type="button"
-                                                class="btn-close btn-close-white project-modal__close"
-                                                data-bs-dismiss="modal"
-                                                aria-label="Закрыть"></button>
-                                    </div>
                                     <div class="modal-body project-modal__body">
-                                        <img src="{{ photo.image.url }}" class="hd_image" alt="Project Image">
+                                        <button type="button"
+                                                class="project-modal__image-button"
+                                                data-bs-dismiss="modal"
+                                                aria-label="Закрыть просмотр фотографии">
+                                            <img src="{{ photo.image.url }}"
+                                                 class="hd_image"
+                                                 alt="{{ photo.alt|default:'Фотография проекта' }}">
+                                        </button>
                                     </div>
                                 </div>
                             </div>
