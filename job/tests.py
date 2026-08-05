@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.core.cache import cache
 from django.core.management import call_command
 from django.db import IntegrityError, connection, transaction
-from django.test import RequestFactory, SimpleTestCase, TestCase
+from django.test import RequestFactory, SimpleTestCase, TestCase, override_settings
 from django.test.utils import CaptureQueriesContext
 from django.urls import get_resolver, reverse
 
@@ -82,6 +82,38 @@ class NotFoundPageTests(SimpleTestCase):
         self.assertEqual(
             get_resolver().urlconf_module.handler404,
             "job.views.page_not_found",
+        )
+
+
+@override_settings(ALLOWED_HOSTS=["xn--c1arkads.xn--p1ai"])
+class SitemapTests(TestCase):
+    def test_sitemap_uses_requested_production_domain(self):
+        response = self.client.get(
+            reverse("sitemap"),
+            secure=True,
+            HTTP_HOST="xn--c1arkads.xn--p1ai",
+        )
+        xml = response.content.decode()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["Content-Type"], "application/xml")
+        self.assertIn(
+            "https://xn--c1arkads.xn--p1ai/",
+            xml,
+        )
+        self.assertNotIn("example.com", xml)
+        self.assertNotIn("mgroup-vvlxvt.amvera.io", xml)
+
+    def test_robots_points_to_sitemap_on_current_domain(self):
+        response = self.client.get(
+            "/robots.txt",
+            secure=True,
+            HTTP_HOST="xn--c1arkads.xn--p1ai",
+        )
+
+        self.assertContains(
+            response,
+            "Sitemap: https://xn--c1arkads.xn--p1ai/sitemap.xml",
         )
 
 

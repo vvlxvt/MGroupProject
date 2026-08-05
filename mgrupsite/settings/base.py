@@ -11,7 +11,6 @@ env.read_env()
 SECRET_KEY = env("SECRET_KEY")
 DEBUG = env.bool("DEBUG", default=False)
 
-SITE_ID = 1
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # ================== ПРИЛОЖЕНИЯ ==================
@@ -24,7 +23,6 @@ INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
 
-    "django.contrib.sites",
     "django.contrib.sitemaps",
     "django.contrib.postgres",
 

@@ -5,9 +5,15 @@ from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
 from django.views.generic import TemplateView
 
-from job.sitemaps import article_sitemap, post_sitemap, project_sitemap
+from job.sitemaps import (
+    article_sitemap,
+    post_sitemap,
+    project_sitemap,
+    static_sitemap,
+)
 
 sitemaps_dict = {
+    "static": static_sitemap,
     "post": post_sitemap,
     "projects": project_sitemap,
     "articles": article_sitemap,
