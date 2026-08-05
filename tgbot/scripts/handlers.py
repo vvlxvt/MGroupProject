@@ -1,15 +1,22 @@
+import logging
+
 from aiogram import Router
 from aiogram.filters import Command
 from aiogram.types import Message
 
 router = Router()
+logger = logging.getLogger(__name__)
 
 
 @router.message(Command("start"))
 async def start_handler(message: Message):
-    print(f"Received message: {message.text}")  # Логируем входящее сообщение
+    logger.info(
+        "Telegram start command received",
+        extra={"has_start_argument": " " in (message.text or "")},
+    )
 
-    args = message.text.split(" ", 1)[1] if " " in message.text else None
+    text = message.text or ""
+    args = text.split(" ", 1)[1] if " " in text else None
     if args:
         await message.answer(f"Вы перешли по ссылке с аргументом: {args}")
     else:

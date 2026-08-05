@@ -144,6 +144,26 @@ class ArticleDetailQueryTests(TestCase):
         self.assertEqual(many_article_queries, one_article_queries)
 
 
+class ProjectLocationsJsonTests(TestCase):
+    def test_project_titles_are_safely_embedded_as_json(self):
+        title = 'Проект "Север" </script><script>alert(1)</script>'
+        Project.objects.create(
+            title=title,
+            slug="safe-json-project",
+            lat=56.02,
+            lng=93.03,
+        )
+
+        response = self.client.get(reverse("job:projects"))
+        html = response.content.decode()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('id="project-locations"', html)
+        self.assertIn(r"\u003C/script\u003E", html)
+        self.assertNotIn("</script><script>alert(1)</script>", html)
+        self.assertEqual(response.context["locations"][0]["title"], title)
+
+
 class ServiceListQueryTests(TestCase):
     @classmethod
     def setUpTestData(cls):

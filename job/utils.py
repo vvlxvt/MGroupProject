@@ -93,11 +93,13 @@ def verify_telegram_auth(data):
     ).hexdigest()
     auth_date = int(auth_data.get("auth_date", 0))
     if time.time() - auth_date > 86400:
-        print("❌ Данные устарели!")
+        logger.warning("Telegram authentication data has expired")
         return False
-    else:
-        print("✅ Данные актуальны!")
-    return calculated_hash == hash_check
+
+    is_valid = hmac.compare_digest(calculated_hash, hash_check)
+    if not is_valid:
+        logger.warning("Telegram authentication hash is invalid")
+    return is_valid
 
 
 logger = logging.getLogger(__name__)
@@ -152,8 +154,14 @@ def send_telegram_message(question):
         response.raise_for_status()
         return True
 
-    except Exception as e:
-        logger.error(f"Ошибка при отправке в Telegram: {e}")
+    except Exception as exc:
+        logger.error(
+            "Telegram notification delivery failed",
+            extra={
+                "question_id": question.pk,
+                "error_type": type(exc).__name__,
+            },
+        )
         return False
 
 

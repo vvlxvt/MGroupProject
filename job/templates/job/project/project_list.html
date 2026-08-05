@@ -31,8 +31,9 @@
       v: "weekly",
     });
     </script>
+    {{ locations|json_script:"project-locations" }}
     <script>
-    const locations = JSON.parse('{{ locations_json|safe }}');
+    const locations = JSON.parse(document.getElementById('project-locations').textContent);
 
     let map;
     let markers = [];

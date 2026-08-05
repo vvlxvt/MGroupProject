@@ -1,10 +1,8 @@
-import json
 from datetime import datetime
 
 from django.conf import settings
 from django.contrib.postgres.search import (SearchQuery, SearchVector,
                                             TrigramSimilarity)
-from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Count, Prefetch, Q
 from django.http import HttpResponseNotFound, HttpResponsePermanentRedirect
 from django.shortcuts import get_object_or_404, redirect, render
@@ -206,7 +204,7 @@ class ProjectListView(DataMixin, ListView):
         ]
 
         # Добавляем данные в контекст
-        context["locations_json"] = json.dumps(locations_list, cls=DjangoJSONEncoder)
+        context["locations"] = locations_list
         context["google_maps_api_key"] = settings.GOOGLE_MAPS_API_KEY
         context["meta_description"] = (
             f"География проектов: очистка, антикоррозийная защита, покраска"
@@ -303,7 +301,6 @@ def contacts(request):
             user.city = user_data.get("city", "")
 
     user_form = UserProfileForm(instance=user)
-    print(user_form.initial)
     q_form = UserQuestionForm()
 
     context = {
