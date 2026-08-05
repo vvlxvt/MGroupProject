@@ -7,10 +7,18 @@ if os.environ.get("DEBUG", "False").lower() in ("true", "1", "yes"):
 
 DEBUG = False
 
-CACHES["default"]["LOCATION"] = "/data/cache"
+CACHES["default"]["LOCATION"] = env("CACHE_LOCATION", default="/data/cache")
 
 ALLOWED_HOSTS = ["mgroup-vvlxvt.amvera.io"]
 CSRF_TRUSTED_ORIGINS = ["https://mgroup-vvlxvt.amvera.io"]
+
+# ================== HTTPS ==================
+# TLS terminates at the platform proxy; SECURE_PROXY_SSL_HEADER is configured
+# in base.py so Django can recognize the original HTTPS request.
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 60 * 60 * 24 * 365
 
 # ================== БАЗА ДАННЫХ (REMOTE POSTGRES) ==================
 DATABASES = {
