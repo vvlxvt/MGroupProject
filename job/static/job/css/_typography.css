@@ -9,7 +9,7 @@
 /* Основное название «Групп» */
 .font-hero-name {
   font-family: var(--font-family-menu);
-  font-weight: 500;
+  font-weight: 700;
   font-style: italic;
 }
 

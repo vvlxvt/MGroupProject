@@ -1,57 +1,70 @@
 /* Шрифты */
 @font-face {
-    font-family: 'LegendeC';
-    src: url('../fonts/LegendeC-Plain.woff2') format('woff2'),
-    src: url('../fonts/LegendeC-Plain.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-
-@font-face {
-  font-family: 'NeoSansPro';
-  src: url('../fonts/NeoSansPro-Regular.woff2') format('woff2'),
-  src: url('../fonts/NeoSansPro-Regular.woff') format('woff');
-  font-weight: normal;
+  font-family: 'LegendeC';
+  src:
+    url('../fonts/LegendeC-Plain.woff2') format('woff2'),
+    url('../fonts/LegendeC-Plain.woff') format('woff');
+  font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'NeoSansPro';
-    src: url('../fonts/NeoSansPro-Bold.woff2') format('woff2'),
-  src: url('../fonts/NeoSansPro-Bold.woff') format('woff');
-  font-weight: bold;
+  src:
+    url('../fonts/NeoSansPro-Regular.woff2') format('woff2'),
+    url('../fonts/NeoSansPro-Regular.woff') format('woff');
+  font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'NeoSansPro';
-      src: url('../fonts/NeoSansPro-BoldItalic.woff2') format('woff2'),
-  src: url('../fonts/NeoSansPro-BoldItalic.woff') format('woff');
-  font-weight: bold;
+  src:
+    url('../fonts/NeoSansPro-Bold.woff2') format('woff2'),
+    url('../fonts/NeoSansPro-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NeoSansPro';
+  src:
+    url('../fonts/NeoSansPro-BoldItalic.woff2') format('woff2'),
+    url('../fonts/NeoSansPro-BoldItalic.woff') format('woff');
+  font-weight: 700;
   font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'NeoSansPro';
-      src: url('../fonts/NeoSansPro-Light.woff2') format('woff2'),
-  src: url('../fonts/NeoSansPro-Light.woff') format('woff');
+  src:
+    url('../fonts/NeoSansPro-Light.woff2') format('woff2'),
+    url('../fonts/NeoSansPro-Light.woff') format('woff');
   font-weight: 300;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'NeoSansPro';
-      src: url('../fonts/NeoSansPro-Medium.woff2') format('woff2'),
-  src: url('../fonts/NeoSansPro-Medium.woff') format('woff');
+  src:
+    url('../fonts/NeoSansPro-Medium.woff2') format('woff2'),
+    url('../fonts/NeoSansPro-Medium.woff') format('woff');
   font-weight: 500;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'NeoSansPro';
-      src: url('../fonts/NeoSansPro-Ultra.woff') format('woff'),
-  src: url('../fonts/NeoSansPro-Ultra.woff2') format('woff2');
+  src:
+    url('../fonts/NeoSansPro-Ultra.woff2') format('woff2'),
+    url('../fonts/NeoSansPro-Ultra.woff') format('woff');
   font-weight: 900;
   font-style: normal;
+  font-display: swap;
 }
