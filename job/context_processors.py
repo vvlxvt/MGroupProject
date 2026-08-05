@@ -1,9 +1,25 @@
+from django.conf import settings
+from django.core.cache import cache
+
 from job.models import Category
+
+
+MENU_CATEGORIES_CACHE_KEY = "navigation:categories:v1"
+
+
+def get_menu_categories():
+    return cache.get_or_set(
+        MENU_CATEGORIES_CACHE_KEY,
+        lambda: list(
+            Category.objects.order_by("number").values("name", "slug")
+        ),
+        timeout=settings.MENU_CACHE_TIMEOUT,
+    )
 
 
 def menu_context(request):
     namespace = "job"
-    categories = Category.objects.all().order_by("number")
+    categories = get_menu_categories()
     menu = {
         "about": {"title": "О нас", "url_name": f"{namespace}:about"},
         "services": {
@@ -11,9 +27,9 @@ def menu_context(request):
             "url_name": f"{namespace}:post_list",
             "submenus": [
                 {
-                    "title": category.name,
+                    "title": category["name"],
                     "url_name": f"{namespace}:post_list",
-                    "slug": category.slug,
+                    "slug": category["slug"],
                 }
                 for category in categories
             ],

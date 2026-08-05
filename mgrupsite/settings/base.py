@@ -80,10 +80,11 @@ USE_TZ = True
 # ================== КЭШ ==================
 CACHES = {
     "default": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-        "LOCATION": "unique-snowflake",
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": BASE_DIR / ".django-cache",
     }
 }
+MENU_CACHE_TIMEOUT = 60 * 60
 
 # ================== СТАТИКА (общая) ==================
 STATIC_URL = "/static/"

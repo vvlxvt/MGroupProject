@@ -7,6 +7,8 @@ if os.environ.get("DEBUG", "False").lower() in ("true", "1", "yes"):
 
 DEBUG = False
 
+CACHES["default"]["LOCATION"] = "/data/cache"
+
 ALLOWED_HOSTS = ["mgroup-vvlxvt.amvera.io"]
 CSRF_TRUSTED_ORIGINS = ["https://mgroup-vvlxvt.amvera.io"]
 

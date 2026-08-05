@@ -127,6 +127,7 @@ debug.log
 *.swo
 *.swn
 .cache
+.django-cache/
 *.bak
 *.tmp
 

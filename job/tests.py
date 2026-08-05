@@ -2,12 +2,14 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from django.contrib.auth.models import User
+from django.core.cache import cache
 from django.core.management import call_command
 from django.db import IntegrityError, connection, transaction
 from django.test import RequestFactory, SimpleTestCase, TestCase
 from django.test.utils import CaptureQueriesContext
 from django.urls import get_resolver, reverse
 
+from .context_processors import MENU_CATEGORIES_CACHE_KEY, menu_context
 from .models import (
     Article,
     Category,
@@ -95,6 +97,7 @@ class HomeQueryTests(TestCase):
         )
 
     def home_query_count(self):
+        cache.delete(MENU_CATEGORIES_CACHE_KEY)
         with CaptureQueriesContext(connection) as queries:
             response = self.client.get(reverse("job:home"))
         self.assertEqual(response.status_code, 200)
@@ -121,6 +124,7 @@ class ArticleDetailQueryTests(TestCase):
         )
 
     def detail_query_count(self, article):
+        cache.delete(MENU_CATEGORIES_CACHE_KEY)
         with CaptureQueriesContext(connection) as queries:
             response = self.client.get(
                 reverse("job:article_detail", kwargs={"slug": article.slug})
@@ -303,3 +307,43 @@ class ProcessQuestionNotificationsTests(TestCase):
             self.question.telegram_status,
             UserQuestion.DeliveryStatus.FAILED,
         )
+
+
+class MenuContextCacheTests(TestCase):
+    def setUp(self):
+        self.category = Category.objects.create(
+            name="Промышленная покраска",
+            slug="industrial-painting",
+            number=1,
+        )
+        cache.clear()
+
+    def test_repeated_menu_context_does_not_query_database(self):
+        with CaptureQueriesContext(connection) as first_queries:
+            first_context = menu_context(None)
+        with CaptureQueriesContext(connection) as cached_queries:
+            second_context = menu_context(None)
+
+        self.assertEqual(len(first_queries), 1)
+        self.assertEqual(len(cached_queries), 0)
+        self.assertEqual(second_context, first_context)
+
+    def test_category_update_invalidates_cached_menu(self):
+        menu_context(None)
+        self.category.name = "Обновлённая категория"
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.category.save(update_fields=["name"])
+
+        context = menu_context(None)
+        submenu = context["menu"]["services"]["submenus"]
+        self.assertEqual(submenu[0]["title"], "Обновлённая категория")
+
+    def test_category_delete_invalidates_cached_menu(self):
+        menu_context(None)
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.category.delete()
+
+        context = menu_context(None)
+        self.assertEqual(context["menu"]["services"]["submenus"], [])
