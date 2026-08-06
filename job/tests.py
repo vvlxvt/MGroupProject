@@ -9,7 +9,11 @@ from django.test import RequestFactory, SimpleTestCase, TestCase, override_setti
 from django.test.utils import CaptureQueriesContext
 from django.urls import get_resolver, reverse
 
-from .context_processors import MENU_CATEGORIES_CACHE_KEY, menu_context
+from .context_processors import (
+    MENU_CATEGORIES_CACHE_KEY,
+    canonical_url,
+    menu_context,
+)
 from .models import (
     Article,
     Category,
@@ -115,6 +119,45 @@ class SitemapTests(TestCase):
             response,
             "Sitemap: https://xn--c1arkads.xn--p1ai/sitemap.xml",
         )
+
+
+@override_settings(
+    ALLOWED_HOSTS=["testserver"],
+    CANONICAL_BASE_URL="https://example.test",
+)
+class CanonicalUrlTests(TestCase):
+    def test_page_has_absolute_canonical_url(self):
+        response = self.client.get(reverse("job:home"))
+
+        self.assertContains(
+            response,
+            '<link rel="canonical" href="https://example.test/">',
+        )
+
+    def test_filter_parameters_are_removed_from_canonical_url(self):
+        request = RequestFactory().get(
+            "/services/",
+            {"category": "painting", "query": "metal"},
+        )
+
+        self.assertEqual(
+            canonical_url(request)["canonical_url"],
+            "https://example.test/services/",
+        )
+
+    def test_pagination_page_is_preserved_in_canonical_url(self):
+        request = RequestFactory().get("/services/", {"page": "2"})
+
+        self.assertEqual(
+            canonical_url(request)["canonical_url"],
+            "https://example.test/services/?page=2",
+        )
+
+    def test_404_page_has_no_canonical_url(self):
+        response = self.client.get("/__missing-canonical-page__/")
+
+        self.assertEqual(response.status_code, 404)
+        self.assertNotContains(response, 'rel="canonical"', status_code=404)
 
 
 class HomeQueryTests(TestCase):

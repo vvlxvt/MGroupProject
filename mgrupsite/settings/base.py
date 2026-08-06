@@ -64,6 +64,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "job.context_processors.menu_context",
+                "job.context_processors.canonical_url",
             ],
         },
     },
@@ -83,6 +84,7 @@ CACHES = {
     }
 }
 MENU_CACHE_TIMEOUT = 60 * 60
+CANONICAL_BASE_URL = env("CANONICAL_BASE_URL", default="").rstrip("/")
 
 # ================== СТАТИКА (общая) ==================
 STATIC_URL = "/static/"

@@ -43,9 +43,11 @@ def menu_context(request):
 
 
 def canonical_url(request):
-    path = request.path
-    if path == "/":
-        canonical = f"{request.scheme}://{request.get_host}"
-    else:
-        canonical = request.build_absolute_uri(path)
+    base_url = settings.CANONICAL_BASE_URL or f"{request.scheme}://{request.get_host()}"
+    canonical = f"{base_url}{request.path}"
+
+    page = request.GET.get("page")
+    if page and page.isdigit() and int(page) > 1:
+        canonical = f"{canonical}?page={page}"
+
     return {"canonical_url": canonical}
