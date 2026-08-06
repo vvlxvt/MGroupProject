@@ -46,6 +46,19 @@
                         </div>
                     {% endfor %}
                 </div>
+                {% if related_services %}
+                    <aside class="project-detail__related-services"
+                           aria-labelledby="project-services-title">
+                        <h2 id="project-services-title" class="h5">Выполненные услуги</h2>
+                        <ul class="mb-0">
+                            {% for service in related_services %}
+                                <li class="text-indent">
+                                    <a href="{{ service.get_absolute_url }}">{{ service.title }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </aside>
+                {% endif %}
             </div>
         </div>
     </div>

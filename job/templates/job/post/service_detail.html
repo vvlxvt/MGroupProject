@@ -23,16 +23,31 @@
                             <small class="publication-meta">Опубликовано: {{ post.publish }} {{ post.author }}</small>
                         </p>
                         <div class="card-footer">
-                            <ul>
-                                <strong>Похожие посты</strong>
-                            </ul>
-                            {% for post in similar_posts %}
-                                <li class="text-indent">
-                                    <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-                                </li>
-                            {% empty %}
-                                Здесь пока нет похожих постов
-                            {% endfor %}
+                            <section aria-labelledby="similar-services-title">
+                                <h2 id="similar-services-title" class="h5">Похожие услуги</h2>
+                                <ul class="mb-0">
+                                    {% for post in similar_posts %}
+                                        <li class="text-indent">
+                                            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                                        </li>
+                                    {% empty %}
+                                        <li class="list-unstyled">Здесь пока нет похожих услуг</li>
+                                    {% endfor %}
+                                </ul>
+                            </section>
+                            {% if related_projects %}
+                                <section class="service-detail__related-projects"
+                                         aria-labelledby="related-projects-title">
+                                    <h2 id="related-projects-title" class="h5">Проекты с этой услугой</h2>
+                                    <ul class="mb-0">
+                                        {% for project in related_projects %}
+                                            <li class="text-indent">
+                                                <a href="{{ project.get_absolute_url }}">{{ project.title }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </section>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

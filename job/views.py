@@ -189,6 +189,9 @@ def post_detail(request, slug):
     similar_posts = similar_posts.annotate(same_tags=Count("tags")).order_by(
         "-same_tags", "-publish"
     )[:4]
+    related_projects = post.projects.only("title", "slug", "publish").order_by(
+        "-publish"
+    )[:4]
     meta_description = build_meta_description(
         post.body,
         f"{post.title}. Профессиональное выполнение работ компанией Маляр Групп.",
@@ -215,6 +218,7 @@ def post_detail(request, slug):
             "title": post,
             "seo_title": build_seo_title(f"Услуга «{post.title}»"),
             "similar_posts": similar_posts,
+            "related_projects": related_projects,
             "meta_description": meta_description,
             "og_image_url": image_url,
             "breadcrumb_json_ld": detail_breadcrumbs(
@@ -359,6 +363,9 @@ class ProjectDetailView(DetailView):
         context["breadcrumb_json_ld"] = detail_breadcrumbs(
             self.request, "Проекты", "job:projects", self.object.title
         )
+        context["related_services"] = self.object.services.filter(
+            status=Post.Status.PUBLISHED
+        ).only("title", "slug", "status")
         return context
 
 

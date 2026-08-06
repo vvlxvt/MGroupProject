@@ -322,6 +322,23 @@ class PageHeadingTests(TestCase):
         self.assertEqual(response.headers.get("Content-Encoding"), "gzip")
         self.assertIn("Accept-Encoding", response.headers.get("Vary", ""))
 
+    def test_services_and_projects_link_to_each_other(self):
+        self.project.services.add(self.posts[0])
+
+        service_response = self.client.get(self.posts[0].get_absolute_url())
+        project_response = self.client.get(self.project.get_absolute_url())
+
+        self.assertContains(
+            service_response,
+            f'href="{self.project.get_absolute_url()}"',
+        )
+        self.assertContains(service_response, "Проекты с этой услугой")
+        self.assertContains(
+            project_response,
+            f'href="{self.posts[0].get_absolute_url()}"',
+        )
+        self.assertContains(project_response, "Выполненные услуги")
+
 
 class HomeQueryTests(TestCase):
     def create_project(self, number):

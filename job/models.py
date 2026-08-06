@@ -118,6 +118,12 @@ class Project(models.Model):
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique=True)
     body = models.TextField()
+    services = models.ManyToManyField(
+        Post,
+        blank=True,
+        related_name="projects",
+        verbose_name="Связанные услуги",
+    )
     lat = models.FloatField(
         null=True,
         blank=True,

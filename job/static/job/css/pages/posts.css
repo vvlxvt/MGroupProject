@@ -13,3 +13,7 @@
 .service-detail__meta {
   text-align: right;
 }
+
+.service-detail__related-projects {
+  margin-top: 1.25rem;
+}

@@ -10,6 +10,13 @@
   text-align: center;
 }
 
+.project-detail__related-services {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: var(--color-surface-muted);
+  border-radius: 0.25rem;
+}
+
 .project-gallery {
   display: flex;
   flex-direction: column;

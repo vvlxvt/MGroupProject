@@ -97,12 +97,13 @@ class PhotoInline(admin.TabularInline):
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    fields = [("title", "slug"), ("lat", "lng"), "body"]
+    fields = [("title", "slug"), ("lat", "lng"), "body", "services"]
     list_display = ["title", "publish", "lat", "lng"]
     prepopulated_fields = {"slug": ("title",)}
     list_filter = ["publish"]
     search_fields = ["title", "body"]
     ordering = ["publish"]
+    filter_horizontal = ["services"]
     inlines = [PhotoInline]
 
 
