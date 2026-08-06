@@ -2,6 +2,7 @@
 {% load static %}
 {% block meta_description %}{{ meta_description }}{% endblock %}
 {% block contact %}
+<h1 class="visually-hidden">{{ title }}</h1>
 {% include "job/post/includes/callback.html" %}
 <div class="container contacts-info">
     <div class="row contacts-info__row">

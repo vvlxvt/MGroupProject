@@ -2,6 +2,7 @@
 {% load static %}
 {% block meta_description %}{{ meta_description }}{% endblock %}
 {% block articles %}
+    <h1 class="visually-hidden">{{ article.title }}</h1>
     <div class="container content-section content-section--offset">
         <div class="row content-row--centered">
             <div class="col-lg-4 article-detail__sidebar">

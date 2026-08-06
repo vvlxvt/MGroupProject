@@ -1,8 +1,15 @@
-{% extends "job/base.html" %} {% load static %} {% block meta_description %}{{
-meta_description }}{% endblock %} {% block vacancies %}
-<h4 class="vacancies-title">
-  Мы ищем талантливых специалистов в команду. Присоединяйтесь к нам!
-</h4>
+{% extends "job/base.html" %}
+{% load static %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+{% block vacancies %}
+<header class="vacancies-hero">
+  <div class="vacancies-hero__inner">
+    <h1 class="vacancies-title">Вакансии компании «Маляр Групп»</h1>
+    <p class="vacancies-subtitle">
+      Мы ищем талантливых специалистов в команду. Присоединяйтесь к нам!
+    </p>
+  </div>
+</header>
 <div class="row gx-5 vacancies-grid">
   <div class="col-12 col-md-6 vacancies-column--spaced">
     <div class="custom-card">

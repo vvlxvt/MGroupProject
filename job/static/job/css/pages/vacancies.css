@@ -2,15 +2,56 @@
    Vacancies page
 ================================= */
 
-.vacancies-title {
-  margin-top: 0.25rem;
-  margin-bottom: 0.5rem;
+.vacancies-hero {
+  width: calc(100% - 2rem);
+  max-width: 72rem;
+  margin: 1rem auto 1.5rem;
+  padding: clamp(1.5rem, 5vw, 3.5rem) clamp(1rem, 5vw, 4rem);
+  background: linear-gradient(135deg, var(--color-surface-feature), #fff 72%);
+  border: 1px solid #e3e3e3;
+  border-radius: var(--border-radius);
   text-align: center;
 }
 
+.vacancies-hero__inner {
+  max-width: 52rem;
+  margin: 0 auto;
+}
+
+.vacancies-title {
+  margin: 0;
+  font-family: var(--font-family-menu);
+  font-size: clamp(1.75rem, 5vw, 2.75rem);
+  font-weight: 500;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.vacancies-title::after {
+  display: block;
+  width: clamp(4rem, 14vw, 7rem);
+  height: 0.25rem;
+  margin: 1rem auto;
+  background: linear-gradient(to right, var(--color-accent), var(--color-secondary));
+  border-radius: 999px;
+  content: "";
+}
+
+.vacancies-subtitle {
+  max-width: 42rem;
+  margin: 0 auto;
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  line-height: 1.55;
+  color: #4f555b;
+  text-wrap: balance;
+}
+
 .vacancies-grid {
-  margin-right: 0.25rem;
-  margin-left: 0.25rem;
+  max-width: 90rem;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
 }
 
 .vacancies-column--spaced {
@@ -18,13 +59,31 @@
 }
 
 @media (min-width: 768px) {
-  .vacancies-title {
+  .vacancies-hero {
     margin-top: 3rem;
     margin-bottom: 3rem;
   }
 
   .vacancies-grid {
-    margin-right: 3rem;
-    margin-left: 3rem;
+    padding-right: 3rem;
+    padding-left: 3rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .vacancies-hero {
+    width: calc(100% - 1rem);
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+  }
+
+  .vacancies-title::after {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .vacancies-grid {
+    padding-right: 0;
+    padding-left: 0;
   }
 }

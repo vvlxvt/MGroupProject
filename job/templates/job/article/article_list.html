@@ -3,6 +3,7 @@
 <title>{{ page_title }}</title>
 {% block meta_description %}{{ meta_description }}{% endblock %}
 {% block articles %}
+    <h1 class="visually-hidden">{{ title }}</h1>
     <section id="articles" class="content-section content-section--white content-section--offset">
         <div class="container">
             <div class="row card-list content-row--centered">
@@ -17,8 +18,6 @@
                                 <p>
                                     <img class="custom-image img-fluid"
                                          src="{% static 'job/images/default-image.jpg' %}"
-                                         width="{{ article.photo.width }}"
-                         height="{{ article.photo.height }}"
                                          alt="картинка по умолчанию">
                                 </p>
                             {% endif %}

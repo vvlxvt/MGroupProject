@@ -160,6 +160,57 @@ class CanonicalUrlTests(TestCase):
         self.assertNotContains(response, 'rel="canonical"', status_code=404)
 
 
+class PageHeadingTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        author = User.objects.create_user(username="heading-author")
+        category = Category.objects.create(
+            name="Промышленная покраска",
+            slug="industrial-painting",
+        )
+        cls.posts = [
+            Post.published.create(
+                title=f"Услуга {number}",
+                slug=f"heading-service-{number}",
+                author=author,
+                body="Описание услуги",
+                status=Post.Status.PUBLISHED,
+                cat=category,
+            )
+            for number in range(1, 3)
+        ]
+        cls.article = Article.objects.create(
+            title="Статья о подготовке поверхности",
+            slug="heading-article",
+            body="Текст статьи",
+        )
+        cls.project = Project.objects.create(
+            title="Покраска промышленного объекта",
+            slug="heading-project",
+            body="Описание проекта",
+        )
+
+    def test_indexable_pages_have_one_h1(self):
+        urls = [
+            reverse("job:home"),
+            reverse("job:post_list"),
+            self.posts[0].get_absolute_url(),
+            reverse("job:projects"),
+            self.project.get_absolute_url(),
+            reverse("job:article_list"),
+            self.article.get_absolute_url(),
+            reverse("job:about"),
+            reverse("job:contacts"),
+            reverse("job:vacancies"),
+        ]
+
+        for url in urls:
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.content.decode().lower().count("<h1"), 1)
+
+
 class HomeQueryTests(TestCase):
     def create_project(self, number):
         project = Project.objects.create(
