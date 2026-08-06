@@ -1,11 +1,37 @@
+import json
+
 from django.conf import settings
 from django.core.cache import cache
 from django.templatetags.static import static
+from django.urls import reverse
+from django.utils.safestring import mark_safe
 
 from job.models import Category
 
 
 MENU_CATEGORIES_CACHE_KEY = "navigation:categories:v1"
+
+
+def serialize_json_ld(data):
+    serialized = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
+    serialized = serialized.replace("<", "\\u003C").replace(">", "\\u003E")
+    serialized = serialized.replace("&", "\\u0026")
+    return mark_safe(serialized)
+
+
+def build_breadcrumb_json_ld(request, items):
+    elements = [
+        {
+            "@type": "ListItem",
+            "position": position,
+            "name": name,
+            "item": request.build_absolute_uri(url),
+        }
+        for position, (name, url) in enumerate(items, start=1)
+    ]
+    return serialize_json_ld(
+        {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": elements}
+    )
 
 
 def get_menu_categories():
@@ -51,9 +77,54 @@ def canonical_url(request):
     if page and page.isdigit() and int(page) > 1:
         canonical = f"{canonical}?page={page}"
 
+    organization_id = f"{base_url}/#organization"
+    local_business = {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "@id": organization_id,
+        "name": "Маляр Групп",
+        "url": f"{base_url}/",
+        "logo": request.build_absolute_uri(static("job/images/MG.png")),
+        "image": request.build_absolute_uri(static("job/images/IMG_index.webp")),
+        "telephone": "+7-391-251-67-47",
+        "email": "mgrup24@mail.ru",
+        "address": {
+            "@type": "PostalAddress",
+            "postalCode": "660011",
+            "addressCountry": "RU",
+            "addressRegion": "Красноярский край",
+            "addressLocality": "Красноярск",
+            "streetAddress": "ул. Кипрейная, д. 11",
+        },
+        "areaServed": ["Красноярск", "Красноярский край", "Сибирь"],
+    }
+
+    breadcrumb_labels = {
+        "post_list": "Услуги",
+        "article_list": "Статьи",
+        "projects": "Проекты",
+        "about": "О компании",
+        "contacts": "Контакты",
+        "vacancies": "Вакансии",
+        "applicant": "Анкета соискателя",
+    }
+    url_name = request.resolver_match.url_name if request.resolver_match else None
+    breadcrumb_json_ld = None
+    if url_name in breadcrumb_labels:
+        breadcrumb_json_ld = build_breadcrumb_json_ld(
+            request,
+            [
+                ("Главная", reverse("job:home")),
+                (breadcrumb_labels[url_name], request.path),
+            ],
+        )
+
     return {
         "canonical_url": canonical,
         "default_og_image_url": request.build_absolute_uri(
             static("job/images/IMG_index.webp")
         ),
+        "organization_id": organization_id,
+        "local_business_json_ld": serialize_json_ld(local_business),
+        "breadcrumb_json_ld": breadcrumb_json_ld,
     }

@@ -1,3 +1,4 @@
+import json
 import re
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -254,6 +255,72 @@ class PageHeadingTests(TestCase):
                 )
                 self.assertIsNotNone(og_image)
                 self.assertTrue(og_image.group(1).startswith("http"))
+
+    def test_dynamic_seo_titles_and_descriptions_have_useful_length(self):
+        urls = [
+            reverse("job:home"),
+            reverse("job:article_list"),
+            reverse("job:vacancies"),
+            self.posts[0].get_absolute_url(),
+            self.article.get_absolute_url(),
+            self.project.get_absolute_url(),
+        ]
+
+        for url in urls:
+            with self.subTest(url=url):
+                html = self.client.get(url).content.decode()
+                title = re.search(r"<title>([^<]+)</title>", html).group(1)
+                self.assertGreaterEqual(len(title), 30)
+                self.assertLessEqual(len(title), 60)
+
+        for url in (
+            self.posts[0].get_absolute_url(),
+            self.article.get_absolute_url(),
+            self.project.get_absolute_url(),
+        ):
+            with self.subTest(description_url=url):
+                html = self.client.get(url).content.decode()
+                description = re.search(
+                    r'<meta name="description" content="([^"]+)">', html
+                ).group(1)
+                self.assertGreaterEqual(len(description), 100)
+                self.assertLessEqual(len(description), 160)
+
+    def test_pages_expose_expected_json_ld_entities(self):
+        cases = {
+            reverse("job:contacts"): {"LocalBusiness", "BreadcrumbList"},
+            self.posts[0].get_absolute_url(): {
+                "LocalBusiness",
+                "BreadcrumbList",
+                "Service",
+            },
+            self.article.get_absolute_url(): {
+                "LocalBusiness",
+                "BreadcrumbList",
+                "Article",
+            },
+            self.project.get_absolute_url(): {"LocalBusiness", "BreadcrumbList"},
+        }
+
+        for url, expected_types in cases.items():
+            with self.subTest(url=url):
+                html = self.client.get(url).content.decode()
+                payloads = re.findall(
+                    r'<script type="application/ld\+json">(.*?)</script>',
+                    html,
+                    re.DOTALL,
+                )
+                schema_types = {json.loads(payload)["@type"] for payload in payloads}
+                self.assertTrue(expected_types.issubset(schema_types))
+
+    def test_html_responses_are_gzip_compressed_when_supported(self):
+        response = self.client.get(
+            reverse("job:home"), HTTP_ACCEPT_ENCODING="gzip"
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers.get("Content-Encoding"), "gzip")
+        self.assertIn("Accept-Encoding", response.headers.get("Vary", ""))
 
 
 class HomeQueryTests(TestCase):

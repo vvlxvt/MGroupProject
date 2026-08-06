@@ -15,6 +15,7 @@ from django.utils.timezone import make_aware
 from django.views.generic import DetailView, ListView, TemplateView
 from taggit.models import Tag
 
+from .context_processors import build_breadcrumb_json_ld, serialize_json_ld
 from .forms import UserProfileForm, UserQuestionForm, ApplicantProfileForm
 from .models import Article, Category, Photo, Post, Project, UserProfile, UserQuestion
 from .utils import (DataMixin, advantages, chunk_list, partners,
@@ -27,12 +28,44 @@ from django.core.exceptions import PermissionDenied, RequestDataTooBig
 
 def build_meta_description(text, fallback):
     cleaned_text = " ".join(strip_tags(text or "").split())
-    return Truncator(cleaned_text or fallback).chars(160)
+    if not cleaned_text:
+        cleaned_text = fallback
+    elif len(cleaned_text) < 100:
+        separator = " " if cleaned_text.endswith((".", "!", "?")) else ". "
+        cleaned_text = f"{cleaned_text}{separator}{fallback}"
+    if len(cleaned_text) < 100:
+        cleaned_text = (
+            f"{cleaned_text.rstrip()} Узнайте подробнее об этапах, технологиях "
+            "и результате выполнения работ."
+        )
+    return Truncator(cleaned_text).chars(160)
+
+
+def build_seo_title(title, suffix=" | Маляр Групп"):
+    cleaned_title = " ".join(strip_tags(str(title)).split())
+    available_length = 60 - len(suffix)
+    return f"{Truncator(cleaned_title).chars(available_length)}{suffix}"
 
 
 def absolute_image_url(request, image=None):
     image_url = image.url if image else static("job/images/IMG_index.webp")
     return request.build_absolute_uri(image_url)
+
+
+def organization_id(request):
+    base_url = settings.CANONICAL_BASE_URL or request.build_absolute_uri("/").rstrip("/")
+    return f"{base_url}/#organization"
+
+
+def detail_breadcrumbs(request, section_name, section_url, object_name):
+    return build_breadcrumb_json_ld(
+        request,
+        [
+            ("Главная", reverse("job:home")),
+            (section_name, reverse(section_url)),
+            (object_name, request.path),
+        ],
+    )
 
 
 class DynamicPostListView(DataMixin, ListView):
@@ -79,6 +112,7 @@ class DynamicPostListView(DataMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["seo_title"] = f"{self.title_page} | Маляр Групп"
         context["meta_description"] = (
             "Промышленная покраска, очистка, огнезащита, гидроизоляция и "
             "антикоррозийная обработка объектов в Красноярске и Сибири."
@@ -94,23 +128,29 @@ class DynamicPostListView(DataMixin, ListView):
             category = Category.objects.filter(slug=cat_slug).first()
             if category:
                 context["title"] = f"{category.name}"
+                context["seo_title"] = build_seo_title(category.name)
                 context["meta_description"] = (
-                    f"Отображение постов в категории {category.name}."
+                    f"Услуги категории «{category.name}» от компании Маляр Групп: "
+                    "профессиональное выполнение работ на промышленных и коммерческих объектах в Красноярске и Сибири."
                 )
 
         if tag_slug:
             tag = Tag.objects.filter(slug=tag_slug).first()
             if tag:
                 context["title"] = f"Тег: {tag.name}"
+                context["seo_title"] = build_seo_title(f"Услуги по теме «{tag.name}»")
                 context["meta_description"] = (
-                    f"Результат поиска постов, содержащих тэги: {tag.name}."
+                    f"Материалы и услуги по теме «{tag.name}»: технологии, этапы "
+                    "и примеры профессионального выполнения работ компанией Маляр Групп."
                 )
 
         if query:
             context["query"] = query
             context["title"] = f"Результаты поиска: {query}"
+            context["seo_title"] = build_seo_title(f"Поиск: {query}")
             context["meta_description"] = (
-                f"Результат поиска постов, содержащих слово: {query}."
+                f"Результаты поиска по запросу «{query}» на сайте Маляр Групп: "
+                "услуги, выполненные проекты и полезные материалы для вашего объекта."
             )
 
         return context
@@ -149,18 +189,38 @@ def post_detail(request, slug):
     similar_posts = similar_posts.annotate(same_tags=Count("tags")).order_by(
         "-same_tags", "-publish"
     )[:4]
+    meta_description = build_meta_description(
+        post.body,
+        f"{post.title}. Профессиональное выполнение работ компанией Маляр Групп.",
+    )
+    image_url = absolute_image_url(request, post.photo)
+    entity_json_ld = serialize_json_ld(
+        {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "name": post.title,
+            "description": meta_description,
+            "url": request.build_absolute_uri(post.get_absolute_url()),
+            "image": image_url,
+            "serviceType": post.title,
+            "areaServed": ["Красноярск", "Красноярский край", "Сибирь"],
+            "provider": {"@id": organization_id(request)},
+        }
+    )
     return render(
         request,
         "job/post/service_detail.html",
         {
             "post": post,
             "title": post,
+            "seo_title": build_seo_title(f"Услуга «{post.title}»"),
             "similar_posts": similar_posts,
-            "meta_description": build_meta_description(
-                post.body,
-                f"{post.title}. Профессиональное выполнение работ компанией Маляр Групп.",
+            "meta_description": meta_description,
+            "og_image_url": image_url,
+            "breadcrumb_json_ld": detail_breadcrumbs(
+                request, "Услуги", "job:post_list", post.title
             ),
-            "og_image_url": absolute_image_url(request, post.photo),
+            "entity_json_ld": entity_json_ld,
         },
     )
 
@@ -181,8 +241,10 @@ class ArticleListView(DataMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["seo_title"] = "Статьи о покраске и защите объектов | Маляр Групп"
         context["meta_description"] = (
-            f"Статьи о способах обработки поверхностей: покраска, очистка"
+            "Полезные статьи о промышленной покраске, очистке, подготовке и "
+            "антикоррозийной защите поверхностей от специалистов компании Маляр Групп."
         )
         return context
 
@@ -198,7 +260,30 @@ class ArticleDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = self.object.title
-        context["meta_description"] = f"Cтатья о {self.object.title}"
+        context["seo_title"] = build_seo_title(
+            self.object.title, suffix=" | Статьи Маляр Групп"
+        )
+        context["meta_description"] = build_meta_description(
+            self.object.body,
+            f"Практические рекомендации по теме «{self.object.title}» от специалистов компании Маляр Групп.",
+        )
+        context["og_image_url"] = absolute_image_url(self.request, self.object.photo)
+        context["breadcrumb_json_ld"] = detail_breadcrumbs(
+            self.request, "Статьи", "job:article_list", self.object.title
+        )
+        context["entity_json_ld"] = serialize_json_ld(
+            {
+                "@context": "https://schema.org",
+                "@type": "Article",
+                "headline": self.object.title,
+                "description": context["meta_description"],
+                "url": self.request.build_absolute_uri(self.object.get_absolute_url()),
+                "image": context["og_image_url"],
+                "datePublished": self.object.publish.isoformat(),
+                "author": {"@id": organization_id(self.request)},
+                "publisher": {"@id": organization_id(self.request)},
+            }
+        )
         context["articles"] = Article.objects.only("id", "title", "slug")
         return context
 
@@ -215,6 +300,7 @@ class ProjectListView(DataMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["seo_title"] = f"{self.title_page} | Маляр Групп"
 
         # Используем объектный список из get_queryset
         projects = self.object_list
@@ -265,9 +351,13 @@ class ProjectDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = self.object.title
+        context["seo_title"] = build_seo_title(f"Проект «{self.object.title}»")
         context["meta_description"] = build_meta_description(
             self.object.body,
-            f"Выполненный проект «{self.object.title}»: описание работ и фотографии объекта.",
+            f"Проект «{self.object.title}» компании Маляр Групп: описание выполненных работ, применённых технологий и фотографии объекта.",
+        )
+        context["breadcrumb_json_ld"] = detail_breadcrumbs(
+            self.request, "Проекты", "job:projects", self.object.title
         )
         return context
 
@@ -275,7 +365,7 @@ class ProjectDetailView(DetailView):
 def home(request):
     # posts = Post.published.all()
     posts = Post.published.prefetch_related("postarticle_set__article").all()
-    title = "Промышленная покраска, антикоррозийная защита, теплоизоляция | Маляр Групп"
+    title = "Промышленная покраска и защита объектов | Маляр Групп"
     meta_description = "Комплексные услуги: промышленная покраска, антикоррозийная защита, пескоструй, теплоизоляция. Работаем по всей Сибири. Маляр Групп."
     projects = with_project_cover(Project.objects.only("title", "slug"))
     grouped_projects = {
@@ -312,6 +402,7 @@ def page_not_found(request, exception):
 
 def contacts(request):
     title = "Напишите нам Ваши вопросы и мы постараемся помочь"
+    seo_title = "Контакты компании Маляр Групп в Красноярске"
     meta_description = (
         "Контакты компании Маляр Групп в Красноярске: телефон, электронная почта, "
         "адрес и форма для консультации или расчёта стоимости работ."
@@ -341,6 +432,7 @@ def contacts(request):
         "google_maps_api_key": settings.GOOGLE_MAPS_API_KEY,
         "RECAPTCHA_SITE_KEY": settings.RECAPTCHA_SITE_KEY,
         "title": title,
+        "seo_title": seo_title,
         "meta_description": meta_description,
         "user_form": user_form,
         "q_form": q_form,
@@ -492,6 +584,7 @@ def _update_user_profile(user, data, request=None): # Добавим request
 
 def vacancies(request):
     title = "Открытые вакансии"
+    seo_title = "Вакансии в компании Маляр Групп в Красноярске"
     meta_description = (
         "Вакансии компании Маляр Групп: работа для маляров антикоррозийных работ "
         "и пескоструйщиков, требования, условия и анкета соискателя."
@@ -499,12 +592,17 @@ def vacancies(request):
     return render(
         request,
         "job/post/vacancies.html",
-        {"title": title, "meta_description": meta_description},
+        {
+            "title": title,
+            "seo_title": seo_title,
+            "meta_description": meta_description,
+        },
     )
 
 
 def applicant(request):
     title = "Анкета соискателя"
+    seo_title = "Отклик на вакансии компании Маляр Групп"
     meta_description = (
         "Анкета соискателя для отклика на вакансии компании Маляр Групп. "
         "Расскажите об опыте работы и оставьте контактные данные."
@@ -521,6 +619,7 @@ def applicant(request):
 
     context = {
         "title": title,
+        "seo_title": seo_title,
         "meta_description": meta_description,
         "form": form,
         "success": success,
