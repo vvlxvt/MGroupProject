@@ -163,6 +163,16 @@ a.navbar-brand:hover {
 }
 
 @media (max-width: 991.98px) {
+  .navbar-menu {
+    width: auto;
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .navbar-menu > .dropdown {
+    width: 100%;
+  }
+
   .navbar .dropdown-menu {
     position: static !important;
     transform: none !important;
@@ -173,8 +183,11 @@ a.navbar-brand:hover {
     box-shadow: none;
   }
 
-  .navbar > .container-fluid .dropdown-menu > li > .dropdown-item {
-    padding-left: 1.5rem;
+  .navbar > .container-fluid .navbar-submenu > li > .dropdown-item {
+    padding-right: 0;
+    padding-left: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .dropdown-menu .dropdown-menu .dropdown-item {

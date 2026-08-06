@@ -351,7 +351,7 @@ a.gradient-title-r:hover::after {
 }
 
 .m-caption-title {
-  font-weight: 600;
+  font-weight: 400;
   text-transform: uppercase;
   font-size: 28px;
   line-height: 1.1;
