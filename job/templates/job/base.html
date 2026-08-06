@@ -10,6 +10,15 @@
     {% block canonical %}
     <link rel="canonical" href="{{ canonical_url }}">
     {% endblock %}
+    {% block open_graph %}
+    <meta property="og:type" content="{{ og_type|default:'website' }}">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:site_name" content="Маляр Групп">
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ meta_description }}">
+    <meta property="og:image" content="{{ og_image_url|default:default_og_image_url }}">
+    <meta property="og:url" content="{{ canonical_url }}">
+    {% endblock %}
     <link rel="icon" type="image/png" sizes="64x64"
           href="{{ MEDIA_URL }}photos/Logo/favicon/m_logo_64.png">
     <link rel="icon" type="image/png" sizes="32x32"

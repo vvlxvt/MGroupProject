@@ -1,3 +1,4 @@
+import re
 from types import SimpleNamespace
 from unittest.mock import patch
 
@@ -209,6 +210,50 @@ class PageHeadingTests(TestCase):
                 response = self.client.get(url)
                 self.assertEqual(response.status_code, 200)
                 self.assertEqual(response.content.decode().lower().count("<h1"), 1)
+
+    def test_indexable_pages_have_description_and_open_graph_metadata(self):
+        urls = [
+            reverse("job:home"),
+            reverse("job:post_list"),
+            self.posts[0].get_absolute_url(),
+            reverse("job:projects"),
+            self.project.get_absolute_url(),
+            reverse("job:article_list"),
+            self.article.get_absolute_url(),
+            reverse("job:about"),
+            reverse("job:contacts"),
+            reverse("job:vacancies"),
+        ]
+
+        for url in urls:
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                html = response.content.decode()
+                description = re.search(
+                    r'<meta name="description" content="([^"]+)">',
+                    html,
+                )
+
+                self.assertEqual(response.status_code, 200)
+                self.assertIsNotNone(description)
+                self.assertNotIn("{{", description.group(1))
+                for property_name in (
+                    "og:title",
+                    "og:description",
+                    "og:image",
+                    "og:url",
+                ):
+                    self.assertEqual(
+                        html.count(f'property="{property_name}"'),
+                        1,
+                    )
+
+                og_image = re.search(
+                    r'<meta property="og:image" content="([^"]+)">',
+                    html,
+                )
+                self.assertIsNotNone(og_image)
+                self.assertTrue(og_image.group(1).startswith("http"))
 
 
 class HomeQueryTests(TestCase):

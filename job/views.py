@@ -7,7 +7,10 @@ from django.db.models import Count, Prefetch, Q
 from django.http import HttpResponseNotFound, HttpResponsePermanentRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
+from django.templatetags.static import static
 from django.urls import reverse
+from django.utils.html import strip_tags
+from django.utils.text import Truncator
 from django.utils.timezone import make_aware
 from django.views.generic import DetailView, ListView, TemplateView
 from taggit.models import Tag
@@ -20,6 +23,16 @@ from .utils import (DataMixin, advantages, chunk_list, partners,
 
 from django.http import JsonResponse
 from django.core.exceptions import PermissionDenied, RequestDataTooBig
+
+
+def build_meta_description(text, fallback):
+    cleaned_text = " ".join(strip_tags(text or "").split())
+    return Truncator(cleaned_text or fallback).chars(160)
+
+
+def absolute_image_url(request, image=None):
+    image_url = image.url if image else static("job/images/IMG_index.webp")
+    return request.build_absolute_uri(image_url)
 
 
 class DynamicPostListView(DataMixin, ListView):
@@ -66,6 +79,10 @@ class DynamicPostListView(DataMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["meta_description"] = (
+            "Промышленная покраска, очистка, огнезащита, гидроизоляция и "
+            "антикоррозийная обработка объектов в Красноярске и Сибири."
+        )
 
         # Доступ к фильтрующим параметрам
         cat_slug = self.request.GET.get("category")
@@ -135,7 +152,16 @@ def post_detail(request, slug):
     return render(
         request,
         "job/post/service_detail.html",
-        {"post": post, "title": post, "similar_posts": similar_posts},
+        {
+            "post": post,
+            "title": post,
+            "similar_posts": similar_posts,
+            "meta_description": build_meta_description(
+                post.body,
+                f"{post.title}. Профессиональное выполнение работ компанией Маляр Групп.",
+            ),
+            "og_image_url": absolute_image_url(request, post.photo),
+        },
     )
 
 
@@ -207,7 +233,8 @@ class ProjectListView(DataMixin, ListView):
         context["locations"] = locations_list
         context["google_maps_api_key"] = settings.GOOGLE_MAPS_API_KEY
         context["meta_description"] = (
-            f"География проектов: очистка, антикоррозийная защита, покраска"
+            "Выполненные проекты Маляр Групп по промышленной покраске, очистке, "
+            "антикоррозийной защите и огнезащите объектов в Сибири."
         )
         return context
 
@@ -238,7 +265,10 @@ class ProjectDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = self.object.title
-        context["meta_description"] = f"Выполненный проект {self.object.title}"
+        context["meta_description"] = build_meta_description(
+            self.object.body,
+            f"Выполненный проект «{self.object.title}»: описание работ и фотографии объекта.",
+        )
         return context
 
 
@@ -282,6 +312,10 @@ def page_not_found(request, exception):
 
 def contacts(request):
     title = "Напишите нам Ваши вопросы и мы постараемся помочь"
+    meta_description = (
+        "Контакты компании Маляр Групп в Красноярске: телефон, электронная почта, "
+        "адрес и форма для консультации или расчёта стоимости работ."
+    )
 
     user_data = request.session.get("user", {})
     telegram_id = user_data.get("id")
@@ -307,6 +341,7 @@ def contacts(request):
         "google_maps_api_key": settings.GOOGLE_MAPS_API_KEY,
         "RECAPTCHA_SITE_KEY": settings.RECAPTCHA_SITE_KEY,
         "title": title,
+        "meta_description": meta_description,
         "user_form": user_form,
         "q_form": q_form,
     }
@@ -457,11 +492,23 @@ def _update_user_profile(user, data, request=None): # Добавим request
 
 def vacancies(request):
     title = "Открытые вакансии"
-    return render(request, "job/post/vacancies.html", {"title": title})
+    meta_description = (
+        "Вакансии компании Маляр Групп: работа для маляров антикоррозийных работ "
+        "и пескоструйщиков, требования, условия и анкета соискателя."
+    )
+    return render(
+        request,
+        "job/post/vacancies.html",
+        {"title": title, "meta_description": meta_description},
+    )
 
 
 def applicant(request):
     title = "Анкета соискателя"
+    meta_description = (
+        "Анкета соискателя для отклика на вакансии компании Маляр Групп. "
+        "Расскажите об опыте работы и оставьте контактные данные."
+    )
     success = False
     if request.method == "POST":
         form = ApplicantProfileForm(request.POST)
@@ -474,6 +521,7 @@ def applicant(request):
 
     context = {
         "title": title,
+        "meta_description": meta_description,
         "form": form,
         "success": success,
     }

@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.core.cache import cache
+from django.templatetags.static import static
 
 from job.models import Category
 
@@ -50,4 +51,9 @@ def canonical_url(request):
     if page and page.isdigit() and int(page) > 1:
         canonical = f"{canonical}?page={page}"
 
-    return {"canonical_url": canonical}
+    return {
+        "canonical_url": canonical,
+        "default_og_image_url": request.build_absolute_uri(
+            static("job/images/IMG_index.webp")
+        ),
+    }

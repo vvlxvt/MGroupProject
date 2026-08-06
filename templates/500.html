@@ -1,5 +1,6 @@
 {% extends "job/base.html" %}
 {% with "Ошибка 500 - Ошибка сервера" as title %}{% endwith %}
+{% block open_graph %}{% endblock %}
 {% block http500 %}
     <h1>500 — Внутренняя ошибка сервера</h1>
     <p>Произошла ошибка. Мы уже работаем над её устранением.</p>

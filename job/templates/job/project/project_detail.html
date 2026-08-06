@@ -1,6 +1,7 @@
 {% extends "job/base.html" %}
 {% load static %}
 {% block title %}<title>{{ page_title }}</title>{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
 {% block projects %}
     <h1 class="visually-hidden">{{ project.title }}</h1>
     <div class="row content-row--centered content-row--aligned">
