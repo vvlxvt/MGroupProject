@@ -66,7 +66,29 @@ def menu_context(request):
         "calculator": {"title": "Вакансии", "url_name": f"{namespace}:vacancies"},
         "contacts": {"title": "Контакты", "url_name": f"{namespace}:contacts"},
     }
-    return {"menu": menu, "facemenu": menu["services"].get("submenus", [])}
+    endpoint_sections = {
+        "about": "about",
+        "post_list": "services",
+        "post_detail": "services",
+        "article_list": "articles",
+        "article_detail": "articles",
+        "projects": "projects",
+        "project_detail": "projects",
+        "ajax_load_card": "projects",
+        "vacancies": "calculator",
+        "applicant": "calculator",
+        "contacts": "contacts",
+    }
+    endpoint = (
+        request.resolver_match.url_name
+        if request and request.resolver_match
+        else None
+    )
+    return {
+        "menu": menu,
+        "facemenu": menu["services"].get("submenus", []),
+        "active_menu_key": endpoint_sections.get(endpoint),
+    }
 
 
 def canonical_url(request):

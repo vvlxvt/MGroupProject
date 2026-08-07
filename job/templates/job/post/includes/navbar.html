@@ -23,12 +23,13 @@
         {% if m.submenus %}
 
         <!-- 🔹 ПУНКТ 1 УРОВНЯ -->
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle"
+        <li class="nav-item dropdown{% if key == active_menu_key %} active{% endif %}">
+          <a class="nav-link dropdown-toggle{% if key == active_menu_key %} active{% endif %}"
              href="{% url m.url_name %}"
              role="button"
              data-bs-toggle="dropdown"
              data-bs-display="static"
+             {% if key == active_menu_key %}aria-current="page"{% endif %}
              aria-expanded="false">
             {{ m.title }}
           </a>
@@ -53,7 +54,8 @@
 
         <!-- 🔹 ПУНКТ БЕЗ ПОДМЕНЮ -->
         <li class="nav-item">
-          <a class="nav-link{% if m.url_name|cut:'job:' == request.resolver_match.url_name %} active{% endif %}"
+          <a class="nav-link{% if key == active_menu_key %} active{% endif %}"
+             {% if key == active_menu_key %}aria-current="page"{% endif %}
              href="{% url m.url_name %}">
             {{ m.title }}
           </a>

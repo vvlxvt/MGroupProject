@@ -339,6 +339,28 @@ class PageHeadingTests(TestCase):
         )
         self.assertContains(project_response, "Выполненные услуги")
 
+    def test_detail_pages_keep_their_menu_section_active(self):
+        cases = {
+            self.posts[0].get_absolute_url(): ("services", "Услуги"),
+            self.article.get_absolute_url(): ("articles", "Статьи"),
+            self.project.get_absolute_url(): ("projects", "Проекты"),
+            reverse("job:applicant"): ("calculator", "Вакансии"),
+        }
+
+        for url, (menu_key, label) in cases.items():
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                html = response.content.decode()
+
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.context["active_menu_key"], menu_key)
+                self.assertEqual(html.count('aria-current="page"'), 1)
+                self.assertRegex(
+                    html,
+                    rf'<a class="nav-link[^"]*active[^"]*"[^>]*'
+                    rf'aria-current="page"[^>]*>\s*{label}\s*</a>',
+                )
+
 
 class HomeQueryTests(TestCase):
     def create_project(self, number):
