@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django.conf import settings
 from django.contrib.postgres.search import (SearchQuery, SearchVector,
                                             TrigramSimilarity)
@@ -11,16 +9,15 @@ from django.templatetags.static import static
 from django.urls import reverse
 from django.utils.html import strip_tags
 from django.utils.text import Truncator
-from django.utils.timezone import make_aware
 from django.views.generic import DetailView, ListView, TemplateView
 from taggit.models import Tag
 
 from .context_processors import build_breadcrumb_json_ld, serialize_json_ld
-from .forms import UserProfileForm, UserQuestionForm, ApplicantProfileForm
-from .models import Article, Category, Photo, Post, Project, UserProfile, UserQuestion
+from .forms import UserQuestionForm, ApplicantProfileForm
+from .models import Article, Category, Photo, Post, Project, UserQuestion
 from .utils import (DataMixin, advantages, chunk_list, partners,
                     ExternalServiceUnavailable,
-                    verify_telegram_auth, verify_recaptcha)
+                    verify_recaptcha)
 
 from django.http import JsonResponse
 from django.core.exceptions import PermissionDenied, RequestDataTooBig
@@ -415,24 +412,6 @@ def contacts(request):
         "адрес и форма для консультации или расчёта стоимости работ."
     )
 
-    user_data = request.session.get("user", {})
-    telegram_id = user_data.get("id")
-
-    user = None
-    if telegram_id:
-        try:
-            user = UserProfile.objects.get(telegram_id=telegram_id)
-        except UserProfile.DoesNotExist:
-            pass
-
-    # Инициализация формы с уже сохранёнными данными
-    if user:
-        if not user.email:
-            user.email = user_data.get("email", "")
-        if not user.city:
-            user.city = user_data.get("city", "")
-
-    user_form = UserProfileForm(instance=user)
     q_form = UserQuestionForm()
 
     context = {
@@ -441,54 +420,13 @@ def contacts(request):
         "title": title,
         "seo_title": seo_title,
         "meta_description": meta_description,
-        "user_form": user_form,
         "q_form": q_form,
     }
     return render(request, "job/post/contacts.html", context)
 
 
 from django.views.decorators.csrf import csrf_protect
-from django.views.decorators.http import require_GET, require_POST
-
-
-@require_GET
-def telegram_auth_view(request):
-    user_data = request.GET.dict()
-
-    # Проверка Telegram-аутентификации
-    if not verify_telegram_auth(request.META["QUERY_STRING"]):
-        return JsonResponse({"error": "Invalid Telegram authentication"}, status=403)
-
-    try:
-        timestamp = int(user_data.get("auth_date", 0))
-        calendar_time = make_aware(datetime.utcfromtimestamp(timestamp))
-    except (ValueError, TypeError):
-        return JsonResponse({"error": "Некорректная дата аутентификации"}, status=400)
-
-    # Создаём пользователя, если не существует
-    telegram_id = int(user_data.get("id", 0))
-    user, created = UserProfile.objects.get_or_create(
-        telegram_id=telegram_id,
-        defaults={
-            "username": user_data.get("username", ""),
-            "first_name": user_data.get("first_name", ""),
-            "last_name": user_data.get("last_name", ""),
-            "auth_date": calendar_time,
-        },
-    )
-
-    # Сохраняем в сессию
-    request.session["user"] = {
-        "id": user.telegram_id,
-        "username": user.username,
-        "first_name": user.first_name,
-        "last_name": user.last_name,
-        "auth_date": user.auth_date.strftime("%Y-%m-%d %H:%M"),
-        "email": user.email,
-        "city": user.city,
-    }
-
-    return redirect("/contacts/")
+from django.views.decorators.http import require_POST
 
 
 @csrf_protect
@@ -515,21 +453,7 @@ def submit_question(request):
                 status=400
             )
 
-        user = UserProfile.objects.filter(
-            telegram_id=request.POST.get("telegram_id")
-        ).first()
-
-        if not user:
-            return JsonResponse(
-                {"success": False, "errors": {"__all__": "Пользователь не найден"}},
-                status=404
-            )
-
-        question = form.save(commit=False)
-        question.user = user
-        question.save()
-
-        _update_user_profile(user, request.POST, request)
+        form.save()
 
         return JsonResponse(
             {
@@ -565,29 +489,6 @@ def submit_question(request):
             },
             status=503,
         )
-
-def _update_user_profile(user, data, request=None): # Добавим request
-    updated = False
-    email = data.get("email")
-    city = data.get("city")
-
-    if email and email != user.email:
-        user.email = email
-        updated = True
-
-    if city and city != user.city:
-        user.city = city
-        updated = True
-
-    if updated:
-        user.save(update_fields=["email", "city"])
-        # Обновляем данные в сессии, чтобы при перезагрузке формы они были актуальны
-        if request and "user" in request.session:
-            user_session = request.session["user"]
-            user_session["email"] = user.email
-            user_session["city"] = user.city
-            request.session.modified = True
-
 
 def vacancies(request):
     title = "Открытые вакансии"

@@ -1,13 +1,10 @@
-import hashlib
-import hmac
 import logging
-import time
-import urllib
 from itertools import zip_longest
 
 import requests
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
+from django.utils.html import escape
 
 class DataMixin:
     paginate_by = 6
@@ -72,34 +69,11 @@ def chunk_list(lst, size):
     return list(zip_longest(*[iter(lst)] * size, fillvalue=None))
 
 
-bot_token = settings.TELEGRAM_BOT_TOKEN
 external_request_timeout = settings.EXTERNAL_REQUEST_TIMEOUT
 
 
 class ExternalServiceUnavailable(Exception):
     pass
-
-
-def verify_telegram_auth(data):
-    secret_key = hashlib.sha256(bot_token.encode()).digest()
-    auth_data = urllib.parse.parse_qs(data, keep_blank_values=True)
-    auth_data = {k: v[0] for k, v in auth_data.items()}
-    hash_check = auth_data.pop("hash", None)
-    if not hash_check:
-        return False
-    check_string = "\n".join(f"{k}={auth_data[k]}" for k in sorted(auth_data.keys()))
-    calculated_hash = hmac.new(
-        secret_key, check_string.encode(), hashlib.sha256
-    ).hexdigest()
-    auth_date = int(auth_data.get("auth_date", 0))
-    if time.time() - auth_date > 86400:
-        logger.warning("Telegram authentication data has expired")
-        return False
-
-    is_valid = hmac.compare_digest(calculated_hash, hash_check)
-    if not is_valid:
-        logger.warning("Telegram authentication hash is invalid")
-    return is_valid
 
 
 logger = logging.getLogger(__name__)
@@ -112,19 +86,16 @@ def send_telegram_message(question):
     :param question: экземпляр модели UserQuestion
     :return: bool (успех/неудача)
     """
-    user = question.user
     bot_token = settings.TELEGRAM_BOT_TOKEN
     chat_id = settings.TELEGRAM_CHAT_ID
     telegram_url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
     telegram_url_photo = f"https://api.telegram.org/bot{bot_token}/sendPhoto"
 
-    # Получаем имя пользователя или ID
-    user_label = (
-        f"@{user.username}"
-        if user.username
-        else f"User ID: <code>{user.telegram_id}</code>"
+    sender = question.contact_email or "email не указан"
+    caption = (
+        f"{escape(question.question_text)}\n\n"
+        f"Email для ответа: <code>{escape(sender)}</code>"
     )
-    caption = f"{question.question_text}\n\nот пользователя {user_label}"
 
     try:
         if question.attached_photo:

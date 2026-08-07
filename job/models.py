@@ -198,7 +198,14 @@ class UserQuestion(models.Model):
         SENT = "sent", "Отправлено"
         FAILED = "failed", "Ошибка отправки"
 
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        UserProfile,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        help_text="Устаревшая связь с Telegram-профилем",
+    )
+    contact_email = models.EmailField(blank=True)
     question_text = models.TextField()
     attached_photo = models.ImageField(upload_to="photo_upload/", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -210,7 +217,8 @@ class UserQuestion(models.Model):
     )
 
     def __str__(self):
-        return f"Question from {self.user.username or self.user.telegram_id}"
+        sender = self.contact_email or (str(self.user) if self.user else "anonymous")
+        return f"Question from {sender}"
 
 
 class ApplicantProfile(models.Model):

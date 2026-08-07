@@ -7,7 +7,7 @@ from PIL import Image
 from taggit.forms import TagField
 from taggit_labels.widgets import LabelWidget
 
-from job.models import UserProfile, UserQuestion, ApplicantProfile
+from job.models import UserQuestion, ApplicantProfile
 
 
 # ====== Constants ======
@@ -18,6 +18,10 @@ ALLOWED_IMAGE_MIME_TYPES = ("image/jpeg","image/png",)
 
 # ====== Forms ======
 class UserQuestionForm(forms.ModelForm):
+    contact_email = forms.EmailField(
+        max_length=254,
+        validators=[EmailValidator(message="Введите корректный email адрес.")],
+    )
     attached_photo = forms.FileField(
         required=False,
         validators=[FileExtensionValidator(IMAGE_EXTENSIONS)],
@@ -25,7 +29,7 @@ class UserQuestionForm(forms.ModelForm):
 
     class Meta:
         model = UserQuestion
-        fields = ("question_text", "attached_photo")
+        fields = ("contact_email", "question_text", "attached_photo")
 
     def clean_question_text(self):
         text = self.cleaned_data.get("question_text", "").strip()
@@ -57,22 +61,6 @@ class UserQuestionForm(forms.ModelForm):
             raise ValidationError("Файл повреждён или не является изображением.")
 
         return photo
-
-
-class UserProfileForm(forms.ModelForm):
-    email = forms.EmailField(
-        validators=[EmailValidator(message="Введите корректный email адрес.")]
-    )
-
-    class Meta:
-        model = UserProfile
-        fields = ("email", "city")
-
-    def clean_city(self):
-        city = self.cleaned_data.get("city", "")
-        if any(char.isdigit() for char in city):
-            raise ValidationError("Название города не должно содержать цифр.")
-        return city
 
 
 class ApplicantProfileForm(forms.ModelForm):

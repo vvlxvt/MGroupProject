@@ -22,7 +22,6 @@ from .models import (
     Photo,
     Post,
     Project,
-    UserProfile,
     UserQuestion,
     photo_upload_to,
     upload_to,
@@ -370,11 +369,7 @@ class PageHeadingTests(TestCase):
         )
         for control_id in (
             "site-search",
-            "contact-username",
-            "contact-first-name",
-            "contact-auth-date",
             "contact-email",
-            "contact-city",
             "contact-question",
             "contact-photo",
         ):
@@ -557,18 +552,26 @@ class ContentSlugUniquenessTests(TestCase):
 
 
 class SubmitQuestionDeliveryTests(TestCase):
-    def setUp(self):
-        self.user = UserProfile.objects.create(
-            telegram_id=123456,
-            username="customer",
-        )
+    def test_contact_page_does_not_expose_telegram_login_or_profile_fields(self):
+        response = self.client.get(reverse("job:contacts"))
+
+        self.assertNotContains(response, "telegram-widget.js")
+        self.assertNotContains(response, 'name="telegram_id"')
+        self.assertNotContains(response, 'name="username"')
+        self.assertNotContains(response, 'name="city"')
+        self.assertContains(response, 'name="contact_email"')
+
+    def test_legacy_telegram_callback_is_not_available(self):
+        response = self.client.get("/callback/")
+
+        self.assertEqual(response.status_code, 404)
 
     def submit_question(self):
         with patch("job.views.verify_recaptcha"):
             return self.client.post(
                 reverse("job:submit_question"),
                 {
-                    "telegram_id": self.user.telegram_id,
+                    "contact_email": "customer@example.com",
                     "question_text": "Нужна консультация по проекту",
                     "recaptcha_token": "test-token",
                 },
@@ -581,6 +584,8 @@ class SubmitQuestionDeliveryTests(TestCase):
 
         self.assertEqual(response.status_code, 202)
         self.assertTrue(response.json()["success"])
+        self.assertEqual(question.contact_email, "customer@example.com")
+        self.assertIsNone(question.user)
         telegram_request.assert_not_called()
         self.assertEqual(
             question.telegram_status,
@@ -595,7 +600,7 @@ class SubmitQuestionDeliveryTests(TestCase):
             response = self.client.post(
                 reverse("job:submit_question"),
                 {
-                    "telegram_id": self.user.telegram_id,
+                    "contact_email": "customer@example.com",
                     "question_text": "Нужна консультация по проекту",
                     "recaptcha_token": "test-token",
                 },
@@ -608,12 +613,8 @@ class SubmitQuestionDeliveryTests(TestCase):
 
 class ProcessQuestionNotificationsTests(TestCase):
     def setUp(self):
-        user = UserProfile.objects.create(
-            telegram_id=654321,
-            username="queued-customer",
-        )
         self.question = UserQuestion.objects.create(
-            user=user,
+            contact_email="queued@example.com",
             question_text="Вопрос для фоновой отправки",
         )
 
