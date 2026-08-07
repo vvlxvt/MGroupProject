@@ -8,6 +8,7 @@
   --color-primary: var(--bs-body-color);
   --color-secondary: #FFD700; /* golden*/
   --color-accent: #31B787; /* dark mint */
+  --color-accent-text: #176b52;
   --color-surface-muted: #f8f9fa;
   --color-surface-feature: #f2f2f2;
   --color-gradient-warm: #f91803;

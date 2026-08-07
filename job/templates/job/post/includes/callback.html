@@ -62,9 +62,11 @@
                             <div class="col-md-7">
                                 <div class="input-group">
                                     <span class="input-group-text contact-form__readonly">
-                                        <i class="fa-solid fa-at"></i>
+                                        <i class="fa-solid fa-at" aria-hidden="true"></i>
                                     </span>
-                                    <input type="text"
+                                    <label class="visually-hidden" for="contact-username">Логин Telegram</label>
+                                    <input id="contact-username"
+                                           type="text"
                                            name="username"
                                            class="form-control contact-form__readonly"
                                            placeholder="telegram login"
@@ -88,9 +90,11 @@
                             <div class="col-md-6">
                                 <div class="input-group">
                                     <span class="input-group-text contact-form__readonly">
-                                        <i class="fa-solid fa-user-tie"></i>
+                                        <i class="fa-solid fa-user-tie" aria-hidden="true"></i>
                                     </span>
-                                    <input type="text"
+                                    <label class="visually-hidden" for="contact-first-name">Имя пользователя Telegram</label>
+                                    <input id="contact-first-name"
+                                           type="text"
                                            name="first_name"
                                            class="form-control contact-form__readonly"
                                            value="{{ request.session.user.first_name|default:'' }}"
@@ -101,9 +105,11 @@
                             <div class="col-md-6">
                                 <div class="input-group">
                                     <span class="input-group-text contact-form__readonly">
-                                        <i class="fa-solid fa-calendar"></i>
+                                        <i class="fa-solid fa-calendar" aria-hidden="true"></i>
                                     </span>
-                                    <input type="text"
+                                    <label class="visually-hidden" for="contact-auth-date">Дата авторизации через Telegram</label>
+                                    <input id="contact-auth-date"
+                                           type="text"
                                            name="auth_date"
                                            class="form-control contact-form__readonly"
                                            value="{{ request.session.user.auth_date|default:'' }}"
@@ -115,11 +121,14 @@
                         <div class="contact-form__field">
                             <div class="input-group has-validation">
                             <span class="input-group-text">
-                                <i class="fa-regular fa-envelope"></i>
+                                <i class="fa-regular fa-envelope" aria-hidden="true"></i>
                             </span>
-                                <input type="email"
+                                <label class="visually-hidden" for="contact-email">Email для ответа</label>
+                                <input id="contact-email"
+                                       type="email"
                                        class="form-control"
                                        name="email"
+                                       aria-describedby="email-error"
                                        placeholder="Ваш Email (для ответа)"
                                        value="{{ request.session.user.email|default:'' }}">
                                 <div class="invalid-feedback" id="email-error"></div>
@@ -129,11 +138,14 @@
                         <div class="contact-form__field">
                             <div class="input-group has-validation">
                             <span class="input-group-text">
-                                <i class="fa-solid fa-location-dot"></i>
+                                <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
                             </span>
-                                <input type="text"
+                                <label class="visually-hidden" for="contact-city">Ваш город</label>
+                                <input id="contact-city"
+                                       type="text"
                                        class="form-control"
                                        name="city"
+                                       aria-describedby="city-error"
                                        placeholder="Ваш город"
                                        value="{{ request.session.user.city|default:'' }}">
                                 <div class="invalid-feedback" id="city-error"></div>
@@ -142,9 +154,12 @@
 
                         <!-- Message -->
                         <div class="contact-form__field">
-                            <textarea class="form-control"
+                            <label class="visually-hidden" for="contact-question">Ваш вопрос</label>
+                            <textarea id="contact-question"
+                                      class="form-control"
                                       name="question_text"
                                       rows="4"
+                                      aria-describedby="question_text-error"
                                       placeholder="Опишите вашу задачу или задайте вопрос..."
                                       required></textarea>
                             <div class="invalid-feedback" id="question_text-error"></div>
@@ -152,12 +167,15 @@
 
                         <!-- File -->
                         <div class="contact-form__field--file">
-                            <label class="form-label contact-form__file-label">
+                            <label class="form-label contact-form__file-label"
+                                   for="contact-photo">
                                 Прикрепить фото (необязательно)
                             </label>
-                            <input type="file"
+                            <input id="contact-photo"
+                                   type="file"
                                    name="attached_photo"
-                                   class="form-control">
+                                   class="form-control"
+                                   aria-describedby="attached_photo-error">
                             <div class="invalid-feedback" id="attached_photo-error"></div>
                         </div>
 

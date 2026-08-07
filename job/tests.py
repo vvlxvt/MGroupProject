@@ -361,6 +361,34 @@ class PageHeadingTests(TestCase):
                     rf'aria-current="page"[^>]*>\s*{label}\s*</a>',
                 )
 
+    def test_contacts_controls_have_accessible_names_and_heading_order(self):
+        html = self.client.get(reverse("job:contacts")).content.decode()
+
+        self.assertRegex(
+            html,
+            r'<button class="btn" type="submit" aria-label="Найти на сайте">',
+        )
+        for control_id in (
+            "site-search",
+            "contact-username",
+            "contact-first-name",
+            "contact-auth-date",
+            "contact-email",
+            "contact-city",
+            "contact-question",
+            "contact-photo",
+        ):
+            with self.subTest(control_id=control_id):
+                self.assertIn(f'for="{control_id}"', html)
+                self.assertIn(f'id="{control_id}"', html)
+
+        self.assertIn(
+            '<h2 class="contacts-details__title h3">наш адрес и контакты</h2>',
+            html,
+        )
+        self.assertNotIn('<h5 class="footer-title">', html)
+        self.assertEqual(html.count('<h2 class="footer-title h5">'), 4)
+
 
 class HomeQueryTests(TestCase):
     def create_project(self, number):

@@ -31,7 +31,7 @@ footer a, footer p {
     margin-bottom: 0.5rem;
 }
 
-footer h5 {
+.footer-title {
     color: var(--color-primary);
 }
 

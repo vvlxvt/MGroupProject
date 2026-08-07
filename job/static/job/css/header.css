@@ -61,9 +61,13 @@ a.navbar-brand:hover {
 }
 
 .navbar-panel .search-input .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid black;
   border-left: none;
   height: 30px;
+  line-height: 1;
 }
 
 @media (min-width: 768px) {
