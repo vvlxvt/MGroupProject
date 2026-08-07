@@ -389,6 +389,16 @@ class PageHeadingTests(TestCase):
         self.assertNotIn('<h5 class="footer-title">', html)
         self.assertEqual(html.count('<h2 class="footer-title h5">'), 4)
 
+    def test_home_headings_do_not_skip_section_levels(self):
+        html = self.client.get(reverse("job:home")).content.decode()
+
+        self.assertIn(
+            '<h2 class="visually-hidden">Опыт и возможности компании</h2>',
+            html,
+        )
+        self.assertNotIn('<h6 class="card-title project-card__title">', html)
+        self.assertIn('<h3 class="h6 card-title project-card__title">', html)
+
 
 class HomeQueryTests(TestCase):
     def create_project(self, number):

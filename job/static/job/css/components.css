@@ -30,7 +30,7 @@
 
 .yellow-bar {
   background-color: var(--color-accent);
-  color: white;
+  color: var(--color-primary);
   text-align: center;
   font-weight: 700;
   text-transform: uppercase;
@@ -305,7 +305,7 @@ a.gradient-title-r:hover::after {
   font-family: var(--font-family-menu);
   font-size: var(--font-size-x-small);
   font-weight: var(--font-weight-bold);
-  color: var(--color-accent);
+  color: var(--color-primary);
 }
 
 .btn--narrow {
