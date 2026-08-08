@@ -12,6 +12,7 @@ urlpatterns = [  # it is URLconf
     path("services/", views.DynamicPostListView.as_view(), name="post_list"),
     path("submit-question/", views.submit_question, name="submit_question"),
     path("contacts/", views.contacts, name="contacts"),
+    path("privacy/", views.privacy, name="privacy"),
     path("about/", views.AboutView.as_view(), name="about"),
     path("articles/", views.ArticleListView.as_view(), name="article_list"),
     path("projects/", views.ProjectListView.as_view(), name="projects"),

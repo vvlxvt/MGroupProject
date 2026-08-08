@@ -225,6 +225,7 @@ class ApplicantProfile(models.Model):
     name = models.CharField(max_length=150)
     surname = models.CharField(max_length=150)
     position = models.CharField(max_length=255, blank=True)
+    experience = models.TextField(max_length=2000, blank=True)
     age = models.PositiveIntegerField(blank=True, null=True)
     education = models.CharField(max_length=255, blank=True)
     professional_education = models.CharField(max_length=255, blank=True)
@@ -234,6 +235,12 @@ class ApplicantProfile(models.Model):
     telephone_number = models.CharField(max_length=50, blank=True)
     email = models.EmailField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    telegram_status = models.CharField(
+        max_length=10,
+        choices=UserQuestion.DeliveryStatus.choices,
+        default=UserQuestion.DeliveryStatus.PENDING,
+        db_index=True,
+    )
 
     def __str__(self):
-        return f"{self.surname} {self.name}"
+        return " ".join(part for part in (self.surname, self.name) if part)

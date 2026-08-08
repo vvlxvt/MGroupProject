@@ -54,6 +54,15 @@
                           enctype="multipart/form-data">
 
                         {% csrf_token %}
+                        <input type="hidden" name="form_token" value="{{ question_form_token }}">
+                        <div class="visually-hidden" aria-hidden="true">
+                            <label for="contact-website">Не заполняйте это поле</label>
+                            <input id="contact-website"
+                                   type="text"
+                                   name="website"
+                                   tabindex="-1"
+                                   autocomplete="off">
+                        </div>
 
                         <div class="contact-form__field">
                             <div class="input-group has-validation">
@@ -99,6 +108,21 @@
                                    class="form-control"
                                    aria-describedby="attached_photo-error">
                             <div class="invalid-feedback" id="attached_photo-error"></div>
+                        </div>
+
+                        <div class="form-check contact-form__consent">
+                            <input id="contact-consent"
+                                   class="form-check-input"
+                                   type="checkbox"
+                                   name="personal_data_consent"
+                                   value="1"
+                                   aria-describedby="personal_data_consent-error"
+                                   required>
+                            <label class="form-check-label" for="contact-consent">
+                                Я даю согласие на обработку персональных данных и ознакомлен(а) с
+                                <a href="{% url 'job:privacy' %}" target="_blank" rel="noopener">политикой обработки персональных данных</a>.
+                            </label>
+                            <div class="invalid-feedback" id="personal_data_consent-error"></div>
                         </div>
 
                         <div class="contact-form__submit">
@@ -235,13 +259,13 @@ if (fileInput) {
         const data = await res.json();
 
         if (data.success) {
-            responseBox.className = 'alert alert-success';
+            responseBox.className = 'contact-form__response alert alert-success';
             responseBox.textContent = data.message;
             responseBox.style.display = 'block';
             form.reset();
 
         } else if (data.saved) {
-            responseBox.className = 'alert alert-warning';
+            responseBox.className = 'contact-form__response alert alert-warning';
             responseBox.textContent = data.message;
             responseBox.style.display = 'block';
             form.reset();
@@ -249,7 +273,8 @@ if (fileInput) {
             const errorTargets = {
                 contact_email: ['contact-email', 'email-error'],
                 question_text: ['contact-question', 'question_text-error'],
-                attached_photo: ['contact-photo', 'attached_photo-error']
+                attached_photo: ['contact-photo', 'attached_photo-error'],
+                personal_data_consent: ['contact-consent', 'personal_data_consent-error']
             };
 
             Object.entries(data.errors || {}).forEach(([field, message]) => {
@@ -260,7 +285,7 @@ if (fileInput) {
                 if (error) error.textContent = message;
             });
 
-    responseBox.className = 'alert alert-danger';
+    responseBox.className = 'contact-form__response alert alert-danger';
     responseBox.textContent = data.message || data.errors?.__all__ || 'Исправьте ошибки формы';
     responseBox.style.display = 'block';
 }
@@ -268,7 +293,7 @@ if (fileInput) {
 
     } catch (err) {
         console.error(err);
-        responseBox.className = 'alert alert-danger';
+        responseBox.className = 'contact-form__response alert alert-danger';
         responseBox.textContent = 'Ошибка сети или reCAPTCHA';
         responseBox.style.display = 'block';
     } finally {

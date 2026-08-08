@@ -88,6 +88,7 @@
                         <hr class="footer-divider">
                         <p class="footer-item"><a href="{% url 'job:about' %}">О компании</a></p>
                         <p class="footer-item"><a href="{% url 'job:vacancies' %}">Вакансии</a></p>
+                        <p class="footer-item"><a href="{% url 'job:privacy' %}">Обработка персональных данных</a></p>
                         <p class="footer-item"><a href="{% static 'job/images/company-details-mgrup24.pdf' %}" target="_blank"
                                           rel="noopener noreferrer">Реквизиты</a>
                         </p>
@@ -180,5 +181,6 @@
         });
     });
 </script>
+{% block extra_js %}{% endblock %}
 </body>
 </html>

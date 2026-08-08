@@ -79,6 +79,17 @@ class ExternalServiceUnavailable(Exception):
 logger = logging.getLogger(__name__)
 
 
+def _log_telegram_delivery_failure(notification_kind, exc):
+    response = getattr(exc, "response", None)
+    status_code = getattr(response, "status_code", None)
+    logger.error(
+        "Telegram %s delivery failed: error_type=%s status_code=%s",
+        notification_kind,
+        type(exc).__name__,
+        status_code if status_code is not None else "n/a",
+    )
+
+
 def send_telegram_message(question):
     """
     Отправляет сообщение или фото в Telegram на основе экземпляра UserQuestion.
@@ -126,13 +137,43 @@ def send_telegram_message(question):
         return True
 
     except Exception as exc:
-        logger.error(
-            "Telegram notification delivery failed",
-            extra={
-                "question_id": question.pk,
-                "error_type": type(exc).__name__,
+        _log_telegram_delivery_failure("question", exc)
+        return False
+
+
+def send_telegram_applicant(applicant):
+    """Deliver a minimized vacancy response to the owner's private Telegram chat."""
+    contact_parts = []
+    if applicant.telephone_number:
+        contact_parts.append(f"Телефон: <code>{escape(applicant.telephone_number)}</code>")
+    if applicant.email:
+        contact_parts.append(f"Email: <code>{escape(applicant.email)}</code>")
+    applicant_parts = [
+        "<b>Новый отклик на вакансию</b>",
+        f"Имя: {escape(applicant.name)}",
+        f"Должность: {escape(applicant.position or 'не указана')}",
+    ]
+    if applicant.ready_for_business_trip:
+        applicant_parts.append("Готов к командировкам")
+    applicant_parts.append(f"Опыт: {escape(applicant.experience or 'не указан')}")
+    text = "\n".join(applicant_parts) + "\n\n" + "\n".join(contact_parts)
+    telegram_url = (
+        f"https://api.telegram.org/bot{settings.TELEGRAM_BOT_TOKEN}/sendMessage"
+    )
+    try:
+        response = requests.post(
+            telegram_url,
+            data={
+                "chat_id": settings.TELEGRAM_CHAT_ID,
+                "text": text,
+                "parse_mode": "HTML",
             },
+            timeout=external_request_timeout,
         )
+        response.raise_for_status()
+        return True
+    except Exception as exc:
+        _log_telegram_delivery_failure("applicant", exc)
         return False
 
 

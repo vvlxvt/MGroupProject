@@ -262,13 +262,21 @@
   display: grid;
 }
 
+.contact-form__consent {
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
 .contact-form__spinner {
   margin-right: 0.5rem;
 }
 
 .contact-form__response {
   display: none;
-  margin-top: 1rem;
+  width: fit-content;
+  max-width: 100%;
+  margin: 1rem auto 0;
+  text-align: center;
 }
 
 .contact-testimonial {

@@ -5,81 +5,68 @@
 <div class="container applicant-page">
   <div class="row applicant-row">
     <div class="col-lg-6 applicant-column">
-      <h2 class="applicant-title">Анкета соискателя</h2>
+      <h1 class="applicant-title">Отклик на вакансию</h1>
+      <p class="applicant-intro">Оставьте только необходимые данные — имя, интересующую должность, краткий опыт и удобный контакт.</p>
       {% if success %}
         <div class="alert alert-success" role="alert">Спасибо! Ваша анкета отправлена.</div>
       {% endif %}
 
       <form method="post" class="applicant-form" novalidate>
         {% csrf_token %}
-        <div class="applicant-form__row">
-          <div class="input-group applicant-form__field">
-            <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
-            <label for="id_name" class="visually-hidden">Имя</label>
-            {{ form.name }}
-          </div>
+        <input type="hidden" name="form_token" value="{{ applicant_form_token }}">
+        <input type="hidden" name="recaptcha_token" id="applicant-recaptcha-token">
+        <div class="visually-hidden" aria-hidden="true">{{ form.website }}</div>
 
-          <div class="input-group applicant-form__field">
-            <span class="input-group-text"><i class="fa-solid fa-user-tie"></i></span>
-            <label for="id_surname" class="visually-hidden">Фамилия</label>
-            {{ form.surname }}
-          </div>
-        </div>
+        {% if form.non_field_errors %}<div class="alert alert-danger" role="alert">{{ form.non_field_errors|striptags }}</div>{% endif %}
 
         <div class="input-group applicant-form__field">
-          <span class="input-group-text"><i class="fa-solid fa-briefcase"></i></span>
+          <span class="input-group-text" aria-hidden="true"><i class="fa-solid fa-user"></i></span>
+          <label for="id_name" class="visually-hidden">Как к вам обращаться</label>
+          {{ form.name }}
+        </div>
+        {{ form.name.errors }}
+
+        <div class="input-group applicant-form__field">
+          <span class="input-group-text" aria-hidden="true"><i class="fa-solid fa-briefcase"></i></span>
           <label for="id_position" class="visually-hidden">Желаемая должность</label>
           {{ form.position }}
         </div>
-
-        <div class="applicant-form__row">
-          <div class="input-group applicant-form__field">
-            <span class="input-group-text"><i class="fa-solid fa-hashtag"></i></span>
-            <label for="id_age" class="visually-hidden">Возраст</label>
-            {{ form.age }}
-          </div>
-
-          <div class="input-group applicant-form__field">
-            <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
-            <label for="id_place_of_residence" class="visually-hidden">Место проживания</label>
-            {{ form.place_of_residence }}
-          </div>
-        </div>
-
-        <div class="input-group applicant-form__field">
-          <span class="input-group-text"><i class="fa-solid fa-graduation-cap"></i></span>
-          <label for="id_education" class="visually-hidden">Образование</label>
-          {{ form.education }}
-        </div>
-
-        <div class="input-group applicant-form__field">
-          <span class="input-group-text"><i class="fa-solid fa-user-graduate"></i></span>
-          <label for="id_professional_education" class="visually-hidden">Профессиональное образование</label>
-          {{ form.professional_education }}
-        </div>
+        {{ form.position.errors }}
 
         <div class="applicant-form__field">
-          <label for="id_additional_education" class="visually-hidden">Дополнительное образование</label>
-          {{ form.additional_education }}
+          <label for="id_experience" class="visually-hidden">Краткий опыт работы</label>
+          {{ form.experience }}
         </div>
+        {{ form.experience.errors }}
 
         <div class="applicant-form__row">
           <div class="input-group applicant-form__field">
-            <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
+            <span class="input-group-text" aria-hidden="true"><i class="fa-solid fa-phone"></i></span>
             <label for="id_telephone_number" class="visually-hidden">Телефон</label>
             {{ form.telephone_number }}
           </div>
+          {{ form.telephone_number.errors }}
 
           <div class="input-group applicant-form__field">
-            <span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
+            <span class="input-group-text" aria-hidden="true"><i class="fa-regular fa-envelope"></i></span>
             <label for="id_email" class="visually-hidden">E-mail</label>
             {{ form.email }}
           </div>
+          {{ form.email.errors }}
         </div>
 
         <div class="form-check applicant-form__check">
           {{ form.ready_for_business_trip }}
           <label class="form-check-label" for="id_ready_for_business_trip">Готов к командировкам</label>
+        </div>
+
+        <div class="form-check applicant-form__consent">
+          {{ form.personal_data_consent }}
+          <label class="form-check-label" for="{{ form.personal_data_consent.id_for_label }}">
+            Я даю согласие на обработку персональных данных и ознакомлен(а) с
+            <a href="{% url 'job:privacy' %}" target="_blank" rel="noopener">политикой обработки персональных данных</a>.
+          </label>
+          {{ form.personal_data_consent.errors }}
         </div>
 
         <div class="applicant-form__actions">
@@ -91,6 +78,33 @@
   </div>
 </div>
 
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://www.google.com/recaptcha/api.js?render={{ RECAPTCHA_SITE_KEY }}"></script>
+<script>
+  (() => {
+    const form = document.querySelector('.applicant-form');
+    if (!form) return;
+    let verified = false;
+    form.addEventListener('submit', async (event) => {
+      if (verified || form.elements.website.value) return;
+      event.preventDefault();
+      const button = form.querySelector('button[type="submit"]');
+      button.disabled = true;
+      try {
+        await new Promise((resolve) => grecaptcha.ready(resolve));
+        form.elements.recaptcha_token.value = await grecaptcha.execute(
+          '{{ RECAPTCHA_SITE_KEY }}', {action: 'applicant_form'}
+        );
+        verified = true;
+        form.requestSubmit();
+      } catch (error) {
+        button.disabled = false;
+      }
+    });
+  })();
+</script>
 {% endblock %}
 
 

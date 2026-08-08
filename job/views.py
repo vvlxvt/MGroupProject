@@ -13,6 +13,12 @@ from django.views.generic import DetailView, ListView, TemplateView
 from taggit.models import Tag
 
 from .context_processors import build_breadcrumb_json_ld, serialize_json_ld
+from .feedback_security import (
+    create_form_token,
+    get_client_identifier,
+    rate_limit_exceeded,
+    validate_form_token,
+)
 from .forms import UserQuestionForm, ApplicantProfileForm
 from .models import Article, Category, Photo, Post, Project, UserQuestion
 from .utils import (DataMixin, advantages, chunk_list, partners,
@@ -421,6 +427,7 @@ def contacts(request):
         "seo_title": seo_title,
         "meta_description": meta_description,
         "q_form": q_form,
+        "question_form_token": create_form_token("question"),
     }
     return render(request, "job/post/contacts.html", context)
 
@@ -433,6 +440,36 @@ from django.views.decorators.http import require_POST
 @require_POST
 def submit_question(request):
     try:
+        success_response = {
+            "success": True,
+            "queued": True,
+            "message": "Вопрос принят и будет отправлен специалисту.",
+        }
+
+        if request.POST.get("website"):
+            return JsonResponse(success_response, status=202)
+
+        if not validate_form_token(
+            request.POST.get("form_token", ""), "question"
+        ):
+            return JsonResponse(
+                {"success": False, "errors": {"__all__": "Обновите страницу и повторите отправку."}},
+                status=400,
+            )
+
+        if rate_limit_exceeded(
+            "question-ip",
+            get_client_identifier(request),
+            limit=10,
+            window_seconds=60 * 60,
+        ):
+            response = JsonResponse(
+                {"success": False, "errors": {"__all__": "Слишком много попыток. Попробуйте позже."}},
+                status=429,
+            )
+            response["Retry-After"] = "3600"
+            return response
+
         # reCAPTCHA
         verify_recaptcha(
             token=request.POST.get("recaptcha_token"),
@@ -453,16 +490,22 @@ def submit_question(request):
                 status=400
             )
 
+        if rate_limit_exceeded(
+            "question-email",
+            form.cleaned_data["contact_email"],
+            limit=3,
+            window_seconds=60 * 60,
+        ):
+            response = JsonResponse(
+                {"success": False, "errors": {"__all__": "Слишком много обращений. Попробуйте позже."}},
+                status=429,
+            )
+            response["Retry-After"] = "3600"
+            return response
+
         form.save()
 
-        return JsonResponse(
-            {
-                "success": True,
-                "queued": True,
-                "message": "Вопрос принят и будет отправлен специалисту.",
-            },
-            status=202,
-        )
+        return JsonResponse(success_response, status=202)
 
     except PermissionDenied as e:
         return JsonResponse(
@@ -508,6 +551,26 @@ def vacancies(request):
     )
 
 
+def privacy(request):
+    return render(
+        request,
+        "job/post/privacy.html",
+        {
+            "title": "Обработка персональных данных",
+            "seo_title": "Политика обработки персональных данных — Маляр Групп",
+            "meta_description": (
+                "Условия обработки персональных данных пользователей сайта Маляр Групп."
+            ),
+        },
+    )
+
+
+VACANCY_POSITIONS = {
+    "anticorrosion-painter": "Маляр антикоррозийных работ",
+    "sandblaster": "Пескоструйщик",
+}
+
+
 def applicant(request):
     title = "Анкета соискателя"
     seo_title = "Отклик на вакансии компании Маляр Групп"
@@ -515,15 +578,37 @@ def applicant(request):
         "Анкета соискателя для отклика на вакансии компании Маляр Групп. "
         "Расскажите об опыте работы и оставьте контактные данные."
     )
+    selected_position = VACANCY_POSITIONS.get(request.GET.get("vacancy", ""), "")
     success = False
     if request.method == "POST":
         form = ApplicantProfileForm(request.POST)
-        if form.is_valid():
-            form.save()
+        if request.POST.get("website"):
             success = True
             form = ApplicantProfileForm()
+        else:
+            try:
+                if not validate_form_token(request.POST.get("form_token", ""), "applicant"):
+                    form.add_error(None, "Обновите страницу и повторите отправку.")
+                    raise PermissionDenied
+                client_identifier = get_client_identifier(request)
+                if rate_limit_exceeded("applicant-ip", client_identifier, limit=5, window_seconds=3600):
+                    form.add_error(None, "Слишком много откликов. Попробуйте позже.")
+                else:
+                    verify_recaptcha(request.POST.get("recaptcha_token"), action="applicant_form")
+                    if form.is_valid():
+                        contact = form.cleaned_data.get("email") or form.cleaned_data.get("telephone_number")
+                        if rate_limit_exceeded("applicant-contact", contact, limit=2, window_seconds=86400):
+                            form.add_error(None, "Слишком много откликов. Попробуйте позже.")
+                        else:
+                            form.save()
+                            success = True
+                            form = ApplicantProfileForm()
+            except PermissionDenied:
+                form.add_error(None, "Не удалось проверить отправку. Обновите страницу и попробуйте снова.")
+            except ExternalServiceUnavailable:
+                form.add_error(None, "Проверка формы временно недоступна. Попробуйте позже.")
     else:
-        form = ApplicantProfileForm()
+        form = ApplicantProfileForm(initial={"position": selected_position})
 
     context = {
         "title": title,
@@ -531,6 +616,8 @@ def applicant(request):
         "meta_description": meta_description,
         "form": form,
         "success": success,
+        "RECAPTCHA_SITE_KEY": settings.RECAPTCHA_SITE_KEY,
+        "applicant_form_token": create_form_token("applicant"),
     }
     return render(request, "job/post/applicant.html", context)
 

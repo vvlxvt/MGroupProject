@@ -1,8 +1,10 @@
 import json
 import re
+from datetime import timedelta
 from types import SimpleNamespace
 from unittest.mock import patch
 
+import requests
 from django.contrib.auth.models import User
 from django.core.cache import cache
 from django.core.management import call_command
@@ -10,6 +12,7 @@ from django.db import IntegrityError, connection, transaction
 from django.test import RequestFactory, SimpleTestCase, TestCase, override_settings
 from django.test.utils import CaptureQueriesContext
 from django.urls import get_resolver, reverse
+from django.utils import timezone
 
 from .context_processors import (
     MENU_CATEGORIES_CACHE_KEY,
@@ -18,6 +21,7 @@ from .context_processors import (
 )
 from .models import (
     Article,
+    ApplicantProfile,
     Category,
     Photo,
     Post,
@@ -552,6 +556,9 @@ class ContentSlugUniquenessTests(TestCase):
 
 
 class SubmitQuestionDeliveryTests(TestCase):
+    def setUp(self):
+        cache.clear()
+
     def test_contact_page_does_not_expose_telegram_login_or_profile_fields(self):
         response = self.client.get(reverse("job:contacts"))
 
@@ -567,13 +574,16 @@ class SubmitQuestionDeliveryTests(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def submit_question(self):
-        with patch("job.views.verify_recaptcha"):
+        with patch("job.views.validate_form_token", return_value=True), patch(
+            "job.views.verify_recaptcha"
+        ):
             return self.client.post(
                 reverse("job:submit_question"),
                 {
                     "contact_email": "customer@example.com",
                     "question_text": "Нужна консультация по проекту",
                     "recaptcha_token": "test-token",
+                    "personal_data_consent": "1",
                 },
             )
 
@@ -596,7 +606,7 @@ class SubmitQuestionDeliveryTests(TestCase):
         with patch(
             "job.views.verify_recaptcha",
             side_effect=ExternalServiceUnavailable,
-        ):
+        ), patch("job.views.validate_form_token", return_value=True):
             response = self.client.post(
                 reverse("job:submit_question"),
                 {
@@ -609,6 +619,151 @@ class SubmitQuestionDeliveryTests(TestCase):
         self.assertEqual(response.status_code, 503)
         self.assertFalse(response.json()["success"])
         self.assertFalse(UserQuestion.objects.exists())
+
+    def test_honeypot_submission_is_accepted_without_saving_or_external_calls(self):
+        with patch("job.views.verify_recaptcha") as recaptcha:
+            response = self.client.post(
+                reverse("job:submit_question"),
+                {"website": "https://spam.example", "question_text": "spam"},
+            )
+
+        self.assertEqual(response.status_code, 202)
+        self.assertTrue(response.json()["success"])
+        self.assertFalse(UserQuestion.objects.exists())
+        recaptcha.assert_not_called()
+
+    def test_invalid_form_token_is_rejected(self):
+        response = self.client.post(
+            reverse("job:submit_question"),
+            {
+                "form_token": "invalid",
+                "contact_email": "customer@example.com",
+                "question_text": "Нужна консультация по проекту",
+            },
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertFalse(UserQuestion.objects.exists())
+
+    def test_question_consent_is_required(self):
+        with patch("job.views.validate_form_token", return_value=True), patch(
+            "job.views.verify_recaptcha"
+        ):
+            response = self.client.post(
+                reverse("job:submit_question"),
+                {
+                    "contact_email": "customer@example.com",
+                    "question_text": "Нужна консультация по проекту",
+                    "recaptcha_token": "test-token",
+                },
+            )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("personal_data_consent", response.json()["errors"])
+        self.assertFalse(UserQuestion.objects.exists())
+
+    def test_repeated_email_is_rate_limited(self):
+        responses = []
+        with patch("job.views.validate_form_token", return_value=True), patch(
+            "job.views.verify_recaptcha"
+        ):
+            for number in range(4):
+                responses.append(
+                    self.client.post(
+                        reverse("job:submit_question"),
+                        {
+                            "contact_email": "repeat@example.com",
+                            "question_text": f"Вопрос номер {number} для консультации",
+                            "recaptcha_token": "test-token",
+                            "personal_data_consent": "1",
+                        },
+                    )
+                )
+
+        self.assertEqual([response.status_code for response in responses], [202, 202, 202, 429])
+        self.assertEqual(UserQuestion.objects.count(), 3)
+        self.assertEqual(responses[-1].headers["Retry-After"], "3600")
+
+
+class ApplicantFeedbackTests(TestCase):
+    def setUp(self):
+        cache.clear()
+
+    def submit(self, **overrides):
+        data = {
+            "name": "Иван",
+            "position": "Маляр",
+            "experience": "Пять лет промышленной окраски",
+            "telephone_number": "+7 999 123-45-67",
+            "recaptcha_token": "test-token",
+            "personal_data_consent": "on",
+        }
+        data.update(overrides)
+        return self.client.post(reverse("job:applicant"), data)
+
+    def test_selected_vacancy_prefills_position(self):
+        response = self.client.get(
+            reverse("job:applicant"),
+            {"vacancy": "anticorrosion-painter"},
+        )
+
+        self.assertContains(response, 'value="Маляр антикоррозийных работ"')
+
+    def test_unknown_vacancy_does_not_prefill_arbitrary_text(self):
+        response = self.client.get(
+            reverse("job:applicant"),
+            {"vacancy": "<script>alert(1)</script>"},
+        )
+
+        self.assertEqual(response.context["form"].initial["position"], "")
+
+    def test_minimal_applicant_data_is_saved(self):
+        with patch("job.views.validate_form_token", return_value=True), patch(
+            "job.views.verify_recaptcha"
+        ):
+            response = self.submit()
+
+        applicant = ApplicantProfile.objects.get()
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Ваша анкета отправлена")
+        self.assertEqual(applicant.name, "Иван")
+        self.assertEqual(applicant.surname, "")
+        self.assertEqual(applicant.experience, "Пять лет промышленной окраски")
+
+    def test_phone_or_email_is_required(self):
+        with patch("job.views.validate_form_token", return_value=True), patch(
+            "job.views.verify_recaptcha"
+        ):
+            response = self.submit(telephone_number="", email="")
+
+        self.assertContains(response, "Укажите телефон или email")
+        self.assertFalse(ApplicantProfile.objects.exists())
+
+    def test_applicant_consent_is_required(self):
+        with patch("job.views.validate_form_token", return_value=True), patch(
+            "job.views.verify_recaptcha"
+        ):
+            response = self.submit(personal_data_consent="")
+
+        self.assertContains(response, "Подтвердите согласие")
+        self.assertFalse(ApplicantProfile.objects.exists())
+
+    def test_honeypot_does_not_save_or_call_recaptcha(self):
+        with patch("job.views.verify_recaptcha") as recaptcha:
+            response = self.submit(website="https://spam.example")
+
+        self.assertContains(response, "Ваша анкета отправлена")
+        self.assertFalse(ApplicantProfile.objects.exists())
+        recaptcha.assert_not_called()
+
+    def test_contact_is_rate_limited(self):
+        with patch("job.views.validate_form_token", return_value=True), patch(
+            "job.views.verify_recaptcha"
+        ):
+            responses = [self.submit() for _ in range(3)]
+
+        self.assertEqual(ApplicantProfile.objects.count(), 2)
+        self.assertContains(responses[-1], "Слишком много откликов")
 
 
 class ProcessQuestionNotificationsTests(TestCase):
@@ -643,6 +798,139 @@ class ProcessQuestionNotificationsTests(TestCase):
             self.question.telegram_status,
             UserQuestion.DeliveryStatus.FAILED,
         )
+
+
+class ProcessFeedbackNotificationsTests(TestCase):
+    def test_worker_delivers_question_and_applicant(self):
+        question = UserQuestion.objects.create(
+            contact_email="customer@example.com",
+            question_text="Нужна консультация",
+        )
+        applicant = ApplicantProfile.objects.create(
+            name="Иван",
+            position="Маляр",
+            experience="Пять лет опыта",
+            telephone_number="+7 999 123-45-67",
+        )
+
+        with patch(
+            "job.management.commands.process_feedback_notifications.send_telegram_message",
+            return_value=True,
+        ), patch(
+            "job.management.commands.process_feedback_notifications.send_telegram_applicant",
+            return_value=True,
+        ):
+            call_command("process_feedback_notifications")
+
+        question.refresh_from_db()
+        applicant.refresh_from_db()
+        self.assertEqual(question.telegram_status, UserQuestion.DeliveryStatus.SENT)
+        self.assertEqual(applicant.telegram_status, UserQuestion.DeliveryStatus.SENT)
+
+    def test_continuous_worker_can_run_single_iteration(self):
+        with patch(
+            "job.management.commands.run_feedback_worker.call_command"
+        ) as process_feedback:
+            call_command("run_feedback_worker", once=True, interval=10, limit=7)
+
+        process_feedback.assert_called_once_with(
+            "process_feedback_notifications",
+            limit=7,
+            retry_failed=True,
+        )
+
+    @patch("job.utils.requests.post")
+    def test_applicant_notification_mentions_selected_business_trips(self, telegram_request):
+        from job.utils import send_telegram_applicant
+
+        telegram_request.return_value.raise_for_status.return_value = None
+        applicant = ApplicantProfile.objects.create(
+            name="Иван",
+            position="Маляр",
+            telephone_number="+7 999 123-45-67",
+            ready_for_business_trip=True,
+        )
+
+        self.assertTrue(send_telegram_applicant(applicant))
+        self.assertIn("Готов к командировкам", telegram_request.call_args.kwargs["data"]["text"])
+
+    @patch("job.utils.requests.post")
+    def test_applicant_notification_omits_unselected_business_trips(self, telegram_request):
+        from job.utils import send_telegram_applicant
+
+        telegram_request.return_value.raise_for_status.return_value = None
+        applicant = ApplicantProfile.objects.create(
+            name="Иван",
+            position="Маляр",
+            telephone_number="+7 999 123-45-67",
+            ready_for_business_trip=False,
+        )
+
+        self.assertTrue(send_telegram_applicant(applicant))
+        self.assertNotIn("командировкам", telegram_request.call_args.kwargs["data"]["text"])
+
+
+class TelegramFailureLoggingTests(SimpleTestCase):
+    def test_logs_exception_type_and_http_status_without_sensitive_data(self):
+        from job.utils import _log_telegram_delivery_failure
+
+        error = requests.HTTPError(response=SimpleNamespace(status_code=401))
+
+        with self.assertLogs("job.utils", level="ERROR") as captured:
+            _log_telegram_delivery_failure("question", error)
+
+        log_entry = " ".join(captured.output)
+        self.assertIn("error_type=HTTPError", log_entry)
+        self.assertIn("status_code=401", log_entry)
+        self.assertNotIn("bot_token", log_entry)
+        self.assertNotIn("chat_id", log_entry)
+
+    def test_logs_na_when_no_http_response_exists(self):
+        from job.utils import _log_telegram_delivery_failure
+
+        with self.assertLogs("job.utils", level="ERROR") as captured:
+            _log_telegram_delivery_failure("applicant", TimeoutError())
+
+        self.assertIn("status_code=n/a", " ".join(captured.output))
+
+
+class FeedbackRetentionTests(TestCase):
+    def setUp(self):
+        self.expired = UserQuestion.objects.create(
+            contact_email="expired@example.com",
+            question_text="Старое обработанное обращение",
+            telegram_status=UserQuestion.DeliveryStatus.SENT,
+        )
+        self.pending = UserQuestion.objects.create(
+            contact_email="pending@example.com",
+            question_text="Старое неотправленное обращение",
+            telegram_status=UserQuestion.DeliveryStatus.PENDING,
+        )
+        self.expired_applicant = ApplicantProfile.objects.create(
+            name="Иван",
+            telephone_number="+7 999 123-45-67",
+            telegram_status=UserQuestion.DeliveryStatus.SENT,
+        )
+        old_date = timezone.now() - timedelta(days=31)
+        UserQuestion.objects.filter(pk__in=(self.expired.pk, self.pending.pk)).update(
+            created_at=old_date
+        )
+        ApplicantProfile.objects.filter(pk=self.expired_applicant.pk).update(
+            created_at=old_date
+        )
+
+    def test_cleanup_is_dry_run_by_default(self):
+        call_command("cleanup_feedback_data", days=30)
+
+        self.assertEqual(UserQuestion.objects.count(), 2)
+        self.assertTrue(ApplicantProfile.objects.filter(pk=self.expired_applicant.pk).exists())
+
+    def test_cleanup_deletes_only_delivered_expired_questions(self):
+        call_command("cleanup_feedback_data", days=30, delete=True)
+
+        self.assertFalse(UserQuestion.objects.filter(pk=self.expired.pk).exists())
+        self.assertTrue(UserQuestion.objects.filter(pk=self.pending.pk).exists())
+        self.assertFalse(ApplicantProfile.objects.filter(pk=self.expired_applicant.pk).exists())
 
 
 class MenuContextCacheTests(TestCase):

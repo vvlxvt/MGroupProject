@@ -46,18 +46,18 @@ A Django-based website that powers a content-driven company site with a services
 
 ## Telegram notification worker
 
-Contact questions are saved during the web request and delivered to Telegram by
-a separate worker. Run this command continuously through a scheduler or worker
-service:
+Contact questions and vacancy responses are saved during the web request and
+delivered to Telegram by the notification worker. On Amvera it starts alongside
+Gunicorn. For a one-off manual run use:
 
 ```bash
-python manage.py process_question_notifications --limit 50
+python manage.py process_feedback_notifications --limit 50
 ```
 
 To retry notifications previously marked as failed:
 
 ```bash
-python manage.py process_question_notifications --limit 50 --retry-failed
+python manage.py process_feedback_notifications --limit 50 --retry-failed
 ```
 
 # Temporary UI assets
