@@ -15,5 +15,11 @@
 
 /* Подзаголовок */
 .font-hero-subtitle {
+  font-family: var(--font-family-base);
+}
+
+.font-site-brand {
   font-family: var(--font-family-menu);
+  font-style: normal;
+  font-weight: 700;
 }

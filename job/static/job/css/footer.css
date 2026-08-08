@@ -103,6 +103,24 @@ footer a, footer p {
   margin-bottom: 0;
 }
 
+.footer-address-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer-address-link:hover .footer-title,
+.footer-address-link:focus-visible .footer-title {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.footer-address-link:focus-visible {
+  border-radius: 0.25rem;
+  outline: 2px solid currentColor;
+  outline-offset: 0.25rem;
+}
+
 
 @media (min-width: 992px) {
   .footer-group {

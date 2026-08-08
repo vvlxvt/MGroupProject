@@ -381,10 +381,8 @@ class PageHeadingTests(TestCase):
                 self.assertIn(f'for="{control_id}"', html)
                 self.assertIn(f'id="{control_id}"', html)
 
-        self.assertIn(
-            '<h2 class="contacts-details__title h3">наш адрес и контакты</h2>',
-            html,
-        )
+        self.assertIn('title="Карта проезда к офису Маляр Групп"', html)
+        self.assertNotIn("contacts-details", html)
         self.assertNotIn('<h5 class="footer-title">', html)
         self.assertEqual(html.count('<h2 class="footer-title h5">'), 4)
 

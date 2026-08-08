@@ -6,14 +6,12 @@
 {% include "job/post/includes/callback.html" %}
 <div class="container contacts-info">
     <div class="row contacts-info__row">
-
-        <!-- ЛЕВЫЙ СТОЛБЕЦ: карта / заглушка -->
-        <div class="col-12 col-lg-5">
+        <div class="col-12 col-lg-8">
             <div class="ratio ratio-16x9 contacts-map">
-
                 <iframe
                         id="mapFrame"
-                        src="https://www.google.com/maps/embed/v1/place?key={{ google_maps_api_key }}&q=МАЛЯР+ГРУПП,Krasnoyarsk+Russia"
+                        title="Карта проезда к офису Маляр Групп"
+                        src="https://www.google.com/maps/embed/v1/place?key={{ google_maps_api_key }}&amp;q=МАЛЯР+ГРУПП,Krasnoyarsk+Russia"
                         class="contacts-map__frame"
                         loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade">
@@ -25,26 +23,8 @@
                      class="fallback-img d-none">
             </div>
         </div>
-
-        <!-- ПРАВЫЙ СТОЛБЕЦ: контакты -->
-        <div class="col-12 col-lg-5 contacts-details">
-            <h2 class="contacts-details__title h3">наш адрес и контакты</h2>
-
-            <ul class="list-unstyled">
-                <li class="contacts-details__item">660011 , Россия, Красноярский край,</li>
-                <li class="contacts-details__item">г.Красноярск ул. Кипрейная, д. 11</li>
-                <li class="contacts-details__item contacts-details__item--strong">
-                    <a href="tel:+73912516747">+7 (391) 251-67-47</a>
-                </li>
-                <li class="contacts-details__item">
-                    <a href="mailto:mgrup24@mail.ru">mgrup24@mail.ru</a>
-                </li>
-            </ul>
-        </div>
-
     </div>
 </div>
-
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {

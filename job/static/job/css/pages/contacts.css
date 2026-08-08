@@ -8,26 +8,17 @@
 }
 
 
-.contact-section .font-hero-name {
-  font-size: 3rem;
-  }
-
 .contact-section .font-hero-subtitle {
   font-size: 2rem;
   white-space: nowrap;
-  margin: 0.8em 0 0 0.4em;
+  margin: 0 0 0 0.4em;
 }
 
 @media (max-width: 576px) {
-
-  .contact-section .font-hero-name {
-    font-size: 6em;
-  }
-
   .contact-section .font-hero-subtitle {
     font-size: 1.3rem;
     line-height: 1;
-    margin: 0.8em 0 0 0.4em;
+    margin: 0 0 0 0.4em;
     white-space: pre-wrap;
   }
 }
@@ -51,9 +42,9 @@
 
 .chat-bubble {
   width: 100%;
-  max-width: 80%;
-  min-height: 100px;
-  padding: 1rem;
+  max-width: 100%;
+  min-height: 84px;
+  padding: 0.875rem;
   border-radius: 0.5rem;
   background-color: white;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
@@ -62,7 +53,7 @@
 }
 
 .chat-stack .chat-bubble:nth-child(even) {
-  align-self: flex-end;
+  align-self: stretch;
   border-left: none;
   border-right: 8px solid var(--color-secondary);
 }
@@ -71,10 +62,9 @@
   border-left: 8px solid var(--color-accent);
 }
 
-/* Font Hero Styles */
-.contact-section .font-hero-logo,
-.contact-section .font-hero-name {
-  font-size: 4rem;
+/* Page brand */
+.contact-hero__brand {
+  font-size: 2.2rem;
   background: linear-gradient(
     to bottom,
     var(--color-logo-gradient-start),
@@ -83,33 +73,22 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  -webkit-text-fill-color: transparent;
   padding: 0 0.2rem;
-}
-
-.contact-section .font-hero-logo {
-  font-size: 5rem;
-  margin-top: 7px;
+  line-height: 1.4;
 }
 
 /* Tablet (md < 992px) */
 @media (max-width: 991.98px) {
-  .contact-section .font-hero-logo {
-    font-size: 3.5rem;
-  }
-
-  .contact-section .font-hero-name {
-    font-size: 3rem;
+  .contact-hero__brand {
+    font-size: 2rem;
   }
 }
 
 /* Mobile (sm < 576px) */
 @media (max-width: 575.98px) {
-  .contact-section .font-hero-logo {
-    font-size: 2.5rem;
-  }
-
-  .contact-section .font-hero-name {
-    font-size: 2rem;
+  .contact-hero__brand {
+    font-size: 1.5rem;
   }
 }
 
@@ -123,6 +102,7 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
   max-width: 700px;
   width: 100%;
+  margin-bottom: 1.5rem;
   padding: 1.5rem;
 }
 
@@ -147,12 +127,14 @@
 }
 
 .contacts-info__row {
-  justify-content: space-around;
+  justify-content: center;
 }
 
 .contacts-map {
   position: relative;
   overflow: hidden;
+  min-height: 18rem;
+  aspect-ratio: 16 / 9;
 }
 
 .contacts-map__frame {
@@ -164,27 +146,28 @@
   border: 0;
 }
 
-.contacts-details {
-  margin-top: 0.5rem;
+.contact-hero {
+  width: calc(100% - 2rem);
+  max-width: 72rem;
+  margin: 1rem auto;
+  padding: clamp(1.5rem, 5vw, 3.5rem) clamp(1rem, 5vw, 4rem);
   text-align: center;
 }
 
-.contacts-details__title {
-  text-transform: uppercase;
-}
-
-.contacts-details__item {
-  font-size: 1.5rem;
-}
-
-.contacts-details__item--strong {
-  font-weight: 700;
-}
-
-.contact-hero {
+.contact-hero__line {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: center;
+}
+
+.contact-hero::after {
+  display: block;
+  width: clamp(4rem, 14vw, 7rem);
+  height: 0.25rem;
+  margin: 1rem auto 0;
+  background: linear-gradient(to right, var(--color-accent), var(--color-secondary));
+  border-radius: 999px;
+  content: "";
 }
 
 .contact-centered-row {
@@ -221,8 +204,15 @@
   text-align: center;
 }
 
+.contact-layout {
+  display: grid;
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
 .contact-form {
-  padding: 1.5rem;
+  height: 100%;
+  padding: 1.25rem;
   background-color: #fff;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
@@ -303,19 +293,45 @@
 }
 
 @media (min-width: 768px) {
+  .contact-hero {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+
   .contact-intro {
     display: flex;
   }
 
-  .contacts-info__row {
-    justify-content: center;
-  }
-
-  .contacts-details {
-    margin-top: 3rem;
-  }
-
   .contact-form__login {
     justify-content: flex-end;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .contact-hero {
+    width: calc(100% - 1rem);
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+  }
+
+  .contact-hero::after {
+    margin-top: 0.75rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .contact-layout {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 3rem;
+  }
+
+  .contacts-map {
+    min-height: 0;
+  }
+
+  .contact-intro {
+    height: 100%;
+    margin-bottom: 0;
+    justify-content: space-between;
   }
 }

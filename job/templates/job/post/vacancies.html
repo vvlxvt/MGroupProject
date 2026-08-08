@@ -4,9 +4,12 @@
 {% block vacancies %}
 <header class="vacancies-hero">
   <div class="vacancies-hero__inner">
-    <h1 class="vacancies-title">Вакансии компании «Маляр Групп»</h1>
+    <h1 class="vacancies-title">
+      Вакансии компании
+      <span class="vacancies-brand font-site-brand">Маляр Групп</span>
+    </h1>
     <p class="vacancies-subtitle">
-      Мы ищем талантливых специалистов в команду. Присоединяйтесь к нам!
+      Мы ищем талантливых специалистов в команду
     </p>
   </div>
 </header>
@@ -49,7 +52,7 @@
           <li>Питание</li>
           <li>Предоставляется полный комплект СИЗ</li>
         </ul>
-        <a href="{% url 'job:applicant' %}?vacancy=anticorrosion-painter" class="btn button transparent"
+        <a href="{% url 'job:applicant' %}?vacancy=anticorrosion-painter" class="btn btn-bd-primary btn--narrow"
           >Откликнуться</a
         >
       </div>
@@ -93,7 +96,7 @@
           <li>Питание</li>
           <li>Предоставляется полный комплект СИЗ</li>
         </ul>
-        <a href="{% url 'job:applicant' %}?vacancy=sandblaster" class="btn button transparent">Откликнуться</a
+        <a href="{% url 'job:applicant' %}?vacancy=sandblaster" class="btn btn-bd-primary btn--narrow">Откликнуться</a
         >
       </div>
     </div>

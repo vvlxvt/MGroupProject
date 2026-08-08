@@ -17,11 +17,28 @@
 
 .vacancies-title {
   margin: 0;
-  font-family: var(--font-family-menu);
+  font-family: var(--font-family-base);
   font-size: clamp(1.4rem, 3.5vw, 2.1rem);
   font-weight: 500;
   line-height: 1.15;
   text-wrap: balance;
+}
+
+.vacancies-brand {
+  display: inline-block;
+  padding: 0 0.2rem;
+  background: linear-gradient(
+    to bottom,
+    var(--color-logo-gradient-start),
+    var(--color-logo-gradient-end)
+  );
+  background-clip: text;
+  color: transparent;
+  font-size: 2.2rem;
+  line-height: 1.4;
+  white-space: nowrap;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .vacancies-title::after {
@@ -35,9 +52,9 @@
 }
 
 .vacancies-subtitle {
-  max-width: 42rem;
+  max-width: 60rem;
   margin: 0 auto;
-  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  font-size: clamp(1.25rem, 2.5vw, 2rem);
   line-height: 1.55;
   color: #212529;
   text-wrap: balance;
@@ -57,13 +74,19 @@
 
 @media (min-width: 768px) {
   .vacancies-hero {
-    margin-top: 3rem;
+
     margin-bottom: 3rem;
   }
 
   .vacancies-grid {
     padding-right: 3rem;
     padding-left: 3rem;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .vacancies-brand {
+    font-size: 2rem;
   }
 }
 
@@ -82,5 +105,9 @@
   .vacancies-grid {
     padding-right: 0;
     padding-left: 0;
+  }
+
+  .vacancies-brand {
+    font-size: 1.5rem;
   }
 }
