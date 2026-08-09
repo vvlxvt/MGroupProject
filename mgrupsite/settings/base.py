@@ -29,8 +29,6 @@ INSTALLED_APPS = [
     "ckeditor",
     "taggit",
     "taggit_labels",
-    "bootstrap5",
-
     "job.apps.JobConfig",
     "tgbot",
 ]

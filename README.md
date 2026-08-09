@@ -34,7 +34,7 @@ A Django-based website that powers a content-driven company site with a services
   - Environment-driven configuration (.env)
 
 ## Tech Stack
-- Django 4.2
+- Django 5.2 LTS
 - PostgreSQL
 - aiogram (Telegram bot)
 - django-ckeditor, django-taggit, django-imagekit
