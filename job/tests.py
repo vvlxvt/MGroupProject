@@ -1,14 +1,16 @@
 import json
 import re
 from datetime import timedelta
+from pathlib import Path
 from types import SimpleNamespace
-from unittest.mock import patch
+from unittest.mock import call, patch
 
 import requests
+from botocore.exceptions import ClientError
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.core.cache import cache
-from django.core.management import call_command
+from django.core.management import call_command, CommandError
 from django.db import IntegrityError, connection, transaction
 from django.test import RequestFactory, SimpleTestCase, TestCase, override_settings
 from django.test.utils import CaptureQueriesContext
@@ -1013,3 +1015,138 @@ class AnalyticsIntegrationTests(TestCase):
 
         self.assertContains(response, "Яндекс Метрику")
         self.assertContains(response, "Вебвизор отключён")
+
+
+@override_settings(
+    BACKUP_S3_BUCKET="mgroup-backups",
+    BACKUP_S3_PREFIX="production",
+    BACKUP_S3_ENDPOINT_URL="https://storage.yandexcloud.net",
+    BACKUP_S3_ACCESS_KEY_ID="backup-key",
+    BACKUP_S3_SECRET_ACCESS_KEY="backup-secret",
+    BACKUP_DATABASE_TIMEOUT_SECONDS=60,
+    BACKUP_PGSSLMODE="prefer",
+    AWS_STORAGE_BUCKET_NAME="mgroup",
+)
+class PostgreSQLBackupTests(SimpleTestCase):
+    database_settings = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": "production",
+            "USER": "backup_user",
+            "PASSWORD": "secret-password",
+            "HOST": "database.internal",
+            "PORT": "5432",
+        }
+    }
+
+    @patch("job.management.commands.backup_postgres.boto3.client")
+    @patch("job.management.commands.backup_postgres.Command._verify_dump")
+    @patch("job.management.commands.backup_postgres.Command._create_dump")
+    def test_backup_is_verified_and_uploaded_to_separate_bucket(
+        self, create_dump, verify_dump, boto_client
+    ):
+        create_dump.side_effect = lambda database, path: path.write_bytes(b"backup")
+        client = boto_client.return_value
+
+        def verify_uploaded_object(**kwargs):
+            upload = client.upload_file.call_args
+            return {
+                "ContentLength": Path(upload.args[0]).stat().st_size,
+                "Metadata": upload.kwargs["ExtraArgs"]["Metadata"],
+            }
+
+        client.head_object.side_effect = verify_uploaded_object
+
+        with patch(
+            "job.management.commands.backup_postgres.settings.DATABASES",
+            self.database_settings,
+        ):
+            call_command("backup_postgres")
+
+        create_dump.assert_called_once()
+        verify_dump.assert_called_once()
+        client.upload_file.assert_called_once()
+        self.assertEqual(client.upload_file.call_args.args[1], "mgroup-backups")
+        self.assertIn("/postgresql/", client.upload_file.call_args.args[2])
+
+    @override_settings(BACKUP_S3_BUCKET="mgroup")
+    def test_backup_rejects_media_bucket_as_destination(self):
+        with self.assertRaisesMessage(
+            CommandError, "backup bucket must be separate"
+        ):
+            with patch(
+                "job.management.commands.backup_postgres.settings.DATABASES",
+                self.database_settings,
+            ):
+                call_command("backup_postgres")
+
+    @patch("job.management.commands.backup_object_storage.boto3.client")
+    def test_object_storage_backup_copies_versions_and_uploads_manifest(
+        self, boto_client
+    ):
+        client = boto_client.return_value
+        paginator = client.get_paginator.return_value
+        paginator.paginate.return_value = [
+            {
+                "Contents": [
+                    {
+                        "Key": "photos/one.webp",
+                        "Size": 100,
+                        "ETag": '"etag-one"',
+                        "LastModified": timezone.now(),
+                    },
+                    {
+                        "Key": "photos/two.webp",
+                        "Size": 200,
+                        "ETag": '"etag-two"',
+                        "LastModified": timezone.now(),
+                    },
+                ]
+            }
+        ]
+
+        def head_object(**kwargs):
+            if "/manifests/" in kwargs["Key"]:
+                uploaded_manifest = client.put_object.call_args.kwargs
+                return {
+                    "ContentLength": len(uploaded_manifest["Body"]),
+                    "Metadata": uploaded_manifest["Metadata"],
+                }
+            for copied_object in client.copy_object.call_args_list:
+                if copied_object.kwargs["Key"] == kwargs["Key"]:
+                    source_key = copied_object.kwargs["CopySource"]["Key"]
+                    return {
+                        "ContentLength": 100 if source_key.endswith("one.webp") else 200
+                    }
+            raise ClientError(
+                {
+                    "Error": {"Code": "404"},
+                    "ResponseMetadata": {"HTTPStatusCode": 404},
+                },
+                "HeadObject",
+            )
+
+        client.head_object.side_effect = head_object
+
+        call_command("backup_object_storage")
+
+        self.assertEqual(client.copy_object.call_count, 2)
+        client.put_object.assert_called_once()
+        manifest = json.loads(client.put_object.call_args.kwargs["Body"])
+        self.assertEqual(manifest["object_count"], 2)
+        self.assertEqual(manifest["total_size"], 300)
+        self.assertEqual(manifest["source_bucket"], "mgroup")
+
+
+class ProductionBackupCommandTests(SimpleTestCase):
+    @patch("job.management.commands.backup_production.call_command")
+    def test_combined_backup_runs_database_then_object_storage(self, command):
+        call_command("backup_production")
+
+        self.assertEqual(
+            command.call_args_list,
+            [
+                call("backup_postgres"),
+                call("backup_object_storage"),
+            ],
+        )

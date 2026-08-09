@@ -60,6 +60,70 @@ To retry notifications previously marked as failed:
 python manage.py process_feedback_notifications --limit 50 --retry-failed
 ```
 
+## Production backups
+
+PostgreSQL backups are created with `pg_dump`, validated with `pg_restore`, and
+uploaded to a private Object Storage bucket that must be separate from the
+public media bucket. Media objects are copied incrementally to immutable,
+content-addressed keys, followed by a point-in-time JSON manifest:
+
+```bash
+python manage.py backup_production
+```
+
+Required production variables:
+
+- `BACKUP_S3_BUCKET` — a separate private bucket, for example `mgroup-backups`;
+- `BACKUP_S3_ACCESS_KEY_ID` and `BACKUP_S3_SECRET_ACCESS_KEY` — preferably a
+  dedicated service-account key. It needs read access to the `mgroup` media
+  bucket and read/write access to the backup bucket. Delete permission is not
+  required.
+
+Optional variables are `BACKUP_S3_PREFIX`, `BACKUP_S3_ENDPOINT_URL`,
+`BACKUP_DATABASE_TIMEOUT_SECONDS`, and `BACKUP_PGSSLMODE`. Configure an Amvera
+Cron Job to execute the command daily. Amvera schedules use UTC. A daily run at
+02:00 UTC uses the schedule `0 0 2 * * ?` and the command:
+
+```bash
+python manage.py backup_production
+```
+
+The command exits with a non-zero status on a failed dump, archive validation,
+copy, size check, or checksum check. A successful log contains both
+`PostgreSQL backup uploaded` and `Object Storage backup completed`.
+
+### Backup layout
+
+- PostgreSQL archives:
+  `<prefix>/postgresql/YYYY/MM/DD/database-<UTC timestamp>.dump`;
+- immutable media versions:
+  `<prefix>/object-storage/objects/<hash prefix>/<content identity>`;
+- point-in-time media manifests:
+  `<prefix>/object-storage/manifests/YYYY/MM/DD/manifest-<UTC timestamp>.json`.
+
+Never configure `BACKUP_S3_BUCKET` with the same name as
+`AWS_STORAGE_BUCKET_NAME`; the command rejects this configuration.
+
+### Restore drill
+
+At least monthly, download a recent database archive and restore it into a new,
+empty verification database — never over the production database:
+
+```bash
+createdb mgroup_restore_test
+pg_restore --no-owner --no-acl --dbname=mgroup_restore_test database.dump
+```
+
+Run `python manage.py check` against that database and compare key object counts.
+For media, select a manifest, verify that every `backup_key` exists in the
+backup bucket, and restore selected objects to a temporary prefix before copying
+anything back to the production bucket.
+
+For the media bucket, enable Object Storage versioning and add lifecycle rules
+for noncurrent versions. Versioning is irreversible (it can only be suspended),
+so it is intentionally configured in Yandex Cloud rather than at application
+startup.
+
 # Temporary UI assets
 
 The experimental hero image `hero-features-placeholder.jpg` is based on

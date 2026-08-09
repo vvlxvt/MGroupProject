@@ -117,6 +117,25 @@ EXTERNAL_REQUEST_TIMEOUT = 10
 FEEDBACK_RETENTION_DAYS = env.int("FEEDBACK_RETENTION_DAYS", default=30)
 YANDEX_METRIKA_ID = env.int("YANDEX_METRIKA_ID", default=111433025)
 
+# Backups use a separate private bucket. Credentials may be isolated from the
+# media bucket credentials, but fall back to them for a gradual rollout.
+BACKUP_S3_BUCKET = env("BACKUP_S3_BUCKET", default="")
+BACKUP_S3_PREFIX = env("BACKUP_S3_PREFIX", default="mgroup-production")
+BACKUP_S3_ENDPOINT_URL = env(
+    "BACKUP_S3_ENDPOINT_URL", default="https://storage.yandexcloud.net"
+)
+BACKUP_S3_ACCESS_KEY_ID = env(
+    "BACKUP_S3_ACCESS_KEY_ID", default=env("YANDEX_ACCESS_KEY_ID", default="")
+)
+BACKUP_S3_SECRET_ACCESS_KEY = env(
+    "BACKUP_S3_SECRET_ACCESS_KEY",
+    default=env("YANDEX_SECRET_ACCESS_KEY", default=""),
+)
+BACKUP_DATABASE_TIMEOUT_SECONDS = env.int(
+    "BACKUP_DATABASE_TIMEOUT_SECONDS", default=1800
+)
+BACKUP_PGSSLMODE = env("BACKUP_PGSSLMODE", default="prefer")
+
 # ================== ПРОЧЕЕ ==================
 INTERNAL_IPS = env.list("INTERNAL_IPS", default=["127.0.0.1"])
 
