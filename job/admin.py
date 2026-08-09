@@ -1,6 +1,7 @@
 from django.contrib import admin, messages
 from django.forms import ModelForm
 from django.utils.html import format_html
+from django_tiptap_editor.admin.mixin import TipTapModelAdminMixin
 
 from .forms import TagsForm
 from .models import (Article, Category, Photo, Post, PostArticle, Project,
@@ -13,7 +14,8 @@ class PostArticleInline(admin.TabularInline):
 
 
 @admin.register(Post)
-class JobAdmin(admin.ModelAdmin):
+class JobAdmin(TipTapModelAdminMixin, admin.ModelAdmin):
+    tiptap_fields = ["body"]
     form = TagsForm
     fields = [
         ("title", "slug"),
@@ -57,7 +59,8 @@ class JobAdmin(admin.ModelAdmin):
 
 
 @admin.register(Article)
-class CommentAdmin(admin.ModelAdmin):
+class CommentAdmin(TipTapModelAdminMixin, admin.ModelAdmin):
+    tiptap_fields = ["body"]
     fields = [
         ("title", "slug"),
         "body",

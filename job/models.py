@@ -1,4 +1,3 @@
-from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 from django.core.validators import (EmailValidator, MaxValueValidator,
                                     MinValueValidator)
@@ -30,7 +29,7 @@ class Post(models.Model):
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="job_posts")
-    body = RichTextField()
+    body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -87,7 +86,7 @@ class UploadFiles(models.Model):
 class Article(models.Model):
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique=True)
-    body = RichTextField()
+    body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
     objects = models.Manager()
     photo = models.ImageField(

@@ -37,7 +37,7 @@ A Django-based website that powers a content-driven company site with a services
 - Django 5.2 LTS
 - PostgreSQL
 - aiogram (Telegram bot)
-- django-ckeditor, django-taggit, django-imagekit
+- django-tiptap-editor, django-taggit, django-imagekit
 - Bootstrap 5, WhiteNoise
 
 ## Notes

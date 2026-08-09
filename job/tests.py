@@ -5,6 +5,7 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 import requests
+from django.contrib import admin
 from django.contrib.auth.models import User
 from django.core.cache import cache
 from django.core.management import call_command
@@ -13,7 +14,9 @@ from django.test import RequestFactory, SimpleTestCase, TestCase, override_setti
 from django.test.utils import CaptureQueriesContext
 from django.urls import get_resolver, reverse
 from django.utils import timezone
+from django_tiptap_editor.widgets.admin_tiptap import AdminTipTapWidget
 
+from .admin import CommentAdmin, JobAdmin
 from .context_processors import (
     MENU_CATEGORIES_CACHE_KEY,
     canonical_url,
@@ -33,6 +36,24 @@ from .models import (
 from .utils import chunk_list
 from .utils import ExternalServiceUnavailable
 from .views import page_not_found
+
+
+class RichTextEditorTests(SimpleTestCase):
+    def test_post_body_uses_tiptap_admin_widget(self):
+        model_admin = JobAdmin(Post, admin.site)
+        form_field = model_admin.formfield_for_dbfield(
+            Post._meta.get_field("body"), request=None
+        )
+
+        self.assertIsInstance(form_field.widget, AdminTipTapWidget)
+
+    def test_article_body_uses_tiptap_admin_widget(self):
+        model_admin = CommentAdmin(Article, admin.site)
+        form_field = model_admin.formfield_for_dbfield(
+            Article._meta.get_field("body"), request=None
+        )
+
+        self.assertIsInstance(form_field.widget, AdminTipTapWidget)
 
 
 class UploadPathTests(SimpleTestCase):

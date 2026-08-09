@@ -26,7 +26,7 @@ INSTALLED_APPS = [
     "django.contrib.sitemaps",
     "django.contrib.postgres",
 
-    "ckeditor",
+    "django_tiptap_editor",
     "taggit",
     "taggit_labels",
     "job.apps.JobConfig",
