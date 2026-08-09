@@ -149,4 +149,7 @@ def canonical_url(request):
         "organization_id": organization_id,
         "local_business_json_ld": serialize_json_ld(local_business),
         "breadcrumb_json_ld": breadcrumb_json_ld,
+        "yandex_metrika_id": (
+            settings.YANDEX_METRIKA_ID if not settings.DEBUG else None
+        ),
     }

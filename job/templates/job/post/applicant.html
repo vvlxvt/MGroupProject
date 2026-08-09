@@ -8,7 +8,7 @@
       <h1 class="applicant-title">Отклик на вакансию</h1>
       <p class="applicant-intro">Оставьте только необходимые данные — имя, интересующую должность, краткий опыт и удобный контакт.</p>
       {% if success %}
-        <div class="alert alert-success" role="alert">Спасибо! Ваша анкета отправлена.</div>
+        <div class="alert alert-success" role="alert" data-metrika-goal="applicant_form_success">Спасибо! Ваша анкета отправлена.</div>
       {% endif %}
 
       <form method="post" class="applicant-form" novalidate>

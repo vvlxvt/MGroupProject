@@ -117,6 +117,7 @@ RECAPTCHA_SITE_KEY = env(
 ALLOWED_RECAPTCHA_HOSTS = ["mgroup-vvlxvt.amvera.io"]
 EXTERNAL_REQUEST_TIMEOUT = 10
 FEEDBACK_RETENTION_DAYS = env.int("FEEDBACK_RETENTION_DAYS", default=30)
+YANDEX_METRIKA_ID = env.int("YANDEX_METRIKA_ID", default=111433025)
 
 # ================== ПРОЧЕЕ ==================
 INTERNAL_IPS = env.list("INTERNAL_IPS", default=["127.0.0.1"])

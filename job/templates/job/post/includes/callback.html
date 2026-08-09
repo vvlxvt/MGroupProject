@@ -261,6 +261,7 @@ if (fileInput) {
             responseBox.textContent = data.message;
             responseBox.style.display = 'block';
             form.reset();
+            window.trackMetrikaGoal?.('question_form_success');
 
         } else if (data.saved) {
             responseBox.className = 'contact-form__response alert alert-warning';

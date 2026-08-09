@@ -969,3 +969,26 @@ class MenuContextCacheTests(TestCase):
 
         context = menu_context(None)
         self.assertEqual(context["menu"]["services"]["submenus"], [])
+
+
+class AnalyticsIntegrationTests(TestCase):
+    @override_settings(DEBUG=False, YANDEX_METRIKA_ID=111433025)
+    def test_production_page_contains_consent_banner_and_analytics_script(self):
+        response = self.client.get(reverse("job:privacy"))
+
+        self.assertContains(response, 'data-counter-id="111433025"')
+        self.assertContains(response, "job/js/analytics.js")
+        self.assertNotContains(response, "mc.yandex.ru/metrika/tag.js")
+
+    @override_settings(DEBUG=True, YANDEX_METRIKA_ID=111433025)
+    def test_debug_page_does_not_include_analytics(self):
+        response = self.client.get(reverse("job:privacy"))
+
+        self.assertNotContains(response, "data-analytics-consent")
+        self.assertNotContains(response, "job/js/analytics.js")
+
+    def test_privacy_policy_describes_analytics_and_disabled_webvisor(self):
+        response = self.client.get(reverse("job:privacy"))
+
+        self.assertContains(response, "Яндекс Метрику")
+        self.assertContains(response, "Вебвизор отключён")

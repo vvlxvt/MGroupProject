@@ -148,6 +148,27 @@
     </div>
 </footer>
 
+{% if yandex_metrika_id %}
+<aside class="analytics-consent"
+       data-analytics-consent
+       data-counter-id="{{ yandex_metrika_id }}"
+       role="dialog"
+       aria-labelledby="analytics-consent-title"
+       aria-describedby="analytics-consent-description"
+       hidden>
+    <h2 class="analytics-consent__title" id="analytics-consent-title">Аналитика сайта</h2>
+    <p class="analytics-consent__text" id="analytics-consent-description">
+        С вашего согласия мы используем Яндекс Метрику, чтобы понимать, какие страницы полезны посетителям.
+        <a href="{% url 'job:privacy' %}">Подробнее</a>
+    </p>
+    <div class="analytics-consent__actions">
+        <button class="btn btn-bd-primary" type="button" data-analytics-accept>Разрешить</button>
+        <button class="btn btn-outline-secondary" type="button" data-analytics-reject>Отклонить</button>
+    </div>
+</aside>
+<script src="{% static 'job/js/analytics.js' %}" defer></script>
+{% endif %}
+
 <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
