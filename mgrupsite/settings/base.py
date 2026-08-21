@@ -30,7 +30,6 @@ INSTALLED_APPS = [
     "taggit",
     "taggit_labels",
     "job.apps.JobConfig",
-    "tgbot",
 ]
 
 # ================== MIDDLEWARE ==================
