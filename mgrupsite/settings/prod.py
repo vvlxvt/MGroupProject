@@ -2,10 +2,20 @@
 from .base import *
 import os
 
+from django.core.exceptions import ImproperlyConfigured
+
+from .validators import is_weak_secret_key
+
 if os.environ.get("DEBUG", "False").lower() in ("true", "1", "yes"):
     raise RuntimeError("DEBUG must be False in production!")
 
 DEBUG = False
+
+if is_weak_secret_key(SECRET_KEY):
+    raise ImproperlyConfigured(
+        "SECRET_KEY must be a strong, unique value of at least 50 characters "
+        "in production"
+    )
 
 CACHES["default"]["LOCATION"] = env("CACHE_LOCATION", default="/data/cache")
 

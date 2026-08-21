@@ -39,6 +39,21 @@ from .models import (
 from .utils import chunk_list
 from .utils import ExternalServiceUnavailable
 from .views import page_not_found
+from mgrupsite.settings.validators import is_weak_secret_key
+
+
+class ProductionSecretKeyValidationTests(SimpleTestCase):
+    def test_rejects_short_or_template_secret_keys(self):
+        self.assertTrue(is_weak_secret_key("short-secret"))
+        self.assertTrue(is_weak_secret_key("django-insecure-" + "a" * 60))
+        self.assertTrue(is_weak_secret_key("a" * 80))
+
+    def test_accepts_long_random_secret_key(self):
+        self.assertFalse(
+            is_weak_secret_key(
+                "jK8mQ2wZ5rT9yP4nL7vX3cB6sD1fG0hJ8kM2qW5eR9tY4uI7oP3aS6dF"
+            )
+        )
 
 
 class RichTextEditorTests(SimpleTestCase):
