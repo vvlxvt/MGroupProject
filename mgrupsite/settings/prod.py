@@ -9,8 +9,21 @@ DEBUG = False
 
 CACHES["default"]["LOCATION"] = env("CACHE_LOCATION", default="/data/cache")
 
-ALLOWED_HOSTS = ["mgroup-vvlxvt.amvera.io"]
-CSRF_TRUSTED_ORIGINS = ["https://mgroup-vvlxvt.amvera.io"]
+ALLOWED_HOSTS = env.list(
+    "APP_HOSTS",
+    default=["mgroup-vvlxvt.amvera.io", "xn--c1arkads.xn--p1ai"],
+)
+CSRF_TRUSTED_ORIGINS = env.list(
+    "CSRF_TRUSTED_ORIGINS",
+    default=[
+        "https://mgroup-vvlxvt.amvera.io",
+        "https://xn--c1arkads.xn--p1ai",
+    ],
+)
+CANONICAL_BASE_URL = env(
+    "CANONICAL_BASE_URL",
+    default="https://mgroup-vvlxvt.amvera.io",
+).rstrip("/")
 
 # ================== HTTPS ==================
 # TLS terminates at the platform proxy; SECURE_PROXY_SSL_HEADER is configured
@@ -61,7 +74,7 @@ AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 
 # ================== TELEGRAM ==================
-WEBHOOK_HOST = "https://mgroup-vvlxvt.amvera.io"
+WEBHOOK_HOST = env("WEBHOOK_HOST", default=CANONICAL_BASE_URL).rstrip("/")
 WEBHOOK_PATH = "/webhook"
 WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 

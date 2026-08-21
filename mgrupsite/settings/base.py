@@ -112,7 +112,10 @@ RECAPTCHA_SITE_KEY = env(
     "RECAPTCHA_SITE_KEY",
     default=env("RECAPTCHA_PUBLIC_KEY", default=""),
 )
-ALLOWED_RECAPTCHA_HOSTS = ["mgroup-vvlxvt.amvera.io"]
+ALLOWED_RECAPTCHA_HOSTS = env.list(
+    "ALLOWED_RECAPTCHA_HOSTS",
+    default=["mgroup-vvlxvt.amvera.io", "xn--c1arkads.xn--p1ai"],
+)
 EXTERNAL_REQUEST_TIMEOUT = 10
 FEEDBACK_RETENTION_DAYS = env.int("FEEDBACK_RETENTION_DAYS", default=30)
 YANDEX_METRIKA_ID = env.int("YANDEX_METRIKA_ID", default=111433025)

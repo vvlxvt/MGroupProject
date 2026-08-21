@@ -53,6 +53,30 @@ notifications.
 - Production static files are collected under `/data/static` and served through
   WhiteNoise.
 
+### Production domains
+
+Production host validation and absolute URLs are configured through environment
+variables:
+
+- `APP_HOSTS` — comma-separated hostnames without a scheme;
+- `CSRF_TRUSTED_ORIGINS` — comma-separated HTTPS origins;
+- `CANONICAL_BASE_URL` — the single public URL used for canonical and structured
+  data links;
+- `ALLOWED_RECAPTCHA_HOSTS` — comma-separated hostnames accepted in reCAPTCHA
+  verification responses;
+- `WEBHOOK_HOST` — optional external webhook base URL; defaults to
+  `CANONICAL_BASE_URL`.
+
+Before DNS and TLS for `мгрупп.рф` are ready, keep the Amvera URL canonical. For
+the final domain switch use:
+
+```text
+APP_HOSTS=mgroup-vvlxvt.amvera.io,xn--c1arkads.xn--p1ai
+CSRF_TRUSTED_ORIGINS=https://mgroup-vvlxvt.amvera.io,https://xn--c1arkads.xn--p1ai
+CANONICAL_BASE_URL=https://xn--c1arkads.xn--p1ai
+ALLOWED_RECAPTCHA_HOSTS=mgroup-vvlxvt.amvera.io,xn--c1arkads.xn--p1ai
+```
+
 ## Telegram notification worker
 
 Contact questions and vacancy responses are saved during the web request and
