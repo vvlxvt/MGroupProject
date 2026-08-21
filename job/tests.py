@@ -1,5 +1,6 @@
 import json
 import re
+import time
 from datetime import timedelta
 from pathlib import Path
 from types import SimpleNamespace
@@ -859,6 +860,69 @@ class ProcessFeedbackNotificationsTests(TestCase):
             limit=7,
             retry_failed=True,
         )
+
+    @override_settings(
+        PRODUCTION_BACKUP_ENABLED=True,
+        PRODUCTION_BACKUP_INTERVAL_SECONDS=86400,
+        PRODUCTION_BACKUP_RETRY_SECONDS=3600,
+    )
+    def test_worker_runs_due_production_backup(self):
+        cache.delete("production-backup:last-success")
+        with patch(
+            "job.management.commands.run_feedback_worker.call_command"
+        ) as worker_command:
+            call_command("run_feedback_worker", once=True, interval=10, limit=7)
+
+        self.assertEqual(
+            worker_command.call_args_list,
+            [
+                call(
+                    "process_feedback_notifications",
+                    limit=7,
+                    retry_failed=True,
+                ),
+                call("backup_production"),
+            ],
+        )
+        self.assertIsNotNone(cache.get("production-backup:last-success"))
+
+    @override_settings(
+        PRODUCTION_BACKUP_ENABLED=True,
+        PRODUCTION_BACKUP_INTERVAL_SECONDS=86400,
+        PRODUCTION_BACKUP_RETRY_SECONDS=3600,
+    )
+    def test_worker_skips_recent_production_backup(self):
+        cache.set("production-backup:last-success", time.time(), timeout=None)
+        with patch(
+            "job.management.commands.run_feedback_worker.call_command"
+        ) as worker_command:
+            call_command("run_feedback_worker", once=True, interval=10, limit=7)
+
+        worker_command.assert_called_once_with(
+            "process_feedback_notifications",
+            limit=7,
+            retry_failed=True,
+        )
+
+    @override_settings(
+        PRODUCTION_BACKUP_ENABLED=True,
+        PRODUCTION_BACKUP_INTERVAL_SECONDS=86400,
+        PRODUCTION_BACKUP_RETRY_SECONDS=3600,
+    )
+    def test_backup_failure_does_not_stop_worker_or_mark_success(self):
+        cache.delete("production-backup:last-success")
+
+        def command_side_effect(command_name, **options):
+            if command_name == "backup_production":
+                raise RuntimeError("backup unavailable")
+
+        with patch(
+            "job.management.commands.run_feedback_worker.call_command",
+            side_effect=command_side_effect,
+        ):
+            call_command("run_feedback_worker", once=True, interval=10, limit=7)
+
+        self.assertIsNone(cache.get("production-backup:last-success"))
 
     @patch("job.utils.requests.post")
     def test_applicant_notification_mentions_selected_business_trips(self, telegram_request):

@@ -117,13 +117,26 @@ Required backup variables:
 Optional variables are `BACKUP_S3_PREFIX`, `BACKUP_S3_ENDPOINT_URL`,
 `BACKUP_DATABASE_TIMEOUT_SECONDS`, and `BACKUP_PGSSLMODE`.
 
-The command is ready for manual or external scheduled execution. A permanently
-running Amvera Cron Job is intentionally not required. The scheduler must run
-the following command in an environment containing the production variables:
+The command is ready for manual execution:
 
 ```bash
 python manage.py backup_production
 ```
+
+On Amvera, the existing feedback worker can run the same backup once per day,
+without a separate paid Cron Job. Enable it with:
+
+```text
+PRODUCTION_BACKUP_ENABLED=true
+```
+
+The first backup runs after the worker starts. A successful completion timestamp
+is stored in the persistent `/data` cache, so an application restart does not
+create an unnecessary duplicate. The default interval is 24 hours and a failed
+attempt is retried after one hour. They can be overridden with
+`PRODUCTION_BACKUP_INTERVAL_SECONDS` and `PRODUCTION_BACKUP_RETRY_SECONDS`.
+Keep one application replica: the worker also uses a process lock, but this
+deployment is intentionally designed and tested as a single-replica service.
 
 The command exits with a non-zero status on a failed dump, archive validation,
 copy, size check, or checksum check. A successful log contains both

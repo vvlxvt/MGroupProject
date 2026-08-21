@@ -138,6 +138,17 @@ BACKUP_DATABASE_TIMEOUT_SECONDS = env.int(
     "BACKUP_DATABASE_TIMEOUT_SECONDS", default=1800
 )
 BACKUP_PGSSLMODE = env("BACKUP_PGSSLMODE", default="prefer")
+PRODUCTION_BACKUP_ENABLED = env.bool("PRODUCTION_BACKUP_ENABLED", default=False)
+PRODUCTION_BACKUP_INTERVAL_SECONDS = env.int(
+    "PRODUCTION_BACKUP_INTERVAL_SECONDS", default=24 * 60 * 60
+)
+PRODUCTION_BACKUP_RETRY_SECONDS = env.int(
+    "PRODUCTION_BACKUP_RETRY_SECONDS", default=60 * 60
+)
+PRODUCTION_BACKUP_LOCK_FILE = env(
+    "PRODUCTION_BACKUP_LOCK_FILE",
+    default="/data/locks/production-backup.lock",
+)
 
 # ================== ПРОЧЕЕ ==================
 INTERNAL_IPS = env.list("INTERNAL_IPS", default=["127.0.0.1"])
