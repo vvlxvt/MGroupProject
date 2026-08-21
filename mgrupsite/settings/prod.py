@@ -17,6 +17,8 @@ if is_weak_secret_key(SECRET_KEY):
         "in production"
     )
 
+CSP_REPORT_ONLY_ENABLED = env.bool("CSP_REPORT_ONLY_ENABLED", default=True)
+
 CACHES["default"]["LOCATION"] = env("CACHE_LOCATION", default="/data/cache")
 
 ALLOWED_HOSTS = env.list(

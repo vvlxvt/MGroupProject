@@ -35,6 +35,7 @@ INSTALLED_APPS = [
 # ================== MIDDLEWARE ==================
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "mgrupsite.middleware.ContentSecurityPolicyReportOnlyMiddleware",
     "django.middleware.gzip.GZipMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -91,6 +92,35 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 # ================== БЕЗОПАСНОСТЬ ==================
 SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+CSP_REPORT_ONLY_ENABLED = False
+CSP_REPORT_ONLY_POLICY = "; ".join(
+    (
+        "default-src 'self'",
+        "base-uri 'self'",
+        "object-src 'none'",
+        "frame-ancestors 'none'",
+        "form-action 'self'",
+        "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net "
+        "https://kit.fontawesome.com https://www.google.com https://www.gstatic.com "
+        "https://maps.googleapis.com https://maps.google.com https://mc.yandex.ru "
+        "https://mc.yandex.com",
+        "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net "
+        "https://fonts.googleapis.com https://kit.fontawesome.com",
+        "img-src 'self' data: blob: https://storage.yandexcloud.net "
+        "https://*.googleapis.com https://*.gstatic.com https://*.google.com "
+        "https://mc.yandex.ru https://mc.yandex.com",
+        "font-src 'self' data: https://ka-f.fontawesome.com "
+        "https://fonts.gstatic.com https://cdn.jsdelivr.net",
+        "connect-src 'self' https://www.google.com https://www.recaptcha.net "
+        "https://*.googleapis.com https://ka-f.fontawesome.com "
+        "https://mc.yandex.ru https://mc.yandex.com",
+        "frame-src https://www.google.com https://www.recaptcha.net "
+        "https://maps.google.com",
+        "media-src 'self' https://storage.yandexcloud.net",
+        "worker-src 'self' blob:",
+        "manifest-src 'self'",
+    )
+)
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},

@@ -56,6 +56,30 @@ class ProductionSecretKeyValidationTests(SimpleTestCase):
         )
 
 
+class ContentSecurityPolicyTests(TestCase):
+    @override_settings(CSP_REPORT_ONLY_ENABLED=True)
+    def test_html_response_has_report_only_policy(self):
+        response = self.client.get(reverse("job:privacy"))
+
+        policy = response["Content-Security-Policy-Report-Only"]
+        self.assertIn("default-src 'self'", policy)
+        self.assertIn("object-src 'none'", policy)
+        self.assertIn("https://www.google.com", policy)
+        self.assertNotIn("Content-Security-Policy", response)
+
+    @override_settings(CSP_REPORT_ONLY_ENABLED=True)
+    def test_plain_text_response_does_not_have_policy(self):
+        response = self.client.get("/robots.txt")
+
+        self.assertNotIn("Content-Security-Policy-Report-Only", response)
+
+    @override_settings(CSP_REPORT_ONLY_ENABLED=False)
+    def test_report_only_policy_can_be_disabled(self):
+        response = self.client.get(reverse("job:privacy"))
+
+        self.assertNotIn("Content-Security-Policy-Report-Only", response)
+
+
 class RichTextEditorTests(SimpleTestCase):
     def test_post_body_uses_tiptap_admin_widget(self):
         model_admin = JobAdmin(Post, admin.site)
