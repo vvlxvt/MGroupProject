@@ -232,6 +232,7 @@ a.gradient-title-r:hover::after {
   align-items: center;
   justify-content: center;
   font-size: 1.25rem;
+  overflow-wrap: anywhere;
 }
 
 .card-list__tags {
@@ -245,6 +246,17 @@ a.gradient-title-r:hover::after {
 
 .card-list__preview {
   margin-top: 0.5rem;
+}
+
+@media (max-width: 767.98px) {
+  .card-list__title-wrap--fixed {
+    height: auto;
+    min-height: 0;
+  }
+
+  .card-list__title--centered {
+    line-height: 1.25;
+  }
 }
 
 @media (min-width: 576px) {
