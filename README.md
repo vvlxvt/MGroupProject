@@ -1,12 +1,14 @@
 # MGroup Project — Django Web Application
 
 ## Description
-A Django-based website that powers a content-driven company site with a services catalog, articles, and a portfolio of projects. It includes media management, tagging, an RSS feed, SEO assets, and a Telegram integration for user interactions and callbacks.
+A Django-based company website with a services catalog, articles, a project
+portfolio, protected feedback forms, SEO metadata, and asynchronous Telegram
+notifications.
 
 ## Features
 - **Home and Services**
 - **Articles (Blog)**
-  - Rich text content via CKEditor
+  - Rich text content via TipTap
   - Tagging support (django-taggit)
   - Article detail pages with clean slugs
 - **Projects (Portfolio)**
@@ -15,11 +17,12 @@ A Django-based website that powers a content-driven company site with a services
   - Optional geolocation (lat/lng) for map integrations
 - **Contact and Feedback**
   - Contact page and vacancies page
-  - Submit question form endpoint
-- **Telegram Integration**
-  - Telegram bot (aiogram) with webhook support
-  - Telegram Login/Callback endpoint and user profile linking
-  - User questions with optional attached photos
+  - Question and vacancy forms protected by honeypots, rate limits, signed form
+    tokens, reCAPTCHA, and explicit consent
+- **Telegram Notifications**
+  - Feedback is persisted before delivery
+  - A background worker sends queued questions and vacancy responses
+  - Failed deliveries can be retried without resubmitting a form
 - **Feeds and SEO**
   - Latest posts RSS/Atom feed
   - Sitemaps and robots.txt
@@ -29,20 +32,26 @@ A Django-based website that powers a content-driven company site with a services
 - **Front-end**
   - Bootstrap 5 styling
 - **Infrastructure**
-  - PostgreSQL database
+  - PostgreSQL database in development and production
+  - Media stored in Yandex Object Storage
   - Static assets served with WhiteNoise
-  - Environment-driven configuration (.env)
+  - Environment-driven configuration
+  - Production database and media backup commands
 
 ## Tech Stack
 - Django 5.2 LTS
 - PostgreSQL
-- aiogram (Telegram bot)
 - django-tiptap-editor, django-taggit, django-imagekit
 - Bootstrap 5, WhiteNoise
 
 ## Notes
-- Environment variables are required for secrets and external services (e.g., `SECRET_KEY`, `DB_*`, `TELEGRAM_*`, `GOOGLE_MAPS_API_KEY`).
-- Media is stored locally by default; static files are collected into `staticfiles/`.
+- Environment variables are required for secrets and external services. Never
+  commit `.env` files, database dumps, static access keys, or Telegram tokens.
+- Development uses `DEV_DB_*`; production uses `PROD_DB_*`.
+- Development media is stored locally. Production media is stored in the
+  `mgroup` Yandex Object Storage bucket.
+- Production static files are collected under `/data/static` and served through
+  WhiteNoise.
 
 ## Telegram notification worker
 
@@ -71,18 +80,22 @@ content-addressed keys, followed by a point-in-time JSON manifest:
 python manage.py backup_production
 ```
 
-Required production variables:
+Required backup variables:
 
-- `BACKUP_S3_BUCKET` — a separate private bucket, for example `mgroup-backups`;
+- `BACKUP_S3_BUCKET` — a separate private bucket, currently
+  `mgroup-vvlxvt-backups`;
 - `BACKUP_S3_ACCESS_KEY_ID` and `BACKUP_S3_SECRET_ACCESS_KEY` — preferably a
-  dedicated service-account key. It needs read access to the `mgroup` media
-  bucket and read/write access to the backup bucket. Delete permission is not
-  required.
+  dedicated service-account key. The `mgroup-backup` account has
+  `storage.viewer` on the `mgroup` media bucket and `storage.uploader` on the
+  backup bucket. Delete permission and KMS permissions are not required;
+- the existing `PROD_DB_*` variables used by Django.
 
 Optional variables are `BACKUP_S3_PREFIX`, `BACKUP_S3_ENDPOINT_URL`,
-`BACKUP_DATABASE_TIMEOUT_SECONDS`, and `BACKUP_PGSSLMODE`. Configure an Amvera
-Cron Job to execute the command daily. Amvera schedules use UTC. A daily run at
-02:00 UTC uses the schedule `0 0 2 * * ?` and the command:
+`BACKUP_DATABASE_TIMEOUT_SECONDS`, and `BACKUP_PGSSLMODE`.
+
+The command is ready for manual or external scheduled execution. A permanently
+running Amvera Cron Job is intentionally not required. The scheduler must run
+the following command in an environment containing the production variables:
 
 ```bash
 python manage.py backup_production
@@ -91,6 +104,9 @@ python manage.py backup_production
 The command exits with a non-zero status on a failed dump, archive validation,
 copy, size check, or checksum check. A successful log contains both
 `PostgreSQL backup uploaded` and `Object Storage backup completed`.
+
+Do not delete the production PostgreSQL service until a recent archive has been
+restored successfully into a separate verification database.
 
 ### Backup layout
 
