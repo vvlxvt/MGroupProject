@@ -110,16 +110,30 @@ def send_telegram_message(question):
 
     try:
         if question.attached_photo:
-            with question.attached_photo.open("rb") as photo_file:
-                files = {"photo": photo_file}
+            try:
+                with question.attached_photo.open("rb") as photo_file:
+                    files = {"photo": photo_file}
+                    response = requests.post(
+                        telegram_url_photo,
+                        data={
+                            "chat_id": chat_id,
+                            "caption": caption,
+                            "parse_mode": "HTML",
+                        },
+                        files=files,
+                        timeout=external_request_timeout,
+                    )
+            except FileNotFoundError:
+                logger.warning(
+                    "Telegram question attachment is unavailable; sending text only"
+                )
                 response = requests.post(
-                    telegram_url_photo,
+                    telegram_url,
                     data={
                         "chat_id": chat_id,
-                        "caption": caption,
+                        "text": caption,
                         "parse_mode": "HTML",
                     },
-                    files=files,
                     timeout=external_request_timeout,
                 )
         else:

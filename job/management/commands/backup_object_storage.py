@@ -1,11 +1,14 @@
 import hashlib
 import json
+import logging
 from datetime import UTC, datetime
 
 import boto3
 from botocore.exceptions import ClientError
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
+
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -101,8 +104,14 @@ class Command(BaseCommand):
         uploaded = client.head_object(Bucket=backup_bucket, Key=manifest_key)
         if uploaded.get("ContentLength") != len(manifest_body):
             raise CommandError("Uploaded Object Storage manifest size verification failed")
-        if uploaded.get("Metadata", {}).get("sha256") != checksum:
+        uploaded_checksum = uploaded.get("Metadata", {}).get("sha256")
+        if uploaded_checksum and uploaded_checksum != checksum:
             raise CommandError("Uploaded Object Storage manifest checksum verification failed")
+        if not uploaded_checksum:
+            logger.warning(
+                "Backup storage did not return manifest checksum metadata; "
+                "upload was verified by size"
+            )
 
         self.stdout.write(
             self.style.SUCCESS(

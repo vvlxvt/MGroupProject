@@ -1,4 +1,5 @@
 import hashlib
+import logging
 import os
 import subprocess
 import tempfile
@@ -8,6 +9,8 @@ from pathlib import Path
 import boto3
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
+
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -69,8 +72,14 @@ class Command(BaseCommand):
             uploaded = client.head_object(Bucket=bucket, Key=object_key)
             if uploaded.get("ContentLength") != size:
                 raise CommandError("Uploaded backup size verification failed")
-            if uploaded.get("Metadata", {}).get("sha256") != checksum:
+            uploaded_checksum = uploaded.get("Metadata", {}).get("sha256")
+            if uploaded_checksum and uploaded_checksum != checksum:
                 raise CommandError("Uploaded backup checksum verification failed")
+            if not uploaded_checksum:
+                logger.warning(
+                    "Backup storage did not return checksum metadata; "
+                    "upload was verified by size"
+                )
 
             self.stdout.write(
                 self.style.SUCCESS(

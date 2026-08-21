@@ -979,6 +979,30 @@ class TelegramFailureLoggingTests(SimpleTestCase):
         self.assertIn("status_code=n/a", " ".join(captured.output))
 
 
+class TelegramMissingAttachmentTests(TestCase):
+    @patch("job.utils.requests.post")
+    def test_missing_attachment_falls_back_to_text_message(self, telegram_request):
+        from job.utils import send_telegram_message
+
+        telegram_request.return_value.raise_for_status.return_value = None
+        question = UserQuestion(
+            contact_email="customer@example.com",
+            question_text="Нужна консультация",
+            attached_photo="questions/missing.jpg",
+        )
+
+        with patch.object(
+            question.attached_photo,
+            "open",
+            side_effect=FileNotFoundError,
+        ), self.assertLogs("job.utils", level="WARNING"):
+            delivered = send_telegram_message(question)
+
+        self.assertTrue(delivered)
+        self.assertTrue(telegram_request.call_args.args[0].endswith("/sendMessage"))
+        self.assertNotIn("files", telegram_request.call_args.kwargs)
+
+
 class FeedbackRetentionTests(TestCase):
     def setUp(self):
         self.expired = UserQuestion.objects.create(
@@ -1116,7 +1140,7 @@ class PostgreSQLBackupTests(SimpleTestCase):
             upload = client.upload_file.call_args
             return {
                 "ContentLength": Path(upload.args[0]).stat().st_size,
-                "Metadata": upload.kwargs["ExtraArgs"]["Metadata"],
+                "Metadata": {},
             }
 
         client.head_object.side_effect = verify_uploaded_object
@@ -1125,7 +1149,10 @@ class PostgreSQLBackupTests(SimpleTestCase):
             "job.management.commands.backup_postgres.settings.DATABASES",
             self.database_settings,
         ):
-            call_command("backup_postgres")
+            with self.assertLogs(
+                "job.management.commands.backup_postgres", level="WARNING"
+            ):
+                call_command("backup_postgres")
 
         create_dump.assert_called_once()
         verify_dump.assert_called_once()
@@ -1174,7 +1201,7 @@ class PostgreSQLBackupTests(SimpleTestCase):
                 uploaded_manifest = client.put_object.call_args.kwargs
                 return {
                     "ContentLength": len(uploaded_manifest["Body"]),
-                    "Metadata": uploaded_manifest["Metadata"],
+                    "Metadata": {},
                 }
             for copied_object in client.copy_object.call_args_list:
                 if copied_object.kwargs["Key"] == kwargs["Key"]:
@@ -1192,7 +1219,10 @@ class PostgreSQLBackupTests(SimpleTestCase):
 
         client.head_object.side_effect = head_object
 
-        call_command("backup_object_storage")
+        with self.assertLogs(
+            "job.management.commands.backup_object_storage", level="WARNING"
+        ):
+            call_command("backup_object_storage")
 
         self.assertEqual(client.copy_object.call_count, 2)
         client.put_object.assert_called_once()
