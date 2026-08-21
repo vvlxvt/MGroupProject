@@ -1,4 +1,4 @@
-FROM python:3.12-slim
+FROM python:3.12-slim-trixie
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -7,7 +7,7 @@ ENV PYTHONPATH=/app
 WORKDIR /app
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends gcc postgresql-client \
+    && apt-get install -y --no-install-recommends gcc postgresql-client-17 \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .

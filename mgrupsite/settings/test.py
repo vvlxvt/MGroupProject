@@ -1,5 +1,7 @@
 from .base import *
 
+PRODUCTION_BACKUP_ENABLED = False
+
 
 DATABASES = {
     "default": {
