@@ -54,7 +54,7 @@
     // Создаем маркеры
     locations.forEach(({ id, position, title }) => {
     const pin = new PinElement({
-        glyph: `${id}`,  // Используем ID проекта вместо номера
+        glyphText: `${id}`,  // Используем ID проекта вместо номера
         scale: 1.0,
         background: "#31B787",
         glyphColor: "#000000",
@@ -65,13 +65,13 @@
         position,
         map,
         title: `${id}. ${title}`,  // Тоже показываем ID
-        content: pin.element,
+        content: pin,
         gmpClickable: true,
     });
 
     markers[id] = marker;
 
-    marker.addListener("click", () => {
+    marker.addEventListener("gmp-click", () => {
         fetch(`/ajax/card/${id}/`)
             .then(response => response.text())
             .then(html => {

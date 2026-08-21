@@ -89,6 +89,14 @@ class MediaUrlTemplateTests(TestCase):
             'href="https://media.example.test/photos/Logo/favicon/m_logo_32.png"',
         )
 
+    def test_project_map_uses_current_advanced_marker_api(self):
+        response = self.client.get(reverse("job:projects"))
+
+        self.assertContains(response, "glyphText: `${id}`")
+        self.assertContains(response, 'marker.addEventListener("gmp-click"')
+        self.assertNotContains(response, "glyph: `${id}`")
+        self.assertNotContains(response, "pin.element")
+
     @override_settings(CSP_REPORT_ONLY_ENABLED=False)
     def test_report_only_policy_can_be_disabled(self):
         response = self.client.get(reverse("job:privacy"))
