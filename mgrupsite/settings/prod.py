@@ -17,7 +17,11 @@ if is_weak_secret_key(SECRET_KEY):
         "in production"
     )
 
-CSP_REPORT_ONLY_ENABLED = env.bool("CSP_REPORT_ONLY_ENABLED", default=True)
+CSP_ENFORCE_ENABLED = env.bool("CSP_ENFORCE_ENABLED", default=True)
+CSP_REPORT_ONLY_ENABLED = env.bool(
+    "CSP_REPORT_ONLY_ENABLED",
+    default=not CSP_ENFORCE_ENABLED,
+)
 
 CACHES["default"]["LOCATION"] = env("CACHE_LOCATION", default="/data/cache")
 

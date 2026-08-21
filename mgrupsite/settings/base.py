@@ -35,7 +35,7 @@ INSTALLED_APPS = [
 # ================== MIDDLEWARE ==================
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "mgrupsite.middleware.ContentSecurityPolicyReportOnlyMiddleware",
+    "mgrupsite.middleware.ContentSecurityPolicyMiddleware",
     "django.middleware.gzip.GZipMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -94,7 +94,8 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 CSP_REPORT_ONLY_ENABLED = False
-CSP_REPORT_ONLY_POLICY = "; ".join(
+CSP_ENFORCE_ENABLED = False
+CSP_POLICY = "; ".join(
     (
         "default-src 'self'",
         "base-uri 'self'",

@@ -57,7 +57,7 @@ class ProductionSecretKeyValidationTests(SimpleTestCase):
 
 
 class ContentSecurityPolicyTests(TestCase):
-    @override_settings(CSP_REPORT_ONLY_ENABLED=True)
+    @override_settings(CSP_ENFORCE_ENABLED=False, CSP_REPORT_ONLY_ENABLED=True)
     def test_html_response_has_report_only_policy(self):
         response = self.client.get(reverse("job:privacy"))
 
@@ -68,33 +68,50 @@ class ContentSecurityPolicyTests(TestCase):
         self.assertIn("wss://mc.yandex.ru", policy)
         self.assertNotIn("Content-Security-Policy", response)
 
-    @override_settings(CSP_REPORT_ONLY_ENABLED=True)
+    @override_settings(CSP_ENFORCE_ENABLED=True, CSP_REPORT_ONLY_ENABLED=True)
+    def test_enforced_policy_takes_priority_over_report_only(self):
+        response = self.client.get(reverse("job:privacy"))
+
+        policy = response["Content-Security-Policy"]
+        self.assertIn("default-src 'self'", policy)
+        self.assertIn("'strict-dynamic'", policy)
+        self.assertNotIn("Content-Security-Policy-Report-Only", response)
+
+    @override_settings(CSP_ENFORCE_ENABLED=True, CSP_REPORT_ONLY_ENABLED=False)
     def test_policy_nonce_matches_rendered_script_nonce(self):
         response = self.client.get(reverse("job:privacy"))
 
-        policy = response["Content-Security-Policy-Report-Only"]
+        policy = response["Content-Security-Policy"]
         nonce = re.search(r"'nonce-([^']+)'", policy).group(1)
         self.assertContains(response, f'nonce="{nonce}"')
         script_directive = policy.split("script-src", 1)[1].split(";", 1)[0]
         self.assertNotIn("'unsafe-inline'", script_directive)
         self.assertIn("'strict-dynamic'", script_directive)
 
-    @override_settings(CSP_REPORT_ONLY_ENABLED=True)
+    @override_settings(CSP_ENFORCE_ENABLED=True, CSP_REPORT_ONLY_ENABLED=False)
     def test_each_response_uses_a_different_nonce(self):
         first = self.client.get(reverse("job:privacy"))
         second = self.client.get(reverse("job:privacy"))
 
-        first_policy = first["Content-Security-Policy-Report-Only"]
-        second_policy = second["Content-Security-Policy-Report-Only"]
+        first_policy = first["Content-Security-Policy"]
+        second_policy = second["Content-Security-Policy"]
         first_nonce = re.search(r"'nonce-([^']+)'", first_policy).group(1)
         second_nonce = re.search(r"'nonce-([^']+)'", second_policy).group(1)
         self.assertNotEqual(first_nonce, second_nonce)
 
-    @override_settings(CSP_REPORT_ONLY_ENABLED=True)
+    @override_settings(CSP_ENFORCE_ENABLED=True, CSP_REPORT_ONLY_ENABLED=True)
     def test_plain_text_response_does_not_have_policy(self):
         response = self.client.get("/robots.txt")
 
         self.assertNotIn("Content-Security-Policy-Report-Only", response)
+        self.assertNotIn("Content-Security-Policy", response)
+
+    @override_settings(CSP_ENFORCE_ENABLED=False, CSP_REPORT_ONLY_ENABLED=False)
+    def test_policy_can_be_disabled(self):
+        response = self.client.get(reverse("job:privacy"))
+
+        self.assertNotIn("Content-Security-Policy-Report-Only", response)
+        self.assertNotIn("Content-Security-Policy", response)
 
 
 class MediaUrlTemplateTests(TestCase):
@@ -118,13 +135,6 @@ class MediaUrlTemplateTests(TestCase):
         self.assertContains(response, 'marker.addEventListener("gmp-click"')
         self.assertNotContains(response, "glyph: `${id}`")
         self.assertNotContains(response, "pin.element")
-
-    @override_settings(CSP_REPORT_ONLY_ENABLED=False)
-    def test_report_only_policy_can_be_disabled(self):
-        response = self.client.get(reverse("job:privacy"))
-
-        self.assertNotIn("Content-Security-Policy-Report-Only", response)
-
 
 class RichTextEditorTests(SimpleTestCase):
     def test_post_body_uses_tiptap_admin_widget(self):
