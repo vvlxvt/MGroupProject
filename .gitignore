@@ -136,3 +136,6 @@ debug.log
 # ==========================
 mgrupsite/db.sqlite3
 readme_expose.md
+SECRETS/
+*.dump
+*.sql
