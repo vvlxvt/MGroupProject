@@ -73,6 +73,21 @@ class ContentSecurityPolicyTests(TestCase):
 
         self.assertNotIn("Content-Security-Policy-Report-Only", response)
 
+
+class MediaUrlTemplateTests(TestCase):
+    @override_settings(MEDIA_URL="https://media.example.test/")
+    def test_favicon_urls_are_absolute_on_nested_pages(self):
+        response = self.client.get(reverse("job:post_list"))
+
+        self.assertContains(
+            response,
+            'href="https://media.example.test/photos/Logo/favicon/m_logo_64.png"',
+        )
+        self.assertContains(
+            response,
+            'href="https://media.example.test/photos/Logo/favicon/m_logo_32.png"',
+        )
+
     @override_settings(CSP_REPORT_ONLY_ENABLED=False)
     def test_report_only_policy_can_be_disabled(self):
         response = self.client.get(reverse("job:privacy"))
