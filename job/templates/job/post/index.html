@@ -461,7 +461,7 @@
     </article>
 </section>
 
-<script>
+<script nonce="{{ request.csp_nonce }}">
     (function() {
       const carouselEl = document.getElementById('mainCarousel');
       const slides = carouselEl ? carouselEl.querySelectorAll('.carousel-item') : [];

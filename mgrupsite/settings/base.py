@@ -101,7 +101,7 @@ CSP_REPORT_ONLY_POLICY = "; ".join(
         "object-src 'none'",
         "frame-ancestors 'none'",
         "form-action 'self'",
-        "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net "
+        "script-src 'self' 'nonce-{nonce}' 'strict-dynamic' https://cdn.jsdelivr.net "
         "https://kit.fontawesome.com https://www.google.com https://www.gstatic.com "
         "https://maps.googleapis.com https://maps.google.com https://mc.yandex.ru "
         "https://mc.yandex.com",

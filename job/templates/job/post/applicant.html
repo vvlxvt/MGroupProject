@@ -81,8 +81,8 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://www.google.com/recaptcha/api.js?render={{ RECAPTCHA_SITE_KEY }}"></script>
-<script>
+<script nonce="{{ request.csp_nonce }}" src="https://www.google.com/recaptcha/api.js?render={{ RECAPTCHA_SITE_KEY }}"></script>
+<script nonce="{{ request.csp_nonce }}">
   (() => {
     const form = document.querySelector('.applicant-form');
     if (!form) return;

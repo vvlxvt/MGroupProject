@@ -18,7 +18,7 @@
             </div>
         </div>
     </section>
-    <script>
+    <script nonce="{{ request.csp_nonce }}">
     const apiKey = "{{ google_maps_api_key }}";
 
     (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;
@@ -33,7 +33,7 @@
     });
     </script>
     {{ locations|json_script:"project-locations" }}
-    <script>
+    <script nonce="{{ request.csp_nonce }}">
     const locations = JSON.parse(document.getElementById('project-locations').textContent);
 
     let map;
@@ -83,7 +83,7 @@
 
     window.addEventListener("load", initMap);
     </script>
-    <script>
+    <script nonce="{{ request.csp_nonce }}">
     document.querySelectorAll('.focus-on-map').forEach(function(button) {
         button.addEventListener('click', function(event) {
             event.preventDefault(); // Предотвращаем стандартное поведение

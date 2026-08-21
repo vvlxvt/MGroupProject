@@ -69,6 +69,28 @@ class ContentSecurityPolicyTests(TestCase):
         self.assertNotIn("Content-Security-Policy", response)
 
     @override_settings(CSP_REPORT_ONLY_ENABLED=True)
+    def test_policy_nonce_matches_rendered_script_nonce(self):
+        response = self.client.get(reverse("job:privacy"))
+
+        policy = response["Content-Security-Policy-Report-Only"]
+        nonce = re.search(r"'nonce-([^']+)'", policy).group(1)
+        self.assertContains(response, f'nonce="{nonce}"')
+        script_directive = policy.split("script-src", 1)[1].split(";", 1)[0]
+        self.assertNotIn("'unsafe-inline'", script_directive)
+        self.assertIn("'strict-dynamic'", script_directive)
+
+    @override_settings(CSP_REPORT_ONLY_ENABLED=True)
+    def test_each_response_uses_a_different_nonce(self):
+        first = self.client.get(reverse("job:privacy"))
+        second = self.client.get(reverse("job:privacy"))
+
+        first_policy = first["Content-Security-Policy-Report-Only"]
+        second_policy = second["Content-Security-Policy-Report-Only"]
+        first_nonce = re.search(r"'nonce-([^']+)'", first_policy).group(1)
+        second_nonce = re.search(r"'nonce-([^']+)'", second_policy).group(1)
+        self.assertNotEqual(first_nonce, second_nonce)
+
+    @override_settings(CSP_REPORT_ONLY_ENABLED=True)
     def test_plain_text_response_does_not_have_policy(self):
         response = self.client.get("/robots.txt")
 
@@ -396,7 +418,7 @@ class PageHeadingTests(TestCase):
             with self.subTest(url=url):
                 html = self.client.get(url).content.decode()
                 payloads = re.findall(
-                    r'<script type="application/ld\+json">(.*?)</script>',
+                    r'<script[^>]*type="application/ld\+json"[^>]*>(.*?)</script>',
                     html,
                     re.DOTALL,
                 )
