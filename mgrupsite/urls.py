@@ -5,6 +5,7 @@ from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
 from django.views.generic import TemplateView
 
+from mgrupsite.health import health_check
 from job.sitemaps import (
     article_sitemap,
     post_sitemap,
@@ -21,6 +22,7 @@ sitemaps_dict = {
 
 
 urlpatterns = [
+    path("health/", health_check, name="health"),
     path("admin/", admin.site.urls),
     path("", include("job.urls", namespace="job")),
     # path('__debug__/', include('debug_toolbar.urls')),

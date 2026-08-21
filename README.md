@@ -157,6 +157,15 @@ restored successfully into a separate verification database.
 Never configure `BACKUP_S3_BUCKET` with the same name as
 `AWS_STORAGE_BUCKET_NAME`; the command rejects this configuration.
 
+## Production health check
+
+`GET /health/` is a lightweight readiness endpoint for Amvera or an external
+uptime monitor. It returns HTTP 200 with `{"status": "ok"}` when Django can
+query PostgreSQL, and HTTP 503 with `{"status": "unavailable"}` otherwise.
+Responses are not cached and never include exception messages or connection
+details. Configure monitoring to alert after two or three consecutive failures
+instead of a single transient error.
+
 ### Restore drill
 
 At least monthly, download a recent database archive and restore it into a new,

@@ -13,6 +13,7 @@ from django.contrib.auth.models import User
 from django.core.cache import cache
 from django.core.management import call_command, CommandError
 from django.db import IntegrityError, connection, transaction
+from django.db.utils import OperationalError
 from django.test import RequestFactory, SimpleTestCase, TestCase, override_settings
 from django.test.utils import CaptureQueriesContext
 from django.urls import get_resolver, reverse
@@ -54,6 +55,35 @@ class ProductionSecretKeyValidationTests(SimpleTestCase):
                 "jK8mQ2wZ5rT9yP4nL7vX3cB6sD1fG0hJ8kM2qW5eR9tY4uI7oP3aS6dF"
             )
         )
+
+
+class HealthCheckTests(TestCase):
+    def test_health_check_reports_ready(self):
+        response = self.client.get(reverse("health"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), {"status": "ok"})
+        self.assertEqual(response["Cache-Control"], "no-store")
+
+    @patch("mgrupsite.health.connection.cursor")
+    def test_health_check_reports_unavailable_without_details(self, cursor):
+        cursor.side_effect = OperationalError("sensitive connection details")
+
+        response = self.client.get(reverse("health"))
+
+        self.assertEqual(response.status_code, 503)
+        self.assertEqual(response.json(), {"status": "unavailable"})
+        self.assertNotContains(
+            response,
+            "sensitive connection details",
+            status_code=503,
+        )
+        self.assertEqual(response["Cache-Control"], "no-store")
+
+    def test_health_check_rejects_unsafe_methods(self):
+        response = self.client.post(reverse("health"))
+
+        self.assertEqual(response.status_code, 405)
 
 
 class ContentSecurityPolicyTests(TestCase):
