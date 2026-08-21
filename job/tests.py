@@ -65,6 +65,7 @@ class ContentSecurityPolicyTests(TestCase):
         self.assertIn("default-src 'self'", policy)
         self.assertIn("object-src 'none'", policy)
         self.assertIn("https://www.google.com", policy)
+        self.assertIn("wss://mc.yandex.ru", policy)
         self.assertNotIn("Content-Security-Policy", response)
 
     @override_settings(CSP_REPORT_ONLY_ENABLED=True)

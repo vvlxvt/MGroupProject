@@ -114,7 +114,7 @@ CSP_REPORT_ONLY_POLICY = "; ".join(
         "https://fonts.gstatic.com https://cdn.jsdelivr.net",
         "connect-src 'self' https://www.google.com https://www.recaptcha.net "
         "https://*.googleapis.com https://ka-f.fontawesome.com "
-        "https://mc.yandex.ru https://mc.yandex.com",
+        "https://mc.yandex.ru https://mc.yandex.com wss://mc.yandex.ru",
         "frame-src https://www.google.com https://www.recaptcha.net "
         "https://maps.google.com",
         "media-src 'self' https://storage.yandexcloud.net",
