@@ -230,11 +230,13 @@
                                 <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
                             </h3>
                             {% if post.postarticle_set.all %}
-                            <ul class="list-unstyled">
+                            <ul class="list-unstyled service-card__article-list">
                                 {% for post_article in post.postarticle_set.all|dictsort:"number" %}
                                 <li>
-                                    <span class="info-font">info</span>
-                                    <a href="{% url 'job:article_detail' slug=post_article.article.slug %}">
+                                    <a class="service-card__article-link"
+                                       href="{% url 'job:article_detail' slug=post_article.article.slug %}"
+                                       data-tooltip="узнать больше"
+                                       aria-label="{{ post_article.article.title }} — узнать больше">
                                         {{post_article.article.title }}</a>
                                 </li>
                                 {% endfor %}

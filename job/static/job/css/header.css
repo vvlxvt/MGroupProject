@@ -93,6 +93,69 @@ a.navbar-brand:hover {
   top: -45px;
 }
 
+.navbar-toggler {
+  position: relative;
+  top: 0.125rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2rem;
+  padding: 0.3rem 0.45rem;
+}
+
+.navbar-toggler__icon {
+  position: relative;
+  display: block;
+  width: 1.4rem;
+  height: 0.9rem;
+}
+
+.navbar-toggler__icon span {
+  position: absolute;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 0.15rem;
+  border-radius: 999px;
+  background-color: currentColor;
+  transform-origin: center;
+  transition: top 0.22s ease, opacity 0.16s ease, transform 0.22s ease;
+}
+
+.navbar-toggler__icon span:nth-child(1) {
+  top: 0;
+}
+
+.navbar-toggler__icon span:nth-child(2) {
+  top: 0.375rem;
+}
+
+.navbar-toggler__icon span:nth-child(3) {
+  top: 0.75rem;
+}
+
+.navbar-toggler[aria-expanded="true"] .navbar-toggler__icon span:nth-child(1) {
+  top: 0.375rem;
+  transform: rotate(45deg);
+}
+
+.navbar-toggler[aria-expanded="true"] .navbar-toggler__icon span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.navbar-toggler[aria-expanded="true"] .navbar-toggler__icon span:nth-child(3) {
+  top: 0.375rem;
+  transform: rotate(-45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar-toggler__icon span {
+    transition: none;
+  }
+}
+
 @media (max-width: 992px) {
   .navbar {
     right: 0;
@@ -106,21 +169,43 @@ a.navbar-brand:hover {
 }
 
 .nav-link {
+  position: relative;
   color: black;
   padding: 0.4rem;
   font-weight: 400;
-  border-bottom: 3px solid transparent;
   box-sizing: border-box;
 }
 
-.nav-link:hover {
-  border-bottom-color: #525252;
+.navbar-menu > .nav-item:not(.mobile-phone) > .nav-link::before {
+  position: absolute;
+  right: 0.4rem;
+  bottom: -0.1rem; /* опустить полоску */
+  left: 0.4rem;
+  height: 0.25rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--color-accent),
+    var(--color-secondary)
+  );
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transform: scaleX(0.6);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.nav-link:hover,
+.nav-link:focus-visible {
   text-decoration: none;
 }
 
-.nav-link.active,
-.nav-item.active > .nav-link {
-  border-bottom-color: black;
+.navbar-menu > .nav-item:not(.mobile-phone) > .nav-link:hover::before,
+.navbar-menu > .nav-item:not(.mobile-phone) > .nav-link:focus-visible::before,
+.navbar-menu > .nav-item:not(.mobile-phone) > .nav-link.active::before,
+.navbar-menu > .nav-item.active:not(.mobile-phone) > .nav-link::before {
+  opacity: 1;
+  transform: scaleX(1);
 }
 
 .navbar .nav-link {

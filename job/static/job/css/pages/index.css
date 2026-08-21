@@ -277,25 +277,76 @@
 .service-card__content {
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  padding: 0.5rem 1rem;
   background-color: var(--color-surface-feature);
+  text-align: center;
 }
 
-.service-card__content li {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  column-gap: 0.35rem;
-  align-items: baseline;
+.service-card__article-list {
+  width: 100%;
+  margin-right: auto;
+  margin-bottom: 0;
+  margin-left: auto;
+  text-align: center;
 }
 
-.service-card__content li a {
+.service-card__article-list li + li {
+  margin-top: 0.35rem;
+}
+
+.service-card__article-link {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
   overflow-wrap: anywhere;
+  text-align: center;
+}
+
+.service-card__article-link::after {
+  position: absolute;
+  z-index: 2;
+  bottom: calc(100% + 0.45rem);
+  left: 50%;
+  padding: 0.3rem 0.55rem;
+  border-radius: 0.25rem;
+  background-color: var(--color-text);
+  color: var(--color-background);
+  content: attr(data-tooltip);
+  font-size: var(--font-size-x-small);
+  line-height: 1.2;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 0.25rem);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+
+.service-card__article-link:hover::after,
+.service-card__article-link:focus-visible::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
 }
 
 .service-card__title {
+  width: 100%;
   margin-bottom: 0.5rem;
   text-align: center;
+}
+
+.service-card__title::after {
+  display: block;
+  width: clamp(4rem, 14vw, 7rem);
+  height: 0.25rem;
+  margin: 0.75rem auto 0;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--color-accent),
+    var(--color-secondary)
+  );
+  content: "";
 }
 
 .landing-content {
@@ -401,9 +452,6 @@
     display: block;
   }
 
-  .service-card__title {
-    text-align: left;
-  }
 }
 
 @media (min-width: 768px) {
@@ -535,7 +583,7 @@
   }
 
   .service-card__content {
-    padding: 1rem 1rem 1rem 1.5rem;
+    padding: 1rem 1.5rem;
   }
 
   .service-card__title {
@@ -602,6 +650,7 @@
   }
 
   .service-card__content {
+    padding-right: 3rem;
     padding-left: 3rem;
   }
 
