@@ -41,6 +41,7 @@ from .utils import chunk_list
 from .utils import ExternalServiceUnavailable
 from .views import page_not_found
 from mgrupsite.settings.validators import is_weak_secret_key
+from mgrupsite.monitoring import configure_sentry, scrub_sensitive_event, traces_sampler
 
 
 class ProductionSecretKeyValidationTests(SimpleTestCase):
@@ -55,6 +56,68 @@ class ProductionSecretKeyValidationTests(SimpleTestCase):
                 "jK8mQ2wZ5rT9yP4nL7vX3cB6sD1fG0hJ8kM2qW5eR9tY4uI7oP3aS6dF"
             )
         )
+
+
+class ProductionMonitoringTests(SimpleTestCase):
+    @patch("mgrupsite.monitoring.sentry_sdk.init")
+    def test_sentry_is_disabled_without_dsn(self, sentry_init):
+        enabled = configure_sentry(
+            dsn="",
+            environment="production",
+            release="",
+            traces_sample_rate=0.05,
+        )
+
+        self.assertFalse(enabled)
+        sentry_init.assert_not_called()
+
+    @patch("mgrupsite.monitoring.sentry_sdk.init")
+    def test_sentry_uses_privacy_preserving_options(self, sentry_init):
+        enabled = configure_sentry(
+            dsn="https://public@example.test/1",
+            environment="production",
+            release="abc123",
+            traces_sample_rate=0.05,
+        )
+
+        self.assertTrue(enabled)
+        options = sentry_init.call_args.kwargs
+        self.assertFalse(options["send_default_pii"])
+        self.assertEqual(options["max_request_body_size"], "never")
+        self.assertFalse(options["enable_logs"])
+        self.assertEqual(options["profiles_sample_rate"], 0.0)
+
+    def test_sensitive_request_data_is_removed(self):
+        event = {
+            "user": {"email": "person@example.test"},
+            "request": {
+                "url": "https://example.test/contacts/",
+                "method": "POST",
+                "data": {"phone": "+70000000000"},
+                "cookies": {"sessionid": "secret"},
+                "headers": {"Authorization": "secret"},
+                "query_string": "email=person@example.test",
+                "env": {"REMOTE_ADDR": "192.0.2.1"},
+            },
+        }
+
+        scrubbed = scrub_sensitive_event(event, {})
+
+        self.assertNotIn("user", scrubbed)
+        self.assertEqual(
+            scrubbed["request"],
+            {"url": "https://example.test/contacts/", "method": "POST"},
+        )
+
+    def test_health_check_is_not_traced(self):
+        sample_rate = traces_sampler(
+            {
+                "transaction_context": {"name": "/health/"},
+                "custom_sample_rate": 0.05,
+            }
+        )
+
+        self.assertEqual(sample_rate, 0.0)
 
 
 class HealthCheckTests(TestCase):

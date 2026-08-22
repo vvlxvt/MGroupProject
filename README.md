@@ -166,6 +166,22 @@ Responses are not cached and never include exception messages or connection
 details. Configure monitoring to alert after two or three consecutive failures
 instead of a single transient error.
 
+## Error monitoring
+
+Production error monitoring is enabled when `SENTRY_DSN` contains the DSN of a
+Sentry Django project. With an empty DSN the integration is disabled and does
+not affect application startup. Configure these Amvera variables:
+
+- `SENTRY_DSN` — the project DSN copied from Sentry;
+- `SENTRY_ENVIRONMENT=production`;
+- `SENTRY_TRACES_SAMPLE_RATE=0.05` — collect approximately 5% of transactions;
+- `SENTRY_RELEASE` — optional deployed commit hash or release identifier.
+
+The SDK does not send request bodies, cookies, headers, query strings, user
+objects, or profiling data. `/health/` is excluded from performance traces.
+After adding the DSN, deploy the application and use Sentry's built-in test
+event facility before enabling email alerts for new and regressed issues.
+
 ### Restore drill
 
 At least monthly, download a recent database archive and restore it into a new,

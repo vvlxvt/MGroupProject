@@ -5,6 +5,7 @@ import os
 from django.core.exceptions import ImproperlyConfigured
 
 from .validators import is_weak_secret_key
+from mgrupsite.monitoring import configure_sentry
 
 if os.environ.get("DEBUG", "False").lower() in ("true", "1", "yes"):
     raise RuntimeError("DEBUG must be False in production!")
@@ -21,6 +22,17 @@ CSP_ENFORCE_ENABLED = env.bool("CSP_ENFORCE_ENABLED", default=True)
 CSP_REPORT_ONLY_ENABLED = env.bool(
     "CSP_REPORT_ONLY_ENABLED",
     default=not CSP_ENFORCE_ENABLED,
+)
+
+SENTRY_DSN = env("SENTRY_DSN", default="").strip()
+SENTRY_ENVIRONMENT = env("SENTRY_ENVIRONMENT", default="production")
+SENTRY_RELEASE = env("SENTRY_RELEASE", default="").strip()
+SENTRY_TRACES_SAMPLE_RATE = env.float("SENTRY_TRACES_SAMPLE_RATE", default=0.05)
+SENTRY_ENABLED = configure_sentry(
+    dsn=SENTRY_DSN,
+    environment=SENTRY_ENVIRONMENT,
+    release=SENTRY_RELEASE,
+    traces_sample_rate=SENTRY_TRACES_SAMPLE_RATE,
 )
 
 CACHES["default"]["LOCATION"] = env("CACHE_LOCATION", default="/data/cache")
