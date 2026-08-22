@@ -192,10 +192,20 @@ createdb mgroup_restore_test
 pg_restore --no-owner --no-acl --dbname=mgroup_restore_test database.dump
 ```
 
+Use `pg_restore` 17 or newer because production archives use custom dump format
+1.16. Prefer a verification server on the same PostgreSQL major version as
+production; restoring a newer dump into an older server is not a supported
+disaster-recovery path.
+
 Run `python manage.py check` against that database and compare key object counts.
 For media, select a manifest, verify that every `backup_key` exists in the
 backup bucket, and restore selected objects to a temporary prefix before copying
 anything back to the production bucket.
+
+The database restore drill was completed successfully on 2026-08-22: archive
+download and size validation passed, the schema and data restored into an
+isolated database, Django reported no system-check issues, key object counts
+were readable, and the verification database and local dump were removed.
 
 For the media bucket, enable Object Storage versioning and add lifecycle rules
 for noncurrent versions. Versioning is irreversible (it can only be suspended),
