@@ -207,6 +207,12 @@ download and size validation passed, the schema and data restored into an
 isolated database, Django reported no system-check issues, key object counts
 were readable, and the verification database and local dump were removed.
 
+The Object Storage restore drill was also completed on 2026-08-22. The latest
+manifest was structurally valid and described 202 objects (47,759,572 bytes).
+Five backup objects covering WEBP, JPG, JPEG, PNG, and PDF were restored to a
+temporary local directory; every downloaded size and MD5 checksum matched the
+manifest. All temporary media copies were removed after verification.
+
 For the media bucket, enable Object Storage versioning and add lifecycle rules
 for noncurrent versions. Versioning is irreversible (it can only be suspended),
 so it is intentionally configured in Yandex Cloud rather than at application
